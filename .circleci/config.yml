@@ -1,0 +1,53 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: alexfalkowski/go:1.18
+    steps:
+      - checkout
+      - run: make dep
+      - run: make lint
+      - run: make features
+      - run: make goveralls
+      - run:
+          name: compress artifacts
+          command: tar -cvzf reports.tar test/reports
+      - store_artifacts:
+          path: reports.tar
+  release:
+    docker:
+      - image: alexfalkowski/release:2.0
+    steps:
+      - checkout
+      - run: release
+  docker:
+    docker:
+      - image: alexfalkowski/go:1.18
+    steps:
+      - checkout
+      - run: make assets
+      - setup_remote_docker
+      - run:
+          name: make login
+          command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run: make docker
+
+workflows:
+  migrieren:
+    jobs:
+      - build
+      - release:
+          context: gh
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - docker:
+          context: docker
+          requires:
+            - release
+          filters:
+            branches:
+              only: master

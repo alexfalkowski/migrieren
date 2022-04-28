@@ -1,0 +1,5 @@
+vendor
+*.prof
+*.cov
+*.out
+/migrieren

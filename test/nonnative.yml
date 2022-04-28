@@ -1,0 +1,24 @@
+version: 1.0
+processes:
+  -
+    name: server
+    go:
+      output: reports
+      executable: ../migrieren
+      command: server
+    timeout: 5
+    port: 8080
+    log: reports/server.log
+    environment:
+      CONFIG_FILE: .config/server.config.yml
+  -
+    name: worker
+    go:
+      output: reports
+      executable: ../migrieren
+      command: worker
+    timeout: 5
+    port: 8081
+    log: reports/worker.log
+    environment:
+      CONFIG_FILE: .config/worker.config.yml

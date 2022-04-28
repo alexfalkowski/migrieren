@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package migrieren.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/alexfalkowski/migrieren/api/migrieren/v1";
+option ruby_package = "Migrieren::V1";
+
+// Service allows to migrate database.
+service Service {
+}

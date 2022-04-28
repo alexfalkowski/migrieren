@@ -1,0 +1,13 @@
+AllCops:
+  TargetRubyVersion: 3.0
+  DisplayCopNames: true
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+    - 'lib/**/*_pb.rb'
+
+Layout/LineLength:
+  Max: 150
+
+Style/Documentation:
+  Enabled: false
