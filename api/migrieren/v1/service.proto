@@ -7,6 +7,30 @@ import "google/api/annotations.proto";
 option go_package = "github.com/alexfalkowski/migrieren/api/migrieren/v1";
 option ruby_package = "Migrieren::V1";
 
-// Service allows to migrate database.
+// Migration for a specific database and version with logs.
+message Migration {
+  string database = 1;
+  uint64 version = 2;
+  repeated string logs = 3;
+}
+
+// MigrateRequest for a specific database and version.
+message MigrateRequest {
+  string database = 1;
+  uint64 version = 2;
+}
+
+// MigrateResponse for a specific database and version.
+message MigrateResponse {
+  Migration migration = 1;
+}
+
+// Service allows to migrate databases.
 service Service {
+  // Migrate a specific database to version.
+  rpc Migrate(MigrateRequest) returns (MigrateResponse) {
+    option (google.api.http) = {
+      get: "/v1/migrate/{database}/{version}"
+    };
+  }
 }
