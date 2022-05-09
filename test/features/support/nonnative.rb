@@ -3,3 +3,5 @@
 Nonnative.configure do |config|
   config.load_file('nonnative.yml')
 end
+
+require 'nonnative/startup'

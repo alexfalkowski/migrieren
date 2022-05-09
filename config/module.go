@@ -13,5 +13,6 @@ var (
 		config.ConfigModule,
 		config.WatchModule,
 		fx.Provide(healthConfig),
+		fx.Provide(migrateConfig),
 	)
 )
