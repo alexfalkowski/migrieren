@@ -4,8 +4,14 @@ jobs:
   build:
     docker:
       - image: alexfalkowski/go:1.18
+      - image: postgres
+        environment:
+          POSTGRES_DB: test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
     steps:
       - checkout
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: make dep
       - run: make lint
       - run: make features
