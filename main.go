@@ -2,15 +2,13 @@ package main
 
 import (
 	"os"
-	"time"
 
 	scmd "github.com/alexfalkowski/go-service/cmd"
 	"github.com/alexfalkowski/migrieren/cmd"
 )
 
-// nolint:gomnd
 func main() {
-	command := scmd.New(15 * time.Second)
+	command := scmd.New()
 
 	command.AddServer(cmd.ServerOptions)
 	command.AddWorker(cmd.WorkerOptions)
