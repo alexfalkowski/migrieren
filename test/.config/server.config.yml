@@ -1,10 +1,24 @@
 health:
   duration: 1s
   timeout: 1s
+migrate:
+  databases:
+    -
+      name: postgres
+      source: file://migrations
+      url: postgres://test:test@localhost:5432/test?sslmode=disable
+    -
+      name: invalid_source
+      source: file:///migrations
+      url: postgres://test:test@localhost:5432/test?sslmode=disable
+    -
+      name: invalid_db
+      source: file://migrations
+      url: postgres://test:test@localhost:5433/test?sslmode=disable
 trace:
   opentracing:
-    jaeger:
-      host: localhost:6831
+    type: jaeger
+    host: localhost:6831
 transport:
   http:
     port: 8080

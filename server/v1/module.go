@@ -1,11 +1,17 @@
 package v1
 
 import (
+	"github.com/alexfalkowski/migrieren/migrate"
+	"github.com/alexfalkowski/migrieren/migrate/trace/opentracing"
 	"github.com/alexfalkowski/migrieren/server/v1/transport/grpc"
 	"go.uber.org/fx"
 )
 
 var (
 	// Module for fx.
-	Module = fx.Options(fx.Invoke(grpc.Register))
+	Module = fx.Options(
+		fx.Provide(migrate.New),
+		fx.Provide(opentracing.NewTracer),
+		fx.Invoke(grpc.Register),
+	)
 )

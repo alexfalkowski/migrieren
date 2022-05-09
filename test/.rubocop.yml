@@ -9,5 +9,8 @@ AllCops:
 Layout/LineLength:
   Max: 150
 
+Style/NumericPredicate:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
