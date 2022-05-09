@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/alexfalkowski/migrieren/compare/v1.1.4...v1.2.0) (2022-05-09)
+
+
+### Features
+
+* **server:** add ability to migrate sql database ([#7](https://github.com/alexfalkowski/migrieren/issues/7)) ([d1eab3e](https://github.com/alexfalkowski/migrieren/commit/d1eab3e14675a22685d87b267cba7d8b03c908cf))
+
 ### [1.1.4](https://github.com/alexfalkowski/migrieren/compare/v1.1.3...v1.1.4) (2022-05-09)
 
 ### [1.1.3](https://github.com/alexfalkowski/migrieren/compare/v1.1.2...v1.1.3) (2022-05-06)
