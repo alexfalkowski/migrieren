@@ -39,7 +39,7 @@ func NewMigrator(migrator migrator.Migrator, tracer Tracer) *Migrator {
 
 // Migrate a database to a version and returning the database logs.
 func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
-	ctx, span := StartSpanFromContext(ctx, m.tracer, "migrate", fmt.Sprintf("db to %d", version))
+	ctx, span := StartSpanFromContext(ctx, m.tracer, "migrate", fmt.Sprintf("db to version %d", version))
 	defer span.Finish()
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
@@ -51,4 +51,9 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	}
 
 	return logs, nil
+}
+
+// Ping the migrator.
+func (m *Migrator) Ping(ctx context.Context, source, db string) error {
+	return m.migrator.Ping(ctx, source, db)
 }

@@ -61,3 +61,17 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 
 	return logger.logs, nil
 }
+
+// Ping the migrator.
+func (m *Migrator) Ping(ctx context.Context, source, db string) error {
+	mig, err := migrate.New(source, db)
+	if err != nil {
+		return err
+	}
+
+	if _, _, err := mig.Version(); err != nil && !errors.Is(err, migrate.ErrNilVersion) {
+		return err
+	}
+
+	return nil
+}
