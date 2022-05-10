@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/alexfalkowski/migrieren/compare/v1.3.1...v1.4.0) (2022-05-10)
+
+
+### Features
+
+* **health:** add migrators ([#10](https://github.com/alexfalkowski/migrieren/issues/10)) ([fbf3fad](https://github.com/alexfalkowski/migrieren/commit/fbf3fad0117d83216a149b1c885a670d6456c585))
+
 ### [1.3.1](https://github.com/alexfalkowski/migrieren/compare/v1.3.0...v1.3.1) (2022-05-10)
 
 ## [1.3.0](https://github.com/alexfalkowski/migrieren/compare/v1.2.0...v1.3.0) (2022-05-10)
