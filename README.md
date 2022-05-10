@@ -5,7 +5,7 @@
 
 Migrieren provides a way to migrate your databases.
 
-## Rational
+## Background
 
 Migrating databases is an interesting topic with many caveats. Basically we have 2 categories:
 - Migrate the database before the application is deployed.
@@ -19,17 +19,79 @@ Well every language or framework provides a way to migrate. Though a lot of them
 
 Since you are more than likely going to use microservices we don't need to reinvent the wheel for every framework. Just use the service!
 
+### Migrations
+
+There are some best practices regarding how to write effective schema migration scripts. While this service does not enforce it, you should be aware of it.
+
+Some great information can be found in [Update your Database Schema Without Downtime](https://thorben-janssen.com/update-database-schema-without-downtime/).
+
+## Server
+
+The server is defined by the following [proto contract](api/migrieren/v1/service.proto). So each version of the service will have a new contract.
+
+### Databases
+
+This system allows you to configure many databases.
+
+To configure we just need the have the following configuration:
+
+```yaml
+migrate:
+  databases:
+    -
+      name: db1
+      source: file://migrations
+      url: postgres://test:test@localhost:5432/test?sslmode=disable
+    -
+      name: db2
+      source: file:///migrations
+      url: postgres://test:test@localhost:5432/test?sslmode=disable
+    -
+      name: db3
+      source: file://migrations
+      url: postgres://test:test@localhost:5433/test?sslmode=disable
+```
+
+Each database has the following properties:
+- A distinct name.
+- The source of the migrations (file, GitHub, etc).
+- The database URL (MySQL, PostgreSQL, etc).
+
+## Client
+
+The client is used to migrate a specific database.
+
+To configure we just need the have the following configuration:
+
+```yaml
+client:
+  host: localhost:9090
+  timeout: 5s
+  database: db1
+  version: 1
+```
+
+## Health
+
+The system defines a way to monitor all of it's dependencies.
+
+To configure we just need the have the following configuration:
+
+```yaml
+health:
+  duration: 1s (how often to check)
+  timeout: 1s (when we should timeout the check)
+```
+
+## Deployment
+
+Since we are advocating building microservices, you would normally use a [container orchestration system](https://newrelic.com/blog/best-practices/container-orchestration-explained). Here is what we recommend when using this system:
+- You could have a global migration service or shard these services per [bounded context](https://martinfowler.com/bliki/BoundedContext.html).
+- The client should be used as an [init container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/).
+
 ## Design
 
-The service is based around the awesome work [migrate](https://github.com/golang-migrate/migrate). So please check that out to see how to best use it. It can support many configurations that can be easily added.
-
-For now we support the following sources:
-- File
-- GitHub
-
-For now we support the following databases:
-- MySQL
-- PostgreSQL
+The service is based around the awesome work of [migrate](https://github.com/golang-migrate/migrate). So please check that out to see how to best use it. It can support many configurations that can be easily added.
 
 ## Development
 
