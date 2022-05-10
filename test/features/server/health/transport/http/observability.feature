@@ -5,7 +5,7 @@ Feature: Observability
 
   Scenario: Health with HTTP
     When the system requests the "health" with HTTP
-    Then the system should respond with a healthy status with HTTP
+    Then the system should respond with an unhealthy status with HTTP
 
   Scenario: Liveness with HTTP
     When the system requests the "liveness" with HTTP

@@ -3,10 +3,11 @@ module github.com/alexfalkowski/migrieren
 go 1.18
 
 require (
-	github.com/alexfalkowski/go-health v1.10.2
-	github.com/alexfalkowski/go-service v1.65.1
+	github.com/alexfalkowski/go-health v1.10.3
+	github.com/alexfalkowski/go-service v1.65.3
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
+	github.com/opentracing/opentracing-go v1.2.0
 	go.uber.org/fx v1.17.1
 	go.uber.org/zap v1.21.0
 	google.golang.org/genproto v0.0.0-20220505152158-f39f71e6c8f3
@@ -55,7 +56,6 @@ require (
 	github.com/lib/pq v1.10.2 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
 	github.com/nsqio/go-nsq v1.1.0 // indirect
-	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/philhofer/fwd v1.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.12.1 // indirect
