@@ -24,8 +24,8 @@ var (
 	ErrInvalidMigration = errors.New("invalid migration")
 )
 
-// New migrator.
-func New(tracer opentracing.Tracer) migrator.Migrator {
+// NewMigrator for databases.
+func NewMigrator(tracer opentracing.Tracer) migrator.Migrator {
 	var m migrator.Migrator = &Migrator{}
 	m = opentracing.NewMigrator(m, tracer)
 

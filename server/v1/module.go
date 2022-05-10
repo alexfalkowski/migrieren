@@ -10,7 +10,7 @@ import (
 var (
 	// Module for fx.
 	Module = fx.Options(
-		fx.Provide(migrate.New),
+		fx.Provide(migrate.NewMigrator),
 		fx.Provide(opentracing.NewTracer),
 		fx.Invoke(grpc.Register),
 	)
