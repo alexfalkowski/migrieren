@@ -1,0 +1,16 @@
+client:
+  host: localhost:9090
+  timeout: 1s
+  database: missing
+  version: 1
+trace:
+  opentracing:
+    type: jaeger
+    host: localhost:6831
+transport:
+  grpc:
+    port: 9090
+    user_agent: "Migrieren-client/1.0 grpc/1.0"
+    retry:
+      timeout: 2s
+      attempts: 3

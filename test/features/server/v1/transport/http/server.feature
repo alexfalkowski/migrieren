@@ -1,3 +1,4 @@
+@startup
 Feature: Server
 
   Server allows users to migrate different databases.
