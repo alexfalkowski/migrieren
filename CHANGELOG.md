@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/alexfalkowski/migrieren/compare/v1.2.0...v1.3.0) (2022-05-10)
+
+
+### Features
+
+* **client:** migrate database ([#8](https://github.com/alexfalkowski/migrieren/issues/8)) ([ba80ad5](https://github.com/alexfalkowski/migrieren/commit/ba80ad5db16dfdc0e6150fdc8382fd4d4430fbd7))
+
 ## [1.2.0](https://github.com/alexfalkowski/migrieren/compare/v1.1.4...v1.2.0) (2022-05-09)
 
 
