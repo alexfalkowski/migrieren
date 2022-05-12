@@ -11,14 +11,3 @@ processes:
     log: reports/server.log
     environment:
       CONFIG_FILE: .config/server.config.yml
-  -
-    name: worker
-    go:
-      output: reports
-      executable: ../migrieren
-      command: worker
-    timeout: 5
-    port: 8081
-    log: reports/worker.log
-    environment:
-      CONFIG_FILE: .config/worker.config.yml
