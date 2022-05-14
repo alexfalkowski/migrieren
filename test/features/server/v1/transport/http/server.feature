@@ -10,6 +10,7 @@ Feature: Server
     Then I should receive a successful migration from HTTP:
       | database | <database> |
       | version  | <version>  |
+    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database | version |
@@ -22,6 +23,7 @@ Feature: Server
       | database | <database> |
       | version  | <version>  |
     Then I should receive a not found migration from HTTP
+    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database | version |
@@ -32,6 +34,7 @@ Feature: Server
       | database | <database> |
       | version  | <version>  |
     Then I should receive an invalid migration from HTTP
+    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database       | version |

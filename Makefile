@@ -18,11 +18,11 @@ vendor:
 
 # Build release binary.
 build:
-	go build -race -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=latest'" -mod vendor -o migrieren main.go
+	go build -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=latest'" -mod vendor -o migrieren main.go
 
 # Build test binary.
 build-test:
-	go test -race -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=latest'" -mod vendor -c -tags features -covermode=atomic -o migrieren -coverpkg=./... github.com/alexfalkowski/migrieren
+	go test -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=latest'" -mod vendor -c -tags features -covermode=count -o migrieren -coverpkg=./... github.com/alexfalkowski/migrieren
 
 # Lint all the go code.
 go-lint:
