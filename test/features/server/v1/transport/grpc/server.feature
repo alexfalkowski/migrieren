@@ -10,7 +10,6 @@ Feature: Server
     Then I should receive a successful migration from gRPC:
       | database | <database> |
       | version  | <version>  |
-    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database | version |
@@ -23,7 +22,6 @@ Feature: Server
       | database | <database> |
       | version  | <version>  |
     Then I should receive a not found migration from gRPC
-    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database | version |
@@ -34,7 +32,6 @@ Feature: Server
       | database | <database> |
       | version  | <version>  |
     Then I should receive an invalid migration from gRPC
-    And the process 'server' should consume less than '40mb' of memory
 
     Examples:
       | database       | version |
