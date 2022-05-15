@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.5](https://github.com/alexfalkowski/migrieren/compare/v1.5.4...v1.5.5) (2022-05-15)
+
+
+### Bug Fixes
+
+* **server:** race in register ([#17](https://github.com/alexfalkowski/migrieren/issues/17)) ([fbeacdb](https://github.com/alexfalkowski/migrieren/commit/fbeacdbc3ca62dcfc84b9b88b72aa40231e5b426))
+
 ### [1.5.4](https://github.com/alexfalkowski/migrieren/compare/v1.5.3...v1.5.4) (2022-05-14)
 
 ### [1.5.3](https://github.com/alexfalkowski/migrieren/compare/v1.5.2...v1.5.3) (2022-05-14)
