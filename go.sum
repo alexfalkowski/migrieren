@@ -150,8 +150,8 @@ github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4/go.mod h1:ybxpYRF
 github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d/go.mod h1:rBZYJk541a8SKzHPHnH3zbiI+7dagKZ0cgpgrD7Fyho=
 github.com/alexfalkowski/go-health v1.10.3 h1:iXrP6xpUqKsnmzyazaRoTrIrQTZAEuyl0EKju0ickm0=
 github.com/alexfalkowski/go-health v1.10.3/go.mod h1:TkTDC/lpYYNP4VKnNmSgiZexzaOdU4gDRL8j8r4c45w=
-github.com/alexfalkowski/go-service v1.66.1 h1:lZuBEyzH8Pe2GpA8l5DvkYvHt++oufeYJUduOPcKGQw=
-github.com/alexfalkowski/go-service v1.66.1/go.mod h1:WrHCbKz+Xy3l7lQXXrnNJ/mvwJ8N93KYdvcnyBV2v/U=
+github.com/alexfalkowski/go-service v1.66.7 h1:6PlXjmzj8IY7I/OItAvEhODE/xlFDKYaLm/WmpVM9pc=
+github.com/alexfalkowski/go-service v1.66.7/go.mod h1:xLRa0xP2CrunuPVkPsfxinx2/huKzk3aCulijmgie+8=
 github.com/alexflint/go-filemutex v0.0.0-20171022225611-72bdc8eae2ae/go.mod h1:CgnQgUtFrFz9mxFNtED3jI5tLDjKlOM+oUF/sTk6ps0=
 github.com/alexflint/go-filemutex v1.1.0/go.mod h1:7P4iRhttt/nUvUOrYIhcpMzv2G6CY9UnI16Z+UJqRyk=
 github.com/andybalholm/brotli v1.0.2/go.mod h1:loMXtMfwqflxFJPmdbJO0a3KNoPuLBgiu3qAvBg8x/Y=
