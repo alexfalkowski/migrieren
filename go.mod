@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/alexfalkowski/go-health v1.10.3
-	github.com/alexfalkowski/go-service v1.66.7
+	github.com/alexfalkowski/go-service v1.68.1
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.0
 	github.com/opentracing/opentracing-go v1.2.0
@@ -52,8 +52,10 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/jackc/pgx/v4 v4.16.1 // indirect
+	github.com/jmoiron/sqlx v1.3.5 // indirect
 	github.com/klauspost/compress v1.15.4 // indirect
-	github.com/lib/pq v1.10.5 // indirect
+	github.com/lib/pq v1.10.6 // indirect
+	github.com/linxGnu/mssqlx v1.1.6 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
 	github.com/ngrok/sqlmw v0.0.0-20211220175533-9d16fdc47b31 // indirect
 	github.com/nsqio/go-nsq v1.1.0 // indirect
@@ -76,9 +78,9 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/dig v1.14.1 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/crypto v0.0.0-20220513210258-46612604a0f9 // indirect
-	golang.org/x/exp v0.0.0-20220428152302-39d4317da171 // indirect
-	golang.org/x/net v0.0.0-20220513224357-95641704303c // indirect
+	golang.org/x/crypto v0.0.0-20220517005047-85d78b3ac167 // indirect
+	golang.org/x/exp v0.0.0-20220516143420-24438e51023a // indirect
+	golang.org/x/net v0.0.0-20220516155154-20f960328961 // indirect
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
 	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29 // indirect
 	golang.org/x/sys v0.0.0-20220513210249-45d2b4557a2a // indirect
