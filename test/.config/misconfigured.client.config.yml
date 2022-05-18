@@ -1,5 +1,5 @@
 client:
-  host: localhost:9090
+  host: localhost:8080
   timeout: 1s
   database: invalid_source
   version: 1
@@ -8,8 +8,8 @@ trace:
     type: jaeger
     host: localhost:6831
 transport:
+  port: 8080
   grpc:
-    port: 9090
     user_agent: "Migrieren-client/1.0 grpc/1.0"
     retry:
       timeout: 2s
