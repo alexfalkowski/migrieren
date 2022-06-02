@@ -6,7 +6,7 @@ require (
 	github.com/alexfalkowski/go-health v1.10.3
 	github.com/alexfalkowski/go-service v1.71.7
 	github.com/golang-migrate/migrate/v4 v4.15.2
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.2
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3
 	github.com/opentracing/opentracing-go v1.2.0
 	go.uber.org/fx v1.17.1
 	go.uber.org/zap v1.21.0
