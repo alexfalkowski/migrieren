@@ -17,7 +17,7 @@ migrate:
       url: postgres://test:test@localhost:5433/test?sslmode=disable
 trace:
   opentracing:
-    type: jaeger
+    kind: jaeger
     host: localhost:6831
 transport:
   port: 8080
