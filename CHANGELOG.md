@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/alexfalkowski/migrieren/compare/v1.5.21...v1.6.0) (2022-06-14)
+
+
+### Features
+
+* rename to kind ([#39](https://github.com/alexfalkowski/migrieren/issues/39)) ([a158ec2](https://github.com/alexfalkowski/migrieren/commit/a158ec2628a5bc2f9a89c349535110670ae63a04))
+
 ### [1.5.21](https://github.com/alexfalkowski/migrieren/compare/v1.5.20...v1.5.21) (2022-06-12)
 
 ### [1.5.20](https://github.com/alexfalkowski/migrieren/compare/v1.5.19...v1.5.20) (2022-06-07)
