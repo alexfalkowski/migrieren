@@ -150,8 +150,8 @@ github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4/go.mod h1:ybxpYRF
 github.com/alecthomas/units v0.0.0-20190924025748-f65c72e2690d/go.mod h1:rBZYJk541a8SKzHPHnH3zbiI+7dagKZ0cgpgrD7Fyho=
 github.com/alexfalkowski/go-health v1.10.4 h1:Rwc0919E/onEIvGIJsicvbuTEGVU1YxDWqir0WdHBM4=
 github.com/alexfalkowski/go-health v1.10.4/go.mod h1:TkTDC/lpYYNP4VKnNmSgiZexzaOdU4gDRL8j8r4c45w=
-github.com/alexfalkowski/go-service v1.74.3 h1:KY1CxwWl9afRbTa7oU5GUKRfBCCxs2Xr/3KxlhFLxqc=
-github.com/alexfalkowski/go-service v1.74.3/go.mod h1:9juy4tHH5zodtx1mIdC3J2hiSrgwj9VT3Y/dOh2u7uU=
+github.com/alexfalkowski/go-service v1.74.4 h1:FRWohz29r5BhL3Lrtam8DNXEUCRY05RSlB2DeLAFMjo=
+github.com/alexfalkowski/go-service v1.74.4/go.mod h1:58u7H+7xufgaCCf8ygYRDTBveSeIhH40xlsT35wJ+pM=
 github.com/alexflint/go-filemutex v0.0.0-20171022225611-72bdc8eae2ae/go.mod h1:CgnQgUtFrFz9mxFNtED3jI5tLDjKlOM+oUF/sTk6ps0=
 github.com/alexflint/go-filemutex v1.1.0/go.mod h1:7P4iRhttt/nUvUOrYIhcpMzv2G6CY9UnI16Z+UJqRyk=
 github.com/andybalholm/brotli v1.0.2/go.mod h1:loMXtMfwqflxFJPmdbJO0a3KNoPuLBgiu3qAvBg8x/Y=
@@ -1731,8 +1731,8 @@ golang.org/x/net v0.0.0-20211216030914-fe4d6282115f/go.mod h1:9nx3DQGgdP8bBQD5qx
 golang.org/x/net v0.0.0-20220111093109-d55c255bac03/go.mod h1:9nx3DQGgdP8bBQD5qxJ1jj9UTztislL4KSBs9R2vV5Y=
 golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd/go.mod h1:CfG3xpIq0wQ8r1q4Su4UZFWDARRcnwPjda9FqA0JpMk=
 golang.org/x/net v0.0.0-20220225172249-27dd8689420f/go.mod h1:CfG3xpIq0wQ8r1q4Su4UZFWDARRcnwPjda9FqA0JpMk=
-golang.org/x/net v0.0.0-20220809012201-f428fae20770 h1:dIi4qVdvjZEjiMDv7vhokAZNGnz3kepwuXqFKYDdDMs=
-golang.org/x/net v0.0.0-20220809012201-f428fae20770/go.mod h1:YDH+HFinaLZZlnHAfSS6ZXJJ9M9t4Dl22yv3iI2vPwk=
+golang.org/x/net v0.0.0-20220809184613-07c6da5e1ced h1:3dYNDff0VT5xj+mbj2XucFst9WKk6PdGOrb9n+SbIvw=
+golang.org/x/net v0.0.0-20220809184613-07c6da5e1ced/go.mod h1:YDH+HFinaLZZlnHAfSS6ZXJJ9M9t4Dl22yv3iI2vPwk=
 golang.org/x/oauth2 v0.0.0-20180227000427-d7d64896b5ff/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/oauth2 v0.0.0-20181106182150-f42d05182288/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
