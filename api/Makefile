@@ -11,4 +11,4 @@ update-all:
 	buf mod update
 
 breaking:
-	buf breaking --against 'https://github.com/alexfalkowski/migrieren.git#branch=master,subdir=api' || true
+	buf breaking --against 'https://github.com/alexfalkowski/migrieren.git#branch=master,subdir=api'
