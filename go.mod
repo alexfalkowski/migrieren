@@ -3,7 +3,7 @@ module github.com/alexfalkowski/migrieren
 go 1.19
 
 require (
-	github.com/alexfalkowski/go-health v1.10.4
+	github.com/alexfalkowski/go-health v1.11.0
 	github.com/alexfalkowski/go-service v1.76.13
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.13.0
