@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: alexfalkowski/go:1.19
-      - image: postgres
+      - image: postgres:latest
         environment:
           POSTGRES_DB: test
           POSTGRES_USER: test
