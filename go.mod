@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/alexfalkowski/go-health v1.11.0
-	github.com/alexfalkowski/go-service v1.76.22
+	github.com/alexfalkowski/go-service v1.76.24
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.14.0
 	github.com/opentracing/opentracing-go v1.2.0
@@ -17,8 +17,9 @@ require (
 
 require (
 	github.com/DataDog/datadog-agent/pkg/obfuscate v0.38.2 // indirect
-	github.com/DataDog/datadog-agent/pkg/remoteconfig/state v0.40.0-rc.2.0.20221012133526-043d202b24fc // indirect
+	github.com/DataDog/datadog-agent/pkg/remoteconfig/state v0.41.0-rc.3.0.20221208094921-9e0b0bfca62a // indirect
 	github.com/DataDog/datadog-go/v5 v5.1.1 // indirect
+	github.com/DataDog/go-tuf v0.3.0--fix-localmeta-fork // indirect
 	github.com/DataDog/sketches-go v1.4.1 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/avast/retry-go/v3 v3.1.1 // indirect
@@ -52,7 +53,7 @@ require (
 	github.com/jackc/pgtype v1.12.0 // indirect
 	github.com/jackc/pgx/v4 v4.17.2 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
-	github.com/klauspost/compress v1.15.12 // indirect
+	github.com/klauspost/compress v1.15.13 // indirect
 	github.com/lib/pq v1.10.7 // indirect
 	github.com/linxGnu/mssqlx v1.1.8 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
@@ -71,7 +72,6 @@ require (
 	github.com/sony/gobreaker v0.5.0 // indirect
 	github.com/spf13/cobra v1.6.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/theupdateframework/go-tuf v0.3.0 // indirect
 	github.com/tinylib/msgp v1.1.6 // indirect
 	github.com/uber/jaeger-client-go v2.30.0+incompatible // indirect
 	github.com/uber/jaeger-lib v2.4.1+incompatible // indirect
@@ -92,7 +92,7 @@ require (
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	gopkg.in/DataDog/dd-trace-go.v1 v1.44.0 // indirect
+	gopkg.in/DataDog/dd-trace-go.v1 v1.44.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	inet.af/netaddr v0.0.0-20220617031823-097006376321 // indirect
 )
