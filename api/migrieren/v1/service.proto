@@ -29,8 +29,6 @@ message MigrateResponse {
 service Service {
   // Migrate a specific database to version.
   rpc Migrate(MigrateRequest) returns (MigrateResponse) {
-    option (google.api.http) = {
-      get: "/v1/migrate/{database}/{version}"
-    };
+    option (google.api.http) = {get: "/v1/migrate/{database}/{version}"};
   }
 }
