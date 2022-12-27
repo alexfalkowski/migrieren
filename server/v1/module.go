@@ -12,6 +12,7 @@ var (
 	Module = fx.Options(
 		fx.Provide(migrate.NewMigrator),
 		fx.Provide(opentracing.NewTracer),
+		fx.Provide(grpc.NewServer),
 		fx.Invoke(grpc.Register),
 	)
 )

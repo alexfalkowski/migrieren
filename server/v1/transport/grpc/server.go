@@ -7,12 +7,15 @@ import (
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/migrate"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
+	"go.uber.org/fx"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 // ServerParams for gRPC.
 type ServerParams struct {
+	fx.In
+
 	Config   *migrate.Config
 	Migrator migrator.Migrator
 }
