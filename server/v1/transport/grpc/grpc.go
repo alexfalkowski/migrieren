@@ -10,8 +10,6 @@ import (
 	"github.com/alexfalkowski/go-service/transport/grpc/trace/opentracing"
 	"github.com/alexfalkowski/go-service/transport/http"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/migrate"
-	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -28,16 +26,14 @@ type RegisterParams struct {
 	Logger          *zap.Logger
 	Tracer          opentracing.Tracer
 	Metrics         *prometheus.ClientMetrics
-	MigrateConfig   *migrate.Config
-	Migrator        migrator.Migrator
+	Server          v1.ServiceServer
 }
 
 // Register server.
 func Register(params RegisterParams) error {
 	ctx := context.Background()
-	server := NewServer(ServerParams{Config: params.MigrateConfig, Migrator: params.Migrator})
 
-	v1.RegisterServiceServer(params.GRPCServer.Server, server)
+	v1.RegisterServiceServer(params.GRPCServer.Server, params.Server)
 
 	conn, err := grpc.NewClient(
 		grpc.ClientParams{Context: ctx, Host: fmt.Sprintf("127.0.0.1:%s", params.TransportConfig.Port), Config: params.GRPCConfig},
