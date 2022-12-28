@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.72](https://github.com/alexfalkowski/migrieren/compare/v1.7.71...v1.7.72) (2022-12-28)
+
 ### [1.7.71](https://github.com/alexfalkowski/migrieren/compare/v1.7.70...v1.7.71) (2022-12-27)
 
 ### [1.7.70](https://github.com/alexfalkowski/migrieren/compare/v1.7.69...v1.7.70) (2022-12-26)
