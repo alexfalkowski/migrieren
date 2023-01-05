@@ -4,11 +4,11 @@ go 1.19
 
 require (
 	github.com/alexfalkowski/go-health v1.11.0
-	github.com/alexfalkowski/go-service v1.77.7
+	github.com/alexfalkowski/go-service v1.77.8
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.0
 	github.com/opentracing/opentracing-go v1.2.0
-	go.uber.org/fx v1.19.0
+	go.uber.org/fx v1.18.2
 	go.uber.org/zap v1.24.0
 	google.golang.org/genproto v0.0.0-20221207170731-23e4bf6bdc37
 	google.golang.org/grpc v1.51.0
