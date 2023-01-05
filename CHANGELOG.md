@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.76](https://github.com/alexfalkowski/migrieren/compare/v1.7.75...v1.7.76) (2023-01-05)
+
+
+### Bug Fixes
+
+* downgrade go.uber.org/fx to v1.18.2 ([#159](https://github.com/alexfalkowski/migrieren/issues/159)) ([44500ea](https://github.com/alexfalkowski/migrieren/commit/44500eac24fbc048c0a0b4f6b0f0302ec288b7f6))
+
 ### [1.7.75](https://github.com/alexfalkowski/migrieren/compare/v1.7.74...v1.7.75) (2023-01-05)
 
 ### [1.7.74](https://github.com/alexfalkowski/migrieren/compare/v1.7.73...v1.7.74) (2023-01-05)
