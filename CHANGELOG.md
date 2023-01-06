@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/alexfalkowski/migrieren/compare/v1.7.76...v1.8.0) (2023-01-06)
+
+
+### Features
+
+* update github.com/alexfalkowski/go-service to v1.78.0 ([#160](https://github.com/alexfalkowski/migrieren/issues/160)) ([ce876c3](https://github.com/alexfalkowski/migrieren/commit/ce876c34878ccfb6aec12e2f755863677b7c61c9))
+
 ### [1.7.76](https://github.com/alexfalkowski/migrieren/compare/v1.7.75...v1.7.76) (2023-01-05)
 
 
