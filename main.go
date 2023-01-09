@@ -8,13 +8,17 @@ import (
 )
 
 func main() {
+	if err := command().Run(); err != nil {
+		os.Exit(1)
+	}
+}
+
+func command() *scmd.Command {
 	command := scmd.New()
 
 	command.AddServer(cmd.ServerOptions)
 	command.AddClient(cmd.ClientOptions)
 	command.AddVersion(cmd.Version)
 
-	if err := command.Run(); err != nil {
-		os.Exit(1)
-	}
+	return command
 }
