@@ -6,8 +6,8 @@ import (
 	"time"
 
 	stime "github.com/alexfalkowski/go-service/time"
-	"github.com/alexfalkowski/migrieren/client"
 	"github.com/alexfalkowski/migrieren/client/task"
+	v1 "github.com/alexfalkowski/migrieren/client/v1/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
@@ -15,12 +15,12 @@ import (
 // Client for zap.
 type Client struct {
 	logger *zap.Logger
-	cfg    *client.Config
+	cfg    *v1.Config
 	task.Task
 }
 
 // NewClient for zap.
-func NewClient(logger *zap.Logger, cfg *client.Config, task task.Task) *Client {
+func NewClient(logger *zap.Logger, cfg *v1.Config, task task.Task) *Client {
 	return &Client{logger: logger, cfg: cfg, Task: task}
 }
 

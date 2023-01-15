@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/alexfalkowski/go-service/config"
-	"github.com/alexfalkowski/migrieren/client"
+	v1 "github.com/alexfalkowski/migrieren/client/v1/config"
 	"github.com/alexfalkowski/migrieren/health"
 	"github.com/alexfalkowski/migrieren/migrate"
 )
@@ -14,8 +14,8 @@ func NewConfigurator() config.Configurator {
 	return cfg
 }
 
-func clientConfig(cfg config.Configurator) *client.Config {
-	return &cfg.(*Config).Client
+func v1ClientConfig(cfg config.Configurator) *v1.Config {
+	return &cfg.(*Config).Client.V1
 }
 
 func healthConfig(cfg config.Configurator) *health.Config {
