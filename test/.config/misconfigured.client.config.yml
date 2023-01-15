@@ -1,8 +1,9 @@
 client:
-  host: localhost:8080
-  timeout: 1s
-  database: invalid_source
-  version: 1
+  v1:
+    host: localhost:8080
+    timeout: 1s
+    database: invalid_source
+    version: 1
 trace:
   opentracing:
     kind: jaeger

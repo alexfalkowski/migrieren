@@ -2,14 +2,14 @@ package migrate
 
 // Database for migrate.
 type Database struct {
-	Name   string `yaml:"name"`
-	Source string `yaml:"source"`
-	URL    string `yaml:"url"`
+	Name   string `yaml:"name" json:"name" toml:"name"`
+	Source string `yaml:"source" json:"source" toml:"source"`
+	URL    string `yaml:"url" json:"url" toml:"url"`
 }
 
 // Config for migrate.
 type Config struct {
-	Databases []Database `yaml:"databases"`
+	Databases []Database `yaml:"databases" json:"databases" toml:"databases"`
 }
 
 // Database by name.

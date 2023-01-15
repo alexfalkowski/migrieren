@@ -1,8 +1,9 @@
 client:
-  host: localhost:9090
-  timeout: 1s
-  database: postgres
-  version: 1
+  v1:
+    host: localhost:9090
+    timeout: 1s
+    database: postgres
+    version: 1
 trace:
   opentracing:
     kind: jaeger

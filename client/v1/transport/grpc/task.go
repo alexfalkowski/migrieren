@@ -5,8 +5,8 @@ import (
 
 	"github.com/alexfalkowski/go-service/transport/grpc/trace/opentracing"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/client"
 	"github.com/alexfalkowski/migrieren/client/task"
+	v1c "github.com/alexfalkowski/migrieren/client/v1/config"
 	kzap "github.com/alexfalkowski/migrieren/client/v1/transport/grpc/logger/zap"
 	gopentracing "github.com/alexfalkowski/migrieren/client/v1/transport/grpc/trace/opentracing"
 	"go.uber.org/fx"
@@ -18,7 +18,7 @@ type TaskParams struct {
 	fx.In
 
 	Client v1.ServiceClient
-	Config *client.Config
+	Config *v1c.Config
 	Tracer opentracing.Tracer
 	Logger *zap.Logger
 }
@@ -35,7 +35,7 @@ func NewTask(params TaskParams) task.Task {
 // Task for gRPC.
 type Task struct {
 	client v1.ServiceClient
-	cfg    *client.Config
+	cfg    *v1c.Config
 }
 
 // Perform migrating the database.

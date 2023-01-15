@@ -82,14 +82,15 @@ To configure we just need the have the following configuration:
 
 ```yaml
 client:
-  host: localhost:9090
-  timeout: 5s
-  database: db1
-  version: 1
+  v1:
+    host: localhost:9090
+    timeout: 5s
+    database: db1
+    version: 1
 ```
 
 ```toml
-[client]
+[client.v1]
 host = "localhost:9090"
 timeout = "5s"
 database = "db1"

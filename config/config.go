@@ -9,8 +9,8 @@ import (
 
 // Config for the service.
 type Config struct {
-	Client        client.Config  `yaml:"client"`
-	Health        health.Config  `yaml:"health"`
-	Migrate       migrate.Config `yaml:"migrate"`
-	config.Config `yaml:",inline"`
+	Client        client.Config  `yaml:"client" json:"client" toml:"client"`
+	Health        health.Config  `yaml:"health" json:"health" toml:"health"`
+	Migrate       migrate.Config `yaml:"migrate" json:"migrate" toml:"migrate"`
+	config.Config `yaml:",inline" json:",inline" toml:",inline"`
 }

@@ -1,13 +1,10 @@
 package client
 
 import (
-	"time"
+	"github.com/alexfalkowski/migrieren/client/v1/config"
 )
 
 // Config for client.
 type Config struct {
-	Host     string        `yaml:"host"`
-	Timeout  time.Duration `yaml:"timeout"`
-	Database string        `yaml:"database"`
-	Version  uint64        `yaml:"version"`
+	V1 config.Config `yaml:"v1" json:"v1" toml:"v1"`
 }
