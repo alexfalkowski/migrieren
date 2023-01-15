@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.10.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.10.0) - 2023-01-15
+
+- [`3a7632a`](https://github.com/alexfalkowski/migrieren/commit/3a7632a31748474be089aa329c8d4f63f7113782) feat(config): add other kinds (#176)
+- [`7dd4d24`](https://github.com/alexfalkowski/migrieren/commit/7dd4d24bfc12687d119d408bfd4e05d45521897d) build(deps): bump golang from 1.19.4-bullseye to 1.19.5-bullseye (#166)
+- [`04a3160`](https://github.com/alexfalkowski/migrieren/commit/04a3160ced1c93b06f5db35a1c59d1796ded0fa2) build: add bin (#175)
+- [`30f52bd`](https://github.com/alexfalkowski/migrieren/commit/30f52bdae744278f36d9bffcaeba0a1a4df12ad0) ci(dependabot): change commit message (#174)
+- [`6db1dd0`](https://github.com/alexfalkowski/migrieren/commit/6db1dd0c21c630787cdf56256ee5c06e973e85fb) ci: use release 3.1 (#173)
+- [`112222e`](https://github.com/alexfalkowski/migrieren/commit/112222ea2333ad43d3d35e7a10729a521547d08b) ci: use release 3.0 (#172)
+
 ## [v1.9.4](https://github.com/alexfalkowski/migrieren/releases/tag/v1.9.4) - 2023-01-11
 
 - [`a52b95d`](https://github.com/alexfalkowski/migrieren/commit/a52b95dc267d523aecbf396bafc29c7bb9c6eadd) build(deps): update github.com/alexfalkowski/go-service v1.81.3 (#171)
