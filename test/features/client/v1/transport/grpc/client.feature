@@ -8,7 +8,7 @@ Feature: Client
     And I start the system
     When the client tries to migrate the database
     Then the client should have succesfully migrated the database
-    And I should see a log entry of "finished call with success" in the file "reports/client.log"
+    And I should see a log entry of "finished call with code OK" in the file "reports/client.log"
 
   Scenario: Migrate missing databases
     Given the client is configured with "missing" config
