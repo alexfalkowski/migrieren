@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.12.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.12.0) - 2023-01-17
+
+- [`4fb940c`](https://github.com/alexfalkowski/migrieren/commit/4fb940c25f371c1781a210b85a33991f0eb29841) feat(client): separate fx modules (#179)
+
 ## [v1.11.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.11.0) - 2023-01-16
 
 - [`cd1dd62`](https://github.com/alexfalkowski/migrieren/commit/cd1dd6267dc1f60911b063e35be7eed135bad9b3) feat(client): create sdk (#178)
