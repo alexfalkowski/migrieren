@@ -15,5 +15,5 @@ var ClientOptions = []fx.Option{
 	fx.NopLogger,
 	marshaller.Module, cmd.Module,
 	fx.Provide(NewVersion), config.Module, logger.ZapModule,
-	transport.GRPCModule, client.Module,
+	transport.GRPCModule, client.CommandModule,
 }
