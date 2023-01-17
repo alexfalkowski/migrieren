@@ -6,10 +6,15 @@ import (
 )
 
 var (
-	// Module for fx.
-	Module = fx.Options(
+	// ClientModule for fx.
+	ClientModule = fx.Options(
 		v1.Module,
 		fx.Provide(NewClient),
+	)
+
+	// CommandModule for fx.
+	CommandModule = fx.Options(
+		ClientModule,
 		fx.Invoke(RunCommand),
 	)
 )
