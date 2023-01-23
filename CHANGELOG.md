@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.13.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.13.1) - 2023-01-23
+
+- [`4302e58`](https://github.com/alexfalkowski/migrieren/commit/4302e58366824beb1bf064311f7688bd3c1d4ed1) fix(deps): bump github.com/alexfalkowski/go-service (#184)
+- [`8de6054`](https://github.com/alexfalkowski/migrieren/commit/8de605451fba0cdbf13b2431f336140915b56c89) test(deps): update (#183)
+
 ## [v1.13.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.13.0) - 2023-01-18
 
 - [`4119bd8`](https://github.com/alexfalkowski/migrieren/commit/4119bd8d170c040420ff85463422f6d190620b5d) feat(cmd): add fx module (#182)
