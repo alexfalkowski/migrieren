@@ -25,13 +25,6 @@ func-coverage: sanitize-coverage
 goveralls: sanitize-coverage
 	goveralls -coverprofile=test/reports/final.cov -service=circle-ci -repotoken=zl0TVeSjn3TgnoATsUhpQycpFScnOoyji
 
-# Run go security checks.
-go-sec:
-	gosec -quiet -exclude-dir=test -exclude=G104 ./...
-
-# Run security checks.
-sec: go-sec
-
 # Release to docker hub.
 docker:
 	bin/build/docker/push migrieren
