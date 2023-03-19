@@ -22,6 +22,9 @@ var (
 
 	// ErrInvalidMigration happened.
 	ErrInvalidMigration = errors.New("invalid migration")
+
+	// ErrInvalidPing happened.
+	ErrInvalidPing = errors.New("invalid ping")
 )
 
 // NewMigrator for databases.
@@ -66,11 +69,15 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 	mig, err := migrate.New(source, db)
 	if err != nil {
-		return err
+		meta.WithAttribute(ctx, "ping.error", err.Error())
+
+		return ErrInvalidConfig
 	}
 
 	if _, _, err := mig.Version(); err != nil && !errors.Is(err, migrate.ErrNilVersion) {
-		return err
+		meta.WithAttribute(ctx, "ping.error", err.Error())
+
+		return ErrInvalidPing
 	}
 
 	return nil
