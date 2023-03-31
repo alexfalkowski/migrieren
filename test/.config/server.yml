@@ -15,10 +15,9 @@ migrate:
       name: invalid_db
       source: file://migrations
       url: postgres://test:test@localhost:5433/test?sslmode=disable
-trace:
-  opentracing:
-    kind: jaeger
-    host: localhost:6831
+otel:
+  kind: jaeger
+  host: localhost:6831
 transport:
   port: 8080
   http:
