@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/alexfalkowski/go-service/logger"
 	"github.com/alexfalkowski/go-service/marshaller"
+	"github.com/alexfalkowski/go-service/otel"
 	"github.com/alexfalkowski/go-service/transport"
 	"github.com/alexfalkowski/migrieren/client"
 	"github.com/alexfalkowski/migrieren/config"
@@ -11,7 +12,7 @@ import (
 
 // ClientOptions for cmd.
 var ClientOptions = []fx.Option{
-	fx.NopLogger, marshaller.Module, Module,
+	fx.NopLogger, marshaller.Module, otel.Module, Module,
 	config.Module, logger.ZapModule,
 	transport.GRPCModule, client.CommandModule,
 }
