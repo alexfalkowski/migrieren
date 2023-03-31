@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.16.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.0) - 2023-03-31
+
+- [`47a7be1`](https://github.com/alexfalkowski/migrieren/commit/47a7be192e48fe814e7a8440a8d0b9d1a71ab918) feat: replace opentracing with otel (#233)
+
 ## [v1.15.20](https://github.com/alexfalkowski/migrieren/releases/tag/v1.15.20) - 2023-03-30
 
 - [`a69fee8`](https://github.com/alexfalkowski/migrieren/commit/a69fee81b325de7d10e12f846b30dc77d7a1abf1) fix(deps): bump github.com/alexfalkowski/go-service (#232)
