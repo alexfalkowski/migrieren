@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.16.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.1) - 2023-04-05
+
+- [`dff7e5b`](https://github.com/alexfalkowski/migrieren/commit/dff7e5bce29d884395cdd006f46cb37250fcabde) fix(deps): bump golang from 1.20.2-bullseye to 1.20.3-bullseye (#235)
+- [`943de99`](https://github.com/alexfalkowski/migrieren/commit/943de994e4d12a004684ca4bd87ba1af5936361f) build(deps): bump rubocop from 1.48.1 to 1.49.0 in /test (#234)
+
 ## [v1.16.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.0) - 2023-03-31
 
 - [`47a7be1`](https://github.com/alexfalkowski/migrieren/commit/47a7be192e48fe814e7a8440a8d0b9d1a71ab918) feat: replace opentracing with otel (#233)
