@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.16.4](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.4) - 2023-04-10
+
+- [`035262f`](https://github.com/alexfalkowski/migrieren/commit/035262f9bd0302a7facee2e758b62352f19674c7) fix(deps): bump github.com/alexfalkowski/go-service (#238)
+- [`9c6e39c`](https://github.com/alexfalkowski/migrieren/commit/9c6e39cc08720d647c5d2311c97e223ff6667be4) build(deps): bump solargraph from 0.48.0 to 0.49.0 in /test (#239)
+
 ## [v1.16.3](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.3) - 2023-04-07
 
 - [`90848ab`](https://github.com/alexfalkowski/migrieren/commit/90848ab1f9cc788602c6bf8dfaceeaafd15400fc) fix(deps): bump github.com/alexfalkowski/go-service (#237)
