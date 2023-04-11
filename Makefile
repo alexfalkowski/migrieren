@@ -10,29 +10,6 @@ build:
 build-test:
 	go test -race -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=latest'" -mod vendor -c -tags features -covermode=atomic -o migrieren -coverpkg=./... github.com/alexfalkowski/migrieren
 
-sanitize-coverage:
-	bin/quality/go/cov
-
-# Get the HTML coverage for go.
-html-coverage: sanitize-coverage
-	go tool cover -html test/reports/final.cov
-
-# Get the func coverage for go.
-func-coverage: sanitize-coverage
-	go tool cover -func test/reports/final.cov
-
-# Send coveralls data.
-goveralls: sanitize-coverage
-	goveralls -coverprofile=test/reports/final.cov -service=circle-ci -repotoken=zl0TVeSjn3TgnoATsUhpQycpFScnOoyji
-
 # Release to docker hub.
 docker:
 	bin/build/docker/push migrieren
-
-# Start the environment.
-start:
-	bin/build/docker/env start
-
-# Stop the environment.
-stop:
-	bin/build/docker/env stop
