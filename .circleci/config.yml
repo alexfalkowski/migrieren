@@ -9,6 +9,7 @@ jobs:
           POSTGRES_DB: test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
+    working_directory: ~/migrieren
     steps:
       - checkout
       - run: git submodule sync
@@ -16,6 +17,7 @@ jobs:
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: make dep
       - run: make lint
+      - run: make proto-breaking
       - run: make sec
       - run: make features
       - run: make goveralls
