@@ -4,11 +4,11 @@ go 1.20
 
 require (
 	github.com/alexfalkowski/go-health v1.12.1
-	github.com/alexfalkowski/go-service v1.86.11
+	github.com/alexfalkowski/go-service v1.86.13
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
-	go.opentelemetry.io/otel v1.15.0
-	go.opentelemetry.io/otel/trace v1.15.0
+	go.opentelemetry.io/otel v1.15.1
+	go.opentelemetry.io/otel/trace v1.15.1
 	go.uber.org/fx v1.19.2
 	go.uber.org/zap v1.24.0
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923
@@ -71,8 +71,8 @@ require (
 	github.com/vmihailenco/go-tinylfu v0.2.2 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	go.opentelemetry.io/otel/exporters/jaeger v1.15.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.15.0 // indirect
+	go.opentelemetry.io/otel/exporters/jaeger v1.15.1 // indirect
+	go.opentelemetry.io/otel/sdk v1.15.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/dig v1.16.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
