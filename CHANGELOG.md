@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.16.13](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.13) - 2023-05-10
+
+- [`9a5908a`](https://github.com/alexfalkowski/migrieren/commit/9a5908af2dbc0bbbcbf86640ad773bf6d1588791) fix(deps): bump github.com/alexfalkowski/go-service (#263)
+
 ## [v1.16.12](https://github.com/alexfalkowski/migrieren/releases/tag/v1.16.12) - 2023-05-08
 
 - [`bf5a8c1`](https://github.com/alexfalkowski/migrieren/commit/bf5a8c13a2f801af1b8ec3d1112dcc09d120f227) fix(deps): bump github.com/alexfalkowski/go-service (#261)
