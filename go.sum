@@ -9,8 +9,8 @@ github.com/Masterminds/semver/v3 v3.1.1/go.mod h1:VPu/7SZ7ePZ3QOrcuXROw5FAcLl4a0
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/alexfalkowski/go-health v1.12.1 h1:dlooDTXD0BL3NZ2zRwxFs1wTitg0gF6Fv7K7hz4XP04=
 github.com/alexfalkowski/go-health v1.12.1/go.mod h1:iyz1zP4j41hK+1doLDAoBfxSTllG89hBnL7QdchrYOU=
-github.com/alexfalkowski/go-service v1.86.20 h1:Pug1LNKyyXOChKWCwgKwcnbOiiSiGVj8I/rjVeUx6VI=
-github.com/alexfalkowski/go-service v1.86.20/go.mod h1:0RXauPD/jhNI6f5QAj7n82zch40yR+KG6Ij0ixpGcfY=
+github.com/alexfalkowski/go-service v1.86.21 h1:8K28T6dOx2RJHfCowAOdM0wC4KE8A2j+1vTbOGFhDaU=
+github.com/alexfalkowski/go-service v1.86.21/go.mod h1:A4CBPutgy8aHOEZeEzu9JUHneP5xafKedV38VU2qzQw=
 github.com/avast/retry-go/v3 v3.1.1 h1:49Scxf4v8PmiQ/nY0aY3p0hDueqSmc7++cBbtiDGu2g=
 github.com/avast/retry-go/v3 v3.1.1/go.mod h1:6cXRK369RpzFL3UQGqIUp9Q7GDrams+KsYWrfNA1/nQ=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
