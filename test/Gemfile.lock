@@ -40,20 +40,20 @@ GEM
     ffi (1.15.5)
     get_process_mem (0.2.7)
       ffi (~> 1.0)
-    google-protobuf (3.23.1-x86_64-darwin)
-    google-protobuf (3.23.1-x86_64-linux)
-    googleapis-common-protos-types (1.6.0)
+    google-protobuf (3.23.4-x86_64-darwin)
+    google-protobuf (3.23.4-x86_64-linux)
+    googleapis-common-protos-types (1.7.0)
       google-protobuf (~> 3.14)
-    grpc (1.54.2-x86_64-darwin)
-      google-protobuf (~> 3.21)
+    grpc (1.56.2-x86_64-darwin)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.2-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.56.2-x86_64-linux)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
-    jaro_winkler (1.5.4)
+    jaro_winkler (1.5.6)
     json (2.6.3)
     kramdown (2.4.0)
       rexml
@@ -72,7 +72,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
-    nonnative (1.69.0)
+    nonnative (1.70.0)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       cucumber (>= 7, < 9)
       get_process_mem (~> 0.2.1)
@@ -86,7 +86,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    puma (6.2.2)
+    puma (6.3.0)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.7)
@@ -117,10 +117,10 @@ GEM
     rspec-expectations (3.12.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.5)
+    rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
-    rspec-support (3.12.0)
+    rspec-support (3.12.1)
     rspec-wait (0.0.9)
       rspec (>= 3, < 4)
     rubocop (1.54.2)
@@ -161,13 +161,13 @@ GEM
       yard (~> 0.9, >= 0.9.24)
     sys-uname (1.2.3)
       ffi (~> 1.1)
-    thor (1.2.1)
-    tilt (2.1.0)
+    thor (1.2.2)
+    tilt (2.2.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
-    yard (0.9.32)
+    yard (0.9.34)
 
 PLATFORMS
   x86_64-darwin-21
@@ -182,4 +182,4 @@ DEPENDENCIES
   solargraph
 
 BUNDLED WITH
-   2.3.11
+   2.4.10
