@@ -26,7 +26,7 @@ def request_with_grpc(table)
   metadata = { 'request-id' => @request_id, 'ua' => Migrieren.server_config['transport']['grpc']['user_agent'] }
 
   request = Migrieren::V1::MigrateRequest.new(database: rows['database'], version: rows['version'].to_i)
-  Migrieren::V1.server_grpc.migrate(request, { metadata: metadata })
+  Migrieren::V1.server_grpc.migrate(request, { metadata: })
 rescue StandardError => e
   e
 end
