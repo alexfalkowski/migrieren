@@ -4,13 +4,13 @@ go 1.20
 
 require (
 	github.com/alexfalkowski/go-health v1.12.2
-	github.com/alexfalkowski/go-service v1.86.44
+	github.com/alexfalkowski/go-service v1.86.45
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.16.2
 	go.opentelemetry.io/otel v1.16.0
 	go.opentelemetry.io/otel/trace v1.16.0
 	go.uber.org/fx v1.20.0
-	go.uber.org/zap v1.24.0
+	go.uber.org/zap v1.25.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20230726155614-23370e0ffb3e
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
