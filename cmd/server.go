@@ -5,6 +5,7 @@ import (
 	"github.com/alexfalkowski/go-service/marshaller"
 	"github.com/alexfalkowski/go-service/metrics"
 	"github.com/alexfalkowski/go-service/otel"
+	"github.com/alexfalkowski/go-service/runtime"
 	"github.com/alexfalkowski/go-service/transport"
 	"github.com/alexfalkowski/migrieren/config"
 	"github.com/alexfalkowski/migrieren/server/health"
@@ -14,7 +15,7 @@ import (
 
 // ServerOptions for cmd.
 var ServerOptions = []fx.Option{
-	fx.NopLogger, marshaller.Module, otel.Module, Module,
-	config.Module, health.Module, logger.ZapModule,
+	fx.NopLogger, runtime.Module, marshaller.Module, otel.Module,
+	Module, config.Module, health.Module, logger.ZapModule,
 	metrics.PrometheusModule, transport.Module, v1.Module,
 }
