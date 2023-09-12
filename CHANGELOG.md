@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.18.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.18.0) - 2023-09-12
+
+- [`576dd85`](https://github.com/alexfalkowski/migrieren/commit/576dd857f78490e1279a49aace5fecf325929ae3) feat(deps): upgrade github.com/alexfalkowski/go-service to v1.88.0 (#340)
+- [`911df0f`](https://github.com/alexfalkowski/migrieren/commit/911df0fe79cb3c381bbdc6a85d69d0cc0c405066) build(deps): bump cucumber from 9.0.1 to 9.0.2 in /test (#339)
+- [`8575ce0`](https://github.com/alexfalkowski/migrieren/commit/8575ce0f1b1597ee57b6ebf78c51bcd4a51cca8c) build(deps): bump rubocop from 1.56.2 to 1.56.3 in /test (#338)
+
 ## [v1.17.4](https://github.com/alexfalkowski/migrieren/releases/tag/v1.17.4) - 2023-09-07
 
 - [`68269ef`](https://github.com/alexfalkowski/migrieren/commit/68269efeca1031c0e5a5539bdc296daf5b8efb3a) fix(deps): bump golang from 1.21.0-bullseye to 1.21.1-bullseye (#337)
