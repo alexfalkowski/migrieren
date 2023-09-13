@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.19.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.19.0) - 2023-09-13
+
+- [`3ba2a7d`](https://github.com/alexfalkowski/migrieren/commit/3ba2a7d9bd46342e0f992ebd5ae2072fc4497177) feat(otel): support native protocol (#341)
+
 ## [v1.18.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.18.0) - 2023-09-12
 
 - [`576dd85`](https://github.com/alexfalkowski/migrieren/commit/576dd857f78490e1279a49aace5fecf325929ae3) feat(deps): upgrade github.com/alexfalkowski/go-service to v1.88.0 (#340)
