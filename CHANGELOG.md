@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.19.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.19.1) - 2023-09-13
+
+- [`48ecd89`](https://github.com/alexfalkowski/migrieren/commit/48ecd894288b3a6bd59754e863593279bc047396) fix(otel): trace correct attributes (#342)
+
 ## [v1.19.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.19.0) - 2023-09-13
 
 - [`3ba2a7d`](https://github.com/alexfalkowski/migrieren/commit/3ba2a7d9bd46342e0f992ebd5ae2072fc4497177) feat(otel): support native protocol (#341)
