@@ -7,6 +7,7 @@ require (
 	github.com/alexfalkowski/go-service v1.89.0
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.17.0
+	github.com/xo/dburl v0.16.0
 	go.opentelemetry.io/otel v1.18.0
 	go.opentelemetry.io/otel/trace v1.18.0
 	go.uber.org/fx v1.20.0
