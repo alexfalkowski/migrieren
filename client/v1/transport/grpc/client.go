@@ -22,7 +22,7 @@ type ServiceClientParams struct {
 	Logger    *zap.Logger
 	Tracer    otel.Tracer
 	Client    *v1c.Config
-	Metrics   *prometheus.ClientMetrics
+	Metrics   *prometheus.ClientCollector
 }
 
 // NewServiceClient for gRPC.
