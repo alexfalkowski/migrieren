@@ -1,9 +1,9 @@
-package otel
+package tracer
 
 import (
 	"context"
 
-	"github.com/alexfalkowski/go-service/otel"
+	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	"github.com/alexfalkowski/go-service/version"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"github.com/xo/dburl"
@@ -18,8 +18,8 @@ import (
 type Tracer trace.Tracer
 
 // NewTracer for otel.
-func NewTracer(lc fx.Lifecycle, cfg *otel.Config, version version.Version) (Tracer, error) {
-	return otel.NewTracer(otel.TracerParams{Lifecycle: lc, Name: "migrator", Config: cfg, Version: version})
+func NewTracer(lc fx.Lifecycle, cfg *tracer.Config, version version.Version) (Tracer, error) {
+	return tracer.NewTracer(tracer.Params{Lifecycle: lc, Name: "migrator", Config: cfg, Version: version})
 }
 
 // Migrator for otel.

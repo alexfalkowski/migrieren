@@ -15,9 +15,10 @@ migrate:
       name: invalid_db
       source: file://migrations
       url: postgres://test:test@localhost:5433/test?sslmode=disable
-otel:
-  host: localhost:4318
-  secure: false
+telemetry:
+  tracer:
+    host: localhost:4318
+    secure: false
 transport:
   port: 8080
   http:

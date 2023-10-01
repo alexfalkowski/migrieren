@@ -6,7 +6,7 @@ import (
 
 	"github.com/alexfalkowski/go-service/meta"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
-	"github.com/alexfalkowski/migrieren/migrate/otel"
+	"github.com/alexfalkowski/migrieren/migrate/telemetry/tracer"
 	"github.com/golang-migrate/migrate/v4"
 
 	// These are here to make sure we can use migrate. Add here to extend it.
@@ -28,9 +28,9 @@ var (
 )
 
 // NewMigrator for databases.
-func NewMigrator(tracer otel.Tracer) migrator.Migrator {
+func NewMigrator(t tracer.Tracer) migrator.Migrator {
 	var m migrator.Migrator = &Migrator{}
-	m = otel.NewMigrator(m, tracer)
+	m = tracer.NewMigrator(m, t)
 
 	return m
 }
