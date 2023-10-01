@@ -4,9 +4,10 @@ client:
     timeout: 1s
     database: invalid_source
     version: 1
-otel:
-  host: localhost:4318
-  secure: false
+telemetry:
+  tracer:
+    host: localhost:4318
+    secure: false
 transport:
   port: 8080
   grpc:
