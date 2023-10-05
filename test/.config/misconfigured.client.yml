@@ -1,6 +1,6 @@
 client:
   v1:
-    host: localhost:8080
+    host: localhost:9090
     timeout: 1s
     database: invalid_source
     version: 1
@@ -9,8 +9,8 @@ telemetry:
     host: localhost:4318
     secure: false
 transport:
-  port: 8080
   grpc:
+    port: 9090
     user_agent: "Migrieren-client/1.0 grpc/1.0"
     retry:
       timeout: 2s
