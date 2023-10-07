@@ -22,7 +22,8 @@ message MigrateRequest {
 
 // MigrateResponse for a specific database and version.
 message MigrateResponse {
-  Migration migration = 1;
+  map<string, string> meta = 1;
+  Migration migration = 2;
 }
 
 // Service allows to migrate databases.

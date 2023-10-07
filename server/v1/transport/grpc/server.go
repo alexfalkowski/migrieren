@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/alexfalkowski/go-service/meta"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/migrate"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
@@ -51,6 +52,7 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		return resp, status.Error(codes.Internal, err.Error())
 	}
 
+	resp.Meta = meta.Attributes(ctx)
 	resp.Migration.Logs = logs
 
 	return resp, nil
