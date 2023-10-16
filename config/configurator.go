@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/alexfalkowski/go-service/cmd"
 	"github.com/alexfalkowski/go-service/config"
 	v1 "github.com/alexfalkowski/migrieren/client/v1/config"
 	"github.com/alexfalkowski/migrieren/health"
@@ -8,10 +9,14 @@ import (
 )
 
 // NewConfigurator for config.
-func NewConfigurator() config.Configurator {
-	cfg := &Config{}
+func NewConfigurator(i *cmd.InputConfig) (config.Configurator, error) {
+	c := &Config{}
 
-	return cfg
+	if err := i.Unmarshal(c); err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
 
 func v1ClientConfig(cfg config.Configurator) *v1.Config {
