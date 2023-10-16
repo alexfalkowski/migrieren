@@ -10,8 +10,8 @@ var (
 	// Module for fx.
 	Module = fx.Options(
 		fx.Provide(NewConfigurator),
-		config.ConfigModule,
 		marshaller.Module,
+		config.ConfigModule,
 		fx.Provide(v1ClientConfig),
 		fx.Provide(healthConfig),
 		fx.Provide(migrateConfig),
