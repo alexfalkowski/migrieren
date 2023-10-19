@@ -16,6 +16,8 @@ migrate:
       source: file://migrations
       url: postgres://test:test@localhost:5433/test?sslmode=disable
 telemetry:
+  logger:
+    level: info
   tracer:
     host: localhost:4318
     secure: false
