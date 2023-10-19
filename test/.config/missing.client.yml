@@ -5,6 +5,8 @@ client:
     database: missing
     version: 1
 telemetry:
+  logger:
+    level: info
   tracer:
     host: localhost:4318
     secure: false
