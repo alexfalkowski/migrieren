@@ -1,3 +1,4 @@
+environment: production
 client:
   v1:
     host: localhost:9090
