@@ -11,6 +11,7 @@ Then('I should receive a successful migration from HTTP:') do |table|
   migration = resp['migration']
   rows = table.rows_hash
 
+  expect(resp['meta'].length).to be > 0
   expect(migration['database']).to eq(rows['database'])
   expect(migration['version']).to eq(rows['version'])
   expect(migration['logs'].length).to be > 0
