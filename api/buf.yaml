@@ -1,5 +1,5 @@
 version: v1
-name: buf.build/alexfalkowski/migrieren
+name: buf.build/afalkowski/migrieren
 deps:
   - buf.build/googleapis/googleapis
 breaking:
