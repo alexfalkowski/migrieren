@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.33.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.1) - 2023-11-06
+
+- [`eed6927`](https://github.com/alexfalkowski/migrieren/commit/eed6927af25390cd02401fe05cd064114f4b91fb) fix(server): add retry (#395)
+- [`016429f`](https://github.com/alexfalkowski/migrieren/commit/016429f3fc6bae94abb11d971800c06315356299) ci: use go:1.21-ruby (#394)
+- [`c268fc4`](https://github.com/alexfalkowski/migrieren/commit/c268fc42bf1f39183fc5c97ee922659960a5973f) build: push to buf (#393)
+- [`37ce0c5`](https://github.com/alexfalkowski/migrieren/commit/37ce0c5903f45a75036d179c34469e8a768bf1aa) build(deps): update bin (#392)
+- [`2105a0d`](https://github.com/alexfalkowski/migrieren/commit/2105a0d9efd067fd7ffc6d053c07986e09ac6aee) test: use grpc port (#391)
+
 ## [v1.33.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.0) - 2023-11-03
 
 - [`17fe108`](https://github.com/alexfalkowski/migrieren/commit/17fe10809b1099ba24db5f3721ba307a61ca7208) feat(deps): update github.com/alexfalkowski/go-service to v1.103.2 (#390)
