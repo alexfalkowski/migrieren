@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.33.3](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.3) - 2023-11-07
+
+- [`06270c5`](https://github.com/alexfalkowski/migrieren/commit/06270c52ce2725969fc7f3430e73909cbf539e27) fix(deps): bump github.com/alexfalkowski/go-service (#401)
+- [`9b9de05`](https://github.com/alexfalkowski/migrieren/commit/9b9de0565b01508c7516a61889122dfbede432d6) ci: add trivy (#400)
+- [`804a4f4`](https://github.com/alexfalkowski/migrieren/commit/804a4f46268d6bff28e7e6ca08a54cd5984808b8) ci: move to new structure (#399)
+
 ## [v1.33.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.2) - 2023-11-07
 
 - [`562cb81`](https://github.com/alexfalkowski/migrieren/commit/562cb81678141bd5c984ff8eb4719c86999f6c99) fix(deps): bump github.com/xo/dburl from 0.17.0 to 0.17.1 (#396)
