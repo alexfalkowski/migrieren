@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.33.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.2) - 2023-11-07
+
+- [`562cb81`](https://github.com/alexfalkowski/migrieren/commit/562cb81678141bd5c984ff8eb4719c86999f6c99) fix(deps): bump github.com/xo/dburl from 0.17.0 to 0.17.1 (#396)
+
 ## [v1.33.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.33.1) - 2023-11-06
 
 - [`eed6927`](https://github.com/alexfalkowski/migrieren/commit/eed6927af25390cd02401fe05cd064114f4b91fb) fix(server): add retry (#395)
