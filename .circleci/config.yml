@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  build-service:
     docker:
       - image: alexfalkowski/go:1.21-ruby
       - image: postgres:latest
@@ -24,6 +24,17 @@ jobs:
       - store_artifacts:
           path: test/reports
     resource_class: large
+  build-docker:
+    docker:
+      - image: alexfalkowski/go:1.21-ruby
+    working_directory: ~/auth
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - setup_remote_docker
+      - run: make build-docker
+    resource_class: large
   release:
     docker:
       - image: alexfalkowski/release:3.1
@@ -32,7 +43,7 @@ jobs:
       - checkout
       - run: release
     resource_class: large
-  docker:
+  push-docker:
     docker:
       - image: alexfalkowski/go:1.21-ruby
     working_directory: ~/migrieren
@@ -44,21 +55,26 @@ jobs:
       - run:
           name: make login
           command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-      - run: make docker
+      - run: make push-docker
     resource_class: large
 
 workflows:
   migrieren:
     jobs:
-      - build
+      - build-service:
+          filters:
+              branches:
+                ignore: master
+      - build-docker:
+          filters:
+              branches:
+                ignore: master
       - release:
           context: gh
-          requires:
-            - build
           filters:
             branches:
               only: master
-      - docker:
+      - push-docker:
           context: docker
           requires:
             - release
