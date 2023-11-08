@@ -10,7 +10,7 @@ RUN go mod download
 COPY . ./
 RUN go build -ldflags="-X 'github.com/alexfalkowski/migrieren/cmd.Version=${version}'" -a -o migrieren main.go
 
-FROM gcr.io/distroless/base-debian11
+FROM gcr.io/distroless/base-debian12
 
 WORKDIR /
 
