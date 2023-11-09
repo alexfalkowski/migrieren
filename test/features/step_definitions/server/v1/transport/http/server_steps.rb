@@ -27,7 +27,7 @@ end
 
 def request_with_http(table)
   rows = table.rows_hash
-  headers = { request_id: SecureRandom.uuid, user_agent: Migrieren.server_config['transport']['grpc']['user_agent'] }
+  headers = { request_id: SecureRandom.uuid, user_agent: Migrieren.server_config['transport']['http']['user_agent'] }
 
   Migrieren::V1.server_http.migrate(rows['database'], rows['version'], headers)
 end

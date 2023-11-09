@@ -24,7 +24,7 @@ end
 def request_with_grpc(table)
   rows = table.rows_hash
   @request_id = SecureRandom.uuid
-  metadata = { 'request-id' => @request_id, 'ua' => Migrieren.server_config['transport']['grpc']['user_agent'] }
+  metadata = { 'request-id' => @request_id, 'user-agent' => Migrieren.server_config['transport']['grpc']['user_agent'] }
 
   request = Migrieren::V1::MigrateRequest.new(database: rows['database'], version: rows['version'].to_i)
   Migrieren::V1.server_grpc.migrate(request, { metadata: })
