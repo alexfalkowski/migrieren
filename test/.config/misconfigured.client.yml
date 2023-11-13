@@ -1,4 +1,6 @@
 environment: production
+debug:
+  port: 6060
 client:
   v1:
     host: localhost:9090
