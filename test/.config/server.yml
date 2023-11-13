@@ -1,4 +1,6 @@
 environment: production
+debug:
+  port: 6060
 health:
   duration: 1s
   timeout: 1s
