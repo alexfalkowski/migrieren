@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.36.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.36.1) - 2023-11-16
+
+- [`563fb88`](https://github.com/alexfalkowski/migrieren/commit/563fb88abf881fd74a551d6095e16487a1ddf574) fix(migrate): check closing errors (#421)
+
 ## [v1.36.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.36.0) - 2023-11-16
 
 - [`a58c6b1`](https://github.com/alexfalkowski/migrieren/commit/a58c6b18c1eb2001235a7faa8950975b54002e04) feat(deps): update github.com/jackc/pgx/v5 to v5.5.0 (#420)
