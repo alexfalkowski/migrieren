@@ -2,12 +2,12 @@ package tracer
 
 import (
 	"context"
+	"net/url"
 
 	"github.com/alexfalkowski/go-service/env"
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	"github.com/alexfalkowski/go-service/version"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
-	"github.com/xo/dburl"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	semconv "go.opentelemetry.io/otel/semconv/v1.18.0"
@@ -36,14 +36,14 @@ func NewMigrator(migrator migrator.Migrator, tracer Tracer) *Migrator {
 
 // Migrate a database to a version and returning the database logs.
 func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
-	u, err := dburl.Parse(db)
+	u, err := url.Parse(db)
 	if err != nil {
 		return nil, err
 	}
 
 	operationName := "migrate"
 	attrs := []attribute.KeyValue{
-		semconv.DBSystemKey.String(u.Driver),
+		semconv.DBSystemKey.String(u.Scheme),
 		semconv.DBUser(u.User.Username()),
 		attribute.Key("db.migrate.version").Int64(int64(version)),
 	}

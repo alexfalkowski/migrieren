@@ -9,15 +9,15 @@ migrate:
     -
       name: postgres
       source: file://migrations
-      url: postgres://test:test@localhost:5432/test?sslmode=disable
+      url: pgx5://test:test@localhost:5432/test?sslmode=disable
     -
       name: invalid_source
       source: file:///migrations
-      url: postgres://test:test@localhost:5432/test?sslmode=disable
+      url: pgx5://test:test@localhost:5432/test?sslmode=disable
     -
       name: invalid_db
       source: file://migrations
-      url: postgres://test:test@localhost:5433/test?sslmode=disable
+      url: pgx5://test:test@localhost:5433/test?sslmode=disable
 telemetry:
   logger:
     level: info
