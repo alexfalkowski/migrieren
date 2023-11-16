@@ -59,7 +59,7 @@ GEM
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
-    nio4r (2.5.9)
+    nio4r (2.6.0)
     nonnative (1.74.1)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       cucumber (>= 7, < 10)
