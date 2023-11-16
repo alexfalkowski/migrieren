@@ -52,7 +52,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 
 	if err := mig.Migrate(uint(version)); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
-			logger.logs = append(logger.logs, err.Error())
+			logger.Printf(err.Error())
 
 			return m.close(ctx, mig, logger, nil)
 		}
