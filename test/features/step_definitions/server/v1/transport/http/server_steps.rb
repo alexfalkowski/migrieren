@@ -27,7 +27,13 @@ end
 
 def request_with_http(table)
   rows = table.rows_hash
-  headers = { request_id: SecureRandom.uuid, user_agent: Migrieren.server_config['transport']['http']['user_agent'] }
+  opts = {
+    headers: {
+      request_id: SecureRandom.uuid, user_agent: Migrieren.server_config['transport']['http']['user_agent'],
+      content_type: :json, accept: :json
+    },
+    read_timeout: 10, open_timeout: 10
+  }
 
-  Migrieren::V1.server_http.migrate(rows['database'], rows['version'], headers)
+  Migrieren::V1.server_http.migrate(rows['database'], rows['version'], opts)
 end
