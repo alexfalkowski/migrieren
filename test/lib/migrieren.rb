@@ -4,6 +4,7 @@ require 'securerandom'
 require 'yaml'
 require 'base64'
 
+require 'auth'
 require 'grpc/health/v1/health_services_pb'
 
 require 'migrieren/v1/http'
@@ -16,7 +17,7 @@ module Migrieren
     end
 
     def server_config
-      @server_config ||= YAML.load_file('.config/server.yml')
+      @server_config ||= Nonnative.configurations('.config/server.yml')
     end
 
     def health_grpc
@@ -24,7 +25,7 @@ module Migrieren
     end
 
     def user_agent
-      @user_agent ||= { 'grpc.primary_user_agent' => server_config['transport']['grpc']['user_agent'] }
+      @user_agent ||= Nonnative::Header.grpc_user_agent(server_config.transport.grpc.user_agent)
     end
   end
 
