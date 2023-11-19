@@ -52,7 +52,6 @@ func NewServiceClient(params ServiceClientParams) (v1.ServiceClient, error) {
 
 			return nil
 		},
-
 		OnStop: func(ctx context.Context) error {
 			return conn.Close()
 		},
