@@ -1,13 +1,10 @@
 GIT
   remote: https://github.com/alexfalkowski/auth.git
-  revision: 8b2235d1d153c05af469b301e2efb8e6f0a58480
-  tag: v1.55.1
+  revision: 9738d32217bc1742b9712b8e81975658c6e2c42d
+  tag: v1.55.2
   glob: test/*.gemspec
   specs:
     auth (1.0.0)
-      jwt
-      rbnacl
-      ruby-paseto
 
 GEM
   remote: https://rubygems.org/
@@ -97,13 +94,11 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     json (2.6.3)
-    jwt (2.7.1)
     language_server-protocol (3.17.0.3)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.1003)
     mini_mime (1.1.5)
-    multi_json (1.15.0)
     multi_test (1.1.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
@@ -120,7 +115,6 @@ GEM
       rspec-benchmark (~> 0.6.0)
       rspec-expectations (~> 3.9, >= 3.9.2)
       sinatra (>= 2.0.8.1, < 4)
-    openssl (3.2.0)
     parallel (1.23.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -132,8 +126,6 @@ GEM
     rack-protection (3.1.0)
       rack (~> 2.2, >= 2.2.4)
     rainbow (3.1.1)
-    rbnacl (7.1.1)
-      ffi
     regexp_parser (2.8.2)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
@@ -174,11 +166,6 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
       parser (>= 3.2.1.0)
-    ruby-paseto (0.1.2)
-      multi_json (~> 1.15.0)
-      openssl (~> 3, >= 3.0.2)
-      sorbet-runtime
-      zeitwerk
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
     sinatra (3.1.0)
@@ -186,7 +173,6 @@ GEM
       rack (~> 2.2, >= 2.2.4)
       rack-protection (= 3.1.0)
       tilt (~> 2.0)
-    sorbet-runtime (0.5.11139)
     sys-uname (1.2.3)
       ffi (~> 1.1)
     tilt (2.3.0)
