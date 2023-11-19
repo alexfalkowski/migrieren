@@ -12,8 +12,7 @@ var (
 		fx.Provide(NewConfigurator),
 		marshaller.Module,
 		config.ConfigModule,
-		fx.Provide(v1ClientConfig),
-		fx.Provide(healthConfig),
-		fx.Provide(migrateConfig),
+		fx.Provide(v1ClientConfig), fx.Provide(v1AuthClientConfig),
+		fx.Provide(healthConfig), fx.Provide(migrateConfig),
 	)
 )

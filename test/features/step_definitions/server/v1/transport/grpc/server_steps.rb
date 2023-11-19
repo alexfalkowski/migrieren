@@ -23,8 +23,8 @@ end
 
 def request_with_grpc(table)
   rows = table.rows_hash
-  @request_id = SecureRandom.uuid
-  metadata = { 'request-id' => @request_id }
+  auth = service_token(Nonnative.configurations('.config/valid.client.yml'))
+  metadata = { 'request-id' => SecureRandom.uuid }.merge(auth)
 
   request = Migrieren::V1::MigrateRequest.new(database: rows['database'], version: rows['version'].to_i)
   Migrieren::V1.server_grpc.migrate(request, { metadata: })
