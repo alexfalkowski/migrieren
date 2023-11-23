@@ -8,12 +8,12 @@ github.com/DATA-DOG/go-sqlmock v1.5.0 h1:Shsta01QNfFxHCfpW6YH2STWB0MudeXXEWMr20O
 github.com/DATA-DOG/go-sqlmock v1.5.0/go.mod h1:f/Ixk793poVmq4qj/V1dPUg2JEAKC73Q5eFN3EC/SaM=
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
-github.com/alexfalkowski/auth v1.56.1 h1:e1r0kFkCEtzZsn64CC5y8C+cPvfOhVNz0xhHTIbpEtE=
-github.com/alexfalkowski/auth v1.56.1/go.mod h1:EGWrE7euptlamX5/Wl/LYwheLpL23W4e41V5XsIr80U=
+github.com/alexfalkowski/auth v1.57.0 h1:vlcYtI1sjkbBoUToT6vBbr9x6vPBBtXuUIGjzquVXD8=
+github.com/alexfalkowski/auth v1.57.0/go.mod h1:XRVYGcHClmfDr1K/jeUVxiDS34rOK7RUurMVGZFWCY0=
 github.com/alexfalkowski/go-health v1.13.0 h1:DD+kWEPzn+sIhiv6mMeX1Wtab5sdtQpw8J6TsH/YVL8=
 github.com/alexfalkowski/go-health v1.13.0/go.mod h1:+8Q3zHywTGZl0VcsT2vr5edGOPDMVQIRbx7PboYKhxI=
-github.com/alexfalkowski/go-service v1.120.0 h1:daxzbr7dm2qMCpuzRl8XeMNOZrRA892XiU9lhbtG+Vc=
-github.com/alexfalkowski/go-service v1.120.0/go.mod h1:8Ubtvwp4Lr4+9638gc/Qhj9o60aSRTGoCAH98PjSJMY=
+github.com/alexfalkowski/go-service v1.121.0 h1:lOkd9deNHKfVdbOd5YW3HOzPrYuZmtDCqUF+LgOlWCE=
+github.com/alexfalkowski/go-service v1.121.0/go.mod h1:8Ubtvwp4Lr4+9638gc/Qhj9o60aSRTGoCAH98PjSJMY=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/avast/retry-go/v3 v3.1.1 h1:49Scxf4v8PmiQ/nY0aY3p0hDueqSmc7++cBbtiDGu2g=
