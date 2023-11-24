@@ -27,5 +27,5 @@ func (c *Client) Migrate(ctx context.Context) ([]string, error) {
 		return nil, err
 	}
 
-	return resp.Migration.Logs, nil
+	return resp.GetMigration().GetLogs(), nil
 }

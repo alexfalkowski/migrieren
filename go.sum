@@ -12,8 +12,8 @@ github.com/alexfalkowski/auth v1.57.0 h1:vlcYtI1sjkbBoUToT6vBbr9x6vPBBtXuUIGjzqu
 github.com/alexfalkowski/auth v1.57.0/go.mod h1:XRVYGcHClmfDr1K/jeUVxiDS34rOK7RUurMVGZFWCY0=
 github.com/alexfalkowski/go-health v1.13.0 h1:DD+kWEPzn+sIhiv6mMeX1Wtab5sdtQpw8J6TsH/YVL8=
 github.com/alexfalkowski/go-health v1.13.0/go.mod h1:+8Q3zHywTGZl0VcsT2vr5edGOPDMVQIRbx7PboYKhxI=
-github.com/alexfalkowski/go-service v1.121.0 h1:lOkd9deNHKfVdbOd5YW3HOzPrYuZmtDCqUF+LgOlWCE=
-github.com/alexfalkowski/go-service v1.121.0/go.mod h1:8Ubtvwp4Lr4+9638gc/Qhj9o60aSRTGoCAH98PjSJMY=
+github.com/alexfalkowski/go-service v1.122.0 h1:cXH3acu+B3VVP0deOHpNBP2ncx3GJpnVpjxJ1UCpFCo=
+github.com/alexfalkowski/go-service v1.122.0/go.mod h1:8Ubtvwp4Lr4+9638gc/Qhj9o60aSRTGoCAH98PjSJMY=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/avast/retry-go/v3 v3.1.1 h1:49Scxf4v8PmiQ/nY0aY3p0hDueqSmc7++cBbtiDGu2g=
