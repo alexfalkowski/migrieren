@@ -14,11 +14,10 @@ func main() {
 }
 
 func command() *scmd.Command {
-	command := scmd.New()
+	command := scmd.New(cmd.Version)
 
-	command.AddServer(cmd.ServerOptions)
-	command.AddClient(cmd.ClientOptions)
-	command.AddVersion(cmd.Version)
+	command.AddServer(cmd.ServerOptions...)
+	command.AddClient(cmd.ClientOptions...)
 
 	return command
 }
