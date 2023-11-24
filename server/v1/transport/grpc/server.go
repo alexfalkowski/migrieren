@@ -35,19 +35,21 @@ type Server struct {
 
 // Migrate for gRPC.
 func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.MigrateResponse, error) {
+	db := req.GetDatabase()
+	ver := req.GetVersion()
 	resp := &v1.MigrateResponse{
 		Migration: &v1.Migration{
-			Database: req.Database,
-			Version:  req.Version,
+			Database: db,
+			Version:  ver,
 		},
 	}
 
-	d := s.config.Database(req.Database)
+	d := s.config.Database(db)
 	if d == nil {
-		return resp, status.Error(codes.NotFound, fmt.Sprintf("%s: not found", req.Database))
+		return resp, status.Error(codes.NotFound, fmt.Sprintf("%s: not found", db))
 	}
 
-	logs, err := s.migrator.Migrate(ctx, d.Source, d.URL, req.Version)
+	logs, err := s.migrator.Migrate(ctx, d.Source, d.URL, ver)
 	if err != nil {
 		return resp, status.Error(codes.Internal, err.Error())
 	}

@@ -7,12 +7,10 @@ import (
 	"go.uber.org/fx"
 )
 
-var (
-	// Module for fx.
-	Module = fx.Options(
-		fx.Provide(migrate.NewMigrator),
-		fx.Provide(tracer.NewTracer),
-		fx.Provide(grpc.NewServer),
-		fx.Invoke(grpc.Register),
-	)
+// Module for fx.
+var Module = fx.Options(
+	fx.Provide(migrate.NewMigrator),
+	fx.Provide(tracer.NewTracer),
+	fx.Provide(grpc.NewServer),
+	fx.Invoke(grpc.Register),
 )

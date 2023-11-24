@@ -8,9 +8,7 @@ import (
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"github.com/alexfalkowski/migrieren/migrate/telemetry/tracer"
 	"github.com/golang-migrate/migrate/v4"
-
-	// These are here to make sure we can use migrate. Add here to extend it.
-	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5"
+	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/golang-migrate/migrate/v4/source/github"
 )

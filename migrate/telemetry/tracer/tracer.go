@@ -20,7 +20,7 @@ type Tracer trace.Tracer
 
 // NewTracer for otel.
 func NewTracer(lc fx.Lifecycle, cfg *tracer.Config, env env.Environment, ver version.Version) (Tracer, error) {
-	return tracer.NewTracer(lc, "migrator", env, ver, cfg)
+	return tracer.NewTracer(context.Background(), lc, "migrator", env, ver, cfg)
 }
 
 // Migrator for otel.
