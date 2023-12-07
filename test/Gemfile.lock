@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/alexfalkowski/auth.git
-  revision: 7bd4ac4589c61fb6efcec53f2eec0ea86877b284
-  tag: v1.58.4
+  revision: e1f4dc5a1f5de10578109495a4d64f3e5f3a3401
+  tag: v1.58.8
   glob: test/*.gemspec
   specs:
-    auth (1.58.4)
+    auth (1.58.5)
 
 GEM
   remote: https://rubygems.org/
