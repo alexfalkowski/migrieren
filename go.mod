@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/alexfalkowski/auth v1.58.8
-	github.com/alexfalkowski/go-health v1.13.0
+	github.com/alexfalkowski/go-health v1.13.1
 	github.com/alexfalkowski/go-service v1.122.4
 	github.com/golang-migrate/migrate/v4 v4.16.2
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.1
