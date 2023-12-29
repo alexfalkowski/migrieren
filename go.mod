@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/alexfalkowski/auth v1.60.0
 	github.com/alexfalkowski/go-health v1.13.1
-	github.com/alexfalkowski/go-service v1.124.2
+	github.com/alexfalkowski/go-service v1.124.3
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.1
 	go.opentelemetry.io/otel v1.21.0
@@ -59,7 +59,7 @@ require (
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/linxGnu/mssqlx v1.1.8 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
-	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
+	github.com/matttproud/golang_protobuf_extensions/v2 v2.0.0 // indirect
 	github.com/ngrok/sqlmw v0.0.0-20220520173518-97c9c04efc79 // indirect
 	github.com/nsqio/go-nsq v1.1.0 // indirect
 	github.com/open-feature/go-sdk v1.9.0 // indirect
@@ -67,10 +67,10 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
-	github.com/prometheus/client_golang v1.17.0 // indirect
+	github.com/prometheus/client_golang v1.18.0 // indirect
 	github.com/prometheus/client_model v0.5.0 // indirect
-	github.com/prometheus/common v0.44.0 // indirect
-	github.com/prometheus/procfs v0.11.1 // indirect
+	github.com/prometheus/common v0.45.0 // indirect
+	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/rs/cors v1.10.1 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.11 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
