@@ -3,7 +3,7 @@ module github.com/alexfalkowski/migrieren
 go 1.21
 
 require (
-	github.com/alexfalkowski/auth v1.60.5
+	github.com/alexfalkowski/auth v1.60.7
 	github.com/alexfalkowski/go-health v1.13.2
 	github.com/alexfalkowski/go-service v1.124.6
 	github.com/golang-migrate/migrate/v4 v4.17.0
@@ -100,12 +100,12 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/dig v1.17.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/crypto v0.18.0 // indirect
 	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb // indirect
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/oauth2 v0.15.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
-	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
