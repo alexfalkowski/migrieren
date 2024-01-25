@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.41.15](https://github.com/alexfalkowski/migrieren/releases/tag/v1.41.15) - 2024-01-25
+
+- [`3169a14`](https://github.com/alexfalkowski/migrieren/commit/3169a140dfb575324673f0a0fd2c532dc35eeba8) fix(deps): bump github.com/alexfalkowski/go-service from 1.124.8 to 1.124.10 (#500)
+- [`38ed29b`](https://github.com/alexfalkowski/migrieren/commit/38ed29b132db303e532855b20833043368a4a203) build(deps): bump cucumber from 9.1.1 to 9.1.2 in /test (#498)
+- [`f47e68b`](https://github.com/alexfalkowski/migrieren/commit/f47e68ba529cacdd79d5b51377146a4b6065ac38) build(deps): bump rubocop from 1.60.1 to 1.60.2 in /test (#501)
+- [`63dc59f`](https://github.com/alexfalkowski/migrieren/commit/63dc59fcb1128cff7f99a03db44030fc28925493) build(deps): bump nonnative from 1.75.0 to 1.76.0 in /test (#496)
+
 ## [v1.41.14](https://github.com/alexfalkowski/migrieren/releases/tag/v1.41.14) - 2024-01-19
 
 - [`312bf75`](https://github.com/alexfalkowski/migrieren/commit/312bf7575c1a3d4a0534004cffc7927c4194d212) fix(deps): bump github.com/alexfalkowski/auth from 1.60.8 to 1.60.10 (#494)
