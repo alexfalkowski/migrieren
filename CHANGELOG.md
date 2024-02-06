@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.41.20](https://github.com/alexfalkowski/migrieren/releases/tag/v1.41.20) - 2024-02-06
+
+- [`538a181`](https://github.com/alexfalkowski/migrieren/commit/538a181e276bfee5210bc42a1b92b6b07363056a) fix(deps): bump github.com/alexfalkowski/go-service from 1.124.13 to 1.124.14 (#509)
+- [`bd17bd9`](https://github.com/alexfalkowski/migrieren/commit/bd17bd9dda6eb4819a82a96cb471e9c239a9e7e6) build(deps): bump rspec-expectations from 3.12.3 to 3.13.0 in /test (#507)
+
 ## [v1.41.19](https://github.com/alexfalkowski/migrieren/releases/tag/v1.41.19) - 2024-02-02
 
 - [`630e9d1`](https://github.com/alexfalkowski/migrieren/commit/630e9d12405cf4d3fd5d451c3ec832561d17f774) fix(deps): bump github.com/alexfalkowski/auth from 1.60.11 to 1.60.13 (#506)
