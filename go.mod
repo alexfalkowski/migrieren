@@ -8,9 +8,9 @@ require (
 	github.com/alexfalkowski/go-service v1.124.14
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
-	go.opentelemetry.io/otel v1.22.0
-	go.opentelemetry.io/otel/metric v1.22.0
-	go.opentelemetry.io/otel/trace v1.22.0
+	go.opentelemetry.io/otel v1.23.0
+	go.opentelemetry.io/otel/metric v1.23.0
+	go.opentelemetry.io/otel/trace v1.23.0
 	go.uber.org/fx v1.20.1
 	go.uber.org/zap v1.26.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240125205218-1f4bbc51befe
