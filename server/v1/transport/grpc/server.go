@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/alexfalkowski/go-service/meta"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
@@ -46,7 +45,7 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 
 	d := s.config.Database(db)
 	if d == nil {
-		return resp, status.Error(codes.NotFound, fmt.Sprintf("%s: not found", db))
+		return resp, status.Error(codes.NotFound, db+": not found")
 	}
 
 	logs, err := s.migrator.Migrate(ctx, d.Source, d.URL, ver)
