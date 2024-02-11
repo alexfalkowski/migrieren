@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/alexfalkowski/auth v1.60.13
 	github.com/alexfalkowski/go-health v1.13.2
-	github.com/alexfalkowski/go-service v1.124.17
+	github.com/alexfalkowski/go-service v1.125.0
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	go.opentelemetry.io/otel v1.23.1
