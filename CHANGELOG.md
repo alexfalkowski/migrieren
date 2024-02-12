@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.42.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.42.1) - 2024-02-12
+
+- [`a2ab850`](https://github.com/alexfalkowski/migrieren/commit/a2ab85014ad33c5bfe1352f679384604b6a4719f) fix(deps): use semconv v1.23.0 (#526)
+
 ## [v1.42.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.42.0) - 2024-02-11
 
 - [`b1239c2`](https://github.com/alexfalkowski/migrieren/commit/b1239c22a421ec9934cade92199dbd2504209ea7) feat(deps): update github.com/alexfalkowski/go-service to v1.125.0 (#522)
