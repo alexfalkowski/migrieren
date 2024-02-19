@@ -1,11 +1,11 @@
 module github.com/alexfalkowski/migrieren
 
-go 1.21
+go 1.22.0
 
 require (
 	github.com/alexfalkowski/auth v1.60.13
-	github.com/alexfalkowski/go-health v1.13.2
-	github.com/alexfalkowski/go-service v1.125.3
+	github.com/alexfalkowski/go-health v1.14.1
+	github.com/alexfalkowski/go-service v1.126.3
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	go.opentelemetry.io/otel v1.23.1
@@ -81,7 +81,7 @@ require (
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect
-	github.com/urfave/negroni/v3 v3.0.0 // indirect
+	github.com/urfave/negroni/v3 v3.1.0 // indirect
 	github.com/vmihailenco/go-tinylfu v0.2.2 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
