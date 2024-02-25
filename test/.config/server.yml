@@ -26,8 +26,10 @@ migrate:
       url: pgx5://test:test@localhost:5433/test?sslmode=disable
 telemetry:
   logger:
+    enabled: true
     level: info
   tracer:
+    enabled: true
     host: localhost:4318
     secure: false
 token:
