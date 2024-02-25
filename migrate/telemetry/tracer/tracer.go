@@ -6,11 +6,12 @@ import (
 
 	"github.com/alexfalkowski/go-service/env"
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
+	tm "github.com/alexfalkowski/go-service/transport/meta"
 	"github.com/alexfalkowski/go-service/version"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
-	semconv "go.opentelemetry.io/otel/semconv/v1.23.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.24.0"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/fx"
 )
@@ -55,6 +56,8 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 		trace.WithAttributes(attrs...),
 	)
 	defer span.End()
+
+	ctx = tm.WithTraceID(ctx, span.SpanContext().TraceID().String())
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
 	if err != nil {
