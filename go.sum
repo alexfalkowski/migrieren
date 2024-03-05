@@ -20,8 +20,8 @@ github.com/alexfalkowski/auth v1.63.0 h1:D/b8ycU+WLlcONt4ba8QtZxR1u0H83Ru5gutLfl
 github.com/alexfalkowski/auth v1.63.0/go.mod h1:ftbvGQT2eAD8c3/BWD4L7fv2xfI9IDyYzlXWGaKnugA=
 github.com/alexfalkowski/go-health v1.14.1 h1:JWjWdF+cWGzQgAJGq9oUwScDPtLxaZlLYxHzCbb9ylE=
 github.com/alexfalkowski/go-health v1.14.1/go.mod h1:7iYF93qVtgcwmVf6xC5Ek8nsGUnD/ldsYmSvse5Zb9Q=
-github.com/alexfalkowski/go-service v1.131.0 h1:j7P7V/lNhsG4gohBzarOfC6LxvWdyz4ol3WvlDQmT/g=
-github.com/alexfalkowski/go-service v1.131.0/go.mod h1:rJsoKIagT6eccQIYZch4DZaVOCc5GdalSCIyW1QQ+6U=
+github.com/alexfalkowski/go-service v1.131.2 h1:90xjmZmImAJVxmt4XhyZKCP9/G5p1b3lKGJFYXWXmN4=
+github.com/alexfalkowski/go-service v1.131.2/go.mod h1:G4G4GbGPs3NSYGPy1UxjweECdzmdxAm5eCTdKKfXYY0=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
@@ -185,8 +185,8 @@ github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsI
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a h1:bbPeKD0xmW/Y25WS6cokEszi5g+S0QxI/d45PkRi7Nk=
 github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a/go.mod h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=
-github.com/jackc/pgx/v5 v5.5.3 h1:Ces6/M3wbDXYpM8JyyPD57ivTtJACFZJd885pdIaV2s=
-github.com/jackc/pgx/v5 v5.5.3/go.mod h1:ez9gk+OAat140fv9ErkZDYFWmXLfV+++K0uAOiwgm1A=
+github.com/jackc/pgx/v5 v5.5.4 h1:Xp2aQS8uXButQdnCMWNmvx6UysWQQC+u1EoizjguY+8=
+github.com/jackc/pgx/v5 v5.5.4/go.mod h1:ez9gk+OAat140fv9ErkZDYFWmXLfV+++K0uAOiwgm1A=
 github.com/jackc/puddle/v2 v2.2.1 h1:RhxXJtFG022u4ibrCSMSiu5aOq1i77R3OHKNJj77OAk=
 github.com/jackc/puddle/v2 v2.2.1/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
 github.com/jmoiron/sqlx v1.3.5 h1:vFFPA71p1o5gAeqtEAwLU4dnX2napprKtHr7PYIcN3g=
