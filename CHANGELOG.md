@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.49.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.49.0) - 2024-03-14
+
+- [`2a50a87`](https://github.com/alexfalkowski/migrieren/commit/2a50a875f90e70d2a6424da0d6126bc035659dff) feat: change license to MIT (#585)
+
 ## [v1.48.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.48.2) - 2024-03-13
 
 - [`7613042`](https://github.com/alexfalkowski/migrieren/commit/76130424945eccc576eac6411d1f0f372aed7678) fix(deps): bump github.com/alexfalkowski/auth from 1.68.0 to 1.68.3 (#581)
