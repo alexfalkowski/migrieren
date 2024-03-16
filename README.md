@@ -52,23 +52,6 @@ migrate:
       url: postgres://test:test@localhost:5433/test?sslmode=disable
 ```
 
-```toml
-[[migrate.databases]]
-name = "db1"
-source = "file://migrations"
-url = "postgres://test:test@localhost:5432/test?sslmode=disable"
-
-[[migrate.databases]]
-name = "db2"
-source = "file:///migrations"
-url = "postgres://test:test@localhost:5432/test?sslmode=disable"
-
-[[migrate.databases]]
-name = "db3"
-source = "file://migrations"
-url = "postgres://test:test@localhost:5433/test?sslmode=disable"
-```
-
 Each database has the following properties:
 - A distinct name.
 - The source of the migrations (file, GitHub, etc).
@@ -89,14 +72,6 @@ client:
     version: 1
 ```
 
-```toml
-[client.v1]
-host = "localhost:9090"
-timeout = "5s"
-database = "db1"
-version = 1
-```
-
 ## Health
 
 The system defines a way to monitor all of it's dependencies.
@@ -107,12 +82,6 @@ To configure we just need the have the following configuration:
 health:
   duration: 1s (how often to check)
   timeout: 1s (when we should timeout the check)
-```
-
-```toml
-[health]
-duration = "1s (how often to check)"
-timeout = "1s (when we should timeout the check)"
 ```
 
 ## Deployment
