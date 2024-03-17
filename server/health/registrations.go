@@ -44,7 +44,7 @@ func NewRegistrations(params Params) (health.Registrations, error) {
 }
 
 type migratorChecker struct {
-	db       migrate.Database
+	db       *migrate.Database
 	migrator migrator.Migrator
 }
 

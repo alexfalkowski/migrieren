@@ -17,17 +17,17 @@ func NewConfigurator(i *cmd.InputConfig) (config.Configurator, error) {
 }
 
 func v1ClientConfig(cfg config.Configurator) *v1.Config {
-	return &cfg.(*Config).Client.V1
+	return cfg.(*Config).Client.V1
 }
 
 func v1AuthClientConfig(cfg config.Configurator) *av1.Config {
-	return &cfg.(*Config).Auth.Client.V1
+	return cfg.(*Config).Auth.Client.V1
 }
 
 func healthConfig(cfg config.Configurator) *health.Config {
-	return &cfg.(*Config).Health
+	return cfg.(*Config).Health
 }
 
 func migrateConfig(cfg config.Configurator) *migrate.Config {
-	return &cfg.(*Config).Migrate
+	return cfg.(*Config).Migrate
 }
