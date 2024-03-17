@@ -9,14 +9,14 @@ type Database struct {
 
 // Config for migrate.
 type Config struct {
-	Databases []Database `yaml:"databases,omitempty" json:"databases,omitempty" toml:"databases,omitempty"`
+	Databases []*Database `yaml:"databases,omitempty" json:"databases,omitempty" toml:"databases,omitempty"`
 }
 
 // Database by name.
 func (c *Config) Database(name string) *Database {
 	for _, d := range c.Databases {
 		if d.Name == name {
-			return &d
+			return d
 		}
 	}
 
