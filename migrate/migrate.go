@@ -39,7 +39,7 @@ type Migrator struct{}
 func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
 	mig, err := migrate.New(source, db)
 	if err != nil {
-		meta.WithAttribute(ctx, "migrateError", err.Error())
+		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		return nil, ErrInvalidConfig
 	}
@@ -54,7 +54,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 			return m.close(ctx, mig, logger, nil)
 		}
 
-		ctx = meta.WithAttribute(ctx, "migrateError", err.Error())
+		ctx = meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		return m.close(ctx, mig, logger, ErrInvalidMigration)
 	}
@@ -66,13 +66,13 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 	mig, err := migrate.New(source, db)
 	if err != nil {
-		meta.WithAttribute(ctx, "pingError", err.Error())
+		meta.WithAttribute(ctx, "pingError", meta.Error(err))
 
 		return ErrInvalidConfig
 	}
 
 	if _, _, err := mig.Version(); err != nil && !errors.Is(err, migrate.ErrNilVersion) {
-		meta.WithAttribute(ctx, "pingError", err.Error())
+		meta.WithAttribute(ctx, "pingError", meta.Error(err))
 
 		return ErrInvalidPing
 	}
@@ -83,13 +83,13 @@ func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 func (m *Migrator) close(ctx context.Context, mig *migrate.Migrate, log *logger, err error) ([]string, error) {
 	sourceErr, dbErr := mig.Close()
 	if sourceErr != nil {
-		meta.WithAttribute(ctx, "migrateSourceError", sourceErr.Error())
+		meta.WithAttribute(ctx, "migrateSourceError", meta.Error(sourceErr))
 
 		return log.logs, sourceErr
 	}
 
 	if dbErr != nil {
-		meta.WithAttribute(ctx, "migrateDbError", dbErr.Error())
+		meta.WithAttribute(ctx, "migrateDbError", meta.Error(dbErr))
 
 		return log.logs, dbErr
 	}

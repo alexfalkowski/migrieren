@@ -53,7 +53,7 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		return resp, status.Error(codes.Internal, err.Error())
 	}
 
-	resp.Meta = meta.Attributes(ctx)
+	resp.Meta = meta.Strings(ctx)
 	resp.Migration.Logs = logs
 
 	return resp, nil
