@@ -61,6 +61,20 @@ Each database has the following properties:
 
 The client is used to migrate a specific database.
 
+```bash
+./migrieren client --help
+Start the client.
+
+Usage:
+  migrieren client [flags]
+
+Flags:
+  -h, --help   help for client
+
+Global Flags:
+  -i, --input string   input config location (format kind:location, default env:CONFIG_FILE) (default "env:CONFIG_FILE")
+```
+
 To configure we just need the have the following configuration:
 
 ```yaml
