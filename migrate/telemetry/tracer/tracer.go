@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/alexfalkowski/go-service/env"
+	"github.com/alexfalkowski/go-service/meta"
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	tm "github.com/alexfalkowski/go-service/transport/meta"
 	"github.com/alexfalkowski/go-service/version"
@@ -57,7 +58,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	)
 	defer span.End()
 
-	ctx = tm.WithTraceID(ctx, span.SpanContext().TraceID())
+	ctx = tm.WithTraceID(ctx, meta.ToValuer(span.SpanContext().TraceID()))
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
 	if err != nil {
