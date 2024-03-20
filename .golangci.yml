@@ -1,5 +1,5 @@
-run:
-  skip-files:
+issues:
+  exclude-dirs:
     - ".*\\.pb*"
 linters-settings:
   lll:
