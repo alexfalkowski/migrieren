@@ -13,7 +13,7 @@ require 'migrieren/v1/service_services_pb'
 module Migrieren
   class << self
     def observability
-      @observability ||= Nonnative::Observability.new('http://localhost:8080')
+      @observability ||= Nonnative::Observability.new('http://localhost:11000')
     end
 
     def server_config
@@ -21,7 +21,7 @@ module Migrieren
     end
 
     def health_grpc
-      @health_grpc ||= Grpc::Health::V1::Health::Stub.new('localhost:9090', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
+      @health_grpc ||= Grpc::Health::V1::Health::Stub.new('localhost:12000', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
     end
 
     def user_agent
@@ -32,11 +32,11 @@ module Migrieren
   module V1
     class << self
       def server_http
-        @server_http ||= Migrieren::V1::HTTP.new('http://localhost:8080')
+        @server_http ||= Migrieren::V1::HTTP.new('http://localhost:11000')
       end
 
       def server_grpc
-        @server_grpc ||= Migrieren::V1::Service::Stub.new('localhost:9090', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
+        @server_grpc ||= Migrieren::V1::Service::Stub.new('localhost:12000', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
       end
     end
   end
