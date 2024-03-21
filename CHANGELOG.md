@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.54.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.54.2) - 2024-03-21
+
+- [`914fc39`](https://github.com/alexfalkowski/migrieren/commit/914fc3999e9c798e4f95f7f80bbe5615175a10a1) fix(deps): update github.com/alexfalkowski/go-service to v1.147.1 (#600)
+- [`44e8fc7`](https://github.com/alexfalkowski/migrieren/commit/44e8fc7e0f95e5a22b5d98d0eee0653c85b60539) test: set user-agent (#598)
+
 ## [v1.54.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.54.1) - 2024-03-20
 
 - [`1140cc3`](https://github.com/alexfalkowski/migrieren/commit/1140cc3de85b34ad6fe9a557a0253aaf65889d26) fix(deps): update github.com/alexfalkowski/go-service to v1.147.0 (#597)
