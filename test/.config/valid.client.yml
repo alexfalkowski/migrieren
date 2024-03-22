@@ -13,7 +13,7 @@ debug:
   port: 6060
 client:
   v1:
-    host: localhost:9090
+    host: localhost:12000
     user_agent: "Migrieren-client/1.0 gRPC/1.0"
     timeout: 1s
     retry:
