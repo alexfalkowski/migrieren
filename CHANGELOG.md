@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.56.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.56.1) - 2024-03-23
+
+- [`87e2cec`](https://github.com/alexfalkowski/migrieren/commit/87e2cec3ce59ea416dc3d9fbbccc4e4fd16e290c) fix(deps): update github.com/alexfalkowski/auth to v1.80.1 (#606)
+
 ## [v1.56.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.56.0) - 2024-03-22
 
 - [`394ebe5`](https://github.com/alexfalkowski/migrieren/commit/394ebe58da97798e20796dd558bd7bdf8fd8aa17) feat: add ldflags to minimise binary size (#605)
