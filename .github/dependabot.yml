@@ -20,9 +20,17 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "build"
+      prefix-development: "build"
+      include: "scope"
     allow:
       - dependency-name: "bin"
   - package-ecosystem: "bundler"
     directory: "/test"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "test"
+      prefix-development: "test"
+      include: "scope"
