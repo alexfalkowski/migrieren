@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.57.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.57.0) - 2024-03-27
+
+- [`62c4175`](https://github.com/alexfalkowski/migrieren/commit/62c41755a1c392a01b784504bd8ac2d3c9b5c2bb) feat(deps): update github.com/alexfalkowski/go-service to v1.149.0 (#620)
+- [`de87c17`](https://github.com/alexfalkowski/migrieren/commit/de87c17aed338007fb6f15b5af0e635f8d5d6e20) build(dependabot): change prefixes (#617)
+- [`5dc9699`](https://github.com/alexfalkowski/migrieren/commit/5dc969944c4cb4f6b935ff2bdb3cf0aa7f011bfe) build: add git tasks to makefile (#613)
+
 ## [v1.56.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.56.2) - 2024-03-24
 
 - [`290b0a9`](https://github.com/alexfalkowski/migrieren/commit/290b0a9322f882fb3a3eba6f9573d2b1802c32a2) fix(config): check presense (#607)
