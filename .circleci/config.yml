@@ -20,7 +20,7 @@ jobs:
       - run: git submodule sync
       - run: git submodule update --init
       - run: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:5001 -timeout 1m
-      - run: make setup
+      - run: make dep
       - run: make lint
       - run: make proto-breaking
       - run: make sec
