@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.57.4](https://github.com/alexfalkowski/migrieren/releases/tag/v1.57.4) - 2024-04-01
+
+- [`ee1c1af`](https://github.com/alexfalkowski/migrieren/commit/ee1c1af0d6bedb937beffc04be5679ee91a884bd) fix(deps): bump github.com/alexfalkowski/go-service from 1.149.3 to 1.149.4 (#629)
+- [`c15bdf4`](https://github.com/alexfalkowski/migrieren/commit/c15bdf40102d5cbda57aef670073e0cc99bfc874) build(deps): bump bin from `608889f` to `024be7f` (#628)
+- [`e2e9983`](https://github.com/alexfalkowski/migrieren/commit/e2e9983b5dae998ef1c70c5655c4a2396ec7e4ef) build(circleci): use dep (#627)
+- [`8a34d66`](https://github.com/alexfalkowski/migrieren/commit/8a34d66789147dc72b8cfcf121516dd20728b824) build(deps): bump bin from `a19d7ca` to `608889f` (#626)
+
 ## [v1.57.3](https://github.com/alexfalkowski/migrieren/releases/tag/v1.57.3) - 2024-03-28
 
 - [`6fcbf92`](https://github.com/alexfalkowski/migrieren/commit/6fcbf9208ba83fc0a0d1fd4167b1641ae72725ba) fix(deps): update github.com/alexfalkowski/go-service to v1.149.3 (#625)
