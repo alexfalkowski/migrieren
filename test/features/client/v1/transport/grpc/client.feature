@@ -29,4 +29,4 @@ Feature: Client
     And I start the system
     When the client tries to migrate the database
     Then the client should have unsuccesfully migrated the database
-    And I should see a log entry of "127.0.0.1:2020: connect: connection refused" in the file "reports/client.log"
+    And I should see a log entry of "2020: connect: connection refused" in the file "reports/client.log"
