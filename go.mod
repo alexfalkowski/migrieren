@@ -3,9 +3,9 @@ module github.com/alexfalkowski/migrieren
 go 1.22.2
 
 require (
-	github.com/alexfalkowski/auth v1.83.2
+	github.com/alexfalkowski/auth v1.84.0
 	github.com/alexfalkowski/go-health v1.16.0
-	github.com/alexfalkowski/go-service v1.151.2
+	github.com/alexfalkowski/go-service v1.153.0
 	github.com/golang-migrate/migrate/v4 v4.17.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	go.opentelemetry.io/otel v1.25.0
@@ -34,6 +34,7 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
+	github.com/felixge/fgprof v0.9.4 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -46,6 +47,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/google/go-github/v39 v39.2.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
@@ -98,6 +100,7 @@ require (
 	go.flipt.io/flipt/rpc/flipt v1.30.0 // indirect
 	go.flipt.io/flipt/sdk/go v0.7.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp v1.25.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.25.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.25.0 // indirect
 	go.opentelemetry.io/otel/exporters/prometheus v0.47.0 // indirect
