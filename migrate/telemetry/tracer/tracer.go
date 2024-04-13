@@ -4,35 +4,23 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/alexfalkowski/go-service/env"
 	"github.com/alexfalkowski/go-service/meta"
-	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	tm "github.com/alexfalkowski/go-service/transport/meta"
-	"github.com/alexfalkowski/go-service/version"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	semconv "go.opentelemetry.io/otel/semconv/v1.24.0"
 	"go.opentelemetry.io/otel/trace"
-	"go.uber.org/fx"
 )
-
-// Tracer for otel.
-type Tracer trace.Tracer
-
-// NewTracer for otel.
-func NewTracer(lc fx.Lifecycle, cfg *tracer.Config, env env.Environment, ver version.Version) (Tracer, error) {
-	return tracer.NewTracer(context.Background(), lc, "migrator", env, ver, cfg)
-}
 
 // Migrator for otel.
 type Migrator struct {
 	migrator migrator.Migrator
-	tracer   Tracer
+	tracer   trace.Tracer
 }
 
 // NewMigrator for otel.
-func NewMigrator(migrator migrator.Migrator, tracer Tracer) *Migrator {
+func NewMigrator(migrator migrator.Migrator, tracer trace.Tracer) *Migrator {
 	return &Migrator{migrator: migrator, tracer: tracer}
 }
 

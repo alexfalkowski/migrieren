@@ -11,6 +11,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/golang-migrate/migrate/v4/source/github"
+	"go.opentelemetry.io/otel/trace"
 )
 
 var (
@@ -25,7 +26,7 @@ var (
 )
 
 // NewMigrator for databases.
-func NewMigrator(t tracer.Tracer) migrator.Migrator {
+func NewMigrator(t trace.Tracer) migrator.Migrator {
 	var m migrator.Migrator = &Migrator{}
 	m = tracer.NewMigrator(m, t)
 
