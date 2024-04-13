@@ -3,11 +3,11 @@ package grpc
 import (
 	"github.com/alexfalkowski/auth/client"
 	t "github.com/alexfalkowski/go-service/security/token"
-	"github.com/alexfalkowski/go-service/transport/grpc/telemetry/tracer"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	v1c "github.com/alexfalkowski/migrieren/client/v1/config"
 	"github.com/alexfalkowski/migrieren/transport/grpc"
 	"go.opentelemetry.io/otel/metric"
+	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 )
@@ -20,7 +20,7 @@ type ServiceClientParams struct {
 	ClientConfig *v1c.Config
 	TokenConfig  *t.Config
 	Logger       *zap.Logger
-	Tracer       tracer.Tracer
+	Tracer       trace.Tracer
 	Meter        metric.Meter
 	Token        *client.Token
 }
