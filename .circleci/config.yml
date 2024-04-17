@@ -26,10 +26,12 @@ jobs:
           name: restore go deps
           keys:
             - migrieren-go-cache-{{ checksum "go.sum" }}
+            - migrieren-go-cache-
       - restore_cache:
           name: restore ruby deps
           keys:
             - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
+            - migrieren-ruby-cache-
       - run: make dep
       - save_cache:
           name: save go deps
@@ -45,6 +47,7 @@ jobs:
           name: restore go build cache
           keys:
             - migrieren-go-build-cache-{{ checksum "go.sum" }}
+            - migrieren-go-build-cache-
       - run: make lint
       - run: make proto-breaking
       - run: make sec
