@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.62.5](https://github.com/alexfalkowski/migrieren/releases/tag/v1.62.5) - 2024-04-17
+
+- [`86cec17`](https://github.com/alexfalkowski/migrieren/commit/86cec17a5c98f9d5cf3389071ee89cb51a682b51) fix(deps): bump github.com/alexfalkowski/go-service from 1.154.5 to 1.154.6 (#661)
+- [`d31d162`](https://github.com/alexfalkowski/migrieren/commit/d31d162fd3fd5bc3b89edcca51f366674661ea14) test(deps): bump rubocop from 1.63.1 to 1.63.2 in /test (#660)
+- [`1ed07c7`](https://github.com/alexfalkowski/migrieren/commit/1ed07c797a334f4203d028d1d5bf9fdb2987ad9a) build(deps): bump bin from `b850b19` to `d5f116d` (#662)
+- [`e265330`](https://github.com/alexfalkowski/migrieren/commit/e2653305c71cb0e01a5ee5244827eb903ce6f56d) build(ci): store tests (#659)
+- [`c081ba6`](https://github.com/alexfalkowski/migrieren/commit/c081ba6b7e37853fd78048f356cbfdb091d89c47) build(deps): bump bin from `f01b719` to `b850b19` (#658)
+- [`179eb2a`](https://github.com/alexfalkowski/migrieren/commit/179eb2a7ae46a898c2d029981cb894fb5e524c47) build(deps): bump bin from `a1fc5ac` to `f01b719` (#657)
+- [`f1b5305`](https://github.com/alexfalkowski/migrieren/commit/f1b5305351aad8ee7fcecef81348f47fa0362e1e) build(ci): cache go build (#656)
+- [`0a25fd0`](https://github.com/alexfalkowski/migrieren/commit/0a25fd09e061fa81da1ebf7f7d9717f5c5d62d37) build(ci): cache deps (#655)
+- [`932cdd7`](https://github.com/alexfalkowski/migrieren/commit/932cdd7a60b4fc4595e407df0c0ab8781e670ff5) build(deps): bump bin from `c322696` to `a1fc5ac` (#654)
+
 ## [v1.62.4](https://github.com/alexfalkowski/migrieren/releases/tag/v1.62.4) - 2024-04-14
 
 - [`7b07dc6`](https://github.com/alexfalkowski/migrieren/commit/7b07dc69d0de6c730ea109f1d6f46ae834a4b31e) fix(deps): upgraded github.com/alexfalkowski/go-service to v1.154.5 (#653)
