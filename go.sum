@@ -11,8 +11,8 @@ github.com/KimMachineGun/automemlimit v0.6.0 h1:p/BXkH+K40Hax+PuWWPQ478hPjsp9h1C
 github.com/KimMachineGun/automemlimit v0.6.0/go.mod h1:T7xYht7B8r6AG/AqFcUdc7fzd2bIdBKmepfP2S1svPY=
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
-github.com/alexfalkowski/auth v1.85.5 h1:le4a5TmMsjmUrgTr4BYIeiDL9qEQ4progq7Im4OJs1k=
-github.com/alexfalkowski/auth v1.85.5/go.mod h1:aFPPRx5Ps7zW/rmBiCd5M+S/UHy85Pqf4383mbaPc/M=
+github.com/alexfalkowski/auth v1.85.6 h1:VSqLtrDC2RmiBMLe+3MEjbBGmN02FCQHYTyNDG8k4Xo=
+github.com/alexfalkowski/auth v1.85.6/go.mod h1:ie6HvFCMlX/p/1nlwKjtwauvkYdfjt5uaj2HxHPtfeE=
 github.com/alexfalkowski/go-health v1.16.1 h1:7XfEevvFKq/BicJ1tol2CN+A6j1LzlMmol5hmbd3F+A=
 github.com/alexfalkowski/go-health v1.16.1/go.mod h1:GrfpkU3sTiZkGsm1thyZ3WiBFL6/vX29cskAKMw3h48=
 github.com/alexfalkowski/go-service v1.154.6 h1:2HZyTvJvNnc9GMmIO3dA6fuW4q2xqhORzeCsYPzTL/Q=
