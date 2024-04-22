@@ -11,12 +11,12 @@ github.com/KimMachineGun/automemlimit v0.6.0 h1:p/BXkH+K40Hax+PuWWPQ478hPjsp9h1C
 github.com/KimMachineGun/automemlimit v0.6.0/go.mod h1:T7xYht7B8r6AG/AqFcUdc7fzd2bIdBKmepfP2S1svPY=
 github.com/Microsoft/go-winio v0.6.1 h1:9/kr64B9VUZrLm5YYwbGtUJnMgqWVOdUAXu6Migciow=
 github.com/Microsoft/go-winio v0.6.1/go.mod h1:LRdKpFKfdobln8UmuiYcKPot9D2v6svN5+sAH+4kjUM=
-github.com/alexfalkowski/auth v1.89.0 h1:R4PTOxAFuQuhHvP5DGmUvZjBJmhGPDbDfV0NiVySOsk=
-github.com/alexfalkowski/auth v1.89.0/go.mod h1:YWetMJWO1Yv1ebDTGw0sqTe5xm7hK72fhe1tDmfOntE=
+github.com/alexfalkowski/auth v1.89.1 h1:14pUICieGHKoCJA4bWig4OWv3fczZQbpbwbxxAHBVvs=
+github.com/alexfalkowski/auth v1.89.1/go.mod h1:NYS45+mL5m+jtvPcMysbr+oQzJ9FdWJpjBmkrSkJBHQ=
 github.com/alexfalkowski/go-health v1.16.1 h1:7XfEevvFKq/BicJ1tol2CN+A6j1LzlMmol5hmbd3F+A=
 github.com/alexfalkowski/go-health v1.16.1/go.mod h1:GrfpkU3sTiZkGsm1thyZ3WiBFL6/vX29cskAKMw3h48=
-github.com/alexfalkowski/go-service v1.158.0 h1:K9hIDmDknpFOfFr2vdJgJxGYh7CnLaE0nW67pfdiBhE=
-github.com/alexfalkowski/go-service v1.158.0/go.mod h1:D7bUpmrr1DVUaA/o3fOnJ0jd2Q/42qVcBoHCrjAPsT4=
+github.com/alexfalkowski/go-service v1.158.1 h1:wG/EtNIBI2Ch5KZtzdEo5uh6OeE+xg7fJgwpcs7/VyA=
+github.com/alexfalkowski/go-service v1.158.1/go.mod h1:D7bUpmrr1DVUaA/o3fOnJ0jd2Q/42qVcBoHCrjAPsT4=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
