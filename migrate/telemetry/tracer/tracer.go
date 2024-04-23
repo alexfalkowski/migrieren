@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/alexfalkowski/go-service/meta"
+	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	tm "github.com/alexfalkowski/go-service/transport/meta"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
@@ -31,19 +32,13 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 		return nil, err
 	}
 
-	operationName := "migrate"
 	attrs := []attribute.KeyValue{
 		semconv.DBSystemKey.String(u.Scheme),
 		semconv.DBUser(u.User.Username()),
 		attribute.Key("db.migrate.version").Int64(int64(version)),
 	}
 
-	ctx, span := m.tracer.Start(
-		ctx,
-		operationName,
-		trace.WithSpanKind(trace.SpanKindClient),
-		trace.WithAttributes(attrs...),
-	)
+	ctx, span := m.tracer.Start(ctx, operationName("db"), trace.WithSpanKind(trace.SpanKindClient), trace.WithAttributes(attrs...))
 	defer span.End()
 
 	ctx = tm.WithTraceID(ctx, meta.ToValuer(span.SpanContext().TraceID()))
@@ -62,4 +57,8 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 // Ping the migrator.
 func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 	return m.migrator.Ping(ctx, source, db)
+}
+
+func operationName(name string) string {
+	return tracer.OperationName("migrate", name)
 }
