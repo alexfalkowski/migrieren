@@ -47,11 +47,11 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	if err != nil {
 		span.SetStatus(codes.Error, err.Error())
 		span.RecordError(err)
-
-		return nil, err
 	}
 
-	return logs, nil
+	tracer.Meta(ctx, span)
+
+	return logs, err
 }
 
 // Ping the migrator.

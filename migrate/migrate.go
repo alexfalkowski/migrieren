@@ -52,15 +52,15 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 		if errors.Is(err, migrate.ErrNoChange) {
 			logger.Printf(err.Error())
 
-			return m.close(ctx, mig, logger, nil)
+			return logger.logs, m.close(mig, nil)
 		}
 
-		ctx = meta.WithAttribute(ctx, "migrateError", meta.Error(err))
+		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
-		return m.close(ctx, mig, logger, ErrInvalidMigration)
+		return logger.logs, m.close(mig, ErrInvalidMigration)
 	}
 
-	return m.close(ctx, mig, logger, nil)
+	return logger.logs, m.close(mig, nil)
 }
 
 // Ping the migrator.
@@ -81,19 +81,15 @@ func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 	return nil
 }
 
-func (m *Migrator) close(ctx context.Context, mig *migrate.Migrate, log *logger, err error) ([]string, error) {
-	sourceErr, dbErr := mig.Close()
-	if sourceErr != nil {
-		meta.WithAttribute(ctx, "migrateSourceError", meta.Error(sourceErr))
-
-		return log.logs, sourceErr
+func (m *Migrator) close(mig *migrate.Migrate, err error) error {
+	errSource, errDB := mig.Close()
+	if errSource != nil {
+		return errSource
 	}
 
-	if dbErr != nil {
-		meta.WithAttribute(ctx, "migrateDbError", meta.Error(dbErr))
-
-		return log.logs, dbErr
+	if errDB != nil {
+		return errDB
 	}
 
-	return log.logs, err
+	return err
 }
