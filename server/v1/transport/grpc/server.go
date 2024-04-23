@@ -53,8 +53,12 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		return resp, status.Error(codes.Internal, err.Error())
 	}
 
-	resp.Meta = meta.Strings(ctx)
+	resp.Meta = s.meta(ctx)
 	resp.Migration.Logs = logs
 
 	return resp, nil
+}
+
+func (s *Server) meta(ctx context.Context) map[string]string {
+	return meta.CamelStrings(ctx, "")
 }
