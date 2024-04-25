@@ -24,6 +24,10 @@ client:
 health:
   duration: 1s
   timeout: 1s
+limiter:
+  enabled: true
+  kind: user-agent
+  pattern: 1000-S
 migrate:
   databases:
     -
