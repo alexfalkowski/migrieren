@@ -40,7 +40,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	ctx, span := m.tracer.Start(ctx, operationName("db"), trace.WithSpanKind(trace.SpanKindClient), trace.WithAttributes(attrs...))
 	defer span.End()
 
-	ctx = tm.WithTraceID(ctx, meta.ToValuer(span.SpanContext().TraceID()))
+	ctx = tm.WithTraceID(ctx, meta.ToString(span.SpanContext().TraceID()))
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
 	tracer.Error(err, span)
