@@ -1,5 +1,4 @@
 [![CircleCI](https://circleci.com/gh/alexfalkowski/migrieren.svg?style=svg)](https://circleci.com/gh/alexfalkowski/migrieren)
-[![Coverage Status](https://coveralls.io/repos/github/alexfalkowski/migrieren/badge.svg?branch=master)](https://coveralls.io/github/alexfalkowski/migrieren?branch=master)
 
 # Migrieren
 
