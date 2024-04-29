@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.77.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.77.2) - 2024-04-29
+
+- [`9e077d5`](https://github.com/alexfalkowski/migrieren/commit/9e077d532f7e5d423e99466d71ee9d1886b5c1db) fix(deps): upgraded github.com/alexfalkowski/auth to v1.101.3 (#715)
+- [`96e90b3`](https://github.com/alexfalkowski/migrieren/commit/96e90b3974375fef28c8a55b25abb8a965507e5a) test(deps): bump rubocop from 1.63.3 to 1.63.4 in /test (#714)
+- [`37c1afa`](https://github.com/alexfalkowski/migrieren/commit/37c1afa2d524854eb44b7f1884f1050451fabdf7) build(ci): cover all (#713)
+- [`42a0db6`](https://github.com/alexfalkowski/migrieren/commit/42a0db6d7d16145f732922e2082852d4bdc81891) build(deps): bump bin from `3976e45` to `e47704b` (#712)
+- [`bda6d62`](https://github.com/alexfalkowski/migrieren/commit/bda6d62a083cd3d6f51d9a6c02cefa04eb91251b) build(ci): html coverage (#711)
+- [`a23baef`](https://github.com/alexfalkowski/migrieren/commit/a23baef7fb227a6989cf28aaf04b63b78ea48111) build(deps): bump bin from `1755d45` to `3976e45` (#710)
+- [`3f46f4e`](https://github.com/alexfalkowski/migrieren/commit/3f46f4e022d4a5633a62639b1813af8859df03d7) build(deps): bump bin from `62c9b8d` to `1755d45` (#709)
+- [`f9149f2`](https://github.com/alexfalkowski/migrieren/commit/f9149f2f30fe775f70dbe341e08c50bcdd111c4c) build(coveralls): remove goveralls (#708)
+
 ## [v1.77.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.77.1) - 2024-04-27
 
 - [`64dc853`](https://github.com/alexfalkowski/migrieren/commit/64dc853e167ffcfe832bf46452bcba0d80f0f975) fix(deps): upgraded github.com/alexfalkowski/auth to v1.101.1 (#707)
