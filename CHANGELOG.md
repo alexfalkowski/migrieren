@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.77.7](https://github.com/alexfalkowski/migrieren/releases/tag/v1.77.7) - 2024-04-30
+
+- [`6bdd7ec`](https://github.com/alexfalkowski/migrieren/commit/6bdd7ec8a678b9c176a61c7480b50a741845823f) fix(deps): upgraded github.com/alexfalkowski/auth to v1.101.8 (#720)
+
 ## [v1.77.6](https://github.com/alexfalkowski/migrieren/releases/tag/v1.77.6) - 2024-04-30
 
 - [`b686d6f`](https://github.com/alexfalkowski/migrieren/commit/b686d6f5ecd2ec0f82760567fcc72b89f1e1daa1) fix(deps): upgraded github.com/alexfalkowski/auth to v1.101.7 (#719)
