@@ -3,9 +3,9 @@ module github.com/alexfalkowski/migrieren
 go 1.22.2
 
 require (
-	github.com/alexfalkowski/auth v1.105.0
+	github.com/alexfalkowski/auth v1.106.0
 	github.com/alexfalkowski/go-health v1.16.1
-	github.com/alexfalkowski/go-service v1.175.0
+	github.com/alexfalkowski/go-service v1.176.1
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	go.opentelemetry.io/otel v1.26.0
@@ -23,8 +23,11 @@ require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/KimMachineGun/automemlimit v0.6.0 // indirect
+	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
 	github.com/arl/statsviz v0.6.0 // indirect
 	github.com/avast/retry-go/v3 v3.1.1 // indirect
+	github.com/beevik/ntp v1.4.1 // indirect
+	github.com/beevik/nts v0.1.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -88,6 +91,7 @@ require (
 	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
 	github.com/rs/cors v1.11.0 // indirect
+	github.com/secure-io/siv-go v0.0.0-20180922214919-5ff40651e2c4 // indirect
 	github.com/shirou/gopsutil/v3 v3.24.4 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.2 // indirect
@@ -119,9 +123,9 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/dig v1.17.1 // indirect
-	golang.org/x/crypto v0.21.0 // indirect
+	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3 // indirect
-	golang.org/x/net v0.23.0 // indirect
+	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/oauth2 v0.17.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
