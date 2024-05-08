@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/alexfalkowski/auth.git
-  revision: 84a5e23ba9a82b353994d4953e3e2cd1ca6c22a3
+  revision: 696bba40650b2da6beb4db5d7e975cbe59fefb80
   glob: test/*.gemspec
   specs:
     auth (1.0.0)
@@ -66,13 +66,13 @@ GEM
     language_server-protocol (3.17.0.3)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0305)
+    mime-types-data (3.2024.0507)
     mini_mime (1.1.5)
     multi_test (1.1.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
-    nio4r (2.7.2)
+    nio4r (2.7.3)
     nonnative (1.79.0)
       concurrent-ruby (>= 1, < 2)
       config (>= 5, < 6)
