@@ -3,9 +3,9 @@ module github.com/alexfalkowski/migrieren
 go 1.22.3
 
 require (
-	github.com/alexfalkowski/auth v1.110.1
+	github.com/alexfalkowski/auth v1.110.2
 	github.com/alexfalkowski/go-health v1.16.2
-	github.com/alexfalkowski/go-service v1.180.0
+	github.com/alexfalkowski/go-service v1.180.1
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	go.opentelemetry.io/otel v1.26.0
@@ -87,7 +87,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
-	github.com/prometheus/client_golang v1.19.0 // indirect
+	github.com/prometheus/client_golang v1.19.1 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
