@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	scmd "github.com/alexfalkowski/go-service/cmd"
+	sc "github.com/alexfalkowski/go-service/cmd"
 	"github.com/alexfalkowski/migrieren/cmd"
 )
 
@@ -13,8 +13,8 @@ func main() {
 	}
 }
 
-func command() *scmd.Command {
-	command := scmd.New(cmd.Version)
+func command() *sc.Command {
+	command := sc.New(cmd.Version)
 
 	command.AddServer(cmd.ServerOptions...)
 	command.AddClient(cmd.ClientOptions...)
