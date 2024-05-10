@@ -27,9 +27,9 @@ func NewServer(params ServerParams) v1.ServiceServer {
 
 // Server for gRPC.
 type Server struct {
-	config   *migrate.Config
-	migrator migrator.Migrator
 	v1.UnimplementedServiceServer
+	migrator migrator.Migrator
+	config   *migrate.Config
 }
 
 // Migrate for gRPC.
