@@ -14,10 +14,10 @@ func main() {
 }
 
 func command() *sc.Command {
-	command := sc.New(cmd.Version)
+	c := sc.New(cmd.Version)
+	c.RegisterInput("env:MIGRIEREN_CONFIG_FILE")
+	c.AddServer(cmd.ServerOptions...)
+	c.AddClient(cmd.ClientOptions...)
 
-	command.AddServer(cmd.ServerOptions...)
-	command.AddClient(cmd.ClientOptions...)
-
-	return command
+	return c
 }
