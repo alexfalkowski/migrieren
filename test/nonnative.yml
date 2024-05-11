@@ -12,4 +12,4 @@ processes:
     port: 12000
     log: reports/server.log
     environment:
-      CONFIG_FILE: .config/server.yml
+      MIGRIEREN_CONFIG_FILE: .config/server.yml

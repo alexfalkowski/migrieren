@@ -18,7 +18,7 @@ end
 
 def migrate(app)
   env = {
-    'CONFIG_FILE' => ".config/#{app}.client.yml"
+    'MIGRIEREN_CONFIG_FILE' => ".config/#{app}.client.yml"
   }
   cmd = Nonnative.go_executable(%w[cover], 'reports', '../migrieren', 'client')
   pid = spawn(env, cmd, %i[out err] => ['reports/client.log', 'a'])
