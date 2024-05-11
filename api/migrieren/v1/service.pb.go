@@ -24,12 +24,11 @@ const (
 // Migration for a specific database and version with logs.
 type Migration struct {
 	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	Database      string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Database string   `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
-	Version  uint64   `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
-	Logs     []string `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
+	Logs          []string `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
+	Version       uint64   `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Migration) Reset() {
@@ -88,11 +87,10 @@ func (x *Migration) GetLogs() []string {
 // MigrateRequest for a specific database and version.
 type MigrateRequest struct {
 	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	Database      string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Database string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
-	Version  uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	Version       uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *MigrateRequest) Reset() {
@@ -144,11 +142,10 @@ func (x *MigrateRequest) GetVersion() uint64 {
 // MigrateResponse for a specific database and version.
 type MigrateResponse struct {
 	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
+	Meta          map[string]string `protobuf:"bytes,1,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Migration     *Migration        `protobuf:"bytes,2,opt,name=migration,proto3" json:"migration,omitempty"`
 	unknownFields protoimpl.UnknownFields
-
-	Meta      map[string]string `protobuf:"bytes,1,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Migration *Migration        `protobuf:"bytes,2,opt,name=migration,proto3" json:"migration,omitempty"`
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *MigrateResponse) Reset() {
