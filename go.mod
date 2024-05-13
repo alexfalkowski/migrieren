@@ -3,7 +3,7 @@ module github.com/alexfalkowski/migrieren
 go 1.22.3
 
 require (
-	github.com/alexfalkowski/auth v1.118.2
+	github.com/alexfalkowski/auth v1.118.3
 	github.com/alexfalkowski/go-health v1.17.0
 	github.com/alexfalkowski/go-service v1.189.2
 	github.com/golang-migrate/migrate/v4 v4.17.1
