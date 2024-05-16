@@ -4,9 +4,7 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/alexfalkowski/go-service/meta"
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
-	tm "github.com/alexfalkowski/go-service/transport/meta"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.25.0"
@@ -40,7 +38,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	ctx, span := m.tracer.Start(ctx, operationName("db"), trace.WithSpanKind(trace.SpanKindClient), trace.WithAttributes(attrs...))
 	defer span.End()
 
-	ctx = tm.WithTraceID(ctx, meta.ToString(span.SpanContext().TraceID()))
+	ctx = tracer.WithTraceID(ctx, span)
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
 	tracer.Error(err, span)
