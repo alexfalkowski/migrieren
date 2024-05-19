@@ -27,12 +27,11 @@ end
 
 def request_with_http(table)
   rows = table.rows_hash
-  auth = service_token(Nonnative.configurations('.config/valid.client.yml'))
   opts = {
     headers: {
       request_id: SecureRandom.uuid, user_agent: 'Migrieren-ruby-client/1.0 HTTP/1.0',
       content_type: :json, accept: :json
-    }.merge(auth),
+    },
     read_timeout: 10, open_timeout: 10
   }
 
