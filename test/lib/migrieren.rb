@@ -4,7 +4,6 @@ require 'securerandom'
 require 'yaml'
 require 'base64'
 
-require 'auth'
 require 'grpc/health/v1/health_services_pb'
 
 require 'migrieren/v1/http'

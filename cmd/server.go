@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	ac "github.com/alexfalkowski/auth/client"
 	"github.com/alexfalkowski/go-service/compressor"
 	"github.com/alexfalkowski/go-service/debug"
 	"github.com/alexfalkowski/go-service/feature"
@@ -22,5 +21,5 @@ var ServerOptions = []fx.Option{
 	compressor.Module, marshaller.Module,
 	telemetry.Module, metrics.Module,
 	config.Module, transport.Module, health.Module,
-	v1.Module, ac.Module, Module,
+	v1.Module, Module,
 }
