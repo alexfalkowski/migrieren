@@ -48,7 +48,12 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		return resp, status.Error(codes.NotFound, db+": not found")
 	}
 
-	logs, err := s.migrator.Migrate(ctx, d.Source, d.URL, ver)
+	u, err := d.GetURL()
+	if err != nil {
+		return resp, status.Error(codes.Internal, err.Error())
+	}
+
+	logs, err := s.migrator.Migrate(ctx, d.Source, u, ver)
 	if err != nil {
 		return resp, status.Error(codes.Internal, err.Error())
 	}

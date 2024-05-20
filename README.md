@@ -40,15 +40,15 @@ migrate:
     -
       name: db1
       source: file://migrations
-      url: postgres://test:test@localhost:5432/test?sslmode=disable
+      url: path to url
     -
       name: db2
       source: file:///migrations
-      url: postgres://test:test@localhost:5432/test?sslmode=disable
+      url: path to url
     -
       name: db3
       source: file://migrations
-      url: postgres://test:test@localhost:5433/test?sslmode=disable
+      url: path to url
 ```
 
 Each database has the following properties:
