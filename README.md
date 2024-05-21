@@ -61,17 +61,17 @@ Each database has the following properties:
 The client is used to migrate a specific database.
 
 ```bash
-./migrieren client --help
-Start the client.
+❯ ./migrieren migrate --help
+Migrate the database.
 
 Usage:
-  migrieren client [flags]
+  migrieren migrate [flags]
 
 Flags:
-  -h, --help   help for client
+  -h, --help   help for migrate
 
 Global Flags:
-  -i, --input string   input config location (format kind:location, default env:CONFIG_FILE) (default "env:CONFIG_FILE")
+  -i, --input string   input config location (format kind:location) (default "env:MIGRIEREN_CONFIG_FILE")
 ```
 
 To configure we just need the have the following configuration:
@@ -81,8 +81,9 @@ client:
   v1:
     host: localhost:9090
     timeout: 5s
-    database: db1
-    version: 1
+    migrate:
+      database: db1
+      version: 1
 ```
 
 ## Health
