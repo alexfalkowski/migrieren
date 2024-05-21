@@ -1,9 +1,7 @@
 package migrate
 
 import (
-	"os"
-	"path/filepath"
-	"strings"
+	"github.com/alexfalkowski/go-service/os"
 )
 
 type (
@@ -36,7 +34,5 @@ func (c *Config) Database(name string) *Database {
 
 // GetURL for database.
 func (d *Database) GetURL() (string, error) {
-	k, err := os.ReadFile(filepath.Clean(string(d.URL)))
-
-	return strings.TrimSpace(string(k)), err
+	return os.ReadFile(string(d.URL))
 }
