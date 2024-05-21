@@ -5,16 +5,8 @@ import (
 	"go.uber.org/fx"
 )
 
-var (
-	// Module for fx.
-	Module = fx.Options(
-		v1.Module,
-		fx.Provide(NewClient),
-	)
-
-	// CommandModule for fx.
-	CommandModule = fx.Options(
-		Module,
-		fx.Invoke(Migrate),
-	)
+// Module for fx.
+var Module = fx.Options(
+	v1.Module,
+	fx.Provide(NewClient),
 )
