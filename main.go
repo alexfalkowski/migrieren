@@ -17,7 +17,7 @@ func command() *sc.Command {
 	c := sc.New(cmd.Version)
 	c.RegisterInput("env:MIGRIEREN_CONFIG_FILE")
 	c.AddServer(cmd.ServerOptions...)
-	c.AddClientCommand("migrate", "Migrate the database", cmd.MigrateOptions...)
+	c.AddClientCommand("migrate", "Migrate the database.", cmd.MigrateOptions...)
 
 	return c
 }
