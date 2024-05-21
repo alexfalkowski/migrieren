@@ -12,8 +12,8 @@ import (
 	"go.uber.org/fx"
 )
 
-// ClientOptions for cmd.
-var ClientOptions = []fx.Option{
+// MigrateOptions for cmd.
+var MigrateOptions = []fx.Option{
 	runtime.Module, feature.Module,
 	compressor.Module, marshaller.Module,
 	telemetry.Module, metrics.Module,

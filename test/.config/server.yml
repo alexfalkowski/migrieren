@@ -7,8 +7,6 @@ client:
     retry:
       timeout: 2s
       attempts: 3
-    database: postgres
-    version: 1
 health:
   duration: 1s
   timeout: 1s

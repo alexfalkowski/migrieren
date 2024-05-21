@@ -20,7 +20,7 @@ def migrate(app)
   env = {
     'MIGRIEREN_CONFIG_FILE' => ".config/#{app}.client.yml"
   }
-  cmd = Nonnative.go_executable(%w[cover], 'reports', '../migrieren', 'client')
+  cmd = Nonnative.go_executable(%w[cover], 'reports', '../migrieren', 'migrate')
   pid = spawn(env, cmd, %i[out err] => ['reports/client.log', 'a'])
 
   _, status = Process.waitpid2(pid)
