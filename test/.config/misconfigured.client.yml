@@ -7,8 +7,9 @@ client:
     retry:
       timeout: 2s
       attempts: 3
-    database: invalid_source
-    version: 1
+    migrate:
+      database: invalid_source
+      version: 1
 telemetry:
   logger:
     level: info

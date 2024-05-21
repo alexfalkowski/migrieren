@@ -15,6 +15,6 @@ var (
 	// CommandModule for fx.
 	CommandModule = fx.Options(
 		Module,
-		fx.Invoke(RunCommand),
+		fx.Invoke(Migrate),
 	)
 )

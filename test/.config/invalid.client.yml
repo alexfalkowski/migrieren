@@ -7,8 +7,9 @@ client:
     retry:
       timeout: 2s
       attempts: 3
-    database: postgres
-    version: 1
+    migrate:
+      database: postgres
+      version: 1
 telemetry:
   logger:
     level: info
