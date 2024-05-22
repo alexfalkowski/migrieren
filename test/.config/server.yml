@@ -3,10 +3,11 @@ client:
   v1:
     host: localhost:12000
     user_agent: "Migrieren-client/1.0 gRPC/1.0"
-    timeout: 1s
     retry:
-      timeout: 2s
       attempts: 3
+      backoff: 100ms
+      timeout: 10s
+    timeout: 5s
 health:
   duration: 1s
   timeout: 1s
@@ -42,11 +43,15 @@ transport:
     port: 11000
     user_agent: "Migrieren-server/1.0 HTTP/1.0"
     retry:
-      timeout: 2s
       attempts: 3
+      backoff: 100ms
+      timeout: 10s
+    timeout: 5s
   grpc:
     port: 12000
     user_agent: "Migrieren-server/1.0 gRPC/1.0"
     retry:
-      timeout: 2s
       attempts: 3
+      backoff: 100ms
+      timeout: 10s
+    timeout: 5s
