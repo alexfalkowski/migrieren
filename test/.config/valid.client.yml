@@ -3,13 +3,14 @@ client:
   v1:
     host: localhost:12000
     user_agent: "Migrieren-client/1.0 gRPC/1.0"
-    timeout: 1s
-    retry:
-      timeout: 2s
-      attempts: 3
     migrate:
       database: postgres
       version: 1
+    retry:
+      attempts: 3
+      backoff: 100ms
+      timeout: 10s
+    timeout: 5s
 telemetry:
   logger:
     level: info

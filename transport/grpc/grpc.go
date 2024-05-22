@@ -23,18 +23,20 @@ type ClientOpts struct {
 
 // NewClient for gRPC.
 func NewClient(options ClientOpts) (*g.ClientConn, error) {
-	sec, err := grpc.WithClientTLS(options.Client.TLS)
+	cfg := options.Client
+
+	sec, err := grpc.WithClientTLS(cfg.TLS)
 	if err != nil {
 		return nil, err
 	}
 
 	opts := []grpc.ClientOption{
 		grpc.WithClientLogger(options.Logger), grpc.WithClientTracer(options.Tracer),
-		grpc.WithClientMetrics(options.Meter), grpc.WithClientRetry(options.Client.Retry),
-		grpc.WithClientUserAgent(options.Client.UserAgent), grpc.WithClientTimeout(options.Client.Timeout), sec,
+		grpc.WithClientMetrics(options.Meter), grpc.WithClientRetry(cfg.Retry),
+		grpc.WithClientUserAgent(cfg.UserAgent), grpc.WithClientTimeout(cfg.Timeout), sec,
 	}
 
-	conn, err := grpc.NewClient(options.Client.Host, opts...)
+	conn, err := grpc.NewClient(cfg.Host, opts...)
 
 	options.Lifecycle.Append(fx.Hook{
 		OnStop: func(_ context.Context) error {
