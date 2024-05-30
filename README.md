@@ -56,6 +56,10 @@ Each database has the following properties:
 - The source of the migrations (file, GitHub, etc).
 - The database URL (MySQL, PostgreSQL, etc).
 
+### Dependencies
+
+![Dependencies](./assets/server.png)
+
 ## Client
 
 The client is used to migrate a specific database.
@@ -85,6 +89,10 @@ client:
       database: db1
       version: 1
 ```
+
+### Dependencies
+
+![Dependencies](./assets/client.png)
 
 ## Health
 
