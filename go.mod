@@ -4,13 +4,13 @@ go 1.22.3
 
 require (
 	github.com/alexfalkowski/go-health v1.17.0
-	github.com/alexfalkowski/go-service v1.209.1
+	github.com/alexfalkowski/go-service v1.210.0
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.20.0
 	go.opentelemetry.io/otel v1.27.0
 	go.opentelemetry.io/otel/metric v1.27.0
 	go.opentelemetry.io/otel/trace v1.27.0
-	go.uber.org/fx v1.21.1
+	go.uber.org/fx v1.22.0
 	go.uber.org/multierr v1.11.0
 	go.uber.org/zap v1.27.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240520151616-dc85e6b867a5
