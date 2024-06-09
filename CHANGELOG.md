@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.117.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.117.0) - 2024-06-09
+
+- [`d9ebf5e`](https://github.com/alexfalkowski/migrieren/commit/d9ebf5e7e0a1b1f69b16297f458a600383ab7d39) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.214.1 (#808)
+- [`5c6bb71`](https://github.com/alexfalkowski/migrieren/commit/5c6bb717ae2d7a4207077567c610de4d190f99fe) build(deps): bump bin from `955891d` to `897d5f1` (#807)
+- [`aae056c`](https://github.com/alexfalkowski/migrieren/commit/aae056c6c7f232cabde10f6e4f3583ab106dd18c) build(ci): fix bundler dependabot (#806)
+- [`0669b1c`](https://github.com/alexfalkowski/migrieren/commit/0669b1c9f5d7333eb28529717c9e7ea1da142ad2) build(ci): add dependabot (#805)
+- [`44735c0`](https://github.com/alexfalkowski/migrieren/commit/44735c07d3398e940354b04adc2276b78ad0991b) build(ci): use alexfalkowski/go:1.22 (#804)
+
 ## [v1.116.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.116.2) - 2024-06-05
 
 - [`0b5532f`](https://github.com/alexfalkowski/migrieren/commit/0b5532f5ad2b48d7038f99f4961ab46dcdc6021e) fix(deps): upgraded github.com/alexfalkowski/go-service to v1.213.3 (#803)
