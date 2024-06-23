@@ -41,7 +41,7 @@ token:
     hash: $argon2id$v=19$m=65536,t=3,p=4$uErhuFGj8rrDzknJg6CSqw$Qnv/SXyD0a2d9kud3PnYLMrgh4s3gdS2vZnLYXzmL+k
 transport:
   http:
-    mux: gateway
+    mux: standard
     port: 11000
     user_agent: "Migrieren-server/1.0 HTTP/1.0"
     retry:

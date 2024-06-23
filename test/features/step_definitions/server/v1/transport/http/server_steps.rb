@@ -13,7 +13,7 @@ Then('I should receive a successful migration from HTTP:') do |table|
 
   expect(resp['meta'].length).to be > 0
   expect(migration['database']).to eq(rows['database'])
-  expect(migration['version']).to eq(rows['version'])
+  expect(migration['version']).to eq(rows['version'].to_i)
   expect(migration['logs'].length).to be > 0
 end
 
@@ -35,5 +35,5 @@ def request_with_http(table)
     read_timeout: 10, open_timeout: 10
   }
 
-  Migrieren::V1.server_http.migrate(rows['database'], rows['version'], opts)
+  Migrieren::V1.server_http.migrate(rows['database'], rows['version'].to_i, opts)
 end

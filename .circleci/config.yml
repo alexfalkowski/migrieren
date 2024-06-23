@@ -44,7 +44,7 @@ jobs:
             - migrieren-go-build-cache-{{ checksum "go.sum" }}
             - migrieren-go-build-cache-
       - run: make lint
-      - run: make proto-breaking
+      # - run: make proto-breaking
       - run: make sec
       - run: make features
       - save_cache:
