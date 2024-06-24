@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.123.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.123.0) - 2024-06-24
+
+- [`714fad1`](https://github.com/alexfalkowski/migrieren/commit/714fad177684746b9b43a759da36a4aacf147b86) feat(server): move token to server (#821)
+- [`be7a094`](https://github.com/alexfalkowski/migrieren/commit/be7a094eff7324cffd5c6827585a8023dbdb9079) build(ci): add proto-breaking (#820)
+
 ## [v1.122.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.122.0) - 2024-06-23
 
 - [`eb4f1ee`](https://github.com/alexfalkowski/migrieren/commit/eb4f1ee90909a7c08e8fd392070bd88d7f366128) feat(http): move away from grpc gateway (#819)
