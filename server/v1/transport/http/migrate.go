@@ -32,7 +32,7 @@ type (
 	migrateErrorer struct{}
 )
 
-// GenerateIdentifiers for HTTP.
+// Migrate for HTTP.
 func (s *Server) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
