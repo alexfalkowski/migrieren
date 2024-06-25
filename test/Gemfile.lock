@@ -122,7 +122,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
-    rspec-wait (1.0.0)
+    rspec-wait (1.0.1)
       rspec (>= 3.4)
     rubocop (1.64.1)
       json (~> 2.3)
