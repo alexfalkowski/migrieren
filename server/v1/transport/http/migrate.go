@@ -29,11 +29,12 @@ type (
 		Version  uint64   `json:"version,omitempty"`
 	}
 
-	migrateErrorer struct{}
+	migrateHandler struct {
+		service *service.Service
+	}
 )
 
-// Migrate for HTTP.
-func (s *Server) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
+func (h *migrateHandler) Handle(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
 			Database: req.Database,
@@ -41,7 +42,7 @@ func (s *Server) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResp
 		},
 	}
 
-	logs, err := s.service.Migrate(ctx, req.Database, req.Version)
+	logs, err := h.service.Migrate(ctx, req.Database, req.Version)
 	if err != nil {
 		return resp, err
 	}
@@ -52,11 +53,11 @@ func (s *Server) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResp
 	return resp, nil
 }
 
-func (*migrateErrorer) Error(ctx context.Context, err error) *MigrateResponse {
+func (h *migrateHandler) Error(ctx context.Context, err error) *MigrateResponse {
 	return &MigrateResponse{Meta: meta.CamelStrings(ctx, ""), Error: &Error{Message: err.Error()}}
 }
 
-func (*migrateErrorer) Status(err error) int {
+func (h *migrateHandler) Status(err error) int {
 	if service.IsNotFoundError(err) {
 		return http.StatusNotFound
 	}
