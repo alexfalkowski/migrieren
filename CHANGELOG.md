@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.125.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.125.0) - 2024-06-25
+
+- [`afaad1b`](https://github.com/alexfalkowski/migrieren/commit/afaad1b60c59711120f95df17c3e8030588dc991) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.221.0 (#825)
+- [`13be2a4`](https://github.com/alexfalkowski/migrieren/commit/13be2a4ea11b6bf143c73fc570e31cf77e20a25c) test(deps): bump rspec-wait from 1.0.0 to 1.0.1 in /test (#826)
+- [`326e2e9`](https://github.com/alexfalkowski/migrieren/commit/326e2e999b6047b73de2e7ca5530ee8acab81510) docs(server): update diagrams (#824)
+
 ## [v1.124.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.124.0) - 2024-06-24
 
 - [`962397e`](https://github.com/alexfalkowski/migrieren/commit/962397e4b541afcf54677aa43715b73cc51d83bd) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.220.0 (#823)
