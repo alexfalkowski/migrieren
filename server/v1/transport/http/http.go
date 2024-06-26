@@ -12,5 +12,5 @@ type Error struct {
 
 // Register for HTTP.
 func Register(service *service.Service) {
-	http.Handle("POST /v1/migrate", &migrateHandler{service: service})
+	http.Handle("/v1/migrate", &migrateHandler{service: service})
 }
