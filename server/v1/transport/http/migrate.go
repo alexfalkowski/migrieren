@@ -1,10 +1,10 @@
 package http
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/alexfalkowski/go-service/meta"
+	nh "github.com/alexfalkowski/go-service/net/http"
 	"github.com/alexfalkowski/migrieren/server/service"
 )
 
@@ -34,7 +34,7 @@ type (
 	}
 )
 
-func (h *migrateHandler) Handle(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
+func (h *migrateHandler) Handle(ctx nh.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
 			Database: req.Database,
@@ -53,7 +53,7 @@ func (h *migrateHandler) Handle(ctx context.Context, req *MigrateRequest) (*Migr
 	return resp, nil
 }
 
-func (h *migrateHandler) Error(ctx context.Context, err error) *MigrateResponse {
+func (h *migrateHandler) Error(ctx nh.Context, err error) *MigrateResponse {
 	return &MigrateResponse{Meta: meta.CamelStrings(ctx, ""), Error: &Error{Message: err.Error()}}
 }
 
