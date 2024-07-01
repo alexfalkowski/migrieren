@@ -18,7 +18,6 @@ type (
 	// MigrateResponse for a specific database and version.
 	MigrateResponse struct {
 		Meta      map[string]string `json:"meta,omitempty"`
-		Error     *Error            `json:"error,omitempty"`
 		Migration *Migration        `json:"migration,omitempty"`
 	}
 
@@ -51,10 +50,6 @@ func (h *migrateHandler) Handle(ctx nh.Context, req *MigrateRequest) (*MigrateRe
 	resp.Meta = meta.CamelStrings(ctx, "")
 
 	return resp, nil
-}
-
-func (h *migrateHandler) Error(ctx nh.Context, err error) *MigrateResponse {
-	return &MigrateResponse{Meta: meta.CamelStrings(ctx, ""), Error: &Error{Message: err.Error()}}
 }
 
 func (h *migrateHandler) Status(err error) int {
