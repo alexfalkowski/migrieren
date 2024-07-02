@@ -12,8 +12,8 @@ import (
 // ErrNotFound for service.
 var ErrNotFound = errors.New("not found")
 
-// IsNotFoundError for service.
-func IsNotFoundError(err error) bool {
+// IsNotFound for service.
+func IsNotFound(err error) bool {
 	return errors.Is(err, ErrNotFound)
 }
 
