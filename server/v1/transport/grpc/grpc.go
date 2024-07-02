@@ -25,7 +25,7 @@ type Server struct {
 }
 
 func (s *Server) error(err error) error {
-	if service.IsNotFoundError(err) {
+	if service.IsNotFound(err) {
 		return status.Error(codes.NotFound, err.Error())
 	}
 
