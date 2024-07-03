@@ -7,7 +7,7 @@ import (
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
-	semconv "go.opentelemetry.io/otel/semconv/v1.25.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.26.0"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -31,7 +31,6 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 
 	attrs := []attribute.KeyValue{
 		semconv.DBSystemKey.String(u.Scheme),
-		semconv.DBUser(u.User.Username()),
 		attribute.Key("db.migrate.version").Int64(int64(version)),
 	}
 
