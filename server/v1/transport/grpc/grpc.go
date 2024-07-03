@@ -3,7 +3,7 @@ package grpc
 import (
 	"github.com/alexfalkowski/go-service/transport/grpc"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/server/service"
+	"github.com/alexfalkowski/migrieren/server/migrate"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,18 +14,18 @@ func Register(gs *grpc.Server, server v1.ServiceServer) {
 }
 
 // NewServer for gRPC.
-func NewServer(service *service.Service) v1.ServiceServer {
+func NewServer(service *migrate.Migrator) v1.ServiceServer {
 	return &Server{service: service}
 }
 
 // Server for gRPC.
 type Server struct {
 	v1.UnimplementedServiceServer
-	service *service.Service
+	service *migrate.Migrator
 }
 
 func (s *Server) error(err error) error {
-	if service.IsNotFound(err) {
+	if migrate.IsNotFound(err) {
 		return status.Error(codes.NotFound, err.Error())
 	}
 

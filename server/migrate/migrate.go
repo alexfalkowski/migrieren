@@ -1,4 +1,4 @@
-package service
+package migrate
 
 import (
 	"context"
@@ -17,19 +17,19 @@ func IsNotFound(err error) bool {
 	return errors.Is(err, ErrNotFound)
 }
 
-// NewService for the different transports.
-func NewService(cfg *migrate.Config, mig migrator.Migrator) *Service {
-	return &Service{config: cfg, migrator: mig}
+// NewMigrator for the different transports.
+func NewMigrator(cfg *migrate.Config, mig migrator.Migrator) *Migrator {
+	return &Migrator{config: cfg, migrator: mig}
 }
 
-// Service for the different transports.
-type Service struct {
+// Migrator for the different transports.
+type Migrator struct {
 	migrator migrator.Migrator
 	config   *migrate.Config
 }
 
 // Migrate the database.
-func (s *Service) Migrate(ctx context.Context, db string, version uint64) ([]string, error) {
+func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]string, error) {
 	d := s.config.Database(db)
 	if d == nil {
 		return nil, fmt.Errorf("%s: %w", db, ErrNotFound)
