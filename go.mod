@@ -6,9 +6,9 @@ require (
 	github.com/alexfalkowski/go-health v1.17.1
 	github.com/alexfalkowski/go-service v1.232.0
 	github.com/golang-migrate/migrate/v4 v4.17.1
-	go.opentelemetry.io/otel v1.27.0
-	go.opentelemetry.io/otel/metric v1.27.0
-	go.opentelemetry.io/otel/trace v1.27.0
+	go.opentelemetry.io/otel v1.28.0
+	go.opentelemetry.io/otel/metric v1.28.0
+	go.opentelemetry.io/otel/trace v1.28.0
 	go.uber.org/fx v1.22.1
 	go.uber.org/multierr v1.11.0
 	go.uber.org/zap v1.27.0
