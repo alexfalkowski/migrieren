@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/alexfalkowski/go-service/meta"
 	"github.com/alexfalkowski/go-service/net/http"
-	"github.com/alexfalkowski/migrieren/server/service"
+	"github.com/alexfalkowski/migrieren/server/migrate"
 )
 
 type (
@@ -27,7 +27,7 @@ type (
 	}
 
 	migrateHandler struct {
-		service *service.Service
+		service *migrate.Migrator
 	}
 )
 
