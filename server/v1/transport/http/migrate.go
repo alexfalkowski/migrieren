@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/alexfalkowski/go-service/meta"
-	"github.com/alexfalkowski/go-service/net/http/rpc"
+	"github.com/alexfalkowski/go-service/net/http"
 	"github.com/alexfalkowski/migrieren/server/migrate"
 )
 
@@ -31,7 +31,7 @@ type (
 	}
 )
 
-func (h *migrateHandler) Handle(ctx rpc.Context, req *MigrateRequest) (*MigrateResponse, error) {
+func (h *migrateHandler) Handle(ctx http.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
 			Database: req.Database,
