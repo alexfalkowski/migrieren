@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/alexfalkowski/go-service/compressor"
-	"github.com/alexfalkowski/go-service/marshaller"
+	"github.com/alexfalkowski/go-service/compress"
+	"github.com/alexfalkowski/go-service/encoding"
 	"github.com/alexfalkowski/go-service/telemetry"
 	"github.com/alexfalkowski/go-service/telemetry/metrics"
 	mc "github.com/alexfalkowski/migrieren/client"
@@ -13,7 +13,7 @@ import (
 
 // MigrateOptions for cmd.
 var MigrateOptions = []fx.Option{
-	compressor.Module, marshaller.Module,
+	compress.Module, encoding.Module,
 	telemetry.Module, metrics.Module,
 	config.Module, mc.Module, migrate.Module, Module,
 }
