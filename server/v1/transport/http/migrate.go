@@ -32,7 +32,7 @@ type (
 	}
 )
 
-func (h *migrateHandler) Handle(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
+func (h *migrateHandler) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
 			Database: req.Database,
