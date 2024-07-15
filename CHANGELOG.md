@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.152.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.152.0) - 2024-07-15
+
+- [`bd61233`](https://github.com/alexfalkowski/migrieren/commit/bd61233f2c1e13d32f16da3aa3473808a6197635) feat(deps): bump github.com/alexfalkowski/go-service from 1.247.0 to 1.248.0 (#868)
+- [`135e42a`](https://github.com/alexfalkowski/migrieren/commit/135e42adee674dc7d44777532bb4e8cb5e6729e9) build(ci): use docker caching (#867)
+- [`1a48ca1`](https://github.com/alexfalkowski/migrieren/commit/1a48ca152121f912c2e11cc2263c5f7b99b1d8c0) test(deps): bump ruby-lsp from 0.17.6 to 0.17.7 in /test (#866)
+- [`a282a15`](https://github.com/alexfalkowski/migrieren/commit/a282a150b666104aa7802a507c132f291740ff9e) test(deps): bump ruby-lsp from 0.17.5 to 0.17.6 in /test (#865)
+- [`d448ad6`](https://github.com/alexfalkowski/migrieren/commit/d448ad605aeda9e0bf09c3ab725d917b3ee7963f) test(deps): bump rubocop from 1.64.1 to 1.65.0 in /test (#864)
+
 ## [v1.151.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.151.0) - 2024-07-11
 
 - [`3791663`](https://github.com/alexfalkowski/migrieren/commit/3791663c1dffb7cf6c6c1e79d74f3a74b4474141) feat(deps): bump github.com/alexfalkowski/go-service from 1.246.0 to 1.247.0 (#863)
