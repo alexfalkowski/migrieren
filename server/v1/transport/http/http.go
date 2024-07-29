@@ -11,7 +11,7 @@ import (
 // Register for HTTP.
 func Register(service *migrate.Migrator) {
 	mh := &migrateHandler{service: service}
-	rpc.Unary("/v1/migrate", mh.Migrate)
+	rpc.Route("/v1/migrate", mh.Migrate)
 }
 
 func handleError(err error) error {
