@@ -1,7 +1,7 @@
 environment: production
 client:
   v1:
-    host: localhost:12000
+    address: localhost:12000
     user_agent: "Migrieren-client/1.0 gRPC/1.0"
     migrate:
       database: missing
@@ -16,10 +16,10 @@ telemetry:
     level: info
   metrics:
     kind: otlp
-    host: http://localhost:9009/otlp/v1/metrics
+    url: http://localhost:9009/otlp/v1/metrics
   tracer:
     kind: otlp
-    host: http://localhost:4318/v1/traces
+    url: http://localhost:4318/v1/traces
 token:
   argon2:
     key: secrets/token
