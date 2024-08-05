@@ -64,40 +64,6 @@ Each database has the following properties:
 
 ![Dependencies](./assets/server.png)
 
-## Client
-
-The client is used to migrate a specific database.
-
-```bash
-❯ ./migrieren migrate --help
-Migrate the database.
-
-Usage:
-  migrieren migrate [flags]
-
-Flags:
-  -h, --help   help for migrate
-
-Global Flags:
-  -i, --input string   input config location (format kind:location) (default "env:MIGRIEREN_CONFIG_FILE")
-```
-
-To configure we just need the have the following configuration:
-
-```yaml
-client:
-  v1:
-    host: localhost:9090
-    timeout: 5s
-    migrate:
-      database: db1
-      version: 1
-```
-
-### Dependencies
-
-![Dependencies](./assets/client.png)
-
 ## Health
 
 The system defines a way to monitor all of it's dependencies.
