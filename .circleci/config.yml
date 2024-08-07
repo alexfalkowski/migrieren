@@ -62,6 +62,7 @@ jobs:
           path: test/reports
       - codecov/upload:
           file: test/reports/final.cov
+      - run: make build analyse
     resource_class: large
   build-docker:
     docker:
