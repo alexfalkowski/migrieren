@@ -1,9 +1,8 @@
 module github.com/alexfalkowski/migrieren
 
 go 1.22.5
-
 require (
-	github.com/alexfalkowski/go-health v1.17.2
+	github.com/alexfalkowski/go-health v1.17.3
 	github.com/alexfalkowski/go-service v1.270.3
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	go.opentelemetry.io/otel v1.28.0
