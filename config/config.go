@@ -5,6 +5,7 @@ import (
 	"github.com/alexfalkowski/go-service/config"
 	"github.com/alexfalkowski/migrieren/health"
 	"github.com/alexfalkowski/migrieren/migrate"
+	"github.com/alexfalkowski/migrieren/token"
 )
 
 // NewConfigurator for config.
@@ -23,6 +24,7 @@ func IsEnabled(cfg *Config) bool {
 type Config struct {
 	Health         *health.Config  `yaml:"health,omitempty" json:"health,omitempty" toml:"health,omitempty"`
 	Migrate        *migrate.Config `yaml:"migrate,omitempty" json:"migrate,omitempty" toml:"migrate,omitempty"`
+	Token          *token.Config   `yaml:"token,omitempty" json:"token,omitempty" toml:"token,omitempty"`
 	*config.Config `yaml:",inline" json:",inline" toml:",inline"`
 }
 
@@ -48,4 +50,12 @@ func migrateConfig(cfg *Config) *migrate.Config {
 	}
 
 	return cfg.Migrate
+}
+
+func tokenConfig(cfg *Config) *token.Config {
+	if !IsEnabled(cfg) || !token.IsEnabled(cfg.Token) {
+		return nil
+	}
+
+	return cfg.Token
 }
