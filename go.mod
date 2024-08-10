@@ -4,7 +4,7 @@ go 1.22.6
 
 require (
 	github.com/alexfalkowski/go-health v1.18.1
-	github.com/alexfalkowski/go-service v1.273.1
+	github.com/alexfalkowski/go-service v1.274.0
 	github.com/golang-migrate/migrate/v4 v4.17.1
 	go.opentelemetry.io/otel v1.28.0
 	go.opentelemetry.io/otel/trace v1.28.0
