@@ -12,7 +12,6 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/golang-migrate/migrate/v4/source/github"
 	"go.opentelemetry.io/otel/trace"
-	"go.uber.org/multierr"
 )
 
 var (
@@ -50,13 +49,11 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	mig.Log = logger
 
 	if err := mig.Migrate(uint(version)); err != nil {
-		if errors.Is(err, migrate.ErrNoChange) {
-			logger.Printf(err.Error())
+		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
+		if errors.Is(err, migrate.ErrNoChange) {
 			return logger.logs, m.close(mig, nil)
 		}
-
-		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		return logger.logs, m.close(mig, ErrInvalidMigration)
 	}
@@ -85,5 +82,5 @@ func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 func (m *Migrator) close(mig *migrate.Migrate, err error) error {
 	errSource, errDB := mig.Close()
 
-	return multierr.Combine(errSource, errDB, err)
+	return errors.Join(errSource, errDB, err)
 }
