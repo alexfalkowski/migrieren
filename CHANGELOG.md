@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.179.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.179.0) - 2024-08-21
+
+- [`d6a285e`](https://github.com/alexfalkowski/migrieren/commit/d6a285e1f18c658ccf861df197addd3fe58af1b8) feat(deps): bump github.com/alexfalkowski/go-service from 1.278.0 to 1.279.0 (#921)
+- [`0406633`](https://github.com/alexfalkowski/migrieren/commit/0406633c2546d6f2464e384376ed97d8860baa31) test(deps): bump rspec-expectations from 3.13.1 to 3.13.2 in /test (#920)
+- [`e1db0a9`](https://github.com/alexfalkowski/migrieren/commit/e1db0a9e8b8227e426ae592789610183a8032fc3) test(deps): bump ruby-lsp from 0.17.14 to 0.17.15 in /test (#919)
+- [`8c3b031`](https://github.com/alexfalkowski/migrieren/commit/8c3b031b3e958825108c63aeb1095c9058d2a6a5) test(deps): bump ruby-lsp from 0.17.13 to 0.17.14 in /test (#918)
+
 ## [v1.178.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.178.0) - 2024-08-19
 
 - [`6dffd51`](https://github.com/alexfalkowski/migrieren/commit/6dffd51fe8084fc2516c69f1ad29a974c810af81) feat(deps): bump github.com/alexfalkowski/go-service from 1.276.0 to 1.278.0 (#917)
