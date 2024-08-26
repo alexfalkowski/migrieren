@@ -47,6 +47,7 @@ jobs:
       - run: make proto-breaking
       - run: make sec
       - run: make features
+      - run: make build analyse
       - save_cache:
           name: save go build cache
           key: migrieren-go-build-cache-{{ checksum "go.sum" }}
@@ -58,7 +59,6 @@ jobs:
       - store_artifacts:
           path: test/reports
       - run: make codecov-upload
-      - run: make build analyse
     resource_class: large
   build-docker:
     docker:
