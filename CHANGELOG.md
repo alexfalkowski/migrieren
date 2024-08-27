@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.181.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.181.0) - 2024-08-27
+
+- [`78a956e`](https://github.com/alexfalkowski/migrieren/commit/78a956ea22fcb516262c8790e48ca525fdb4fcee) feat(deps): bump github.com/alexfalkowski/go-service from 1.280.0 to 1.280.1 (#929)
+- [`4f483cf`](https://github.com/alexfalkowski/migrieren/commit/4f483cf838e23659caa150f1b23c49073dbf4038) test(deps): bump ruby-lsp from 0.17.15 to 0.17.16 in /test (#928)
+- [`1069ce0`](https://github.com/alexfalkowski/migrieren/commit/1069ce0b1f10e9ed85948329c2f42e0cc6233716) build(ci): analyse before save cache (#927)
+
 ## [v1.180.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.180.0) - 2024-08-26
 
 - [`1d8843d`](https://github.com/alexfalkowski/migrieren/commit/1d8843d992d220ed51166be2248d0d0a4202248c) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.280.0 (#926)
