@@ -31,7 +31,7 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 
 	attrs := []attribute.KeyValue{
 		semconv.DBSystemKey.String(u.Scheme),
-		attribute.Key("db.migrate.version").Int64(int64(version)),
+		attribute.Key("db.migrate.version").Int64(int64(version)), //nolint:gosec
 	}
 
 	ctx, span := m.tracer.Start(ctx, operationName("db"), trace.WithSpanKind(trace.SpanKindClient), trace.WithAttributes(attrs...))
