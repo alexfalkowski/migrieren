@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.188.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.188.0) - 2024-09-06
+
+- [`cab0e06`](https://github.com/alexfalkowski/migrieren/commit/cab0e0681a6f37f4f1fdcbf23e955a0385938bc2) feat(deps): bump golang from 1.23.0-bullseye to 1.23.1-bullseye (#946)
+- [`9ac4e43`](https://github.com/alexfalkowski/migrieren/commit/9ac4e439cd40306b4165671903a0e154b300b109) test(ruby): remove version (#945)
+- [`d9fcdc1`](https://github.com/alexfalkowski/migrieren/commit/d9fcdc1d81ed81af0240b144db1f6ed3c6cb1a09) test(deps): bump rubocop from 1.66.0 to 1.66.1 in /test (#943)
+- [`f2e0228`](https://github.com/alexfalkowski/migrieren/commit/f2e0228ef57a8d8358b30d501093e1f6c390f8ef) build(sec): disable G115 (#944)
+
 ## [v1.187.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.187.1) - 2024-09-02
 
 - [`1c6422c`](https://github.com/alexfalkowski/migrieren/commit/1c6422ce7a2118fe45c3b591efd271855204d840) fix(deps): upgraded github.com/alexfalkowski/go-service to v1.288.1 (#942)
