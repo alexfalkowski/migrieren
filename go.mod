@@ -6,12 +6,12 @@ toolchain go1.23.0
 
 require (
 	github.com/alexfalkowski/go-health v1.19.0
-	github.com/alexfalkowski/go-service v1.292.0
+	github.com/alexfalkowski/go-service v1.292.1
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	go.opentelemetry.io/otel v1.30.0
 	go.opentelemetry.io/otel/trace v1.30.0
 	go.uber.org/fx v1.22.2
-	google.golang.org/grpc v1.66.1
+	google.golang.org/grpc v1.66.2
 	google.golang.org/protobuf v1.34.2
 )
 
