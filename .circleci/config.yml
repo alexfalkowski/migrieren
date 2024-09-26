@@ -101,7 +101,8 @@ workflows:
   migrieren:
     jobs:
       - build-service
-      - build-docker
+      - build-docker:
+          context: gh
       - release:
           context: gh
           requires:
