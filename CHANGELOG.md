@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.207.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.207.2) - 2024-11-01
+
+- [`e2f6286`](https://github.com/alexfalkowski/migrieren/commit/e2f6286a365e8167cf0347ed67b0b22d5ced8b56) fix(deps): upgraded github.com/alexfalkowski/go-service to v1.307.2 (#995)
+- [`6fd3b28`](https://github.com/alexfalkowski/migrieren/commit/6fd3b285d03cae71cda46746bc3305d3442b645f) build(deps): bump bin from `e8f9d73` to `cf4a7d3` (#994)
+- [`1b5654f`](https://github.com/alexfalkowski/migrieren/commit/1b5654f7ae2a73f8334bec4bef5f6621427c0834) test(deps): bump rubocop from 1.67.0 to 1.68.0 in /test (#992)
+- [`e34b7c2`](https://github.com/alexfalkowski/migrieren/commit/e34b7c2460991256bb2a50c430e0c1c9d8b0b23a) test(deps): bump ruby-lsp from 0.20.1 to 0.21.1 in /test (#993)
+
 ## [v1.207.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.207.1) - 2024-10-18
 
 - [`78e7836`](https://github.com/alexfalkowski/migrieren/commit/78e783663bde2b979243132d44fed737f3c76b1a) fix(deps): upgraded github.com/alexfalkowski/go-service to v1.307.1 (#991)
