@@ -6,7 +6,7 @@ toolchain go1.23.0
 
 require (
 	github.com/alexfalkowski/go-health v1.19.0
-	github.com/alexfalkowski/go-service v1.320.0
+	github.com/alexfalkowski/go-service v1.320.1
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	go.opentelemetry.io/otel v1.32.0
 	go.opentelemetry.io/otel/trace v1.32.0
@@ -91,7 +91,7 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0 // indirect
 	github.com/secure-io/siv-go v0.0.0-20180922214919-5ff40651e2c4 // indirect
 	github.com/sethvargo/go-limiter v1.0.0 // indirect
-	github.com/shirou/gopsutil/v4 v4.24.10 // indirect
+	github.com/shirou/gopsutil/v4 v4.24.11 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sony/gobreaker v1.0.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
