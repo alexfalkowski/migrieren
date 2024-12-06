@@ -14,5 +14,4 @@ var Module = fx.Options(
 	fx.Decorate(decorateConfig),
 	fx.Provide(healthConfig),
 	fx.Provide(migrateConfig),
-	fx.Provide(tokenConfig),
 )
