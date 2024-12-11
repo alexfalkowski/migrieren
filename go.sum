@@ -22,8 +22,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health v1.19.0 h1:p8gx3OJ+jpxXHh6W5eXF1pfCys1DMWgzE/yyH/u1v5E=
 github.com/alexfalkowski/go-health v1.19.0/go.mod h1:OxtnkvUD2qKWQWTOvUJxPOSHaueFICXNDtAsXJejFBQ=
-github.com/alexfalkowski/go-service v1.329.0 h1:Q5iglzsTjuaXEdakCfgqvtEUf3MBM91kwKCDiYEALNA=
-github.com/alexfalkowski/go-service v1.329.0/go.mod h1:ljG13ZtE0h4ZtVM6S/Gg27ItvdVEVfi4QakNZ1MCJsU=
+github.com/alexfalkowski/go-service v1.330.0 h1:rIDEaeJtT2hH/Tob3CCUecOP4rwtWwbaBBAujv5fqQY=
+github.com/alexfalkowski/go-service v1.330.0/go.mod h1:bR+wfuSkuRrBF8yUQ8Gq8H/MygdObD5XVeVqTv1GIl4=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/avast/retry-go/v3 v3.1.1 h1:49Scxf4v8PmiQ/nY0aY3p0hDueqSmc7++cBbtiDGu2g=
@@ -277,8 +277,8 @@ github.com/onsi/gomega v1.24.0/go.mod h1:Z/NWtiqwBrwUt4/2loMmHL63EDLnYHmVbuBpDr2
 github.com/onsi/gomega v1.24.1/go.mod h1:3AOiACssS3/MajrniINInwbfOOtfZvplPzuRSmvt1jM=
 github.com/onsi/gomega v1.25.0 h1:Vw7br2PCDYijJHSfBOWhov+8cAnUf8MfMaIOV323l6Y=
 github.com/onsi/gomega v1.25.0/go.mod h1:r+zV744Re+DiYCIPRlYOTxn0YkOLcAnW8k1xXdMPGhM=
-github.com/open-feature/go-sdk v1.13.1 h1:RJbS70eyi7Jd3Zm5bFnaahNKNDXn+RAVnctpGu+uPis=
-github.com/open-feature/go-sdk v1.13.1/go.mod h1:O8r4mhgeRIsjJ0ZBXlnE0BtbT/79W44gQceR7K8KYgo=
+github.com/open-feature/go-sdk v1.14.0 h1:+B+Z94QS4HXPAn6OnaWWjMNAJkHlh6pIqW2Y1194yF8=
+github.com/open-feature/go-sdk v1.14.0/go.mod h1:t337k0VB/t/YxJ9S0prT30ISUHwYmUd/jhUZgFcOvGg=
 github.com/open-feature/go-sdk-contrib/hooks/open-telemetry v0.3.4 h1:1+YZs4PjvIX2vGjg3FenuXJpN8m83jiTAdfudUjAQuU=
 github.com/open-feature/go-sdk-contrib/hooks/open-telemetry v0.3.4/go.mod h1:QiuIhaGRUFNmW+w1q0OaYLm92lfm//aJr4uTPQonSGQ=
 github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8Oi/yOhh5U=
