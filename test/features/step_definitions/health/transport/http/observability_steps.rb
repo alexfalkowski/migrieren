@@ -6,7 +6,7 @@ When('the system requests the {string} with HTTP') do |name|
     read_timeout: 10, open_timeout: 10
   }
 
-  @response = Migrieren.observability.send(name, opts)
+  @response = Nonnative.observability.send(name, opts)
 end
 
 Then('the system should respond with a healthy status with HTTP') do
