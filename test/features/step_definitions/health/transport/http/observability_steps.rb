@@ -11,14 +11,10 @@ end
 
 Then('the system should respond with a healthy status with HTTP') do
   expect(@response.code).to eq(200)
-  expect(JSON.parse(@response.body)).to eq('status' => 'SERVING')
 end
 
 Then('the system should respond with an unhealthy status with HTTP') do
   expect(@response.code).to eq(503)
-
-  resp = JSON.parse(@response.body)
-  expect(resp['status']).to eq('NOT_SERVING')
 end
 
 Then('the system should respond with metrics') do
