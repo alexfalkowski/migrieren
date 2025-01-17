@@ -20,10 +20,10 @@ github.com/Microsoft/go-winio v0.6.2 h1:F2VQgta7ecxGYO8k3ZZz3RS8fVIXVxONVUPlNERo
 github.com/Microsoft/go-winio v0.6.2/go.mod h1:yd8OoFMLzJbo9gZq8j5qaps8bJ9aShtEA8Ipt1oGCvU=
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4aoV2Iu8bR55nU6iKMVfYVLjY=
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
-github.com/alexfalkowski/go-health v1.20.0 h1:eYoDQyPMsokaPVfnUGEQP6Lp10LG8axJhCGO/dXob7o=
-github.com/alexfalkowski/go-health v1.20.0/go.mod h1:OxtnkvUD2qKWQWTOvUJxPOSHaueFICXNDtAsXJejFBQ=
-github.com/alexfalkowski/go-service v1.374.1 h1:K0K85enBA7t6rJJOfm685l44KfaNHQ/Cly1g//V+P54=
-github.com/alexfalkowski/go-service v1.374.1/go.mod h1:BXMpUNZW0QgcHudBFZVYn24rK45zWZym2t7hIHUnteo=
+github.com/alexfalkowski/go-health v1.20.1 h1:d6ndE6TtsJ3Id5hBWMzV6kd23tkF//fvLkSOB/LlxJM=
+github.com/alexfalkowski/go-health v1.20.1/go.mod h1:dd4TJ92/K5QgmtjbJAPLoXv3bAkcb6WTxskKh5meXWQ=
+github.com/alexfalkowski/go-service v1.374.2 h1:MGYQy3OTtJnmi3YX9zhGQI8lVD9BnnAuqzoMtNK7rEQ=
+github.com/alexfalkowski/go-service v1.374.2/go.mod h1:Ycaf//ObxDqfj4PDVGI/cCykUTQYXD1i6hSMoSiqooI=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/beevik/ntp v1.4.3 h1:PlbTvE5NNy4QHmA4Mg57n7mcFTmr1W1j3gcK7L1lqho=
