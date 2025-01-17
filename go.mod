@@ -5,8 +5,8 @@ go 1.23.3
 toolchain go1.23.5
 
 require (
-	github.com/alexfalkowski/go-health v1.20.0
-	github.com/alexfalkowski/go-service v1.374.1
+	github.com/alexfalkowski/go-health v1.20.1
+	github.com/alexfalkowski/go-service v1.374.2
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	go.opentelemetry.io/otel v1.33.0
 	go.opentelemetry.io/otel/trace v1.33.0
