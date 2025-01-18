@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.269.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.269.1) - 2025-01-18
+
+- [`6e4f1c2`](https://github.com/alexfalkowski/migrieren/commit/6e4f1c2d612d2ae1e5a70bf41b98f82e742c03e8) fix(docker): add space (#1104)
+
 ## [v1.269.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.269.0) - 2025-01-18
 
 - [`b16497c`](https://github.com/alexfalkowski/migrieren/commit/b16497cf004d22ff56198c1a318921da9001720d) feat(docker): create a statically linked binary (#1103)
