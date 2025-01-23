@@ -1,6 +1,5 @@
 @startup
 Feature: gRPC API
-
   These endpoints allows users to migrate different databases.
 
   Scenario Outline: Migrate valid databases
@@ -13,9 +12,9 @@ Feature: gRPC API
 
     Examples:
       | database | version |
-      | postgres | 1       |
-      | postgres | 2       |
-      | postgres | 1       |
+      | postgres |       1 |
+      | postgres |       2 |
+      | postgres |       1 |
 
   Scenario Outline: Migrate missing databases
     When I request to migrate with gRPC:
@@ -25,7 +24,7 @@ Feature: gRPC API
 
     Examples:
       | database | version |
-      | missing  | 1       |
+      | missing  |       1 |
 
   Scenario Outline: Migrate misconfigured databases
     When I request to migrate with gRPC:
@@ -35,5 +34,13 @@ Feature: gRPC API
 
     Examples:
       | database       | version |
-      | invalid_source | 1       |
-      | invalid_db     | 1       |
+      | invalid_source |       1 |
+      | invalid_db     |       1 |
+
+  @failure
+  Scenario: Migrate erroneous databases
+    Given I should see "postgres" as unhealthy
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive an invalid migration from gRPC
