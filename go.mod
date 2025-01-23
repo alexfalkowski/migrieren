@@ -6,7 +6,7 @@ toolchain go1.23.5
 
 require (
 	github.com/alexfalkowski/go-health v1.20.1
-	github.com/alexfalkowski/go-service v1.383.1
+	github.com/alexfalkowski/go-service v1.383.2
 	github.com/golang-migrate/migrate/v4 v4.18.1
 	go.opentelemetry.io/otel v1.34.0
 	go.opentelemetry.io/otel/trace v1.34.0
@@ -40,7 +40,7 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-redis/cache/v9 v9.0.0 // indirect
-	github.com/go-resty/resty/v2 v2.16.4 // indirect
+	github.com/go-resty/resty/v2 v2.16.5 // indirect
 	github.com/go-sprout/sprout v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.4 // indirect
