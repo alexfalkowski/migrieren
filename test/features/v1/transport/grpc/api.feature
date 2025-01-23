@@ -13,6 +13,7 @@ Feature: gRPC API
     Examples:
       | database | version |
       | postgres |       1 |
+      | postgres |       1 |
       | postgres |       2 |
       | postgres |       1 |
 
@@ -26,6 +27,7 @@ Feature: gRPC API
       | database | version |
       | missing  |       1 |
 
+  @clean
   Scenario Outline: Migrate misconfigured databases
     When I request to migrate with gRPC:
       | database | <database> |
@@ -37,6 +39,7 @@ Feature: gRPC API
       | invalid_source |       1 |
       | missing_url    |       1 |
       | invalid_url    |       1 |
+      | postgres       |       3 |
 
   @failure
   Scenario: Migrate erroneous databases

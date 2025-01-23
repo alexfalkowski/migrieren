@@ -4,8 +4,10 @@ require 'securerandom'
 require 'yaml'
 require 'base64'
 
+require 'pg'
 require 'grpc/health/v1/health_services_pb'
 
+require 'migrieren/pg'
 require 'migrieren/v1/http'
 require 'migrieren/v1/service_services_pb'
 
@@ -21,6 +23,10 @@ module Migrieren
 
     def health_grpc
       @health_grpc ||= Grpc::Health::V1::Health::Stub.new('localhost:12000', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
+    end
+
+    def pg
+      @pg ||= Migrieren::PG.new
     end
 
     def user_agent
