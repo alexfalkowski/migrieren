@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.277.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.277.0) - 2025-01-23
+
+- [`8667c52`](https://github.com/alexfalkowski/migrieren/commit/8667c52d6d3a82074922efc959cefaa8df60614f) feat(migrate): verify invalid url (#1119)
+- [`6b03c6d`](https://github.com/alexfalkowski/migrieren/commit/6b03c6d2d6d13d9d5c8e2282bb4375b59f74ccee) test(migrate): just use missing secret (#1117)
+- [`e53edaf`](https://github.com/alexfalkowski/migrieren/commit/e53edaf931826611f8df9cbaacb2edaf09ef3f3a) test(deps): bump rubocop from 1.70.0 to 1.71.0 in /test (#1115)
+
 ## [v1.276.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.276.0) - 2025-01-23
 
 - [`b69d28c`](https://github.com/alexfalkowski/migrieren/commit/b69d28cf141e9842d3ac8a37df5dad50710f95ca) feat(migrate): no need to check version (#1116)
