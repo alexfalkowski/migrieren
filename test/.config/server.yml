@@ -17,18 +17,15 @@ limiter:
   interval: 1s
 migrate:
   databases:
-    -
-      name: postgres
+    - name: postgres
       source: file://migrations
       url: secrets/pg
-    -
-      name: invalid_source
+    - name: invalid_source
       source: file:///migrations
       url: secrets/pg
-    -
-      name: invalid_db
+    - name: invalid_db
       source: file://migrations
-      url: secrets/pg_invalid
+      url: secrets/none
 telemetry:
   logger:
     level: info
