@@ -24,13 +24,8 @@ func NewMigrator(migrator migrator.Migrator, tracer trace.Tracer) *Migrator {
 
 // Migrate a database to a version and returning the database logs.
 func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
-	u, err := url.Parse(db)
-	if err != nil {
-		return nil, err
-	}
-
 	attrs := []attribute.KeyValue{
-		semconv.DBSystemKey.String(u.Scheme),
+		semconv.DBSystemKey.String(m.system(db)),
 		attribute.Key("db.migrate.version").Int64(int64(version)), //nolint:gosec
 	}
 
@@ -49,6 +44,15 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 // Ping the migrator.
 func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 	return m.migrator.Ping(ctx, source, db)
+}
+
+func (m *Migrator) system(db string) string {
+	u, _ := url.Parse(db)
+	if u != nil && u.Scheme != "" {
+		return u.Scheme
+	}
+
+	return db
 }
 
 func operationName(name string) string {

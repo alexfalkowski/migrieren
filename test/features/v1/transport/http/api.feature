@@ -35,7 +35,8 @@ Feature: HTTP API
     Examples:
       | database       | version |
       | invalid_source |       1 |
-      | invalid_db     |       1 |
+      | missing_url    |       1 |
+      | invalid_url    |       1 |
 
   @failure
   Scenario: Migrate erroneous databases

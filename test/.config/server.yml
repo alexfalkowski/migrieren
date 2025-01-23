@@ -1,4 +1,4 @@
-environment: production
+environment: development
 client:
   v1:
     address: localhost:12000
@@ -23,9 +23,12 @@ migrate:
     - name: invalid_source
       source: file:///migrations
       url: secrets/pg
-    - name: invalid_db
+    - name: missing_url
       source: file://migrations
       url: secrets/none
+    - name: invalid_url
+      source: file://migrations
+      url: secrets/invalid
 telemetry:
   logger:
     level: info
