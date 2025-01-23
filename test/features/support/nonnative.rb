@@ -17,3 +17,7 @@ After('@failure') do
 
   sleep 1
 end
+
+After('@clean') do
+  Migrieren.pg.destroy
+end

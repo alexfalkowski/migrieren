@@ -3,8 +3,8 @@ AllCops:
   DisplayCopNames: true
   NewCops: enable
   Exclude:
-    - 'vendor/**/*'
-    - 'lib/**/*_pb.rb'
+    - "vendor/**/*"
+    - "lib/**/*_pb.rb"
 
 Layout/LineLength:
   Max: 150
@@ -13,4 +13,7 @@ Style/NumericPredicate:
   Enabled: false
 
 Style/Documentation:
+  Enabled: false
+
+Lint/EmptyBlock:
   Enabled: false

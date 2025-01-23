@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'cucumber'
 gem 'nonnative'
+gem 'pg'
 gem 'rspec-expectations'
 gem 'rspec-wait'
 gem 'rubocop'
