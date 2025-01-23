@@ -18,15 +18,10 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		},
 	}
 
-	logs, err := s.service.Migrate(ctx, db, ver)
-	if err != nil {
-		resp.Meta = meta.CamelStrings(ctx, "")
-
-		return resp, s.error(err)
-	}
+	logs, err := s.migrator.Migrate(ctx, db, ver)
 
 	resp.Meta = meta.CamelStrings(ctx, "")
 	resp.Migration.Logs = logs
 
-	return resp, nil
+	return resp, s.error(err)
 }
