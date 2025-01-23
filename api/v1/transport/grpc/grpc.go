@@ -15,16 +15,20 @@ func Register(gs *grpc.Server, server v1.ServiceServer) {
 
 // NewServer for gRPC.
 func NewServer(service *migrate.Migrator) v1.ServiceServer {
-	return &Server{service: service}
+	return &Server{migrator: service}
 }
 
 // Server for gRPC.
 type Server struct {
 	v1.UnimplementedServiceServer
-	service *migrate.Migrator
+	migrator *migrate.Migrator
 }
 
 func (s *Server) error(err error) error {
+	if err == nil {
+		return nil
+	}
+
 	if migrate.IsNotFound(err) {
 		return status.Error(codes.NotFound, err.Error())
 	}

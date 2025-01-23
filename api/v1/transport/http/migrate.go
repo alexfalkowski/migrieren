@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/alexfalkowski/go-service/meta"
-	"github.com/alexfalkowski/migrieren/api/migrate"
 )
 
 type (
@@ -26,29 +25,20 @@ type (
 		Logs     []string `json:"logs,omitempty"`
 		Version  uint64   `json:"version,omitempty"`
 	}
-
-	migrateHandler struct {
-		service *migrate.Migrator
-	}
 )
 
-func (h *migrateHandler) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
+// Migrate for HTTP.
+func (h *Handler) Migrate(ctx context.Context, req *MigrateRequest) (*MigrateResponse, error) {
 	resp := &MigrateResponse{
 		Migration: &Migration{
 			Database: req.Database,
 			Version:  req.Version,
 		},
 	}
-
-	logs, err := h.service.Migrate(ctx, req.Database, req.Version)
-	if err != nil {
-		resp.Meta = meta.CamelStrings(ctx, "")
-
-		return resp, handleError(err)
-	}
+	logs, err := h.migrator.Migrate(ctx, req.Database, req.Version)
 
 	resp.Migration.Logs = logs
 	resp.Meta = meta.CamelStrings(ctx, "")
 
-	return resp, nil
+	return resp, h.error(err)
 }

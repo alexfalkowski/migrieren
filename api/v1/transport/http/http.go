@@ -9,12 +9,25 @@ import (
 )
 
 // Register for HTTP.
-func Register(service *migrate.Migrator) {
-	mh := &migrateHandler{service: service}
-	rpc.Route("/v1/migrate", mh.Migrate)
+func Register(handler *Handler) {
+	rpc.Route("/v1/migrate", handler.Migrate)
 }
 
-func handleError(err error) error {
+// NewHandler for HTTP.
+func NewHandler(migrator *migrate.Migrator) *Handler {
+	return &Handler{migrator: migrator}
+}
+
+// Handler for HTTP.
+type Handler struct {
+	migrator *migrate.Migrator
+}
+
+func (h *Handler) error(err error) error {
+	if err == nil {
+		return nil
+	}
+
 	if migrate.IsNotFound(err) {
 		return status.Error(http.StatusNotFound, err.Error())
 	}
