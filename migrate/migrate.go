@@ -63,17 +63,11 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 
 // Ping the migrator.
 func (m *Migrator) Ping(ctx context.Context, source, db string) error {
-	mig, err := migrate.New(source, db)
+	_, err := migrate.New(source, db)
 	if err != nil {
 		meta.WithAttribute(ctx, "pingError", meta.Error(err))
 
 		return ErrInvalidConfig
-	}
-
-	if _, _, err := mig.Version(); err != nil && !errors.Is(err, migrate.ErrNilVersion) {
-		meta.WithAttribute(ctx, "pingError", meta.Error(err))
-
-		return ErrInvalidPing
 	}
 
 	return nil

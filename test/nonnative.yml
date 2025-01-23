@@ -1,8 +1,7 @@
 version: "1.0"
 url: http://localhost:11000
 processes:
-  -
-    name: server
+  - name: server
     go:
       tools: [cover]
       output: reports
@@ -15,3 +14,14 @@ processes:
     log: reports/server.log
     environment:
       MIGRIEREN_CONFIG_FILE: .config/server.yml
+services:
+  - name: postgres
+    host: 127.0.0.1
+    port: 5433
+    proxy:
+      kind: fault_injection
+      host: 127.0.0.1
+      port: 5432
+      log: reports/proxy_postgres.log
+      options:
+        delay: 2
