@@ -41,10 +41,11 @@ Feature: gRPC API
       | invalid_url    |       1 |
       | postgres       |       3 |
 
-  @failure
   Scenario: Migrate erroneous databases
-    Given I should see "postgres" as unhealthy
+    Given I set the proxy for service 'postgres' to 'close_all'
+    And I should see "postgres" as unhealthy
     When I request to migrate with gRPC:
       | database | postgres |
       | version  |        1 |
     Then I should receive an invalid migration from gRPC
+    And I should reset the proxy for service 'postgres'
