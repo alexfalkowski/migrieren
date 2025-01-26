@@ -1,6 +1,5 @@
 version: "1.0"
 url: http://localhost:11000
-wait: 1
 processes:
   - name: server
     go:
@@ -24,5 +23,6 @@ services:
       host: 127.0.0.1
       port: 5432
       log: reports/proxy_postgres.log
+      wait: 1
       options:
         delay: 2
