@@ -6,7 +6,7 @@ toolchain go1.23.5
 
 require (
 	github.com/alexfalkowski/go-health v1.20.1
-	github.com/alexfalkowski/go-service v1.399.0
+	github.com/alexfalkowski/go-service v1.401.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 	go.opentelemetry.io/otel v1.34.0
 	go.opentelemetry.io/otel/trace v1.34.0
@@ -34,12 +34,12 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
 	github.com/elnormous/contenttype v1.0.4 // indirect
+	github.com/faabiosr/cachego v0.22.2 // indirect
 	github.com/felixge/fgprof v0.9.5 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
-	github.com/go-redis/cache/v9 v9.0.0 // indirect
 	github.com/go-resty/resty/v2 v2.16.5 // indirect
 	github.com/go-sprout/sprout v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
@@ -101,9 +101,6 @@ require (
 	github.com/tklauser/go-sysconf v0.3.14 // indirect
 	github.com/tklauser/numcpus v0.9.0 // indirect
 	github.com/urfave/negroni/v3 v3.1.1 // indirect
-	github.com/vmihailenco/go-tinylfu v0.2.2 // indirect
-	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
-	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/host v0.59.0 // indirect
