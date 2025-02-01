@@ -1,3 +1,4 @@
+![Gopher](assets/gopher.png)
 [![CircleCI](https://circleci.com/gh/alexfalkowski/migrieren.svg?style=shield)](https://circleci.com/gh/alexfalkowski/migrieren)
 [![codecov](https://codecov.io/gh/alexfalkowski/migrieren/graph/badge.svg?token=R2OD8WIKD0)](https://codecov.io/gh/alexfalkowski/migrieren)
 [![Go Report Card](https://goreportcard.com/badge/github.com/alexfalkowski/migrieren)](https://goreportcard.com/report/github.com/alexfalkowski/migrieren)
@@ -59,10 +60,6 @@ Each database has the following properties:
 - A distinct name.
 - The source of the migrations (file, GitHub, etc).
 - The database URL (MySQL, PostgreSQL, etc).
-
-### Dependencies
-
-![Dependencies](./assets/server.png)
 
 ## Health
 
