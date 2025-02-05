@@ -6,6 +6,7 @@ import (
 
 	"github.com/alexfalkowski/go-service/meta"
 	"github.com/alexfalkowski/migrieren/migrate/migrator"
+	"github.com/alexfalkowski/migrieren/migrate/telemetry/logger"
 	"github.com/alexfalkowski/migrieren/migrate/telemetry/tracer"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
@@ -45,20 +46,20 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 		return nil, ErrInvalidConfig
 	}
 
-	logger := &logger{logs: make([]string, 0)}
+	logger := logger.New()
 	mig.Log = logger
 
 	if err := mig.Migrate(uint(version)); err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		if errors.Is(err, migrate.ErrNoChange) {
-			return logger.logs, m.close(mig, nil)
+			return logger.Logs(), m.close(mig, nil)
 		}
 
-		return logger.logs, m.close(mig, ErrInvalidMigration)
+		return logger.Logs(), m.close(mig, ErrInvalidMigration)
 	}
 
-	return logger.logs, m.close(mig, nil)
+	return logger.Logs(), m.close(mig, nil)
 }
 
 // Ping the migrator.
