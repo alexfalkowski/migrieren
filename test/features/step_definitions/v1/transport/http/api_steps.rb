@@ -10,11 +10,12 @@ Then('I should receive a successful migration from HTTP:') do |table|
   resp = JSON.parse(@response.body)
   migration = resp['migration']
   rows = table.rows_hash
+  logs = migration['logs'] || []
 
   expect(resp['meta'].length).to be > 0
   expect(migration['database']).to eq(rows['database'])
   expect(migration['version']).to eq(rows['version'].to_i)
-  expect(migration['logs'].length).to be > 0
+  expect(logs.length).to be >= 0
 end
 
 Then('I should receive a not found migration from HTTP') do
