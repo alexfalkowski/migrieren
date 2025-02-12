@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/alexfalkowski/migrieren/migrate"
-	"github.com/alexfalkowski/migrieren/migrate/migrator"
+	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
 // ErrNotFound for service.

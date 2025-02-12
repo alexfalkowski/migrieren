@@ -5,7 +5,7 @@ import (
 	"net/url"
 
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
-	"github.com/alexfalkowski/migrieren/migrate/migrator"
+	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.27.0"
 	"go.opentelemetry.io/otel/trace"
