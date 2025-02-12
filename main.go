@@ -2,7 +2,7 @@ package main
 
 import (
 	sc "github.com/alexfalkowski/go-service/cmd"
-	"github.com/alexfalkowski/migrieren/cmd"
+	"github.com/alexfalkowski/migrieren/internal/cmd"
 )
 
 func main() {

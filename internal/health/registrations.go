@@ -7,8 +7,8 @@ import (
 	"github.com/alexfalkowski/go-health/server"
 	"github.com/alexfalkowski/go-service/health"
 	"github.com/alexfalkowski/go-service/time"
-	"github.com/alexfalkowski/migrieren/migrate"
-	"github.com/alexfalkowski/migrieren/migrate/migrator"
+	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"go.uber.org/fx"
 )
 

@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/alexfalkowski/go-service/net/http/rpc"
-	"github.com/alexfalkowski/migrieren/api/v1/transport/grpc"
+	"github.com/alexfalkowski/migrieren/internal/api/v1/transport/grpc"
 )
 
 // Register for HTTP.
