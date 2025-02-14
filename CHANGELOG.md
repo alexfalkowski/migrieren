@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.323.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.323.0) - 2025-02-14
+
+- [`0aa0494`](https://github.com/alexfalkowski/migrieren/commit/0aa0494d10e1a97e8bb3188d7d51dc2ddcf52c20) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.430.0 (#1191)
+- [`cbaa2fc`](https://github.com/alexfalkowski/migrieren/commit/cbaa2fc861d1106212f0c9efe54a09407132b31b) build(deps): bump bin from `9529428` to `4a58c21` (#1190)
+
 ## [v1.322.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.322.0) - 2025-02-14
 
 - [`011f617`](https://github.com/alexfalkowski/migrieren/commit/011f6173e78f023012b23a85ee823679396cf4ed) feat(container): remove dockerfile (#1189)
