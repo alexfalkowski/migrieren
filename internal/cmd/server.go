@@ -17,6 +17,6 @@ func RegisterServer(command *cmd.Command) {
 	command.AddServer("server", "Start migrieren server",
 		module.Module, debug.Module, feature.Module,
 		telemetry.Module, transport.Module, health.Module,
-		config.Module, v1.Module, cmd.Module,
+		config.Module, v1.Module, Module,
 	)
 }
