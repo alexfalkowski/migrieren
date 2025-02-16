@@ -4,6 +4,7 @@ import (
 	"github.com/alexfalkowski/go-service/cmd"
 	"github.com/alexfalkowski/go-service/debug"
 	"github.com/alexfalkowski/go-service/feature"
+	"github.com/alexfalkowski/go-service/flags"
 	"github.com/alexfalkowski/go-service/module"
 	"github.com/alexfalkowski/go-service/telemetry"
 	"github.com/alexfalkowski/go-service/transport"
@@ -14,7 +15,10 @@ import (
 
 // RegisterServer for cmd.
 func RegisterServer(command *cmd.Command) {
-	command.AddServer("server", "Start migrieren server",
+	flags := flags.NewFlagSet("server")
+
+	command.RegisterInput(flags, "env:MIGRIEREN_CONFIG_FILE")
+	command.AddServer("server", "Start migrieren server", flags,
 		module.Module, debug.Module, feature.Module,
 		telemetry.Module, transport.Module, health.Module,
 		config.Module, v1.Module, cmd.Module,
