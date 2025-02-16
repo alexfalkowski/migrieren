@@ -16,8 +16,8 @@ import (
 // RegisterServer for cmd.
 func RegisterServer(command *cmd.Command) {
 	flags := flags.NewFlagSet("server")
+	flags.AddInput("env:MIGRIEREN_CONFIG_FILE")
 
-	command.RegisterInput(flags, "env:MIGRIEREN_CONFIG_FILE")
 	command.AddServer("server", "Start migrieren server", flags,
 		module.Module, debug.Module, feature.Module,
 		telemetry.Module, transport.Module, health.Module,
