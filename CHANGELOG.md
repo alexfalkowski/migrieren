@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.339.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.339.0) - 2025-02-18
+
+- [`cdbe9f9`](https://github.com/alexfalkowski/migrieren/commit/cdbe9f98b7f43eb953a6b18fcc0d89d624f34361) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.447.0 (#1215)
+- [`a5eb10f`](https://github.com/alexfalkowski/migrieren/commit/a5eb10f9aa0a4821b6ebf02132c441763e3fe01b) test(deps): bump rubocop from 1.72.1 to 1.72.2 in /test (#1214)
+
 ## [v1.338.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.338.0) - 2025-02-17
 
 - [`9a23d1f`](https://github.com/alexfalkowski/migrieren/commit/9a23d1f490a109e14f23d9d86d2d09eefaf060ca) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.446.0 (#1213)
