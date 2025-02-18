@@ -34,7 +34,7 @@ module Migrieren
     end
 
     def token
-      Nonnative::Header.auth_bearer(Base64.decode64(File.read('secrets/token')))
+      Nonnative::Header.auth_bearer(File.read('secrets/token').strip)
     end
   end
 
