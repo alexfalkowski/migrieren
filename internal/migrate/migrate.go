@@ -5,14 +5,14 @@ import (
 	"errors"
 
 	"github.com/alexfalkowski/go-service/meta"
+	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
-	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/tracer"
+	tt "github.com/alexfalkowski/migrieren/internal/migrate/telemetry/tracer"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	_ "github.com/golang-migrate/migrate/v4/source/github"
-	"go.opentelemetry.io/otel/trace"
 )
 
 var (
@@ -27,9 +27,9 @@ var (
 )
 
 // NewMigrator for databases.
-func NewMigrator(t trace.Tracer) migrator.Migrator {
+func NewMigrator(tracer *tracer.Tracer) migrator.Migrator {
 	var m migrator.Migrator = &Migrator{}
-	m = tracer.NewMigrator(m, t)
+	m = tt.NewMigrator(m, tracer)
 
 	return m
 }
