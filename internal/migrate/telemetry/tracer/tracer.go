@@ -14,11 +14,11 @@ import (
 // Migrator for otel.
 type Migrator struct {
 	migrator migrator.Migrator
-	tracer   trace.Tracer
+	tracer   *tracer.Tracer
 }
 
 // NewMigrator for otel.
-func NewMigrator(migrator migrator.Migrator, tracer trace.Tracer) *Migrator {
+func NewMigrator(migrator migrator.Migrator, tracer *tracer.Tracer) *Migrator {
 	return &Migrator{migrator: migrator, tracer: tracer}
 }
 
