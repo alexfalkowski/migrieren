@@ -8,7 +8,6 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.27.0"
-	"go.opentelemetry.io/otel/trace"
 )
 
 // Migrator for otel.
@@ -29,10 +28,8 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 		attribute.Key("db.migrate.version").Int64(int64(version)), //nolint:gosec
 	}
 
-	ctx, span := m.tracer.Start(ctx, operationName("db"), trace.WithSpanKind(trace.SpanKindClient), trace.WithAttributes(attrs...))
+	ctx, span := m.tracer.StartClient(ctx, operationName("db"), attrs...)
 	defer span.End()
-
-	ctx = tracer.WithTraceID(ctx, span)
 
 	logs, err := m.migrator.Migrate(ctx, source, db, version)
 	tracer.Error(err, span)
