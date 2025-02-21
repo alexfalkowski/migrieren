@@ -31,6 +31,7 @@ migrate:
       url: secrets/invalid
 telemetry:
   logger:
+    kind: stdout
     level: info
   metrics:
     kind: prometheus
