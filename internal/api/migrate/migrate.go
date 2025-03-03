@@ -35,10 +35,10 @@ func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]st
 		return nil, fmt.Errorf("%s: %w", db, ErrNotFound)
 	}
 
-	u, err := d.GetURL()
+	url, err := d.GetURL()
 	if err != nil {
 		return nil, err
 	}
 
-	return s.migrator.Migrate(ctx, d.Source, u, version)
+	return s.migrator.Migrate(ctx, d.Source, string(url), version)
 }
