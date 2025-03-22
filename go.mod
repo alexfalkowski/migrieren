@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.22.0
-	github.com/alexfalkowski/go-service v1.502.0
+	github.com/alexfalkowski/go-service v1.504.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 	go.opentelemetry.io/otel v1.35.0
 	go.uber.org/fx v1.23.0
@@ -40,7 +40,7 @@ require (
 	github.com/go-sprout/sprout v1.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/go-github/v39 v39.2.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/pprof v0.0.0-20240227163752-401108e1b7e7 // indirect
@@ -56,7 +56,7 @@ require (
 	github.com/jackc/pgerrcode v0.0.0-20220416144525-469b46aa5efa // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
-	github.com/jackc/pgx/v5 v5.7.2 // indirect
+	github.com/jackc/pgx/v5 v5.7.3 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/jmoiron/sqlx v1.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
