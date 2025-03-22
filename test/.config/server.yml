@@ -11,6 +11,8 @@ client:
 health:
   duration: 1s
   timeout: 1s
+id:
+  kind: uuid
 limiter:
   kind: token
   tokens: 1000
