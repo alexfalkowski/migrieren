@@ -7,21 +7,21 @@ import (
 )
 
 // NewHealthObserver for HTTP.
-func NewHealthObserver(healthServer *server.Server, migrate *migrate.Config) *http.HealthObserver {
+func NewHealthObserver(server *server.Server, migrate *migrate.Config) *http.HealthObserver {
 	names := make([]string, len(migrate.Databases))
 	for i, d := range migrate.Databases {
 		names[i] = d.Name
 	}
 
-	return &http.HealthObserver{Observer: healthServer.Observe(names...)}
+	return &http.HealthObserver{Observer: server.Observe(names...)}
 }
 
 // NewLivenessObserver for HTTP.
-func NewLivenessObserver(healthServer *server.Server) *http.LivenessObserver {
-	return &http.LivenessObserver{Observer: healthServer.Observe("noop")}
+func NewLivenessObserver(server *server.Server) *http.LivenessObserver {
+	return &http.LivenessObserver{Observer: server.Observe("noop")}
 }
 
 // NewReadinessObserver for HTTP.
-func NewReadinessObserver(healthServer *server.Server) *http.ReadinessObserver {
-	return &http.ReadinessObserver{Observer: healthServer.Observe("noop")}
+func NewReadinessObserver(server *server.Server) *http.ReadinessObserver {
+	return &http.ReadinessObserver{Observer: server.Observe("noop")}
 }

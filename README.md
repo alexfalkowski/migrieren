@@ -44,22 +44,22 @@ migrate:
   databases:
     -
       name: db1
-      source: file://migrations
+      source: path to source
       url: path to url
     -
       name: db2
-      source: file:///migrations
+      source: path to source
       url: path to url
     -
       name: db3
-      source: file://migrations
+      source: path to source
       url: path to url
 ```
 
 Each database has the following properties:
 - A distinct name.
-- The source of the migrations (file, GitHub, etc).
-- The database URL (MySQL, PostgreSQL, etc).
+- The source from a file ([File](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/source/file), [GitHub](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/source/github)).
+- The database from a file ([PostgreSQL](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/database/pgx/v5)).
 
 ## Health
 
