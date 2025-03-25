@@ -20,17 +20,23 @@ limiter:
 migrate:
   databases:
     - name: postgres
-      source: file://migrations
+      source: secrets/source
       url: secrets/pg
     - name: invalid_source
-      source: file:///migrations
+      source: secrets/invalid_source
+      url: secrets/pg
+    - name: missing_source
+      source: secrets/none
       url: secrets/pg
     - name: missing_url
-      source: file://migrations
+      source: secrets/source
       url: secrets/none
     - name: invalid_url
-      source: file://migrations
-      url: secrets/invalid
+      source: secrets/source
+      url: secrets/invalid_pg
+    - name: github
+      source: secrets/github
+      url: secrets/pg
 telemetry:
   logger:
     kind: text

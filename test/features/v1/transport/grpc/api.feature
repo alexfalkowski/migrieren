@@ -16,6 +16,8 @@ Feature: gRPC API
       | postgres |       1 |
       | postgres |       2 |
       | postgres |       1 |
+      | github   |       1 |
+      | postgres |       2 |
 
   Scenario Outline: Migrate missing databases
     When I request to migrate with gRPC:
@@ -36,6 +38,7 @@ Feature: gRPC API
 
     Examples:
       | database       | version |
+      | missing_source |       1 |
       | invalid_source |       1 |
       | missing_url    |       1 |
       | invalid_url    |       1 |

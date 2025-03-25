@@ -45,10 +45,15 @@ type migratorChecker struct {
 
 // Check the migrator.
 func (c *migratorChecker) Check(ctx context.Context) error {
+	source, err := c.db.GetSource()
+	if err != nil {
+		return err
+	}
+
 	url, err := c.db.GetURL()
 	if err != nil {
 		return err
 	}
 
-	return c.migrator.Ping(ctx, c.db.Source, string(url))
+	return c.migrator.Ping(ctx, string(source), string(url))
 }

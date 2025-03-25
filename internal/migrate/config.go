@@ -1,6 +1,8 @@
 package migrate
 
 import (
+	"slices"
+
 	"github.com/alexfalkowski/go-service/os"
 )
 
@@ -11,31 +13,27 @@ type Config struct {
 
 // Database by name.
 func (c *Config) Database(name string) *Database {
-	for _, d := range c.Databases {
-		if d.Name == name {
-			return d
-		}
+	index := slices.IndexFunc(c.Databases, func(d *Database) bool { return d.Name == name })
+	if index == -1 {
+		return nil
 	}
 
-	return nil
+	return c.Databases[index]
 }
 
 // Database for migrate.
 type Database struct {
 	Name   string `yaml:"name,omitempty" json:"name,omitempty" toml:"name,omitempty"`
 	Source string `yaml:"source,omitempty" json:"source,omitempty" toml:"source,omitempty"`
-	URL    URL    `yaml:"url,omitempty" json:"url,omitempty" toml:"url,omitempty"`
+	URL    string `yaml:"url,omitempty" json:"url,omitempty" toml:"url,omitempty"`
+}
+
+// GetSource for database.
+func (d *Database) GetSource() ([]byte, error) {
+	return os.ReadFile(d.Source)
 }
 
 // GetURL for database.
 func (d *Database) GetURL() ([]byte, error) {
-	return os.ReadFile(d.URL.String())
-}
-
-// URL for migrate.
-type URL string
-
-// String for URL.
-func (u URL) String() string {
-	return string(u)
+	return os.ReadFile(d.URL)
 }
