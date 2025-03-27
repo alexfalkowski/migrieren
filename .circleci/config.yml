@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.2
+      - image: alexfalkowski/go:2.3
       - image: postgres:17-bullseye
         environment:
           POSTGRES_DB: test
@@ -27,6 +27,7 @@ jobs:
           keys:
             - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
             - migrieren-ruby-cache-
+      - run: make clean
       - run: make dep
       - save_cache:
           name: save go deps
@@ -43,6 +44,7 @@ jobs:
           keys:
             - migrieren-go-build-cache-{{ checksum "go.sum" }}
             - migrieren-go-build-cache-
+      - run: make clean
       - run: make lint
       - run: make proto-breaking
       - run: make sec
@@ -62,7 +64,7 @@ jobs:
     resource_class: large
   build-docker:
     docker:
-      - image: alexfalkowski/go:2.2
+      - image: alexfalkowski/go:2.3
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -83,7 +85,7 @@ jobs:
     resource_class: large
   push-docker:
     docker:
-      - image: alexfalkowski/go:2.2
+      - image: alexfalkowski/go:2.3
     working_directory: ~/migrieren
     steps:
       - checkout
