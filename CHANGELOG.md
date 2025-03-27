@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.394.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.394.0) - 2025-03-28
+
+- [`3f67188`](https://github.com/alexfalkowski/migrieren/commit/3f671888195df1384b23595fdf623d60f072e6f1) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.516.0 (#1289)
+- [`7cee255`](https://github.com/alexfalkowski/migrieren/commit/7cee255530fa9b905b06c44ba3a5df2bc503d0bb) build(ci): add clean (#1288)
+- [`7364d22`](https://github.com/alexfalkowski/migrieren/commit/7364d2239a955f06b50989efe5cbd38db51b1b89) build(deps): bump bin from `c661929` to `16e2296` (#1287)
+- [`9807994`](https://github.com/alexfalkowski/migrieren/commit/9807994fa79c2a0367268582b82316f15f94ded6) test(deps): bump rubocop from 1.74.0 to 1.75.1 in /test (#1285)
+- [`8bb8151`](https://github.com/alexfalkowski/migrieren/commit/8bb8151621a2d8b1e2cd71d7d35c25c39a915691) build(deps): bump bin from `446c480` to `c661929` (#1286)
+- [`a069d38`](https://github.com/alexfalkowski/migrieren/commit/a069d388bc786d009e938a6b5b44d66eea277993) build(ci): use alexfalkowski/go:2.2 (#1284)
+
 ## [v1.393.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.393.0) - 2025-03-26
 
 - [`9635abb`](https://github.com/alexfalkowski/migrieren/commit/9635abbb7c505abfdcd27c98930c632ce8e21481) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.515.0 (#1283)
