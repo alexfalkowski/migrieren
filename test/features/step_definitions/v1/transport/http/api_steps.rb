@@ -32,7 +32,7 @@ def request_with_http(table)
     headers: {
       request_id: SecureRandom.uuid, user_agent: 'Migrieren-ruby-client/1.0 HTTP/1.0',
       content_type: :json, accept: :json
-    }.merge(Migrieren.token),
+    },
     read_timeout: 10, open_timeout: 10
   }
 
