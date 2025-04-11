@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.411.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.411.0) - 2025-04-11
+
+- [`b5f3801`](https://github.com/alexfalkowski/migrieren/commit/b5f380184fadab8b2f99c9f7498bd54744cb90e0) feat(deps): upgraded github.com/alexfalkowski/go-service to v1.535.0 (#1312)
+
 ## [v1.410.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.410.0) - 2025-04-11
 
 - [`188a5cc`](https://github.com/alexfalkowski/migrieren/commit/188a5cc7639d1ea2ae067ea1a95cf51d3a2609ed) feat(api): use grpc full method name (#1311)
