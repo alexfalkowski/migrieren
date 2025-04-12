@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/url"
 
+	"github.com/alexfalkowski/go-service/strings"
 	"github.com/alexfalkowski/go-service/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"go.opentelemetry.io/otel/attribute"
@@ -45,7 +46,7 @@ func (m *Migrator) Ping(ctx context.Context, source, db string) error {
 
 func (m *Migrator) system(db string) string {
 	u, _ := url.Parse(db)
-	if u != nil && u.Scheme != "" {
+	if u != nil && !strings.IsEmpty(u.Scheme) {
 		return u.Scheme
 	}
 
