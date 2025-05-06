@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.13
+      - image: alexfalkowski/go:2.15
       - image: postgres:17-bullseye
         environment:
           POSTGRES_DB: test
@@ -64,7 +64,7 @@ jobs:
     resource_class: large
   build-docker:
     docker:
-      - image: alexfalkowski/go:2.13
+      - image: alexfalkowski/go:2.15
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -77,7 +77,7 @@ jobs:
     resource_class: large
   release:
     docker:
-      - image: alexfalkowski/release:3.15
+      - image: alexfalkowski/release:3.18
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -85,7 +85,7 @@ jobs:
     resource_class: large
   push-docker:
     docker:
-      - image: alexfalkowski/go:2.13
+      - image: alexfalkowski/go:2.15
     working_directory: ~/migrieren
     steps:
       - checkout
