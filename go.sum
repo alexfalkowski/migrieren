@@ -20,8 +20,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health v1.22.0 h1:CEsW96hziLT90C727025Q/6wybbvAAZEn9PturYdy3M=
 github.com/alexfalkowski/go-health v1.22.0/go.mod h1:9VBjoge/Zz9dzk855IGtjioDsBvBXjB+lb+algeUO00=
-github.com/alexfalkowski/go-service v1.581.0 h1:Hfcvn2AaaopxrZNkcu+ni9LBvBZRXDhzvPKmyiH51v4=
-github.com/alexfalkowski/go-service v1.581.0/go.mod h1:L4Oc6ctcxtUWLqNtao7uUs10rQzGhR1iPfkU8BzYAnI=
+github.com/alexfalkowski/go-service v1.582.0 h1:7pAEvT1zajiBbWJ6ghG/zkmj2MqeQwyci3syI+4Lgs4=
+github.com/alexfalkowski/go-service v1.582.0/go.mod h1:q4AK3RKVJSJ293J6qlaXrTfyzmOXSURfym0CWYIrJ5w=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/beevik/ntp v1.4.3 h1:PlbTvE5NNy4QHmA4Mg57n7mcFTmr1W1j3gcK7L1lqho=
