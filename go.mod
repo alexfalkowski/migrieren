@@ -4,10 +4,10 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.22.0
-	github.com/alexfalkowski/go-service v1.599.1
+	github.com/alexfalkowski/go-service v1.601.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	go.opentelemetry.io/otel v1.35.0
-	go.uber.org/fx v1.23.0
+	go.uber.org/fx v1.24.0
 	google.golang.org/grpc v1.72.0
 	google.golang.org/protobuf v1.36.6
 )
@@ -114,7 +114,7 @@ require (
 	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/automaxprocs v1.6.0 // indirect
-	go.uber.org/dig v1.18.2 // indirect
+	go.uber.org/dig v1.19.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.38.0 // indirect
