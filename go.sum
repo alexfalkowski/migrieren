@@ -20,8 +20,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health v1.22.0 h1:CEsW96hziLT90C727025Q/6wybbvAAZEn9PturYdy3M=
 github.com/alexfalkowski/go-health v1.22.0/go.mod h1:9VBjoge/Zz9dzk855IGtjioDsBvBXjB+lb+algeUO00=
-github.com/alexfalkowski/go-service v1.601.2 h1:ec+v0n14LJG8zloKIBhpet9MXzHBCyL3elG1hdH6KvU=
-github.com/alexfalkowski/go-service v1.601.2/go.mod h1:vUIe9kcR39F/y8HV3eHy4x1SJW3cwhImkUQb+K5d3rg=
+github.com/alexfalkowski/go-service v1.603.0 h1:UKsBeiWK6cyU7YCigPw4RW/NvwZuNOue/mbQms0RV/w=
+github.com/alexfalkowski/go-service v1.603.0/go.mod h1:/sqR2xOkzqJPkI2D5CO89qgLTbyc0z1kNtmIgcqmy2c=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/beevik/ntp v1.4.3 h1:PlbTvE5NNy4QHmA4Mg57n7mcFTmr1W1j3gcK7L1lqho=
@@ -383,8 +383,8 @@ google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a h1:
 google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a/go.mod h1:3kWAYMk1I75K4vykHtKt2ycnOgpA6974V7bREqbsenU=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a h1:51aaUVRocpvUOSQKM6Q7VuoaktNIaMCLuhZB6DKksq4=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a/go.mod h1:uRxBH1mhmO8PGhU89cMcHaXKZqO+OfakD8QQO0oYwlQ=
-google.golang.org/grpc v1.72.0 h1:S7UkcVa60b5AAQTaO6ZKamFp1zMZSU0fGDK2WZLbBnM=
-google.golang.org/grpc v1.72.0/go.mod h1:wH5Aktxcg25y1I3w7H69nHfXdOG3UiadoBtjh3izSDM=
+google.golang.org/grpc v1.72.1 h1:HR03wO6eyZ7lknl75XlxABNVLLFc2PAb6mHlYh756mA=
+google.golang.org/grpc v1.72.1/go.mod h1:wH5Aktxcg25y1I3w7H69nHfXdOG3UiadoBtjh3izSDM=
 google.golang.org/protobuf v1.36.6 h1:z1NpPI8ku2WgiWnf+t9wTPsn6eP1L7ksHUlkfLvd9xY=
 google.golang.org/protobuf v1.36.6/go.mod h1:jduwjTPXsFjZGTmRluh+L6NjiWu7pchiJ2/5YcXBHnY=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
