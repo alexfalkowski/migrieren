@@ -8,9 +8,9 @@ import (
 
 // NewHealthObserver for HTTP.
 func NewHealthObserver(server *server.Server, migrate *migrate.Config) *http.HealthObserver {
-	names := make([]string, len(migrate.Databases))
-	for i, d := range migrate.Databases {
-		names[i] = d.Name
+	names := []string{"online"}
+	for _, d := range migrate.Databases {
+		names = append(names, d.Name)
 	}
 
 	return &http.HealthObserver{Observer: server.Observe(names...)}
