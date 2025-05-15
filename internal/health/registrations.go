@@ -27,6 +27,7 @@ func NewRegistrations(params Params) (health.Registrations, error) {
 	d := time.MustParseDuration(params.Health.Duration)
 	registrations := health.Registrations{
 		server.NewRegistration("noop", d, checker.NewNoopChecker()),
+		server.NewOnlineRegistration(d, d),
 	}
 
 	for _, db := range params.Migrate.Databases {
