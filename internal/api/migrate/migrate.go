@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/alexfalkowski/go-service/bytes"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
@@ -45,5 +46,5 @@ func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]st
 		return nil, err
 	}
 
-	return s.migrator.Migrate(ctx, string(source), string(url), version)
+	return s.migrator.Migrate(ctx, bytes.String(source), bytes.String(url), version)
 }

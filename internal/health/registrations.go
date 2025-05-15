@@ -5,6 +5,7 @@ import (
 
 	"github.com/alexfalkowski/go-health/checker"
 	"github.com/alexfalkowski/go-health/server"
+	"github.com/alexfalkowski/go-service/bytes"
 	"github.com/alexfalkowski/go-service/health"
 	"github.com/alexfalkowski/go-service/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
@@ -55,5 +56,5 @@ func (c *migratorChecker) Check(ctx context.Context) error {
 		return err
 	}
 
-	return c.migrator.Ping(ctx, string(source), string(url))
+	return c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
 }
