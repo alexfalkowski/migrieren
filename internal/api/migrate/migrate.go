@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/alexfalkowski/go-service/bytes"
+	"github.com/alexfalkowski/go-service/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
@@ -19,14 +20,15 @@ func IsNotFound(err error) bool {
 }
 
 // NewMigrator for the different transports.
-func NewMigrator(cfg *migrate.Config, mig migrator.Migrator) *Migrator {
-	return &Migrator{config: cfg, migrator: mig}
+func NewMigrator(mig migrator.Migrator, fs *os.FS, cfg *migrate.Config) *Migrator {
+	return &Migrator{migrator: mig, fs: fs, config: cfg}
 }
 
 // Migrator for the different transports.
 type Migrator struct {
 	migrator migrator.Migrator
 	config   *migrate.Config
+	fs       *os.FS
 }
 
 // Migrate the database.
@@ -36,12 +38,12 @@ func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]st
 		return nil, fmt.Errorf("%s: %w", db, ErrNotFound)
 	}
 
-	source, err := d.GetSource()
+	source, err := d.GetSource(s.fs)
 	if err != nil {
 		return nil, err
 	}
 
-	url, err := d.GetURL()
+	url, err := d.GetURL(s.fs)
 	if err != nil {
 		return nil, err
 	}
