@@ -29,11 +29,11 @@ type Database struct {
 }
 
 // GetSource for database.
-func (d *Database) GetSource() ([]byte, error) {
-	return os.ReadFile(d.Source)
+func (d *Database) GetSource(fs *os.FS) ([]byte, error) {
+	return fs.ReadFile(d.Source)
 }
 
 // GetURL for database.
-func (d *Database) GetURL() ([]byte, error) {
-	return os.ReadFile(d.URL)
+func (d *Database) GetURL(fs *os.FS) ([]byte, error) {
+	return fs.ReadFile(d.URL)
 }

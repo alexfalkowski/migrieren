@@ -7,6 +7,7 @@ import (
 	"github.com/alexfalkowski/go-health/server"
 	"github.com/alexfalkowski/go-service/bytes"
 	"github.com/alexfalkowski/go-service/health"
+	"github.com/alexfalkowski/go-service/os"
 	"github.com/alexfalkowski/go-service/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
@@ -19,6 +20,7 @@ type Params struct {
 
 	Health   *Config
 	Migrate  *migrate.Config
+	FS       *os.FS
 	Migrator migrator.Migrator
 }
 
@@ -31,7 +33,7 @@ func NewRegistrations(params Params) (health.Registrations, error) {
 	}
 
 	for _, db := range params.Migrate.Databases {
-		checker := &migratorChecker{db: db, migrator: params.Migrator}
+		checker := &migratorChecker{db: db, fs: params.FS, migrator: params.Migrator}
 		reg := server.NewRegistration(db.Name, d, checker)
 
 		registrations = append(registrations, reg)
@@ -42,17 +44,18 @@ func NewRegistrations(params Params) (health.Registrations, error) {
 
 type migratorChecker struct {
 	db       *migrate.Database
+	fs       *os.FS
 	migrator migrator.Migrator
 }
 
 // Check the migrator.
 func (c *migratorChecker) Check(ctx context.Context) error {
-	source, err := c.db.GetSource()
+	source, err := c.db.GetSource(c.fs)
 	if err != nil {
 		return err
 	}
 
-	url, err := c.db.GetURL()
+	url, err := c.db.GetURL(c.fs)
 	if err != nil {
 		return err
 	}
