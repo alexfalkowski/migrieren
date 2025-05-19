@@ -5,6 +5,7 @@ import (
 
 	sc "github.com/alexfalkowski/go-service/cmd"
 	"github.com/alexfalkowski/go-service/env"
+	"github.com/alexfalkowski/go-service/os"
 	"github.com/alexfalkowski/migrieren/internal/cmd"
 )
 
@@ -13,7 +14,8 @@ func main() {
 }
 
 func command() *sc.Command {
-	command := sc.New(env.NewName(), env.NewVersion())
+	fs := os.NewFS()
+	command := sc.New(env.NewName(fs), env.NewVersion())
 
 	cmd.RegisterServer(command)
 
