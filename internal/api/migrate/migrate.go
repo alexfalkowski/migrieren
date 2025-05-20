@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/alexfalkowski/go-service/bytes"
-	"github.com/alexfalkowski/go-service/os"
+	"github.com/alexfalkowski/go-service/v2/bytes"
+	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )

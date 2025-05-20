@@ -1,7 +1,7 @@
 package token
 
 import (
-	"github.com/alexfalkowski/go-service/token"
+	"github.com/alexfalkowski/go-service/v2/token"
 	"go.uber.org/fx"
 )
 
