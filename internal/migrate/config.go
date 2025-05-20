@@ -3,7 +3,7 @@ package migrate
 import (
 	"slices"
 
-	"github.com/alexfalkowski/go-service/os"
+	"github.com/alexfalkowski/go-service/v2/os"
 )
 
 // Config for migrate.

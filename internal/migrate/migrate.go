@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/alexfalkowski/go-service/meta"
-	"github.com/alexfalkowski/go-service/telemetry/tracer"
+	"github.com/alexfalkowski/go-service/v2/meta"
+	"github.com/alexfalkowski/go-service/v2/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
 	tt "github.com/alexfalkowski/migrieren/internal/migrate/telemetry/tracer"

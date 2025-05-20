@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"github.com/alexfalkowski/go-health/server"
-	"github.com/alexfalkowski/go-service/health/transport/grpc"
+	"github.com/alexfalkowski/go-service/v2/health/transport/grpc"
 )
 
 // NewObserver for gRPC.
