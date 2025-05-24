@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.23.0
-	github.com/alexfalkowski/go-service/v2 v2.8.0
+	github.com/alexfalkowski/go-service/v2 v2.9.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	go.opentelemetry.io/otel v1.36.0
 	go.uber.org/fx v1.24.0
