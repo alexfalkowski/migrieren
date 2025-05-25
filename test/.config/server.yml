@@ -20,23 +20,23 @@ limiter:
 migrate:
   databases:
     - name: postgres
-      source: secrets/source
-      url: secrets/pg
+      source: file:secrets/source
+      url: file:secrets/pg
     - name: invalid_source
-      source: secrets/invalid_source
-      url: secrets/pg
+      source: file:secrets/invalid_source
+      url: file:secrets/pg
     - name: missing_source
-      source: secrets/none
-      url: secrets/pg
+      source: file:secrets/none
+      url: file:secrets/pg
     - name: missing_url
-      source: secrets/source
-      url: secrets/none
+      source: file:secrets/source
+      url: file:secrets/none
     - name: invalid_url
-      source: secrets/source
-      url: secrets/invalid_pg
+      source: file:secrets/source
+      url: file:secrets/invalid_pg
     - name: github
-      source: secrets/github
-      url: secrets/pg
+      source: file:secrets/github
+      url: file:secrets/pg
 telemetry:
   logger:
     kind: text

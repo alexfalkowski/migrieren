@@ -30,10 +30,10 @@ type Database struct {
 
 // GetSource for database.
 func (d *Database) GetSource(fs *os.FS) ([]byte, error) {
-	return fs.ReadFile(d.Source)
+	return fs.ReadSource(d.Source)
 }
 
 // GetURL for database.
 func (d *Database) GetURL(fs *os.FS) ([]byte, error) {
-	return fs.ReadFile(d.URL)
+	return fs.ReadSource(d.URL)
 }

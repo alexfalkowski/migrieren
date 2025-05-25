@@ -8,14 +8,12 @@ processes:
       output: reports
       executable: ../migrieren
       command: server
-      parameters: ["-i env:MIGRIEREN_CONFIG_FILE"]
+      parameters: ["-i file:.config/server.yml"]
     timeout: 5
     wait: 1
     host: 127.0.0.1
     port: 12000
     log: reports/server.log
-    environment:
-      MIGRIEREN_CONFIG_FILE: .config/server.yml
 services:
   - name: postgres
     host: 127.0.0.1
