@@ -20,8 +20,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health v1.23.0 h1:cqWc/ORoj78vloWi3RLKt9g65I/3nU17J0vx1s3tgVc=
 github.com/alexfalkowski/go-health v1.23.0/go.mod h1:9VBjoge/Zz9dzk855IGtjioDsBvBXjB+lb+algeUO00=
-github.com/alexfalkowski/go-service/v2 v2.12.0 h1:P6cDS4gja1Af6WLJHk65fKoWrqYX/MaILxMVJh2U1GU=
-github.com/alexfalkowski/go-service/v2 v2.12.0/go.mod h1:8s3aAb004TPZzEuVfHnBybagrpvEcgpSN/QcoAY2fAc=
+github.com/alexfalkowski/go-service/v2 v2.13.0 h1:toRzipigB0V2De7yGMvFi4Txp/jy5QZSjt0GSlW2Unc=
+github.com/alexfalkowski/go-service/v2 v2.13.0/go.mod h1:Twr2RFVkwAUw6gZu7lOusQ1nUTIhNOe8HmQxNHK2SeY=
 github.com/arl/statsviz v0.6.0 h1:jbW1QJkEYQkufd//4NDYRSNBpwJNrdzPahF7ZmoGdyE=
 github.com/arl/statsviz v0.6.0/go.mod h1:0toboo+YGSUXDaS4g1D5TVS4dXs7S7YYT5J/qnW2h8s=
 github.com/avfs/avfs v0.35.0 h1:dc0noSyEoVDtAUQlhHX0uRYBfI2aFbI8nF0XPtV/Ozw=
@@ -387,8 +387,8 @@ google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237 h1:
 google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237/go.mod h1:ezi0AVyMKDWy5xAncvjLWH7UcLBB5n7y2fQ8MzjJcto=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237 h1:cJfm9zPbe1e873mHJzmQ1nwVEeRDU/T1wXDK2kUSU34=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237/go.mod h1:qQ0YXyHHx3XkvlzUtpXDkS29lDSafHMZBAZDc03LQ3A=
-google.golang.org/grpc v1.72.1 h1:HR03wO6eyZ7lknl75XlxABNVLLFc2PAb6mHlYh756mA=
-google.golang.org/grpc v1.72.1/go.mod h1:wH5Aktxcg25y1I3w7H69nHfXdOG3UiadoBtjh3izSDM=
+google.golang.org/grpc v1.72.2 h1:TdbGzwb82ty4OusHWepvFWGLgIbNo1/SUynEN0ssqv8=
+google.golang.org/grpc v1.72.2/go.mod h1:wH5Aktxcg25y1I3w7H69nHfXdOG3UiadoBtjh3izSDM=
 google.golang.org/protobuf v1.36.6 h1:z1NpPI8ku2WgiWnf+t9wTPsn6eP1L7ksHUlkfLvd9xY=
 google.golang.org/protobuf v1.36.6/go.mod h1:jduwjTPXsFjZGTmRluh+L6NjiWu7pchiJ2/5YcXBHnY=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
