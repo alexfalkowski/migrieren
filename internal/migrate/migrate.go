@@ -2,8 +2,8 @@ package migrate
 
 import (
 	"context"
-	"errors"
 
+	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
 	"github.com/alexfalkowski/go-service/v2/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
