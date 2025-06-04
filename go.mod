@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.23.0
-	github.com/alexfalkowski/go-service/v2 v2.29.0
+	github.com/alexfalkowski/go-service/v2 v2.30.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	go.opentelemetry.io/otel v1.36.0
 	go.uber.org/fx v1.24.0
@@ -25,6 +25,9 @@ require (
 	github.com/beevik/ntp v1.4.3 // indirect
 	github.com/beevik/nts v0.2.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
+	github.com/casbin/casbin/v2 v2.106.0 // indirect
+	github.com/casbin/govaluate v1.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudevents/sdk-go/v2 v2.16.0 // indirect
