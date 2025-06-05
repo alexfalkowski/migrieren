@@ -46,8 +46,6 @@ telemetry:
   tracer:
     kind: otlp
     url: http://localhost:4318/v1/traces
-token:
-  kind: none
 transport:
   http:
     address: :11000
