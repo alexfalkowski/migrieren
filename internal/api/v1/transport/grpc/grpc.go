@@ -1,11 +1,11 @@
 package grpc
 
 import (
+	"github.com/alexfalkowski/go-service/v2/net/grpc"
+	"github.com/alexfalkowski/go-service/v2/net/grpc/codes"
+	"github.com/alexfalkowski/go-service/v2/net/grpc/status"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/api/migrate"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 // Register server.
