@@ -4,9 +4,8 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.23.0
-	github.com/alexfalkowski/go-service/v2 v2.43.0
+	github.com/alexfalkowski/go-service/v2 v2.45.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
-	go.opentelemetry.io/otel v1.36.0
 	go.uber.org/fx v1.24.0
 	google.golang.org/grpc v1.73.0
 	google.golang.org/protobuf v1.36.6
@@ -107,6 +106,7 @@ require (
 	go.opentelemetry.io/contrib/bridges/otelslog v0.11.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/host v0.61.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/runtime v0.61.0 // indirect
+	go.opentelemetry.io/otel v1.36.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.12.2 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp v1.36.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0 // indirect
