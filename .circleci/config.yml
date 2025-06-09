@@ -107,11 +107,13 @@ workflows:
       - build-service
       - build-docker:
           context: gh
+          filters:
+            branches:
+              ignore: master
       - release:
           context: gh
           requires:
             - build-service
-            - build-docker
           filters:
             branches:
               only: master
