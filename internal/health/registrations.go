@@ -11,29 +11,17 @@ import (
 	"github.com/alexfalkowski/go-service/v2/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
-	"go.uber.org/fx"
 )
 
-// Params for health.
-type Params struct {
-	fx.In
-
-	Health   *Config
-	Migrate  *migrate.Config
-	FS       *os.FS
-	Migrator migrator.Migrator
-}
-
-// NewRegistrations for health.
-func NewRegistrations(params Params) (health.Registrations, error) {
-	d := time.MustParseDuration(params.Health.Duration)
+func registrations(mig migrator.Migrator, fs *os.FS, migCfg *migrate.Config, cfg *Config) (health.Registrations, error) {
+	d := time.MustParseDuration(cfg.Duration)
 	registrations := health.Registrations{
 		server.NewRegistration("noop", d, checker.NewNoopChecker()),
 		server.NewOnlineRegistration(d, d),
 	}
 
-	for _, db := range params.Migrate.Databases {
-		checker := &migratorChecker{db: db, fs: params.FS, migrator: params.Migrator}
+	for _, db := range migCfg.Databases {
+		checker := &migratorChecker{db: db, fs: fs, migrator: mig}
 		reg := server.NewRegistration(db.Name, d, checker)
 
 		registrations = append(registrations, reg)
