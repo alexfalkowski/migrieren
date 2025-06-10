@@ -1,12 +1,12 @@
 package health
 
-import "go.uber.org/fx"
+import "github.com/alexfalkowski/go-service/v2/di"
 
 // Module for fx.
-var Module = fx.Options(
-	fx.Provide(registrations),
-	fx.Provide(httpHealthObserver),
-	fx.Provide(httpLivenessObserver),
-	fx.Provide(httpReadinessObserver),
-	fx.Provide(grpcObserver),
+var Module = di.Module(
+	di.Constructor(registrations),
+	di.Constructor(httpHealthObserver),
+	di.Constructor(httpLivenessObserver),
+	di.Constructor(httpReadinessObserver),
+	di.Constructor(grpcObserver),
 )

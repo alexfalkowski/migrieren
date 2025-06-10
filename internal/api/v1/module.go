@@ -1,18 +1,18 @@
 package v1
 
 import (
+	"github.com/alexfalkowski/go-service/v2/di"
 	api "github.com/alexfalkowski/migrieren/internal/api/migrate"
 	"github.com/alexfalkowski/migrieren/internal/api/v1/transport/grpc"
 	"github.com/alexfalkowski/migrieren/internal/api/v1/transport/http"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
-	"go.uber.org/fx"
 )
 
 // Module for fx.
-var Module = fx.Options(
+var Module = di.Module(
 	api.Module,
 	migrate.Module,
-	fx.Provide(grpc.NewServer),
-	fx.Invoke(grpc.Register),
-	fx.Invoke(http.Register),
+	di.Constructor(grpc.NewServer),
+	di.Register(grpc.Register),
+	di.Register(http.Register),
 )
