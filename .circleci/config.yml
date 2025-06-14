@@ -3,8 +3,8 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.26
-      - image: postgres:17-bullseye
+      - image: alexfalkowski/go:2.27
+      - image: postgres:17-bookworm
         environment:
           POSTGRES_DB: test
           POSTGRES_USER: test
@@ -48,6 +48,7 @@ jobs:
       - run: make lint
       - run: make proto-breaking
       - run: make sec
+      - run: make trivy-repo
       - run: make features
       - run: make benchmarks
       - run: make analyse
@@ -63,31 +64,47 @@ jobs:
           path: test/reports
       - run: make codecov-upload
     resource_class: large
-  build-docker:
+  release:
     docker:
-      - image: alexfalkowski/go:2.26
-    working_directory: ~/migrieren
+      - image: alexfalkowski/release:3.25
+    working_directory: ~/go-service-template
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - run: make pull
+      - run: release
+    resource_class: large
+  build-docker-amd64:
+    docker:
+      - image: alexfalkowski/go:2.27
+    working_directory: ~/go-service-template
     steps:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
       - setup_remote_docker:
           docker_layer_caching: true
-      - run: make build-docker
-      - run: make trivy
+      - run: make platform=amd64 build-docker
+      - run: make platform=amd64 trivy-image
     resource_class: large
-  release:
+  build-docker-arm64:
     docker:
-      - image: alexfalkowski/release:3.24
-    working_directory: ~/migrieren
+      - image: alexfalkowski/go:2.27
+    working_directory: ~/go-service-template
     steps:
       - checkout
-      - run: release
-    resource_class: large
-  push-docker:
+      - run: git submodule sync
+      - run: git submodule update --init
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: make platform=arm64 build-docker
+      - run: make platform=arm64 trivy-image
+    resource_class: arm.medium
+  push-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.26
-    working_directory: ~/migrieren
+      - image: alexfalkowski/go:2.27
+    working_directory: ~/go-service-template
     steps:
       - checkout
       - run: git submodule sync
@@ -98,15 +115,50 @@ jobs:
       - run:
           name: make login
           command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-      - run: make push-docker
+      - run: make platform=amd64 push-docker
+    resource_class: large
+  push-docker-arm64:
+    docker:
+      - image: alexfalkowski/go:2.27
+    working_directory: ~/go-service-template
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - run: make pull
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: make login
+          command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run: make platform=arm64 push-docker
+    resource_class: arm.medium
+  manifest-docker:
+    docker:
+      - image: alexfalkowski/go:2.27
+    working_directory: ~/go-service-template
+    steps:
+      - checkout
+      - run: git submodule sync
+      - run: git submodule update --init
+      - run: make pull
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: make login
+          command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run: make manifest-docker
     resource_class: large
 
 workflows:
   migrieren:
     jobs:
       - build-service
-      - build-docker:
-          context: gh
+      - build-docker-amd64:
+          filters:
+            branches:
+              ignore: master
+      - build-docker-arm64:
           filters:
             branches:
               ignore: master
@@ -117,10 +169,25 @@ workflows:
           filters:
             branches:
               only: master
-      - push-docker:
+      - push-docker-amd64:
           context: docker
           requires:
             - release
+          filters:
+            branches:
+              only: master
+      - push-docker-arm64:
+          context: docker
+          requires:
+            - release
+          filters:
+            branches:
+              only: master
+      - manifest-docker:
+          context: docker
+          requires:
+            - push-docker-amd64
+            - push-docker-arm64
           filters:
             branches:
               only: master
