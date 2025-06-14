@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.23.0
-	github.com/alexfalkowski/go-service/v2 v2.65.0
+	github.com/alexfalkowski/go-service/v2 v2.67.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	google.golang.org/grpc v1.73.0
 	google.golang.org/protobuf v1.36.6
@@ -13,7 +13,7 @@ require (
 require (
 	aidanwoods.dev/go-paseto v1.5.4 // indirect
 	aidanwoods.dev/go-result v0.3.1 // indirect
-	dario.cat/mergo v1.0.1 // indirect
+	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/KimMachineGun/automemlimit v0.7.2 // indirect
@@ -43,7 +43,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.26.0 // indirect
-	github.com/go-sprout/sprout v1.0.0 // indirect
+	github.com/go-sprout/sprout v1.0.1 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
@@ -94,7 +94,7 @@ require (
 	github.com/sethvargo/go-retry v0.3.0 // indirect
 	github.com/shirou/gopsutil/v4 v4.25.5 // indirect
 	github.com/sony/gobreaker v1.0.0 // indirect
-	github.com/spf13/cast v1.7.1 // indirect
+	github.com/spf13/cast v1.9.2 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/standard-webhooks/standard-webhooks/libraries v0.0.0-20250520001545-cc86b53f05df // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
