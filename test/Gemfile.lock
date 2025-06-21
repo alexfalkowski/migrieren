@@ -33,7 +33,7 @@ GEM
       bigdecimal
     cucumber-gherkin (30.0.4)
       cucumber-messages (> 25, < 28)
-    cucumber-html-formatter (21.10.1)
+    cucumber-html-formatter (21.12.0)
       cucumber-messages (> 19, < 28)
     cucumber-messages (27.2.0)
     cucumber-tag-expressions (6.1.2)
@@ -138,7 +138,7 @@ GEM
     rspec-support (3.13.4)
     rspec-wait (1.0.1)
       rspec (>= 3.4)
-    rubocop (1.76.2)
+    rubocop (1.77.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
