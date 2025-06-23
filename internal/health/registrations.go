@@ -1,11 +1,10 @@
 package health
 
 import (
-	"context"
-
 	"github.com/alexfalkowski/go-health/checker"
 	"github.com/alexfalkowski/go-health/server"
 	"github.com/alexfalkowski/go-service/v2/bytes"
+	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/health"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/go-service/v2/time"

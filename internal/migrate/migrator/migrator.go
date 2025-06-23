@@ -1,6 +1,6 @@
 package migrator
 
-import "context"
+import "github.com/alexfalkowski/go-service/v2/context"
 
 // Migrator will migrate databases.
 type Migrator interface {

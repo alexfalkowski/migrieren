@@ -1,8 +1,7 @@
 package migrate
 
 import (
-	"context"
-
+	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
 	"github.com/alexfalkowski/go-service/v2/telemetry/tracer"

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"context"
-
 	"github.com/alexfalkowski/go-service/v2/cli"
+	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/migrieren/internal/cmd"
 )
 
