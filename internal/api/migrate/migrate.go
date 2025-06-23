@@ -1,11 +1,11 @@
 package migrate
 
 import (
-	"context"
-	"errors"
 	"fmt"
 
 	"github.com/alexfalkowski/go-service/v2/bytes"
+	"github.com/alexfalkowski/go-service/v2/context"
+	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
