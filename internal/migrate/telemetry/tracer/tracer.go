@@ -10,15 +10,18 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
-// Migrator for otel.
-type Migrator struct {
-	migrator migrator.Migrator
-	tracer   *tracer.Tracer
+// Tracer is just an alias of tracer.Tracer.
+type Tracer = tracer.Tracer
+
+// NewMigrator for tracer.
+func NewMigrator(migrator migrator.Migrator, tracer *Tracer) *Migrator {
+	return &Migrator{migrator: migrator, tracer: tracer}
 }
 
-// NewMigrator for otel.
-func NewMigrator(migrator migrator.Migrator, tracer *tracer.Tracer) *Migrator {
-	return &Migrator{migrator: migrator, tracer: tracer}
+// Migrator for tracer.
+type Migrator struct {
+	migrator migrator.Migrator
+	tracer   *Tracer
 }
 
 // Migrate a database to a version and returning the database logs.

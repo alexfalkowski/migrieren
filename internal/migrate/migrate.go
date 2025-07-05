@@ -4,10 +4,9 @@ import (
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
-	"github.com/alexfalkowski/go-service/v2/telemetry/tracer"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
-	tt "github.com/alexfalkowski/migrieren/internal/migrate/telemetry/tracer"
+	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/tracer"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -26,11 +25,8 @@ var (
 )
 
 // NewMigrator for databases.
-func NewMigrator(tracer *tracer.Tracer) migrator.Migrator {
-	var m migrator.Migrator = &Migrator{}
-	m = tt.NewMigrator(m, tracer)
-
-	return m
+func NewMigrator(t *tracer.Tracer) migrator.Migrator {
+	return tracer.NewMigrator(&Migrator{}, t)
 }
 
 // Migrator using migrate.
