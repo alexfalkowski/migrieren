@@ -18,24 +18,24 @@ jobs:
       - run: git submodule update --init
       - run: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:9009 -timeout 1m
       - restore_cache:
-          name: restore go deps
+          name: restore go cache
           keys:
             - migrieren-go-cache-{{ checksum "go.sum" }}
             - migrieren-go-cache-
       - restore_cache:
-          name: restore ruby deps
+          name: restore ruby cache
           keys:
             - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
             - migrieren-ruby-cache-
       - run: make clean
       - run: make dep
       - save_cache:
-          name: save go deps
+          name: save go cache
           key: migrieren-go-cache-{{ checksum "go.sum" }}
           paths:
-            - /home/circleci/go/pkg/mod
+            - ~/go/pkg/mod
       - save_cache:
-          name: save ruby deps
+          name: save ruby cache
           key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
           paths:
             - test/vendor
@@ -45,7 +45,17 @@ jobs:
             - migrieren-go-build-cache-{{ checksum "go.sum" }}
             - migrieren-go-build-cache-
       - run: make clean
+      - restore_cache:
+          name: restore go lint cache
+          keys:
+            - migrieren-go-lint-cache-{{ checksum "go.sum" }}
+            - migrieren-go-lint-cache-
       - run: make lint
+      - save_cache:
+          name: save go lint cache
+          key: migrieren-go-lint-cache-{{ checksum "go.sum" }}
+          paths:
+            - ~/.cache/golangci-lint
       - run: make proto-breaking
       - run: make sec
       - run: make trivy-repo
@@ -56,7 +66,7 @@ jobs:
           name: save go build cache
           key: migrieren-go-build-cache-{{ checksum "go.sum" }}
           paths:
-            - /home/circleci/.cache/go-build
+            - ~/.cache/go-build
       - run: make coverage
       - store_test_results:
           path: test/reports
