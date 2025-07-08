@@ -11,12 +11,9 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
-// ErrNotFound for service.
-var ErrNotFound = errors.New("not found")
-
 // IsNotFound for service.
 func IsNotFound(err error) bool {
-	return errors.Is(err, ErrNotFound)
+	return errors.Is(err, migrate.ErrNotFound)
 }
 
 // NewMigrator for the different transports.
@@ -33,9 +30,9 @@ type Migrator struct {
 
 // Migrate the database.
 func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]string, error) {
-	d := s.config.Database(db)
+	d, err := s.config.Database(db)
 	if d == nil {
-		return nil, fmt.Errorf("%s: %w", db, ErrNotFound)
+		return nil, fmt.Errorf("%s: %w", db, err)
 	}
 
 	source, err := d.GetSource(s.fs)

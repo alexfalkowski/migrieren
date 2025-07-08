@@ -1,10 +1,13 @@
 package migrate
 
 import (
-	"slices"
-
+	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/os"
+	"github.com/alexfalkowski/go-service/v2/types/slices"
 )
+
+// ErrNotFound for migrate.
+var ErrNotFound = errors.New("not found")
 
 // Config for migrate.
 type Config struct {
@@ -12,13 +15,13 @@ type Config struct {
 }
 
 // Database by name.
-func (c *Config) Database(name string) *Database {
-	index := slices.IndexFunc(c.Databases, func(d *Database) bool { return d.Name == name })
-	if index == -1 {
-		return nil
+func (c *Config) Database(name string) (*Database, error) {
+	db, ok := slices.ElemFunc(c.Databases, func(d *Database) bool { return d.Name == name })
+	if !ok {
+		return nil, ErrNotFound
 	}
 
-	return c.Databases[index]
+	return db, nil
 }
 
 // Database for migrate.
