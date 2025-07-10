@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
       - image: postgres:17-bookworm
         environment:
           POSTGRES_DB: test
@@ -20,40 +20,40 @@ jobs:
       - restore_cache:
           name: restore go cache
           keys:
-            - migrieren-go-cache-{{ checksum "go.sum" }}
+            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-cache-
       - restore_cache:
           name: restore ruby cache
           keys:
-            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
+            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
             - migrieren-ruby-cache-
       - run: make clean
       - run: make dep
       - save_cache:
           name: save go cache
-          key: migrieren-go-cache-{{ checksum "go.sum" }}
+          key: migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
           paths:
             - ~/go/pkg/mod
       - save_cache:
           name: save ruby cache
-          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}
+          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
           paths:
             - test/vendor
       - restore_cache:
           name: restore go build cache
           keys:
-            - migrieren-go-build-cache-{{ checksum "go.sum" }}
+            - migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-build-cache-
       - run: make clean
       - restore_cache:
           name: restore go lint cache
           keys:
-            - migrieren-go-lint-cache-{{ checksum "go.sum" }}
+            - migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-lint-cache-
       - run: make lint
       - save_cache:
           name: save go lint cache
-          key: migrieren-go-lint-cache-{{ checksum "go.sum" }}
+          key: migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
           paths:
             - ~/.cache/golangci-lint
       - run: make proto-breaking
@@ -64,7 +64,7 @@ jobs:
       - run: make analyse
       - save_cache:
           name: save go build cache
-          key: migrieren-go-build-cache-{{ checksum "go.sum" }}
+          key: migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
           paths:
             - ~/.cache/go-build
       - run: make coverage
@@ -76,7 +76,7 @@ jobs:
     resource_class: large
   release:
     docker:
-      - image: alexfalkowski/release:3.29
+      - image: alexfalkowski/release:3.30
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -87,7 +87,7 @@ jobs:
     resource_class: large
   build-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -100,7 +100,7 @@ jobs:
     resource_class: large
   build-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -113,7 +113,7 @@ jobs:
     resource_class: arm.medium
   push-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -129,7 +129,7 @@ jobs:
     resource_class: large
   push-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -145,7 +145,7 @@ jobs:
     resource_class: arm.medium
   manifest-docker:
     docker:
-      - image: alexfalkowski/go:2.39
+      - image: alexfalkowski/go:2.40
     working_directory: ~/migrieren
     steps:
       - checkout
