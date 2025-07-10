@@ -44,12 +44,12 @@ jobs:
           keys:
             - migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-build-cache-
-      - run: make clean
       - restore_cache:
           name: restore go lint cache
           keys:
             - migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-lint-cache-
+      - run: make clean
       - run: make lint
       - save_cache:
           name: save go lint cache
