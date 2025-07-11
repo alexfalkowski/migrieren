@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health v1.23.0
-	github.com/alexfalkowski/go-service/v2 v2.88.0
+	github.com/alexfalkowski/go-service/v2 v2.91.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	google.golang.org/grpc v1.73.0
 	google.golang.org/protobuf v1.36.6
@@ -24,7 +24,7 @@ require (
 	github.com/beevik/nts v0.2.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.8.1 // indirect
-	github.com/casbin/casbin/v2 v2.108.0 // indirect
+	github.com/casbin/casbin/v2 v2.109.0 // indirect
 	github.com/casbin/govaluate v1.7.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -126,12 +126,12 @@ require (
 	go.uber.org/mock v0.5.2 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.39.0 // indirect
-	golang.org/x/net v0.41.0 // indirect
+	golang.org/x/crypto v0.40.0 // indirect
+	golang.org/x/net v0.42.0 // indirect
 	golang.org/x/oauth2 v0.30.0 // indirect
-	golang.org/x/sync v0.15.0 // indirect
-	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.26.0 // indirect
+	golang.org/x/sync v0.16.0 // indirect
+	golang.org/x/sys v0.34.0 // indirect
+	golang.org/x/text v0.27.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
 )
