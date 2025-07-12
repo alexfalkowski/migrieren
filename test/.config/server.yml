@@ -1,12 +1,4 @@
 environment: development
-client:
-  v1:
-    address: localhost:12000
-    retry:
-      attempts: 3
-      backoff: 100ms
-      timeout: 10s
-    timeout: 5s
 health:
   duration: 1s
   timeout: 1s
@@ -47,14 +39,14 @@ telemetry:
     url: http://localhost:4318/v1/traces
 transport:
   http:
-    address: :11000
+    address: tcp://:11000
     retry:
       attempts: 3
       backoff: 100ms
       timeout: 10s
     timeout: 5s
   grpc:
-    address: :12000
+    address: tcp://:12000
     retry:
       attempts: 3
       backoff: 100ms
