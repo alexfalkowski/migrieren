@@ -16,44 +16,45 @@ jobs:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
+      - run: make source-key
       - run: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:9009 -timeout 1m
       - restore_cache:
           name: restore go cache
           keys:
-            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
+            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
             - migrieren-go-cache-
       - restore_cache:
           name: restore ruby cache
           keys:
-            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
+            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}-{{ checksum ".source-key" }}
             - migrieren-ruby-cache-
       - run: make clean
       - run: make dep
       - save_cache:
           name: save go cache
-          key: migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
+          key: migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
           paths:
             - ~/go/pkg/mod
       - save_cache:
           name: save ruby cache
-          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
+          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}-{{ checksum ".source-key" }}
           paths:
             - test/vendor
       - restore_cache:
           name: restore go build cache
           keys:
-            - migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
+            - migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
             - migrieren-go-build-cache-
       - restore_cache:
           name: restore go lint cache
           keys:
-            - migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}
+            - migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}-{{ checksum ".source-key" }}
             - migrieren-go-lint-cache-
       - run: make clean
       - run: make lint
       - save_cache:
           name: save go lint cache
-          key: migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}
+          key: migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}-{{ checksum ".source-key" }}
           paths:
             - ~/.cache/golangci-lint
       - run: make proto-breaking
@@ -64,7 +65,7 @@ jobs:
       - run: make analyse
       - save_cache:
           name: save go build cache
-          key: migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
+          key: migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
           paths:
             - ~/.cache/go-build
       - run: make coverage
