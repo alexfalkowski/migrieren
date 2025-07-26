@@ -1,35 +1,45 @@
 package health
 
 import (
-	"context"
-
-	"github.com/alexfalkowski/go-health/v2/checker"
 	"github.com/alexfalkowski/go-health/v2/server"
-	"github.com/alexfalkowski/go-service/v2/bytes"
+	"github.com/alexfalkowski/go-service/v2/di"
 	"github.com/alexfalkowski/go-service/v2/env"
 	"github.com/alexfalkowski/go-service/v2/health"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/go-service/v2/time"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
+	"github.com/alexfalkowski/migrieren/internal/health/checker"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
-func register(name env.Name, srv *server.Server, mig migrator.Migrator, fs *os.FS, migrate *migrate.Config, cfg *Config) {
-	d := time.MustParseDuration(cfg.Duration)
+// RegisterParams for health.
+type RegisterParams struct {
+	di.In
+	Migrator migrator.Migrator
+	Server   *server.Server
+	FS       *os.FS
+	Migrate  *migrate.Config
+	Config   *Config
+	Name     env.Name
+}
+
+// Register for health.
+func Register(params RegisterParams) {
+	d := time.MustParseDuration(params.Config.Duration)
 	regs := health.Registrations{
 		server.NewRegistration("noop", d, checker.NewNoopChecker()),
 		server.NewOnlineRegistration(d, d),
 	}
 
-	for _, db := range migrate.Databases {
-		checker := &migratorChecker{db: db, fs: fs, migrator: mig}
+	for _, db := range params.Migrate.Databases {
+		checker := checker.NewMigrator(db, params.FS, params.Migrator)
 		reg := server.NewRegistration(db.Name, d, checker)
 		regs = append(regs, reg)
 	}
 
-	srv.Register(name.String(), regs...)
-	srv.Register(v1.Service_ServiceDesc.ServiceName, regs...)
+	params.Server.Register(params.Name.String(), regs...)
+	params.Server.Register(v1.Service_ServiceDesc.ServiceName, regs[0])
 }
 
 func httpHealthObserver(name env.Name, server *server.Server, migrate *migrate.Config) error {
@@ -51,25 +61,4 @@ func httpReadinessObserver(name env.Name, server *server.Server) error {
 
 func grpcObserver(server *server.Server) error {
 	return server.Observe(v1.Service_ServiceDesc.ServiceName, "grpc", "noop")
-}
-
-type migratorChecker struct {
-	db       *migrate.Database
-	fs       *os.FS
-	migrator migrator.Migrator
-}
-
-// Check the migrator.
-func (c *migratorChecker) Check(ctx context.Context) error {
-	source, err := c.db.GetSource(c.fs)
-	if err != nil {
-		return err
-	}
-
-	url, err := c.db.GetURL(c.fs)
-	if err != nil {
-		return err
-	}
-
-	return c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
 }
