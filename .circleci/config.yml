@@ -75,16 +75,15 @@ jobs:
           path: test/reports
       - run: make codecov-upload
     resource_class: large
-  release:
+  version:
     docker:
-      - image: alexfalkowski/release:4.4
+      - image: alexfalkowski/release:5.2
     working_directory: ~/migrieren
     steps:
       - checkout
       - run: git submodule sync
       - run: git submodule update --init
-      - run: make pull
-      - run: release
+      - run: version
     resource_class: large
   build-docker-amd64:
     docker:
@@ -173,7 +172,7 @@ workflows:
           filters:
             branches:
               ignore: master
-      - release:
+      - version:
           context: gh
           requires:
             - build-service
@@ -183,14 +182,14 @@ workflows:
       - push-docker-amd64:
           context: docker
           requires:
-            - release
+            - version
           filters:
             branches:
               only: master
       - push-docker-arm64:
           context: docker
           requires:
-            - release
+            - version
           filters:
             branches:
               only: master
