@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.577.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.577.0) - 2025-07-31
+
+- [`294ca89`](https://github.com/alexfalkowski/migrieren/commit/294ca89048913ea9107d4e19c084e1e1f6d2794e) feat(deps): upgraded github.com/alexfalkowski/go-service/v2 to v2.109.0 (#1538)
+- [`56e81f4`](https://github.com/alexfalkowski/migrieren/commit/56e81f4458d366a47fc430e842c9f58fb8505511) build(ci): use latest published images (#1537)
+- [`5603458`](https://github.com/alexfalkowski/migrieren/commit/56034581d88292fb80a3ac7f51379bc54e8b4348) test(deps): bump pg from 1.5.9 to 1.6.0 in /test (#1536)
+- [`6668e57`](https://github.com/alexfalkowski/migrieren/commit/6668e57aa3dc31d1befe2c0a1ed849e5d709f5fc) build(deps): upgraded github.com/alexfalkowski/bin (#1535)
+- [`891f778`](https://github.com/alexfalkowski/migrieren/commit/891f7788b06be1cf2853e9973fe67ff6a21514e2) build(ci): use latest published images (#1534)
+
 ## [v1.576.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.576.0) - 2025-07-26
 
 - [`ce6c837`](https://github.com/alexfalkowski/migrieren/commit/ce6c837c52e8d0ba857bccd5b45a157c85e8e250) feat(health): use just noop for grpc (#1533)
