@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.3.0
-	github.com/alexfalkowski/go-service/v2 v2.109.0
+	github.com/alexfalkowski/go-service/v2 v2.110.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.6
@@ -95,7 +95,7 @@ require (
 	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/sethvargo/go-limiter v1.0.0 // indirect
 	github.com/sethvargo/go-retry v0.3.0 // indirect
-	github.com/shirou/gopsutil/v4 v4.25.6 // indirect
+	github.com/shirou/gopsutil/v4 v4.25.7 // indirect
 	github.com/sony/gobreaker v1.0.0 // indirect
 	github.com/spf13/cast v1.9.2 // indirect
 	github.com/spf13/pflag v1.0.7 // indirect
