@@ -94,8 +94,8 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    pg (1.6.0-x86_64-darwin)
-    pg (1.6.0-x86_64-linux)
+    pg (1.6.1-x86_64-darwin)
+    pg (1.6.1-x86_64-linux)
     prism (1.4.0)
     puma (6.6.1)
       nio4r (~> 2.0)
@@ -112,7 +112,7 @@ GEM
     rake (13.3.0)
     rbs (3.9.4)
       logger
-    regexp_parser (2.10.0)
+    regexp_parser (2.11.0)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
