@@ -1,10 +1,10 @@
 module github.com/alexfalkowski/migrieren
 
-go 1.24.0
+go 1.25.0
 
 require (
-	github.com/alexfalkowski/go-health/v2 v2.3.0
-	github.com/alexfalkowski/go-service/v2 v2.123.0
+	github.com/alexfalkowski/go-health/v2 v2.4.0
+	github.com/alexfalkowski/go-service/v2 v2.125.0
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.7
