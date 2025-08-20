@@ -162,6 +162,7 @@ jobs:
 
 workflows:
   migrieren:
+    max_auto_reruns: 3
     jobs:
       - build-service
       - build-docker-amd64:
