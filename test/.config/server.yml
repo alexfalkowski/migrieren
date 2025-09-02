@@ -4,10 +4,6 @@ health:
   timeout: 1s
 id:
   kind: uuid
-limiter:
-  kind: token
-  tokens: 1000
-  interval: 1s
 migrate:
   databases:
     - name: postgres
@@ -40,6 +36,10 @@ telemetry:
 transport:
   http:
     address: tcp://:11000
+    limiter:
+      kind: token
+      tokens: 1000
+      interval: 1s
     retry:
       attempts: 3
       backoff: 100ms
@@ -47,6 +47,10 @@ transport:
     timeout: 5s
   grpc:
     address: tcp://:12000
+    limiter:
+      kind: token
+      tokens: 1000
+      interval: 1s
     retry:
       attempts: 3
       backoff: 100ms
