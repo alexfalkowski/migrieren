@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.4.0
-	github.com/alexfalkowski/go-service/v2 v2.137.0
+	github.com/alexfalkowski/go-service/v2 v2.139.0
 	github.com/golang-migrate/migrate/v4 v4.19.0
 	google.golang.org/grpc v1.75.0
 	google.golang.org/protobuf v1.36.8
