@@ -98,7 +98,7 @@ GEM
     pg (1.6.2-x86_64-darwin)
     pg (1.6.2-x86_64-linux)
     prism (1.4.0)
-    puma (7.0.0)
+    puma (7.0.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.1)
@@ -111,7 +111,7 @@ GEM
       rack (>= 3.0.0)
     rainbow (3.1.1)
     rake (13.3.0)
-    rbs (3.9.4)
+    rbs (3.9.5)
       logger
     regexp_parser (2.11.2)
     rest-client (2.1.0)
