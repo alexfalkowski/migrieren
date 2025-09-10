@@ -7,7 +7,7 @@ require (
 	github.com/alexfalkowski/go-service/v2 v2.152.0
 	github.com/golang-migrate/migrate/v4 v4.19.0
 	google.golang.org/grpc v1.75.0
-	google.golang.org/protobuf v1.36.8
+	google.golang.org/protobuf v1.36.9
 )
 
 require (
