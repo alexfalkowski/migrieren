@@ -33,7 +33,7 @@ GEM
       bigdecimal
     cucumber-gherkin (32.2.0)
       cucumber-messages (> 25, < 28)
-    cucumber-html-formatter (21.14.0)
+    cucumber-html-formatter (21.15.1)
       cucumber-messages (> 19, < 28)
     cucumber-messages (27.2.0)
     cucumber-tag-expressions (6.1.2)
@@ -45,10 +45,10 @@ GEM
     get_process_mem (1.0.0)
       bigdecimal (>= 2.0)
       ffi (~> 1.0)
-    google-protobuf (4.32.0-x86_64-darwin)
+    google-protobuf (4.32.1-x86_64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.32.0-x86_64-linux-gnu)
+    google-protobuf (4.32.1-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.21.0)
@@ -70,7 +70,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0902)
+    mime-types-data (3.2025.0909)
     mini_mime (1.1.5)
     multi_test (1.1.0)
     mustermann (3.0.4)
@@ -97,8 +97,8 @@ GEM
       racc
     pg (1.6.2-x86_64-darwin)
     pg (1.6.2-x86_64-linux)
-    prism (1.4.0)
-    puma (7.0.2)
+    prism (1.5.1)
+    puma (7.0.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.1)
