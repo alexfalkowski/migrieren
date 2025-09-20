@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.616.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.616.0) - 2025-09-20
+
+- [`b4b2054`](https://github.com/alexfalkowski/migrieren/commit/b4b205473fb5dc0a0066bd1400da67a81129223a) feat(deps): upgraded github.com/alexfalkowski/go-service/v2 to v2.160.0 (#1618)
+- [`06d7dbe`](https://github.com/alexfalkowski/migrieren/commit/06d7dbe3bca54544eef92595c68e1f62de68aeb1) build(ci): use latest published images (#1617)
+- [`34508d9`](https://github.com/alexfalkowski/migrieren/commit/34508d9a00e0285e3c9488a78f0a3fdda44b8e6c) test(deps): upgraded bundler to 2.7.2 (#1616)
+- [`8cd7b30`](https://github.com/alexfalkowski/migrieren/commit/8cd7b30b0a9faaf13cd8fde423bbc124cf9b1584) build(ci): use latest published images (#1615)
+- [`0901302`](https://github.com/alexfalkowski/migrieren/commit/0901302f623e528b05639504488a81b24713d28e) build(ci): use latest published images (#1614)
+
 ## [v1.615.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.615.0) - 2025-09-18
 
 - [`24edb16`](https://github.com/alexfalkowski/migrieren/commit/24edb1693cc895a155f2b44374ee2e8eebab44c8) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.158.0 to 2.159.0 (#1613)
