@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
       - image: postgres:17-bookworm
         environment:
           POSTGRES_DB: test
@@ -87,7 +87,7 @@ jobs:
     resource_class: large
   build-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -100,7 +100,7 @@ jobs:
     resource_class: large
   build-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -113,7 +113,7 @@ jobs:
     resource_class: arm.medium
   push-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -129,7 +129,7 @@ jobs:
     resource_class: large
   push-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
     working_directory: ~/migrieren
     steps:
       - checkout
@@ -145,7 +145,7 @@ jobs:
     resource_class: arm.medium
   manifest-docker:
     docker:
-      - image: alexfalkowski/go:2.62
+      - image: alexfalkowski/go:2.63
     working_directory: ~/migrieren
     steps:
       - checkout
