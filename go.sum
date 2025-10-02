@@ -20,8 +20,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.4.0 h1:KHuPBB4XitQlWvh9oVqPNAUvjJ3D2TZ1c6iD+h/gSbA=
 github.com/alexfalkowski/go-health/v2 v2.4.0/go.mod h1:+fzOKXbzlNJhH8UqpI0kZPwipV8yNSkcOWRPOrME6Pg=
-github.com/alexfalkowski/go-service/v2 v2.163.0 h1:Nz0c9OEuS9yTEpq6Osc2fo4b3RIT7+xdeRjgg18Nvoc=
-github.com/alexfalkowski/go-service/v2 v2.163.0/go.mod h1:9ykC9VWEzRnKKASBgiaUDGoG/OiR2c8mwM6Dr2EU2qQ=
+github.com/alexfalkowski/go-service/v2 v2.164.0 h1:1dLLQZyOS0WQKwOCnDe5YH1dZk1oFmIGMDp1n0nqCas=
+github.com/alexfalkowski/go-service/v2 v2.164.0/go.mod h1:k9+ygAxEYGYui/GBsuLQzsIy88Q4IL8idoL31kuRWTA=
 github.com/arl/statsviz v0.7.1 h1:W32VBGV/YBTMg3sBsr1Ix1bJzrykZHWNZS7quqtDqYc=
 github.com/arl/statsviz v0.7.1/go.mod h1:uFJZYUcGDeFpo/Mb9nLkq/83YUYaib2IccejOm+y1t0=
 github.com/avfs/avfs v0.35.0 h1:dc0noSyEoVDtAUQlhHX0uRYBfI2aFbI8nF0XPtV/Ozw=
@@ -428,8 +428,8 @@ google.golang.org/genproto/googleapis/rpc v0.0.0-20250825161204-c5933d9347a5 h1:
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250825161204-c5933d9347a5/go.mod h1:M4/wBTSeyLxupu3W3tJtOgB14jILAS/XWPSSa3TAlJc=
 google.golang.org/grpc v1.75.1 h1:/ODCNEuf9VghjgO3rqLcfg8fiOP0nSluljWFlDxELLI=
 google.golang.org/grpc v1.75.1/go.mod h1:JtPAzKiq4v1xcAB2hydNlWI2RnF85XXcV0mhKXr2ecQ=
-google.golang.org/protobuf v1.36.9 h1:w2gp2mA27hUeUzj9Ex9FBjsBm40zfaDtEWow293U7Iw=
-google.golang.org/protobuf v1.36.9/go.mod h1:fuxRtAxBytpl4zzqUh6/eyUujkJdNiuEkXntxiD/uRU=
+google.golang.org/protobuf v1.36.10 h1:AYd7cD/uASjIL6Q9LiTjz8JLcrh/88q5UObnmY3aOOE=
+google.golang.org/protobuf v1.36.10/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c/go.mod h1:JHkPIbrfpd72SG/EVd6muEfDQjcINNoR0C8j2r3qZ4Q=
