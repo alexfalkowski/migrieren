@@ -13,7 +13,8 @@ jobs:
         command: -server.http-listen-port=9009 -auth.multitenancy-enabled=false -ingester.ring.replication-factor=1
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: make source-key
@@ -80,7 +81,8 @@ jobs:
       - image: alexfalkowski/release:5.16
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: version
@@ -90,7 +92,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - setup_remote_docker:
@@ -103,7 +106,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - setup_remote_docker:
@@ -116,7 +120,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: make pull
@@ -132,7 +137,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: make pull
@@ -148,7 +154,8 @@ jobs:
       - image: alexfalkowski/go:2.65
     working_directory: ~/migrieren
     steps:
-      - checkout
+      - checkout:
+          method: blobless
       - run: git submodule sync
       - run: git submodule update --init
       - run: make pull
