@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.628.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.628.0) - 2025-10-13
+
+- [`79bbf85`](https://github.com/alexfalkowski/migrieren/commit/79bbf85ef2a233146148e8b4dd278bd64570e61a) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.170.0 to 2.171.0 (#1647)
+- [`abe41f1`](https://github.com/alexfalkowski/migrieren/commit/abe41f13d92074f4b3dcaa1189170bf88d20f296) build(ci): use latest published images (#1646)
+- [`8879555`](https://github.com/alexfalkowski/migrieren/commit/88795554577e5713c8b1b0e4cc6021dbb8802403) test(deps): bump sinatra from 4.1.1 to 4.2.0 in /test (#1645)
+- [`215dfc3`](https://github.com/alexfalkowski/migrieren/commit/215dfc31111c1ce2f11be712a6a743bdcc433f4a) test(deps): bump rack from 3.2.2 to 3.2.3 in /test (#1644)
+- [`33225df`](https://github.com/alexfalkowski/migrieren/commit/33225df2a5ccba8856cd35cd8c03b5dd2f9aaa4d) build(ci): use latest published images (#1643)
+
 ## [v1.627.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.627.0) - 2025-10-09
 
 - [`9803960`](https://github.com/alexfalkowski/migrieren/commit/9803960a9ddf57032cefc19649c8a3e1a1fb8e2a) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.169.0 to 2.170.0 (#1642)
