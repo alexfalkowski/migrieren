@@ -85,7 +85,19 @@ jobs:
           method: blobless
       - run: git submodule sync
       - run: git submodule update --init
+      - run: make source-key
+      - restore_cache:
+          name: restore go cache
+          keys:
+            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - migrieren-go-cache-
+      - restore_cache:
+          name: restore go build cache
+          keys:
+            - migrieren-go-build-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - migrieren-go-build-cache-
       - run: version
+      - run: package
     resource_class: large
   build-docker-amd64:
     docker:
