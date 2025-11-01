@@ -4,7 +4,7 @@ jobs:
   build-service:
     docker:
       - image: alexfalkowski/go:2.72
-      - image: postgres:17-bookworm
+      - image: postgres:18-trixie
         environment:
           POSTGRES_DB: test
           POSTGRES_USER: test
