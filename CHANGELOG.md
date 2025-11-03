@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.636.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.636.0) - 2025-11-03
+
+- [`e6b26df`](https://github.com/alexfalkowski/migrieren/commit/e6b26dfcd936daa73e821b921aa494da54eba734) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.179.0 to 2.181.0 (#1664)
+- [`4dd0738`](https://github.com/alexfalkowski/migrieren/commit/4dd073899ac849f923428e5fcfbf483114d62ba4) test(deps): bump rubocop from 1.81.6 to 1.81.7 in /test (#1665)
+- [`fee9009`](https://github.com/alexfalkowski/migrieren/commit/fee900993fec02746e7b9950fc574a05701ae436) build(ci): use latest published images (#1663)
+- [`004e143`](https://github.com/alexfalkowski/migrieren/commit/004e1438ce67d78cff94294b8702d9a2216385c1) build(ci): use postgres:18-trixie (#1662)
+
 ## [v1.635.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.635.0) - 2025-10-31
 
 - [`55bed46`](https://github.com/alexfalkowski/migrieren/commit/55bed467c8ef211f40351b9e43a24f513c65399d) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.177.0 to 2.179.0 (#1661)
