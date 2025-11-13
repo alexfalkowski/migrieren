@@ -45,10 +45,10 @@ GEM
     get_process_mem (1.0.0)
       bigdecimal (>= 2.0)
       ffi (~> 1.0)
-    google-protobuf (4.33.0-x86_64-darwin)
+    google-protobuf (4.33.1-x86_64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-x86_64-linux-gnu)
+    google-protobuf (4.33.1-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos-types (1.22.0)
