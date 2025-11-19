@@ -20,10 +20,10 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.4.0 h1:KHuPBB4XitQlWvh9oVqPNAUvjJ3D2TZ1c6iD+h/gSbA=
 github.com/alexfalkowski/go-health/v2 v2.4.0/go.mod h1:+fzOKXbzlNJhH8UqpI0kZPwipV8yNSkcOWRPOrME6Pg=
-github.com/alexfalkowski/go-service/v2 v2.199.0 h1:7txYI6Ks2VgsqUtOBkrvfe+5Vdjm2ji/zsW7PKj9aZs=
-github.com/alexfalkowski/go-service/v2 v2.199.0/go.mod h1:s5uEh9jHwZCZbk6JwkB5wH29f11o/+cm5u4cdTX/p2s=
-github.com/arl/statsviz v0.7.2 h1:xnuIfRiXE4kvxEcfGL+IE3mKH1BXNHuE+eJELIh7oOA=
-github.com/arl/statsviz v0.7.2/go.mod h1:XlrbiT7xYT03xaW9JMMfD8KFUhBOESJwfyNJu83PbB0=
+github.com/alexfalkowski/go-service/v2 v2.201.0 h1:TBrfqurh2UMGk49ehZXifZ4Di4wM+Pq1hLvwZ+h/bIE=
+github.com/alexfalkowski/go-service/v2 v2.201.0/go.mod h1:DAJ0CuugzYcLnsONv+Le37JPWsVo6Ye2BrYXf0dsybA=
+github.com/arl/statsviz v0.7.3 h1:/3lRoCxa4ss50SjmviSzyavWnBuFKqpI75GHkcf85v0=
+github.com/arl/statsviz v0.7.3/go.mod h1:XlrbiT7xYT03xaW9JMMfD8KFUhBOESJwfyNJu83PbB0=
 github.com/avfs/avfs v0.35.0 h1:dc0noSyEoVDtAUQlhHX0uRYBfI2aFbI8nF0XPtV/Ozw=
 github.com/avfs/avfs v0.35.0/go.mod h1:LnzrUO5acMU5NCkohHcUN15YrnkxiJ/lRLQOZSp39ow=
 github.com/beevik/ntp v1.5.0 h1:y+uj/JjNwlY2JahivxYvtmv4ehfi3h74fAuABB9ZSM4=
@@ -262,8 +262,8 @@ github.com/prometheus/otlptranslator v0.0.2 h1:+1CdeLVrRQ6Psmhnobldo0kTp96Rj80DR
 github.com/prometheus/otlptranslator v0.0.2/go.mod h1:P8AwMgdD7XEr6QRUJ2QWLpiAZTgTE2UYgjlu3svompI=
 github.com/prometheus/procfs v0.17.0 h1:FuLQ+05u4ZI+SS/w9+BWEM2TXiHKsUQ9TADiRH7DuK0=
 github.com/prometheus/procfs v0.17.0/go.mod h1:oPQLaDAMRbA+u8H5Pbfq+dl3VDAvHxMUOVhe0wYB2zw=
-github.com/redis/go-redis/v9 v9.16.0 h1:OotgqgLSRCmzfqChbQyG1PHC3tLNR89DG4jdOERSEP4=
-github.com/redis/go-redis/v9 v9.16.0/go.mod h1:u410H11HMLoB+TP67dz8rL9s6QW2j76l0//kSOd3370=
+github.com/redis/go-redis/v9 v9.17.0 h1:K6E+ZlYN95KSMmZeEQPbU/c++wfmEvfFB17yEAq/VhM=
+github.com/redis/go-redis/v9 v9.17.0/go.mod h1:u410H11HMLoB+TP67dz8rL9s6QW2j76l0//kSOd3370=
 github.com/rogpeppe/go-internal v1.14.1 h1:UQB4HGPB6osV0SQTLymcB4TgvyWu6ZyliaW0tI/otEQ=
 github.com/rogpeppe/go-internal v1.14.1/go.mod h1:MaRKkUm5W0goXpeCfT7UZI6fk/L7L7so1lCWt35ZSgc=
 github.com/rs/xid v1.6.0 h1:fV591PaemRlL6JfRxGDEPl69wICngIQ3shQtzfy2gxU=

@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.4.0
-	github.com/alexfalkowski/go-service/v2 v2.199.0
+	github.com/alexfalkowski/go-service/v2 v2.201.0
 	github.com/golang-migrate/migrate/v4 v4.19.0
 	google.golang.org/grpc v1.77.0
 	google.golang.org/protobuf v1.36.10
@@ -18,7 +18,7 @@ require (
 	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/KimMachineGun/automemlimit v0.7.5 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
-	github.com/arl/statsviz v0.7.2 // indirect
+	github.com/arl/statsviz v0.7.3 // indirect
 	github.com/avfs/avfs v0.35.0 // indirect
 	github.com/beevik/ntp v1.5.0 // indirect
 	github.com/beevik/nts v0.2.1 // indirect
@@ -87,7 +87,7 @@ require (
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/otlptranslator v0.0.2 // indirect
 	github.com/prometheus/procfs v0.17.0 // indirect
-	github.com/redis/go-redis/v9 v9.16.0 // indirect
+	github.com/redis/go-redis/v9 v9.17.0 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/secure-io/siv-go v0.0.0-20180922214919-5ff40651e2c4 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
