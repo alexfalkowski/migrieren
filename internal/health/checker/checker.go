@@ -7,7 +7,6 @@ import (
 	"github.com/alexfalkowski/go-service/v2/bytes"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
-	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
 // NewNoopChecker is an alias of checker.NewNoopChecker.
@@ -16,7 +15,7 @@ func NewNoopChecker() *checker.NoopChecker {
 }
 
 // NewMigrator checker.
-func NewMigrator(db *migrate.Database, fs *os.FS, migrator migrator.Migrator) *Migrator {
+func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator}
 }
 
@@ -24,7 +23,7 @@ func NewMigrator(db *migrate.Database, fs *os.FS, migrator migrator.Migrator) *M
 type Migrator struct {
 	db       *migrate.Database
 	fs       *os.FS
-	migrator migrator.Migrator
+	migrator *migrate.Migrator
 }
 
 // Check the migrator.
