@@ -10,13 +10,12 @@ import (
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/health/checker"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
-	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
 // RegisterParams for health.
 type RegisterParams struct {
 	di.In
-	Migrator migrator.Migrator
+	Migrator *migrate.Migrator
 	Server   *server.Server
 	FS       *os.FS
 	Migrate  *migrate.Config

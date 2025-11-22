@@ -8,7 +8,6 @@ import (
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
-	"github.com/alexfalkowski/migrieren/internal/migrate/migrator"
 )
 
 // IsNotFound for service.
@@ -17,13 +16,13 @@ func IsNotFound(err error) bool {
 }
 
 // NewMigrator for the different transports.
-func NewMigrator(mig migrator.Migrator, fs *os.FS, cfg *migrate.Config) *Migrator {
-	return &Migrator{migrator: mig, fs: fs, config: cfg}
+func NewMigrator(migrator *migrate.Migrator, fs *os.FS, cfg *migrate.Config) *Migrator {
+	return &Migrator{migrator: migrator, fs: fs, config: cfg}
 }
 
 // Migrator for the different transports.
 type Migrator struct {
-	migrator migrator.Migrator
+	migrator *migrate.Migrator
 	config   *migrate.Config
 	fs       *os.FS
 }
