@@ -26,8 +26,8 @@ func Register() {
 	_ = driver.Register("postgres", pgxstdlib.GetDefaultDriver())
 }
 
-// NewDriver from the specified URL.
-func NewDriver(databaseURL string) (database.Driver, error) {
+// Open from the specified URL.
+func Open(databaseURL string) (database.Driver, error) {
 	scheme, host, ok := splitURL(databaseURL)
 	if !ok {
 		return nil, ErrInvalidURL
