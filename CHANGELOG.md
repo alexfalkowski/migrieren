@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.660.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.660.0) - 2025-11-24
+
+- [`f9d49d0`](https://github.com/alexfalkowski/migrieren/commit/f9d49d0243d8a6f074da772f4da5cdbf4295db54) feat(strings): use strings.Empty (#1698)
+
 ## [v1.659.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.659.0) - 2025-11-24
 
 - [`c2cd3c6`](https://github.com/alexfalkowski/migrieren/commit/c2cd3c68b5641819b420f6618dfead8537bc345b) feat(source): move to package (#1697)
