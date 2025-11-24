@@ -5,11 +5,9 @@ import (
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
 	"github.com/alexfalkowski/migrieren/internal/migrate/database"
+	"github.com/alexfalkowski/migrieren/internal/migrate/source"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
 	"github.com/golang-migrate/migrate/v4"
-	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
-	_ "github.com/golang-migrate/migrate/v4/source/file"
-	_ "github.com/golang-migrate/migrate/v4/source/github"
 )
 
 var (
@@ -32,20 +30,23 @@ func NewMigrator() *Migrator {
 type Migrator struct{}
 
 // Migrate a database to a version and returning the database logs.
-func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
-	driver, err := database.NewDriver(db)
+func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) ([]string, error) {
+	s, err := source.Open(src)
 	if err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		return nil, ErrInvalidConfig
 	}
 
-	migrator, err := migrate.NewWithDatabaseInstance(source, db, driver)
+	d, err := database.Open(db)
 	if err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		return nil, ErrInvalidConfig
 	}
+
+	// Error is never returned.
+	migrator, _ := migrate.NewWithInstance(src, s, db, d)
 
 	logger := logger.New()
 	migrator.Log = logger

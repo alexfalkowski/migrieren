@@ -12,6 +12,7 @@ linters:
     - nlreturn
     - noinlineerr
     - paralleltest
+    - revive
     - tagalign
     - varnamelen
     - wrapcheck
