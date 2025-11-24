@@ -4,6 +4,7 @@ import (
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
+	"github.com/alexfalkowski/migrieren/internal/migrate/database"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/pgx/v5" // need this for migrations to work.
@@ -32,7 +33,14 @@ type Migrator struct{}
 
 // Migrate a database to a version and returning the database logs.
 func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint64) ([]string, error) {
-	mig, err := migrate.New(source, db)
+	driver, err := database.NewDriver(db)
+	if err != nil {
+		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
+
+		return nil, ErrInvalidConfig
+	}
+
+	migrator, err := migrate.NewWithDatabaseInstance(source, db, driver)
 	if err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
@@ -40,19 +48,19 @@ func (m *Migrator) Migrate(ctx context.Context, source, db string, version uint6
 	}
 
 	logger := logger.New()
-	mig.Log = logger
+	migrator.Log = logger
 
-	if err := mig.Migrate(uint(version)); err != nil {
+	if err := migrator.Migrate(uint(version)); err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 
 		if errors.Is(err, migrate.ErrNoChange) {
-			return logger.Logs(), m.close(mig, nil)
+			return logger.Logs(), m.close(migrator, nil)
 		}
 
-		return logger.Logs(), m.close(mig, ErrInvalidMigration)
+		return logger.Logs(), m.close(migrator, ErrInvalidMigration)
 	}
 
-	return logger.Logs(), m.close(mig, nil)
+	return logger.Logs(), m.close(migrator, nil)
 }
 
 // Ping the migrator.
