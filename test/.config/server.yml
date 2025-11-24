@@ -21,6 +21,12 @@ migrate:
     - name: invalid_url
       source: file:secrets/source
       url: file:secrets/invalid_pg
+    - name: invalid_db
+      source: file:secrets/source
+      url: file:secrets/invalid_db
+    - name: invalid_port
+      source: file:secrets/source
+      url: file:secrets/invalid_port
     - name: github
       source: file:secrets/github
       url: file:secrets/pg

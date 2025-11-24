@@ -17,7 +17,7 @@ Feature: gRPC API
       | postgres |       2 |
       | postgres |       1 |
       | github   |       1 |
-      | postgres |       2 |
+      | github   |       2 |
 
   Scenario Outline: Migrate missing databases
     When I request to migrate with gRPC:
@@ -42,6 +42,8 @@ Feature: gRPC API
       | invalid_source |       1 |
       | missing_url    |       1 |
       | invalid_url    |       1 |
+      | invalid_db     |       1 |
+      | invalid_port   |       1 |
       | postgres       |       3 |
 
   Scenario: Migrate erroneous databases

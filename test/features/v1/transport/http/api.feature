@@ -42,6 +42,8 @@ Feature: HTTP API
       | invalid_source |       1 |
       | missing_url    |       1 |
       | invalid_url    |       1 |
+      | invalid_db     |       1 |
+      | invalid_port   |       1 |
       | postgres       |       3 |
 
   Scenario: Migrate erroneous databases
