@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.659.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.659.0) - 2025-11-24
+
+- [`c2cd3c6`](https://github.com/alexfalkowski/migrieren/commit/c2cd3c68b5641819b420f6618dfead8537bc345b) feat(source): move to package (#1697)
+
 ## [v1.658.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.658.0) - 2025-11-24
 
 - [`b588dd1`](https://github.com/alexfalkowski/migrieren/commit/b588dd1e70347743641c4c0b4152a3a806cc82e0) feat(telemetry): add github.com/XSAM/otelsql (#1696)
