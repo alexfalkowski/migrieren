@@ -41,12 +41,11 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 	migrator.Log = logger
 
 	if err := migrator.Migrate(uint(version)); err != nil {
-		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-
 		if errors.Is(err, migrate.ErrNoChange) {
 			return logger.Logs(), m.close(migrator, nil)
 		}
 
+		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 		return logger.Logs(), m.close(migrator, ErrInvalidMigration)
 	}
 
@@ -63,11 +62,11 @@ func (m *Migrator) Ping(ctx context.Context, src, db string) error {
 
 	if _, _, err := migrator.Version(); err != nil {
 		if errors.Is(err, migrate.ErrNilVersion) {
-			return nil
+			return m.close(migrator, nil)
 		}
 
 		meta.WithAttribute(ctx, "pingError", meta.Error(err))
-		return ErrInvalidConfig
+		return m.close(migrator, ErrInvalidPing)
 	}
 
 	return nil
