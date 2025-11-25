@@ -31,22 +31,11 @@ type Migrator struct{}
 
 // Migrate a database to a version and returning the database logs.
 func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) ([]string, error) {
-	s, err := source.Open(src)
+	migrator, err := m.newMigrator(src, db)
 	if err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-
 		return nil, ErrInvalidConfig
 	}
-
-	d, err := database.Open(db)
-	if err != nil {
-		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-
-		return nil, ErrInvalidConfig
-	}
-
-	// Error is never returned.
-	migrator, _ := migrate.NewWithInstance(src, s, db, d)
 
 	logger := logger.New()
 	migrator.Log = logger
@@ -65,15 +54,39 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 }
 
 // Ping the migrator.
-func (m *Migrator) Ping(ctx context.Context, source, db string) error {
-	_, err := migrate.New(source, db)
+func (m *Migrator) Ping(ctx context.Context, src, db string) error {
+	migrator, err := m.newMigrator(src, db)
 	if err != nil {
 		meta.WithAttribute(ctx, "pingError", meta.Error(err))
+		return ErrInvalidConfig
+	}
 
+	if _, _, err := migrator.Version(); err != nil {
+		if errors.Is(err, migrate.ErrNilVersion) {
+			return nil
+		}
+
+		meta.WithAttribute(ctx, "pingError", meta.Error(err))
 		return ErrInvalidConfig
 	}
 
 	return nil
+}
+
+func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
+	s, err := source.Open(src)
+	if err != nil {
+		return nil, err
+	}
+
+	d, err := database.Open(db)
+	if err != nil {
+		return nil, err
+	}
+
+	// Error is never returned.
+	migrator, _ := migrate.NewWithInstance(src, s, db, d)
+	return migrator, nil
 }
 
 func (m *Migrator) close(mig *migrate.Migrate, err error) error {
