@@ -4,12 +4,11 @@ import (
 	"errors"
 
 	"github.com/XSAM/otelsql"
-	"github.com/alexfalkowski/go-service/v2/database/sql/driver"
 	"github.com/alexfalkowski/go-service/v2/runtime"
 	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
-	pgxstdlib "github.com/jackc/pgx/v5/stdlib"
+	_ "github.com/jackc/pgx/v5"
 	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"
 )
 
@@ -21,11 +20,6 @@ var (
 	ErrUnsupportedDriver = errors.New("database: unsupported driver")
 )
 
-// Register registers the database that are supported.
-func Register() {
-	_ = driver.Register("postgres", pgxstdlib.GetDefaultDriver())
-}
-
 // Open from the specified URL.
 func Open(databaseURL string) (database.Driver, error) {
 	scheme, host, ok := splitURL(databaseURL)
@@ -35,10 +29,12 @@ func Open(databaseURL string) (database.Driver, error) {
 
 	switch scheme {
 	case "pgx5":
-		db, err := otelsql.Open("postgres", joinURL("postgres", host), otelsql.WithAttributes(semconv.DBSystemNamePostgreSQL))
+		attrs := otelsql.WithAttributes(semconv.DBSystemNamePostgreSQL)
+
+		db, err := otelsql.Open("pgx/v5", joinURL("postgres", host), attrs)
 		runtime.Must(err)
 
-		err = otelsql.RegisterDBStatsMetrics(db, otelsql.WithAttributes(semconv.DBSystemNamePostgreSQL))
+		err = otelsql.RegisterDBStatsMetrics(db, attrs)
 		runtime.Must(err)
 
 		return pgx.WithInstance(db, &pgx.Config{})
