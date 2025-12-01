@@ -6,7 +6,7 @@ require (
 	github.com/XSAM/otelsql v0.40.0
 	github.com/alexfalkowski/go-health/v2 v2.4.0
 	github.com/alexfalkowski/go-service/v2 v2.209.0
-	github.com/golang-migrate/migrate/v4 v4.19.0
+	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.7.6
 	go.opentelemetry.io/otel v1.38.0
 	google.golang.org/grpc v1.77.0
