@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-service:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
       - image: postgres:18-trixie
         environment:
           POSTGRES_DB: test
@@ -78,7 +78,7 @@ jobs:
     resource_class: large
   version:
     docker:
-      - image: alexfalkowski/release:5.29
+      - image: alexfalkowski/release:5.30
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -101,7 +101,7 @@ jobs:
     resource_class: large
   build-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -115,7 +115,7 @@ jobs:
     resource_class: large
   build-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -129,7 +129,7 @@ jobs:
     resource_class: arm.medium
   push-docker-amd64:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -146,7 +146,7 @@ jobs:
     resource_class: large
   push-docker-arm64:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -163,7 +163,7 @@ jobs:
     resource_class: arm.medium
   manifest-docker:
     docker:
-      - image: alexfalkowski/go:2.84
+      - image: alexfalkowski/go:2.85
     working_directory: ~/migrieren
     steps:
       - checkout:
