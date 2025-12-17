@@ -34,7 +34,7 @@ func Open(databaseURL string) (database.Driver, error) {
 		db, err := otelsql.Open("pgx/v5", joinURL("postgres", host), attrs)
 		runtime.Must(err)
 
-		err = otelsql.RegisterDBStatsMetrics(db, attrs)
+		_, err = otelsql.RegisterDBStatsMetrics(db, attrs)
 		runtime.Must(err)
 
 		return pgx.WithInstance(db, &pgx.Config{})
