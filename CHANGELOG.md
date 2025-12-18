@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.677.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.677.0) - 2025-12-18
+
+- [`2863395`](https://github.com/alexfalkowski/migrieren/commit/2863395fb318c79c2c17b29ee9af505e41345bcc) feat(deps): upgraded github.com/alexfalkowski/go-service/v2 to v2.221.0 (#1734)
+- [`495a92e`](https://github.com/alexfalkowski/migrieren/commit/495a92e5e5654141b31a6a55b6d3f636835fc36a) build(ci): use latest published images (#1733)
+- [`904d6d1`](https://github.com/alexfalkowski/migrieren/commit/904d6d115abed2361b87c6523d99f70cbf8a81d5) test(deps): update bundler to v4.0.2 (#1732)
+- [`2fd89eb`](https://github.com/alexfalkowski/migrieren/commit/2fd89ebd32dff8342b9188bc14549d3fb7365bc0) build(deps): upgraded github.com/alexfalkowski/bin (#1731)
+- [`1017e05`](https://github.com/alexfalkowski/migrieren/commit/1017e05d9af9d886d87ac51a0845700462197e7e) build(ci): use latest published images (#1730)
+- [`c2529f6`](https://github.com/alexfalkowski/migrieren/commit/c2529f608636d55674ad860cb387ff0b48a00935) test(deps): bump rubocop from 1.81.7 to 1.82.0 in /test (#1729)
+
 ## [v1.676.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.676.0) - 2025-12-17
 
 - [`e5df2c6`](https://github.com/alexfalkowski/migrieren/commit/e5df2c67444f1a524275a9785838fa546e15d001) feat(deps): upgraded github.com/alexfalkowski/go-service/v2 to v2.220.0 (#1728)
