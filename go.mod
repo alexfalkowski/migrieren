@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/XSAM/otelsql v0.41.0
 	github.com/alexfalkowski/go-health/v2 v2.6.0
-	github.com/alexfalkowski/go-service/v2 v2.229.0
+	github.com/alexfalkowski/go-service/v2 v2.230.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.8.0
 	go.opentelemetry.io/otel v1.39.0
@@ -95,7 +95,7 @@ require (
 	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/sethvargo/go-limiter v1.1.0 // indirect
 	github.com/sethvargo/go-retry v0.3.0 // indirect
-	github.com/shirou/gopsutil/v4 v4.25.11 // indirect
+	github.com/shirou/gopsutil/v4 v4.25.12 // indirect
 	github.com/sony/gobreaker v1.0.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
 	github.com/standard-webhooks/standard-webhooks/libraries v0.0.0-20251210175704-b03a68fe8b19 // indirect
