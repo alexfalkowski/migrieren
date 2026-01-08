@@ -42,7 +42,8 @@ func Register(params RegisterParams) {
 }
 
 func httpHealthObserver(name env.Name, server *server.Server, migrate *migrate.Config) error {
-	names := []string{"online"}
+	names := make([]string, 0, len(migrate.Databases)+1)
+	names = append(names, "online")
 	for _, d := range migrate.Databases {
 		names = append(names, d.Name)
 	}
