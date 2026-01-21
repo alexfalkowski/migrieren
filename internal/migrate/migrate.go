@@ -69,7 +69,7 @@ func (m *Migrator) Ping(ctx context.Context, src, db string) error {
 		return m.close(migrator, ErrInvalidPing)
 	}
 
-	return nil
+	return m.close(migrator, nil)
 }
 
 func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
