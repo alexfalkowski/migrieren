@@ -1,150 +1,178 @@
 # AGENTS.md
 
-This repository is a Go service (with a small Ruby test/client harness) for running database migrations via a gRPC/HTTP API. It uses a `bin/` git submodule for build tooling.
+This repository is a Go service (plus a Ruby feature-test harness) that runs database migrations via a gRPC API and an HTTP RPC façade.
 
-## Quick start
+Build/test automation is primarily driven by `make`, with most targets implemented in a required `bin/` git submodule.
 
-1. **Init submodule tooling** (required for most `make` targets):
+## 0) First check
 
-   ```sh
-   git submodule sync
-   git submodule update --init
-   # or: make submodule
-   ```
+If `bin/` is missing, most `make` targets will fail.
 
-2. **Install deps / vendor** (the Makefiles commonly run with `-mod vendor`):
+```sh
+git submodule sync
+git submodule update --init
+# or: make submodule
+```
 
-   ```sh
-   make dep
-   ```
+Note: `.gitmodules` points `bin` at `git@github.com:alexfalkowski/bin.git` (SSH URL). You need SSH access/keys for submodule init.
 
-3. **Build and run** (CLI server command is `server`):
+## 1) Project type
 
-   ```sh
-   make build
-   ./migrieren server -i file:test/.config/server.yml
-   ```
+- **Primary**: Go service (`go.mod` module `github.com/alexfalkowski/migrieren`, `go 1.25.0`).
+- **API**: Protobuf/gRPC in `api/`, managed by `buf`.
+- **Integration/feature tests**: Ruby + Cucumber in `test/`.
 
-## Essential commands
+## 2) Essential commands (observed)
 
-Run `make help` to see the full list of targets (help output is generated from Makefile comments).
+Run `make help` for the full list (help is generated from Makefile comments).
 
-### Dependencies / cleanup
+### Dependencies
 
-- `make dep`: Go + Ruby deps (Go: download/tidy/vendor; Ruby: `make -C test dep`).
-- `make clean`: cleans downloaded deps via `bin/build/go/clean`.
-- `make clean-dep`: cleans Go caches and Ruby deps.
-- `make clean-lint`: clears golangci-lint cache.
+- Install/refresh deps (includes vendoring):
 
-### Build / dev
-
-- `make build`: builds `./migrieren` (adds tags `netgo`).
-- `make build-test`: builds a *test binary* with build tag `features`.
-- `make dev`: runs `air` with `make dep build` and executes:
-  
   ```sh
-  ./migrieren server -i file:test/.config/server.yml
+  make dep
   ```
+
+  Observed behavior from Makefiles:
+  - Go: `go mod download`, `go mod tidy`, `go mod vendor`.
+  - Ruby (in `test/`): `bundler check || bundler install` with `bundler config set path vendor/bundle`.
+
+### Build
+
+- Build the release binary in repo root:
+
+  ```sh
+  make build
+  ```
+
+  Produces `./migrieren`.
+
+- Build a test binary with build tag `features`:
+
+  ```sh
+  make build-test
+  ```
+
+### Run
+
+- The CLI entrypoint is `main.go` and registers a `server` command (`internal/cmd/server.go`).
+
+Example run using the repo’s dev/test config:
+
+```sh
+./migrieren server -i file:test/.config/server.yml
+```
+
+There is also a dev helper:
+
+```sh
+make dev
+```
+
+(Observed: `dev` uses `air` and runs `make dep build` before launching `./migrieren server -i file:test/.config/server.yml`.)
 
 ### Test
 
-- `make specs`: Go tests via `gotestsum` (writes JUnit + coverage into `test/reports/`).
-- `make features`: runs Ruby feature tests (`make -C test features`).
-- `make benchmarks`: runs Ruby benchmarks (`make -C test benchmarks`).
-- `make coverage`: generates HTML + func coverage reports from `test/reports/final.cov`.
+- Go tests (via `gotestsum`, outputs to `test/reports/`):
 
-Notes:
+  ```sh
+  make specs
+  ```
+
+- Ruby feature tests (Cucumber):
+
+  ```sh
+  make features
+  # runs: make -C test features
+  ```
+
+- Benchmarks (Ruby harness):
+
+  ```sh
+  make benchmarks
+  ```
+
+- Coverage report generation:
+
+  ```sh
+  make coverage
+  ```
+
+Notes (observed in Makefiles / `main_test.go`):
+- Many Go test invocations use `-race -vet=off -mod vendor`.
 - `main_test.go` is guarded by `//go:build features`.
-- Go test invocations in Makefiles typically use `-race -vet=off -mod vendor`.
 
 ### Lint / format / security
 
-- `make lint`: Go lint + Ruby lint + proto lint.
-- `make fix-lint`: attempts to auto-fix lint issues (Go/Ruby/proto).
-- `make format`: formats Go + Ruby + proto.
-- `make sec`: runs `govulncheck -test ./...`.
-- `make trivy-repo`: Trivy repo scan (scripted via `bin/`).
+- Lint everything:
 
-### Protobuf / API
+  ```sh
+  make lint
+  ```
 
-The API contract lives under `api/` and is managed with `buf`.
+  Observed lint sources:
+  - Go: `bin/build/go/lint run` (golangci-lint wrapper) + `bin/build/go/fa`.
+  - Ruby: `bundler exec rubocop`.
+  - Protos: `buf lint`.
 
-Top-level convenience targets:
-- `make proto-generate`: `make -C api generate` (runs `buf generate`).
-- `make proto-breaking`: `make -C api breaking` (runs `buf breaking ...`).
-- `make proto-lint`: `make -C api lint`.
-- `make proto-format`: `make -C api format`.
+- Auto-fix where possible:
 
-Generation configuration (`api/buf.gen.yaml`) uses remote plugins:
-- Go protobuf → output into `api/` (source-relative)
-- Go gRPC → output into `api/` (source-relative)
-- Ruby protobuf + gRPC → output into `test/lib/`
+  ```sh
+  make fix-lint
+  ```
 
-### Local environment helpers
+- Format everything:
 
-- `make start` / `make stop`: starts/stops a Docker-based dev environment via `bin/build/docker/env`.
+  ```sh
+  make format
+  ```
 
-CI (CircleCI) runs with containers including Postgres (`localhost:5432`) and Grafana Mimir (`localhost:9009`), and waits for them before running `make features`/`make benchmarks`.
+- Security scan:
 
-## Repo layout
+  ```sh
+  make sec
+  ```
 
-- `main.go`: entrypoint; wires CLI command(s) using `go-service/v2/cli`.
-- `internal/cmd/`: registers the `server` command and composes DI modules.
-- `internal/config/`: root service config type; embeds `go-service/v2/config.Config`.
-- `internal/migrate/`: core migration logic built on `github.com/golang-migrate/migrate/v4`.
-  - `internal/migrate/database/`: database driver wiring (currently supports `pgx5://...`).
-  - `internal/migrate/source/`: migration source wiring (file/github drivers imported).
-  - `internal/migrate/telemetry/logger/`: captures migration logs into memory.
-- `internal/api/`:
-  - `internal/api/migrate/`: transport-facing migrator (reads sources/urls from config + filesystem).
-  - `internal/api/v1/transport/grpc/`: gRPC server and handlers.
-  - `internal/api/v1/transport/http/`: HTTP RPC routing to gRPC handlers.
-- `api/`: protobuf definitions and generated Go stubs.
-- `test/`: Ruby-based feature tests + generated Ruby protobuf stubs.
-  - `test/.config/server.yml`: dev/test server configuration used by `make dev` and features.
+  Observed: `govulncheck -show verbose -test ./...`.
 
-## Code patterns and conventions (observed)
+- Repo scan (Trivy):
 
-### Dependency injection / modules
+  ```sh
+  make trivy-repo
+  ```
 
-Modules are composed with `github.com/alexfalkowski/go-service/v2/di` (Fx-style):
-- Each subsystem exposes a `var Module = di.Module(...)` (e.g. `internal/migrate/module.go`, `internal/api/v1/module.go`).
-- Constructors use `di.Constructor(...)`.
-- Registrations (e.g. gRPC service registration, HTTP routes) use `di.Register(...)`.
+### Protobuf / API (buf)
 
-### Error handling
+The protobuf contract is in `api/migrieren/v1/service.proto`.
 
-- Domain errors are declared as package vars (e.g. `internal/migrate/migrate.go`) and mapped in transports.
-- gRPC layer maps "not found" to `codes.NotFound`, everything else to `codes.Internal` (`internal/api/v1/transport/grpc/grpc.go`).
-- Migration failures attach attributes into request `meta` (e.g. `meta.WithAttribute(ctx, "migrateError", meta.Error(err))`).
+From repo root:
 
-### Formatting / lint
+```sh
+make proto-generate
+make proto-breaking
+make proto-lint
+make proto-format
+```
 
-- `.editorconfig` specifies:
-  - Go: tabs, indent size 4
-  - Makefiles: tabs
-- `.golangci.yml`:
-  - Enables `default: all` with an explicit disable list.
-  - Excludes generated `.pb*` files from lint/format.
-  - Sets `lll.line-length: 140`.
+Directly in `api/`:
 
-### Build tags
+```sh
+make -C api generate
+make -C api breaking
+make -C api lint
+make -C api format
+```
 
-Some tests/targets rely on the `features` build tag (notably `make build-test` and `main_test.go`).
+Observed generation behavior (`api/buf.gen.yaml`):
+- Go protobuf + Go gRPC stubs output into `api/` (source-relative).
+- Ruby protobuf + Ruby gRPC stubs output into `test/lib/`.
 
-## Testing (Ruby feature harness)
+## 3) CI / workflow notes (observed)
 
-Ruby test harness lives in `test/` and uses:
-- `cucumber` features under `test/features/**`.
-- Generated Ruby protobuf stubs under `test/lib/migrieren/v1/*`.
-- A shared helper module in `test/lib/migrieren.rb` that builds HTTP and gRPC clients.
-
-Feature files include `@startup` and `@clean` tags (see `test/features/**`).
-
-## CI notes (CircleCI)
-
-The main CI job (`.circleci/config.yml`) runs roughly:
-- `make clean && make dep`
+CircleCI (`.circleci/config.yml`) does roughly:
+- init submodules
+- `make dep`
 - `make lint`
 - `make proto-breaking`
 - `make sec`
@@ -152,13 +180,94 @@ The main CI job (`.circleci/config.yml`) runs roughly:
 - `make features`
 - `make benchmarks`
 - `make analyse`
-- `make coverage && make codecov-upload`
+- `make coverage` then `make codecov-upload`
 
-If you add/modify build steps, ensure they fit this flow.
+CI uses containers including:
+- Postgres on `localhost:5432`
+- Grafana Mimir on `localhost:9009`
 
-## Common gotchas
+## 4) Repository layout (where to look)
 
-- **Submodule dependency**: most Make targets call scripts under `bin/`; ensure `bin/` submodule is initialized.
-- **Vendoring**: multiple Go targets run with `-mod vendor`. Run `make dep` after changing Go deps.
-- **Config-driven sources/urls**: migration `source` and DB `url` are loaded via `go-service/v2/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yml`).
-- **DB scheme**: DB driver currently expects `pgx5://...` and rewrites to `postgres://...` internally (`internal/migrate/database/database.go`).
+### Entrypoints
+
+- `main.go`: wires CLI application.
+- `internal/cmd/server.go`: registers the `server` command.
+- `internal/cmd/module.go`: composes DI modules.
+
+### Configuration
+
+- `internal/config/config.go`: service config struct, embeds `*go-service/v2/config.Config` and includes:
+  - `health` (`internal/health/config.go`)
+  - `migrate` (`internal/migrate/config.go`)
+
+A sample config used for dev/tests exists at `test/.config/server.yml`.
+
+### Migration core
+
+- `internal/migrate/migrate.go`: core migration/ping logic built on `github.com/golang-migrate/migrate/v4`.
+- `internal/migrate/config.go`: configured databases list + helpers.
+- `internal/migrate/source/source.go`: imports migrate source drivers (`file`, `github`).
+- `internal/migrate/database/database.go`: database driver wiring (observed support: `pgx5://...`).
+- `internal/migrate/telemetry/logger/logger.go`: in-memory migration logger.
+
+### API / transport
+
+- `api/migrieren/v1/service.proto`: gRPC contract.
+- `internal/api/migrate/`: transport-facing migrator (reads source/URL bytes using `go-service/v2/os.FS`).
+- `internal/api/v1/transport/grpc/`: gRPC server + handler implementation.
+- `internal/api/v1/transport/http/`: HTTP routing via `go-service/v2/net/http/rpc`.
+
+### Health
+
+- `internal/health/health.go`: registers health checks (includes per-database checks) via `go-health/v2/server`.
+- `internal/health/checker/checker.go`: checker that pings migrator.
+
+### Ruby test harness
+
+- `test/features/**`: Cucumber features + step definitions.
+- `test/lib/migrieren.rb`: shared client helpers; constructs:
+  - HTTP client to `http://localhost:11000`
+  - gRPC client to `localhost:12000`
+
+## 5) Conventions and patterns (observed)
+
+### Dependency injection
+
+Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
+- Each subsystem exports `var Module = di.Module(...)` (e.g. `internal/api/v1/module.go`, `internal/migrate/module.go`).
+- Constructors registered via `di.Constructor(...)`.
+- Side-effect registrations (routes, gRPC server registration) via `di.Register(...)`.
+
+### Error handling
+
+- Domain errors are exported vars in packages and returned upward (e.g. migrate errors in `internal/migrate/migrate.go`).
+- gRPC transport maps a “not found” error to `codes.NotFound` and everything else to `codes.Internal` (`internal/api/v1/transport/grpc/grpc.go`).
+- Migration errors are attached to request metadata via `meta.WithAttribute(...)`.
+
+### Formatting / lint
+
+- `.editorconfig`:
+  - Go files: tabs
+  - Makefiles: tabs
+  - default: 2-space indentation
+- `.golangci.yml`:
+  - `default: all` with a curated disable list
+  - excludes generated `.pb*` files
+  - enables formatters including `gofmt`, `gofumpt`, `goimports`, `gci`
+
+## 6) Gotchas (observed)
+
+- **Submodule required**: Make targets call scripts under `bin/`; init/update submodule before running most automation.
+- **Vendoring is relied on**: multiple Go targets run with `-mod vendor`; run `make dep` after changing Go deps.
+- **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v2/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yml`).
+- **DB URL scheme**: database driver expects `pgx5://...` and rewrites to `postgres://...` internally (`internal/migrate/database/database.go`).
+
+## 7) Tooling used by Make targets (non-exhaustive, observed)
+
+Some targets assume these tools exist on PATH (or are provided by the `bin/` submodule wrappers):
+- Go: `gotestsum`, `govulncheck`
+- Proto: `buf`
+- Ruby: `bundler`, `rubocop`, `cucumber`
+- Dev: `air`
+- Security/CI: `codecovcli`, `trivy` (invoked via `bin/`)
+- Misc targets reference: `mkcert`, `dot` (Graphviz), `goda`, `gsa`, `scc` (only if you run those specific targets)
