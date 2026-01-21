@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.691.2](https://github.com/alexfalkowski/migrieren/releases/tag/v1.691.2) - 2026-01-21
+
+- [`9e2e93e`](https://github.com/alexfalkowski/migrieren/commit/9e2e93ecd0ea84aa2e25c2dbb08ffbcf90b7008d) fix(health): use timeout (#1780)
+
 ## [v1.691.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.691.1) - 2026-01-21
 
 - [`e6fbc30`](https://github.com/alexfalkowski/migrieren/commit/e6fbc3028e5d3fa369790802cd1b903dfa2e8f5c) fix(migrate): close migrator for ping (#1779)
