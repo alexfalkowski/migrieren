@@ -26,13 +26,14 @@ type RegisterParams struct {
 // Register for health.
 func Register(params RegisterParams) {
 	d := time.MustParseDuration(params.Config.Duration)
+	t := time.MustParseDuration(params.Config.Timeout)
 	regs := health.Registrations{
 		server.NewRegistration("noop", d, checker.NewNoopChecker()),
 		server.NewOnlineRegistration(d, d),
 	}
 
 	for _, db := range params.Migrate.Databases {
-		checker := checker.NewMigrator(db, params.FS, params.Migrator)
+		checker := checker.NewMigrator(db, params.FS, params.Migrator, t)
 		reg := server.NewRegistration(db.Name, d, checker)
 		regs = append(regs, reg)
 	}
