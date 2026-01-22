@@ -29,7 +29,7 @@ func Register(params RegisterParams) {
 	t := time.MustParseDuration(params.Config.Timeout)
 	regs := health.Registrations{
 		server.NewRegistration("noop", d, checker.NewNoopChecker()),
-		server.NewOnlineRegistration(d, d),
+		server.NewOnlineRegistration(t, d),
 	}
 
 	for _, db := range params.Migrate.Databases {
