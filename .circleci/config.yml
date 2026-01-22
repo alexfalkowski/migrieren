@@ -78,7 +78,7 @@ jobs:
     resource_class: large
   version:
     docker:
-      - image: alexfalkowski/release:5.42
+      - image: alexfalkowski/release:5.43
     working_directory: ~/migrieren
     steps:
       - checkout:
