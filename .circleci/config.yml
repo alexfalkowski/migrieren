@@ -126,7 +126,7 @@ jobs:
           docker_layer_caching: true
       - run: make platform=arm64 build-docker
       - run: make platform=arm64 trivy-image
-    resource_class: arm.medium
+    resource_class: arm.large
   push-docker-amd64:
     docker:
       - image: alexfalkowski/go:2.105
