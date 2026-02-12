@@ -75,7 +75,7 @@ jobs:
       - store_artifacts:
           path: test/reports
       - run: make codecov-upload
-    resource_class: large
+    resource_class: arm.large
   version:
     docker:
       - image: alexfalkowski/release:5.46
@@ -98,7 +98,7 @@ jobs:
             - migrieren-go-build-cache-
       - run: version
       - run: package
-    resource_class: large
+    resource_class: arm.large
   build-docker-amd64:
     docker:
       - image: alexfalkowski/go:2.105
@@ -160,7 +160,7 @@ jobs:
           name: make login
           command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run: make platform=arm64 push-docker
-    resource_class: arm.medium
+    resource_class: arm.large
   manifest-docker:
     docker:
       - image: alexfalkowski/go:2.105
@@ -177,7 +177,7 @@ jobs:
           name: make login
           command: echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - run: make manifest-docker
-    resource_class: large
+    resource_class: arm.large
 
 workflows:
   migrieren:
