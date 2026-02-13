@@ -7,124 +7,203 @@
 
 # Migrieren
 
-Migrieren provides a way to migrate your databases.
+Migrieren is a small Go service that runs database migrations via a **gRPC API** with an **HTTP RPC façade**.
 
-## Background
+It’s designed to let you centralize migrations in one place (instead of duplicating migration tooling across multiple application frameworks), while still using “native” database migrations (e.g. SQL scripts) via [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate).
 
-Migrating databases is an interesting topic with many caveats. Basically we have 2 categories:
-- Migrate the database before the application is deployed.
-- Migrate the database at the most convenient time.
+- **Primary runtime:** Go service
+- **API contract:** Protobuf/gRPC (see `api/migrieren/v1/service.proto`)
+- **Feature tests / harness:** Ruby + Cucumber under `test/`
 
-We don't have a preferred method. We just want to provide you with the best option.
+## Why a migration service?
 
-### Why a service?
+Most frameworks can run migrations, but they’re often coupled to an ORM. In practice, teams frequently prefer:
+- migrations written in SQL (or database-native tooling),
+- migrations managed once for many services,
+- a consistent operational model and observability for migrations.
 
-Well every language or framework provides a way to migrate. Though a lot of them are tied to [ORMs](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping), which in our experience are not the best tool. We find writing migrations in the native language of the database to be far superior.
+Migrieren focuses on “run migration X for database Y” as an API, suitable for orchestration (Kubernetes init containers, CI jobs, etc.).
 
-Since you are more than likely going to use microservices we don't need to reinvent the wheel for every framework. Just use the service!
+## API overview
 
-### Migrations
+The gRPC contract is defined here:
 
-There are some best practices regarding how to write effective schema migration scripts. While this service does not enforce it, you should be aware of it.
+- `api/migrieren/v1/service.proto`
 
-Some great information can be found in [Update your Database Schema Without Downtime](https://thorben-janssen.com/update-database-schema-without-downtime/).
+At a high level:
 
-## Server
+- `migrieren.v1.Service/Migrate` migrates a configured database to a target version and returns migration logs plus response metadata.
 
-The server is defined by the following [proto contract](api/migrieren/v1/service.proto). So each version of the service will have a new contract.
+## Supported sources and databases
 
-### Databases
+Migrieren uses `golang-migrate` under the hood. In this repo, the source/database drivers are wired internally:
 
-This system allows you to configure many databases.
+- Sources: commonly `file://...` and GitHub sources (depending on driver wiring).
+- Databases: Postgres via pgx (`pgx5://...`) is supported (the service rewrites internally to the expected migrate URL scheme).
 
-To configure we just need the have the following configuration:
+Exactly which drivers are enabled is determined by the internal driver registration code.
 
-```yaml
+## Configuration
+
+Migrieren is configured via a YAML config file passed to the `server` command.
+
+A sample development/test config exists in:
+
+- `test/.config/server.yml`
+
+### Migration configuration (`migrate`)
+
+You can configure multiple databases. Each database has:
+- `name`: a unique logical name referenced by the API (`database` in the request)
+- `source`: how to resolve the migration source (read via the service filesystem abstraction)
+- `url`: how to resolve the database connection URL (also read via the filesystem abstraction)
+
+Example:
+
+```/dev/null/example.server.yml#L1-28
 migrate:
   databases:
-    -
-      name: db1
-      source: path to source
-      url: path to url
-    -
-      name: db2
-      source: path to source
-      url: path to url
-    -
-      name: db3
-      source: path to source
-      url: path to url
+    - name: db1
+      # These values are read through the service filesystem abstraction.
+      # Common patterns are `file:relative/path` or similar, depending on config.
+      source: file:test/.migrations/db1
+      url: file:test/.secrets/db1.url
+
+    - name: db2
+      source: file:test/.migrations/db2
+      url: file:test/.secrets/db2.url
 ```
 
-Each database has the following properties:
-- A distinct name.
-- The source from a file ([File](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/source/file), [GitHub](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/source/github)).
-- The database from a file ([PostgreSQL](https://pkg.go.dev/github.com/golang-migrate/migrate/v4@v4.18.2/database/pgx/v5)).
+Notes:
+- The service reads the contents of `source` and `url` using its filesystem abstraction (so `source` typically points to something that ultimately yields a migration source URL like `file://...`, and `url` yields a DB URL like `pgx5://...`).
+- If a database name is not found in the config, the service maps that to a “not found” condition at the transport layer.
 
-## Health
+### Health configuration (`health`)
 
-The system defines a way to monitor all of it's dependencies.
+Health checks include per-database checks. Configure basic health polling:
 
-To configure we just need the have the following configuration:
-
-```yaml
+```/dev/null/example.health.yml#L1-4
 health:
-  duration: 1s (how often to check)
-  timeout: 1s (when we should timeout the check)
+  duration: 1s  # how often to check
+  timeout: 1s   # per-check timeout
 ```
 
-## Deployment
+## Running the server
 
-Since we are advocating building microservices, you would normally use a [container orchestration system](https://newrelic.com/blog/best-practices/container-orchestration-explained). Here is what we recommend when using this system:
-- You could have a global migration service or shard these services per [bounded context](https://martinfowler.com/bliki/BoundedContext.html).
-- The client should be used as an [init container](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/).
+### Build
 
-## Design
+Most workflows are driven by `make`:
 
-The service is based around the awesome work of [migrate](https://github.com/golang-migrate/migrate). So please check that out to see how to best use it. It can support many configurations that can be easily added.
+```/dev/null/example.build.sh#L1-2
+make dep
+make build
+```
+
+This produces a `./migrieren` binary in the repo root.
+
+### Start the server
+
+The CLI entrypoint registers a `server` command. Example using the repo’s dev/test configuration:
+
+```/dev/null/example.run.sh#L1-1
+./migrieren server -i file:test/.config/server.yml
+```
+
+Development hot-reload (if you have `air` available):
+
+```/dev/null/example.dev.sh#L1-1
+make dev
+```
+
+## Using the API
+
+### gRPC (conceptual)
+
+The service exposes `migrieren.v1.Service/Migrate`.
+
+Request fields:
+- `database`: logical name (must match a configured database entry)
+- `version`: target version (uint64)
+
+Response fields:
+- `meta`: key/value metadata (used by the service for observability)
+- `migration`: includes `database`, `version`, and `logs`
+
+### HTTP façade
+
+The HTTP façade routes RPC-like endpoints. For the v1 migrate call:
+
+- `POST /migrieren.v1.Service/Migrate`
+- JSON body: `{ "database": "...", "version": 123 }`
+
+Example:
+
+```/dev/null/example.http.txt#L1-9
+POST http://localhost:11000/migrieren.v1.Service/Migrate
+Content-Type: application/json
+
+{
+  "database": "db1",
+  "version": 1
+}
+```
+
+## Deployment guidance
+
+In containerized environments (e.g. Kubernetes), common patterns are:
+
+- Run Migrieren as a shared service per bounded context (or per environment).
+- Run migrations during deploy via:
+  - a CI job step, or
+  - a Kubernetes init container that calls the Migrieren API before the main workload starts.
+
+The “best” approach depends on your tolerance for coupling deploys to schema changes and your rollback strategy.
 
 ## Development
 
-If you would like to contribute, here is how you can get started.
+### Repository structure
 
-### Structure
+This repository follows the common Go project layout. Key locations:
 
-The project follows the structure in [golang-standards/project-layout](https://github.com/golang-standards/project-layout).
+- `main.go`: CLI wiring
+- `internal/cmd/server.go`: `server` command registration
+- `api/`: protobuf contract + generation (managed by `buf`)
+- `internal/migrate/`: core migration logic (wraps `golang-migrate`)
+- `internal/api/v1/transport/{grpc,http}/`: gRPC + HTTP façade
 
 ### Dependencies
 
-Please make sure that you have the following installed:
-- [Ruby](https://www.ruby-lang.org/en/)
-- [Golang](https://go.dev/)
-
-### Style
-
-This project favours the [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md)
+You’ll want:
+- [Go](https://go.dev/)
+- [Ruby](https://www.ruby-lang.org/en/) (for feature tests in `test/`)
 
 ### Setup
 
-The get yourself setup, please run the following:
-
-```sh
+```/dev/null/example.setup.sh#L1-1
 make setup
 ```
 
-### Binaries
+### Tests
 
-To make sure everything compiles for the app, please run the following:
+Go tests:
 
-```sh
-make build-test
+```/dev/null/example.specs.sh#L1-1
+make specs
 ```
 
-### Features
+Ruby feature tests (Cucumber):
 
-To run all the features, please run the following:
-
-```sh
+```/dev/null/example.features.sh#L1-1
 make features
 ```
 
-### Changes
+### Protobuf generation
 
-To see what has changed, please have a look at `CHANGELOG.md`
+```/dev/null/example.proto.sh#L1-2
+make proto-generate
+make proto-lint
+```
+
+## Changelog
+
+See `CHANGELOG.md` for release notes and changes.
