@@ -4,6 +4,48 @@ This repository is a Go service (plus a Ruby feature-test harness) that runs dat
 
 Build/test automation is primarily driven by `make`, with most targets implemented in a required `bin/` git submodule.
 
+## Recent session notes (keep for future sessions)
+
+### Vendoring can break `go list` / `go test`
+
+If you see “inconsistent vendoring” errors, run:
+
+```sh
+make dep
+```
+
+This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for `test/` are installed).
+
+### Documentation conventions used in this repo
+
+- **Go**
+  - Package-level docs must live in a `doc.go` file in that package.
+  - Prefer documenting exported constructors/types/methods with concrete:
+    - inputs/outputs,
+    - error behavior (sentinel errors vs underlying errors),
+    - operational details (resource management, logging/telemetry),
+    - examples where it clarifies usage.
+  - Do not edit generated `.pb.go` files; update `.proto` comments instead, then re-generate.
+
+- **Ruby (feature-test harness)**
+  - The public “API” is primarily `test/lib/**` (helpers used by Cucumber steps).
+  - Add RDoc on modules/classes and public methods describing:
+    - intent (why it exists in the harness),
+    - parameters and return types,
+    - endpoint/route mapping for HTTP helpers,
+    - any environment assumptions (localhost ports, DB URI).
+  - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
+
+### Linting Ruby code
+
+Feature-test Ruby linting is typically run via:
+
+```sh
+make -C test lint
+```
+
+(Directly invoking bundler/rubocop may not work unless run through the repo’s Makefile wiring.)
+
 ## 0) First check
 
 If `bin/` is missing, most `make` targets will fail.

@@ -21,15 +21,40 @@ var (
 	ErrInvalidPing = errors.New("invalid ping")
 )
 
-// NewMigrator for databases.
+// NewMigrator creates a new [Migrator] instance.
+//
+// The returned migrator is stateless; each call to [Migrator.Migrate] or
+// [Migrator.Ping] creates a new underlying github.com/golang-migrate/migrate/v4
+// engine instance and ensures resources are closed before returning.
 func NewMigrator() *Migrator {
 	return &Migrator{}
 }
 
-// Migrator using migrate.
+// Migrator performs database schema migrations using golang-migrate.
+//
+// It provides a thin, service-oriented API that:
+//   - Opens a migration source (src) and database driver (db) for each operation.
+//   - Captures migration logs in memory and returns them to the caller.
+//   - Maps underlying driver/migration errors onto stable sentinel errors,
+//     attaching the original error to context metadata for observability.
 type Migrator struct{}
 
-// Migrate a database to a version and returning the database logs.
+// Migrate migrates the database identified by db to the given target version.
+//
+// Inputs:
+//   - ctx: a service context used for metadata/telemetry.
+//   - src: migration source URL (for example "file://...").
+//   - db: database URL (for example a Postgres URL).
+//   - version: the target migration version.
+//
+// Output:
+//   - logs: in-memory migration logs captured during the operation.
+//   - error: nil on success; otherwise one of:
+//     [ErrInvalidConfig] (cannot open src/db),
+//     [ErrInvalidMigration] (migration failed).
+//
+// The underlying migrate.ErrNoChange is treated as a successful no-op; logs are
+// still returned.
 func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) ([]string, error) {
 	migrator, err := m.newMigrator(src, db)
 	if err != nil {
@@ -52,7 +77,15 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 	return logger.Logs(), m.close(migrator, nil)
 }
 
-// Ping the migrator.
+// Ping validates that the migration source and database can be opened and that
+// the database is reachable.
+//
+// Ping does not apply any migrations. Internally it opens the migrator and
+// inspects the current version. A nil (unapplied) version is treated as healthy.
+//
+// Returns nil on success; otherwise one of:
+//   - [ErrInvalidConfig] if src/db cannot be opened.
+//   - [ErrInvalidPing] if the database cannot be inspected/pinged.
 func (m *Migrator) Ping(ctx context.Context, src, db string) error {
 	migrator, err := m.newMigrator(src, db)
 	if err != nil {
