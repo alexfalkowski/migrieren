@@ -5,11 +5,11 @@ go 1.26.0
 require (
 	github.com/XSAM/otelsql v0.41.0
 	github.com/alexfalkowski/go-health/v2 v2.13.0
-	github.com/alexfalkowski/go-service/v2 v2.280.0
+	github.com/alexfalkowski/go-service/v2 v2.281.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.8.0
 	go.opentelemetry.io/otel v1.40.0
-	google.golang.org/grpc v1.79.0
+	google.golang.org/grpc v1.79.1
 	google.golang.org/protobuf v1.36.11
 )
 
