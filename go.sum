@@ -21,8 +21,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.14.0 h1:Ngo7tiwtrWsysdj7pxzS5JNM/3soF4yQlxazOCQs1s8=
 github.com/alexfalkowski/go-health/v2 v2.14.0/go.mod h1:zqX6BJ8Brqu7ittQjNtCItDDzHXef9lPHZCzSTrEzQo=
-github.com/alexfalkowski/go-service/v2 v2.288.0 h1:0cnf6E/ShUjvq1vOYTh7FcUc0cyNFlI2Xud5BUpxSCI=
-github.com/alexfalkowski/go-service/v2 v2.288.0/go.mod h1:4J2BBniE7++9BKChQwtEXXoqSiJzzEhyIfMC8xeYK6M=
+github.com/alexfalkowski/go-service/v2 v2.289.0 h1:N5pAbksQgXtNterD6F6CBRi+TLhSPLaPYSvCnTyJKaI=
+github.com/alexfalkowski/go-service/v2 v2.289.0/go.mod h1:7XBl/t+giAMk+TxgAj4XJru7uBu3PHiBOHQhSo1z37U=
 github.com/alexfalkowski/go-sync v1.9.0 h1:9EORw79sGwmD8zUVCamnbE4wEXGy/Iw9d0f7O6HZ4qE=
 github.com/alexfalkowski/go-sync v1.9.0/go.mod h1:78w6G5Aiai2rKb3ZpIZD7kn7SRfZj7aRULVUWeGdGRw=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
@@ -377,8 +377,8 @@ golang.org/x/crypto v0.48.0/go.mod h1:r0kV5h3qnFPlQnBSrULhlsRfryS2pmewsg+XfMgkVo
 golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/net v0.0.0-20190603091049-60506f45cf65/go.mod h1:HSz+uSET+XFnRR8LxR5pz3Of3rY3CfYBVs4xY44aLks=
 golang.org/x/net v0.0.0-20210226172049-e18ecbb05110/go.mod h1:m0MpNAwzfU5UDzcl9v0D8zg8gWTRqZa9RBIspLL5mdg=
-golang.org/x/net v0.50.0 h1:ucWh9eiCGyDR3vtzso0WMQinm2Dnt8cFMuQa9K33J60=
-golang.org/x/net v0.50.0/go.mod h1:UgoSli3F/pBgdJBHCTc+tp3gmrU4XswgGRgtnwWTfyM=
+golang.org/x/net v0.51.0 h1:94R/GTO7mt3/4wIKpcR5gkGmRLOuE/2hNGeWq/GBIFo=
+golang.org/x/net v0.51.0/go.mod h1:aamm+2QF5ogm02fjy5Bb7CQ0WMt1/WVM7FtyaTLlA9Y=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/oauth2 v0.35.0 h1:Mv2mzuHuZuY2+bkyWXIHMfhNdJAdwW3FuWeCPYN5GVQ=
 golang.org/x/oauth2 v0.35.0/go.mod h1:lzm5WQJQwKZ3nwavOZ3IS5Aulzxi68dUSgRHujetwEA=
