@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.718.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.718.0) - 2026-03-06
+
+- [`958f823`](https://github.com/alexfalkowski/migrieren/commit/958f82320efa0d0ea23e4be34645443dd2afb39b) feat(deps): upgraded github.com/alexfalkowski/bin (#1853)
+- [`8b9fe2d`](https://github.com/alexfalkowski/migrieren/commit/8b9fe2dcc0c8fc77e07c9c70b0cde9ca8dc1bb08) build(ci): use latest published images (#1852)
+- [`b0d7f51`](https://github.com/alexfalkowski/migrieren/commit/b0d7f51a471562ccf02d4431dfafb825d1954256) test(deps): bump rubocop from 1.85.0 to 1.85.1 in /test (#1851)
+- [`c48e93b`](https://github.com/alexfalkowski/migrieren/commit/c48e93b68f8a836f407657fa7fb9f5aa76494aee) build(deps): upgraded github.com/alexfalkowski/bin (#1850)
+- [`c9a356b`](https://github.com/alexfalkowski/migrieren/commit/c9a356b4d5e7cdd4c447040c86ca6a348ca803bd) build(ci): use latest published images (#1849)
+
 ## [v1.717.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.717.0) - 2026-03-05
 
 - [`c641dbe`](https://github.com/alexfalkowski/migrieren/commit/c641dbefe1c3b6bad6ee6da2cb792189be03482e) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.293.0 to 2.295.0 (#1848)
