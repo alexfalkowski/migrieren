@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.720.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.720.0) - 2026-03-09
+
+- [`5ee6cac`](https://github.com/alexfalkowski/migrieren/commit/5ee6cac2797ed3af5d56f532fca4278f6fe24e10) feat(database): use go.opentelemetry.io/otel/semconv/v1.40.0 (#1858)
+
 ## [v1.719.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.719.0) - 2026-03-09
 
 - [`2a500ba`](https://github.com/alexfalkowski/migrieren/commit/2a500ba97c170be93eaf298b588bf6d6ff2b37d6) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.295.0 to 2.298.0 (#1855)
