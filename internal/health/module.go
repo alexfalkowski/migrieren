@@ -2,7 +2,7 @@ package health
 
 import "github.com/alexfalkowski/go-service/v2/di"
 
-// Module for fx.
+// Module registers health checks and endpoint observers for DI.
 var Module = di.Module(
 	di.Register(Register),
 	di.Register(httpHealthObserver),

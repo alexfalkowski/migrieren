@@ -7,202 +7,219 @@
 
 # Migrieren
 
-Migrieren is a small Go service that runs database migrations via a **gRPC API** with an **HTTP RPC façade**.
+Migrieren is a Go service that runs database migrations via a gRPC API with an HTTP RPC facade.
 
-It’s designed to let you centralize migrations in one place (instead of duplicating migration tooling across multiple application frameworks), while still using “native” database migrations (e.g. SQL scripts) via [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate).
+The service centralizes migration execution while still using native migration assets through [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate).
 
-- **Primary runtime:** Go service
-- **API contract:** Protobuf/gRPC (see `api/migrieren/v1/service.proto`)
-- **Feature tests / harness:** Ruby + Cucumber under `test/`
+- Runtime: Go
+- API contract: protobuf/gRPC (`api/migrieren/v1/service.proto`)
+- Test harness: Ruby + Cucumber (`test/`)
 
-## Why a migration service?
+## What it does
 
-Most frameworks can run migrations, but they’re often coupled to an ORM. In practice, teams frequently prefer:
-- migrations written in SQL (or database-native tooling),
-- migrations managed once for many services,
-- a consistent operational model and observability for migrations.
+- Exposes one API call: `migrieren.v1.Service/Migrate`
+- Looks up a logical database name in config
+- Resolves migration source URL and database URL from configured sources
+- Runs migrations with `golang-migrate`
+- Returns migration logs and response metadata
+- Exposes the same behavior over gRPC and HTTP RPC
 
-Migrieren focuses on “run migration X for database Y” as an API, suitable for orchestration (Kubernetes init containers, CI jobs, etc.).
+## Redis-backed locking
 
-## API overview
+Migration execution is guarded by a distributed mutex (Redsync over Redis/Valkey).
 
-The gRPC contract is defined here:
+- Lock scope: one lock per `(source URL, database URL)` pair
+- Purpose: prevent concurrent migration attempts against the same target across instances
+- Config key: `redis.url`
+- URL source resolution: read via go-service FS (`file:...` indirection supported)
 
-- `api/migrieren/v1/service.proto`
+Operational notes:
 
-At a high level:
+- If lock acquisition fails, migration returns an invalid migration error (transport maps to gRPC `Internal` / HTTP `500`)
+- Redis client telemetry (tracing + metrics) is enabled
+- Redis maintenance notifications are explicitly disabled in client options
 
-- `migrieren.v1.Service/Migrate` migrates a configured database to a target version and returns migration logs plus response metadata.
+## Supported drivers
 
-## Supported sources and databases
+Driver support is wired in code under `internal/migrate/source` and `internal/migrate/database`.
 
-Migrieren uses `golang-migrate` under the hood. In this repo, the source/database drivers are wired internally:
-
-- Sources: commonly `file://...` and GitHub sources (depending on driver wiring).
-- Databases: Postgres via pgx (`pgx5://...`) is supported (the service rewrites internally to the expected migrate URL scheme).
-
-Exactly which drivers are enabled is determined by the internal driver registration code.
+- Migration source schemes: `file://`, `github://`
+- Database scheme: `pgx5://` (rewritten internally to `postgres://` for driver setup)
 
 ## Configuration
 
-Migrieren is configured via a YAML config file passed to the `server` command.
+Pass config to `server` via `-i`:
 
-A sample development/test config exists in:
+```bash
+cd test
+../migrieren server -i file:.config/server.yml
+```
 
-- `test/.config/server.yml`
+`file:` source paths are resolved from the process working directory. The test config uses
+`file:secrets/...`, so running from `test/` makes those paths resolve to `test/secrets/...`.
 
-### Migration configuration (`migrate`)
+### Minimal config shape
 
-You can configure multiple databases. Each database has:
-- `name`: a unique logical name referenced by the API (`database` in the request)
-- `source`: how to resolve the migration source (read via the service filesystem abstraction)
-- `url`: how to resolve the database connection URL (also read via the filesystem abstraction)
-
-Example:
-
-```/dev/null/example.server.yml#L1-28
+```yaml
+environment: development
+health:
+  duration: 1s
+  timeout: 1s
 migrate:
   databases:
-    - name: db1
-      # These values are read through the service filesystem abstraction.
-      # Common patterns are `file:relative/path` or similar, depending on config.
-      source: file:test/.migrations/db1
-      url: file:test/.secrets/db1.url
-
-    - name: db2
-      source: file:test/.migrations/db2
-      url: file:test/.secrets/db2.url
+    - name: postgres
+      source: file:secrets/source
+      url: file:secrets/pg
+redis:
+  url: file:secrets/redis
+transport:
+  http:
+    address: tcp://:11000
+  grpc:
+    address: tcp://:12000
 ```
 
-Notes:
-- The service reads the contents of `source` and `url` using its filesystem abstraction (so `source` typically points to something that ultimately yields a migration source URL like `file://...`, and `url` yields a DB URL like `pgx5://...`).
-- If a database name is not found in the config, the service maps that to a “not found” condition at the transport layer.
+In this repository's test setup, those source files are under `test/secrets/`:
 
-### Health configuration (`health`)
-
-Health checks include per-database checks. Configure basic health polling:
-
-```/dev/null/example.health.yml#L1-4
-health:
-  duration: 1s  # how often to check
-  timeout: 1s   # per-check timeout
+```text
+test/secrets/source -> file://migrations
+test/secrets/pg     -> pgx5://test:test@localhost:5433/test?sslmode=disable
+test/secrets/redis  -> redis://localhost:6379/0
 ```
 
-## Running the server
+### `migrate.databases[]`
 
-### Build
+- `name`: logical database name used in requests
+- `source`: source reference that resolves to a migration source URL (`file://...`, `github://...`)
+- `url`: source reference that resolves to a database URL (`pgx5://...`)
 
-Most workflows are driven by `make`:
+If `database` is not found at runtime, transports map the error to gRPC `NotFound` / HTTP `404`.
 
-```/dev/null/example.build.sh#L1-2
+### `health`
+
+- `duration`: health check interval
+- `timeout`: timeout budget per check
+
+The service registers:
+
+- `noop` and `online` checks
+- one migration checker per configured database
+
+### `redis`
+
+- `url`: source reference that resolves to a Redis URL (`redis://...`)
+- Required for distributed migration locking
+
+## Running locally
+
+### First-time repository setup
+
+Most `make` targets depend on scripts from `bin/` (git submodule):
+
+```bash
+git submodule sync
+git submodule update --init
+```
+
+### Dependencies and build
+
+```bash
 make dep
 make build
 ```
 
-This produces a `./migrieren` binary in the repo root.
+This produces `./migrieren`.
 
-### Start the server
+If Go reports inconsistent vendoring, run:
 
-The CLI entrypoint registers a `server` command. Example using the repo’s dev/test configuration:
-
-```/dev/null/example.run.sh#L1-1
-./migrieren server -i file:test/.config/server.yml
+```bash
+make dep
 ```
 
-Development hot-reload (if you have `air` available):
+### Start server
 
-```/dev/null/example.dev.sh#L1-1
+```bash
+cd test
+../migrieren server -i file:.config/server.yml
+```
+
+Dev loop with hot reload:
+
+```bash
 make dev
 ```
 
-## Using the API
+Default addresses from test config:
 
-### gRPC (conceptual)
+- HTTP: `localhost:11000`
+- gRPC: `localhost:12000`
 
-The service exposes `migrieren.v1.Service/Migrate`.
+## API usage
+
+### gRPC
+
+```bash
+grpcurl -plaintext \
+  -d '{"database":"postgres","version":1}' \
+  localhost:12000 \
+  migrieren.v1.Service/Migrate
+```
+
+### HTTP RPC facade
+
+```bash
+curl -sS \
+  -H 'content-type: application/json' \
+  -d '{"database":"postgres","version":1}' \
+  http://localhost:11000/migrieren.v1.Service/Migrate
+```
 
 Request fields:
-- `database`: logical name (must match a configured database entry)
-- `version`: target version (uint64)
+
+- `database` (string): logical database name from config
+- `version` (uint64): target migration version
 
 Response fields:
-- `meta`: key/value metadata (used by the service for observability)
-- `migration`: includes `database`, `version`, and `logs`
 
-### HTTP façade
+- `meta` (map): request metadata/observability attributes
+- `migration.database`
+- `migration.version`
+- `migration.logs` (array of log strings)
 
-The HTTP façade routes RPC-like endpoints. For the v1 migrate call:
+Error mapping:
 
-- `POST /migrieren.v1.Service/Migrate`
-- JSON body: `{ "database": "...", "version": 123 }`
+- Unknown `database`: gRPC `NotFound`, HTTP `404`
+- Invalid config/migration/lock/driver failures: gRPC `Internal`, HTTP `500`
 
-Example:
+## Development commands
 
-```/dev/null/example.http.txt#L1-9
-POST http://localhost:11000/migrieren.v1.Service/Migrate
-Content-Type: application/json
-
-{
-  "database": "db1",
-  "version": 1
-}
-```
-
-## Deployment guidance
-
-In containerized environments (e.g. Kubernetes), common patterns are:
-
-- Run Migrieren as a shared service per bounded context (or per environment).
-- Run migrations during deploy via:
-  - a CI job step, or
-  - a Kubernetes init container that calls the Migrieren API before the main workload starts.
-
-The “best” approach depends on your tolerance for coupling deploys to schema changes and your rollback strategy.
-
-## Development
-
-### Repository structure
-
-This repository follows the common Go project layout. Key locations:
-
-- `main.go`: CLI wiring
-- `internal/cmd/server.go`: `server` command registration
-- `api/`: protobuf contract + generation (managed by `buf`)
-- `internal/migrate/`: core migration logic (wraps `golang-migrate`)
-- `internal/api/v1/transport/{grpc,http}/`: gRPC + HTTP façade
-
-### Dependencies
-
-You’ll want:
-- [Go](https://go.dev/)
-- [Ruby](https://www.ruby-lang.org/en/) (for feature tests in `test/`)
-
-### Setup
-
-```/dev/null/example.setup.sh#L1-1
-make setup
-```
-
-### Tests
-
-Go tests:
-
-```/dev/null/example.specs.sh#L1-1
+```bash
+make lint
 make specs
-```
-
-Ruby feature tests (Cucumber):
-
-```/dev/null/example.features.sh#L1-1
 make features
-```
-
-### Protobuf generation
-
-```/dev/null/example.proto.sh#L1-2
+make benchmarks
 make proto-generate
 make proto-lint
 ```
+
+Run `make help` for the full command list.
+
+## Repository layout
+
+- `main.go`: CLI app entrypoint
+- `internal/cmd`: command wiring (`server`)
+- `internal/config`: root config model and DI wiring
+- `internal/redis`: Redis client and Redsync wiring
+- `internal/migrate`: core migration execution
+- `internal/api/migrate`: transport-facing adapter (`database + version` API)
+- `internal/api/v1/transport/grpc`: gRPC handlers
+- `internal/api/v1/transport/http`: HTTP RPC route mapping
+- `internal/health`: health registrations/checkers
+- `api/migrieren/v1/service.proto`: API contract
+
+## CI notes
+
+CI runs Postgres, Valkey (Redis-compatible), and Mimir containers before executing lint, security, tests, and coverage.
 
 ## Changelog
 

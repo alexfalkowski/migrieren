@@ -4,20 +4,23 @@ import (
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/meta"
+	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/alexfalkowski/migrieren/internal/migrate/database"
 	"github.com/alexfalkowski/migrieren/internal/migrate/source"
 	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
+	"github.com/alexfalkowski/migrieren/internal/redis"
 	"github.com/golang-migrate/migrate/v4"
 )
 
 var (
-	// ErrInvalidConfig for source or db.
+	// ErrInvalidConfig indicates that the migration source or database
+	// configuration could not be opened.
 	ErrInvalidConfig = errors.New("invalid config")
 
-	// ErrInvalidMigration happened.
+	// ErrInvalidMigration indicates that migration execution failed.
 	ErrInvalidMigration = errors.New("invalid migration")
 
-	// ErrInvalidPing happened.
+	// ErrInvalidPing indicates that migration health inspection failed.
 	ErrInvalidPing = errors.New("invalid ping")
 )
 
@@ -26,8 +29,8 @@ var (
 // The returned migrator is stateless; each call to [Migrator.Migrate] or
 // [Migrator.Ping] creates a new underlying github.com/golang-migrate/migrate/v4
 // engine instance and ensures resources are closed before returning.
-func NewMigrator() *Migrator {
-	return &Migrator{}
+func NewMigrator(client *redis.Client) *Migrator {
+	return &Migrator{client: client}
 }
 
 // Migrator performs database schema migrations using golang-migrate.
@@ -37,7 +40,9 @@ func NewMigrator() *Migrator {
 //   - Captures migration logs in memory and returns them to the caller.
 //   - Maps underlying driver/migration errors onto stable sentinel errors,
 //     attaching the original error to context metadata for observability.
-type Migrator struct{}
+type Migrator struct {
+	client *redis.Client
+}
 
 // Migrate migrates the database identified by db to the given target version.
 //
@@ -56,6 +61,19 @@ type Migrator struct{}
 // The underlying migrate.ErrNoChange is treated as a successful no-op; logs are
 // still returned.
 func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) ([]string, error) {
+	mutex := m.client.NewMutex(strings.Join("-", src, db))
+
+	if err := mutex.LockContext(ctx); err != nil {
+		meta.WithAttribute(ctx, "mutexError", meta.Error(err))
+		return nil, ErrInvalidMigration
+	}
+	defer func() {
+		_, err := mutex.UnlockContext(ctx)
+		if err != nil {
+			meta.WithAttribute(ctx, "mutexError", meta.Error(err))
+		}
+	}()
+
 	migrator, err := m.newMigrator(src, db)
 	if err != nil {
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))

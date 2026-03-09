@@ -8,7 +8,10 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/health"
 )
 
-// Module for fx.
+// Module registers the dependencies required by the "server" CLI command.
+//
+// It composes runtime server infrastructure, service configuration, health
+// checks, and API transport wiring.
 var Module = di.Module(
 	module.Server,
 	config.Module,

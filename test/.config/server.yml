@@ -30,6 +30,8 @@ migrate:
     - name: github
       source: file:secrets/github
       url: file:secrets/pg
+redis:
+  url: file:secrets/redis
 telemetry:
   logger:
     kind: text

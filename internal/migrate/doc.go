@@ -48,4 +48,10 @@
 // source and the database connection. This package ensures those resources are
 // closed after each operation and joins any close errors with the operation
 // error where applicable.
+//
+// # Concurrency
+//
+// Migration operations are guarded by a distributed Redis mutex keyed by source
+// and database URLs, preventing concurrent migration attempts against the same
+// target across service instances.
 package migrate

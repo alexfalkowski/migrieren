@@ -8,7 +8,10 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// Module for fx.
+// Module registers API v1 dependencies for DI.
+//
+// It composes migration modules, constructs the gRPC server, and registers both
+// gRPC and HTTP transport handlers.
 var Module = di.Module(
 	api.Module,
 	migrate.Module,

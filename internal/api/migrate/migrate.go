@@ -53,6 +53,9 @@ type Migrator struct {
 // Returns migration logs on success. If the database name does not exist in the
 // configuration, this returns an error that wraps `internal/migrate.ErrNotFound`
 // (detectable via [IsNotFound]).
+//
+// Source resolution and URL resolution errors from the configured filesystem are
+// returned unchanged.
 func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]string, error) {
 	d, err := s.config.Database(db)
 	if d == nil {

@@ -12,18 +12,37 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// RegisterParams for health.
+// RegisterParams contains dependencies required to register health checks.
 type RegisterParams struct {
 	di.In
+	// Migrator performs migration source/database validation for DB checks.
 	Migrator *migrate.Migrator
-	Server   *server.Server
-	FS       *os.FS
-	Migrate  *migrate.Config
-	Config   *Config
-	Name     env.Name
+	// Server is the go-health server used to register check sets.
+	Server *server.Server
+	// FS resolves source/url references in migration database config.
+	FS *os.FS
+	// Migrate contains configured databases that should receive health checks.
+	Migrate *migrate.Config
+	// Config contains interval and timeout values used by the scheduler/checkers.
+	Config *Config
+	// Name is the service name used for observer registration.
+	Name env.Name
 }
 
-// Register for health.
+// Register registers health checks for the service.
+//
+// It parses health durations from params.Config, registers:
+//   - a noop check,
+//   - an online check,
+//   - one migrator checker per configured database.
+//
+// Checks are registered under the process service name. In addition, the noop
+// check is registered under the gRPC service name for transport-specific
+// liveness integration.
+//
+// Panics:
+//   - invalid Config.Duration or Config.Timeout values cause panic through
+//     time.MustParseDuration.
 func Register(params RegisterParams) {
 	d := time.MustParseDuration(params.Config.Duration)
 	t := time.MustParseDuration(params.Config.Timeout)

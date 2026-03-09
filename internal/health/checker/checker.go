@@ -15,12 +15,15 @@ func NewNoopChecker() *checker.NoopChecker {
 	return checker.NewNoopChecker()
 }
 
-// NewMigrator checker.
+// NewMigrator constructs a migration health checker for db.
+//
+// The checker resolves db source/URL through fs and calls migrator.Ping with
+// the provided timeout budget on each check.
 func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator, timeout time.Duration) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator, timeout: timeout}
 }
 
-// Migrator checker.
+// Migrator validates migration source/database connectivity for one database.
 type Migrator struct {
 	db       *migrate.Database
 	fs       *os.FS
@@ -28,7 +31,14 @@ type Migrator struct {
 	timeout  time.Duration
 }
 
-// Check the migrator.
+// Check executes the migration connectivity check.
+//
+// It:
+//   - resolves source and URL values from the configured database entry,
+//   - applies a timeout to the context,
+//   - calls migrator.Ping.
+//
+// Source/URL read errors and ping errors are returned unchanged.
 func (c *Migrator) Check(ctx context.Context) error {
 	source, err := c.db.GetSource(c.fs)
 	if err != nil {

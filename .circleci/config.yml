@@ -9,6 +9,7 @@ jobs:
           POSTGRES_DB: test
           POSTGRES_USER: test
           POSTGRES_PASSWORD: test
+      - image: valkey/valkey:9
       - image: grafana/mimir:latest
         command: -server.http-listen-port=9009 -auth.multitenancy-enabled=false -ingester.ring.replication-factor=1
     working_directory: ~/migrieren
@@ -18,7 +19,7 @@ jobs:
       - run: git submodule sync
       - run: git submodule update --init
       - run: make source-key
-      - run: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:9009 -timeout 1m
+      - run: dockerize -wait tcp://localhost:5432 -wait tcp://localhost:6379 -wait tcp://localhost:9009 -timeout 1m
       - restore_cache:
           name: restore go cache
           keys:

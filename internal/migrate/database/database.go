@@ -20,7 +20,21 @@ var (
 	ErrUnsupportedDriver = errors.New("database: unsupported driver")
 )
 
-// Open from the specified URL.
+// Open creates a migrate database driver for databaseURL.
+//
+// Expected input format is "<scheme>://<host-and-query>".
+//
+// Supported schemes:
+//   - "pgx5": opens a pgx/v5 SQL connection instrumented with otelsql and
+//     returns a postgres migrate driver instance.
+//
+// Errors:
+//   - [ErrInvalidURL] when databaseURL does not contain a scheme separator.
+//   - [ErrUnsupportedDriver] when the scheme is not supported.
+//
+// Panics:
+//   - runtime.Must is used for otelsql setup and metric registration, so setup
+//     failures panic instead of being returned.
 func Open(databaseURL string) (database.Driver, error) {
 	scheme, host, ok := splitURL(databaseURL)
 	if !ok {
