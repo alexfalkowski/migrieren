@@ -118,7 +118,5 @@ func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
 		return nil, err
 	}
 
-	// Error is never returned.
-	migrator, _ := migrate.NewWithInstance(src, s, db, d)
-	return migrator, nil
+	return migrate.NewWithInstance(src, s, db, d)
 }
