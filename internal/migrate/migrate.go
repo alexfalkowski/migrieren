@@ -61,20 +61,21 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
 		return nil, ErrInvalidConfig
 	}
+	defer migrator.Close()
 
 	logger := logger.New()
 	migrator.Log = logger
 
 	if err := migrator.Migrate(uint(version)); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
-			return logger.Logs(), m.close(migrator, nil)
+			return logger.Logs(), nil
 		}
 
 		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-		return logger.Logs(), m.close(migrator, ErrInvalidMigration)
+		return logger.Logs(), ErrInvalidMigration
 	}
 
-	return logger.Logs(), m.close(migrator, nil)
+	return logger.Logs(), nil
 }
 
 // Ping validates that the migration source and database can be opened and that
@@ -92,17 +93,18 @@ func (m *Migrator) Ping(ctx context.Context, src, db string) error {
 		meta.WithAttribute(ctx, "pingError", meta.Error(err))
 		return ErrInvalidConfig
 	}
+	defer migrator.Close()
 
 	if _, _, err := migrator.Version(); err != nil {
 		if errors.Is(err, migrate.ErrNilVersion) {
-			return m.close(migrator, nil)
+			return nil
 		}
 
 		meta.WithAttribute(ctx, "pingError", meta.Error(err))
-		return m.close(migrator, ErrInvalidPing)
+		return ErrInvalidPing
 	}
 
-	return m.close(migrator, nil)
+	return nil
 }
 
 func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
@@ -119,10 +121,4 @@ func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
 	// Error is never returned.
 	migrator, _ := migrate.NewWithInstance(src, s, db, d)
 	return migrator, nil
-}
-
-func (m *Migrator) close(mig *migrate.Migrate, err error) error {
-	errSource, errDB := mig.Close()
-
-	return errors.Join(errSource, errDB, err)
 }
