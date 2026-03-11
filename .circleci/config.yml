@@ -78,8 +78,8 @@ jobs:
     resource_class: arm.large
   sync:
     docker:
-      - image: alexfalkowski/go:2.120
-    working_directory: ~/infraops
+      - image: alexfalkowski/release:5.58
+    working_directory: ~/migrieren
     steps:
       - checkout:
           method: blobless
