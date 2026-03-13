@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Unreleased
 
+## [v1.722.0](https://github.com/alexfalkowski/migrieren/releases/tag/v1.722.0) - 2026-03-13
+
+- [`025aa67`](https://github.com/alexfalkowski/migrieren/commit/025aa67a84f27e032cce36574f3b28ae1184ed0e) feat(deps): bump github.com/alexfalkowski/go-service/v2 from 2.298.0 to 2.302.0 (#1876)
+- [`c4aedac`](https://github.com/alexfalkowski/migrieren/commit/c4aedac2be5a05110ad2d54ab720747a9977b8ef) build(deps): upgraded github.com/alexfalkowski/bin (#1875)
+- [`80ab00e`](https://github.com/alexfalkowski/migrieren/commit/80ab00e6332898719508189caadea63b0f7dd9dc) build(ci): use latest published images (#1874)
+- [`07b4176`](https://github.com/alexfalkowski/migrieren/commit/07b4176acd146f6f2a1156fbb88170d23c69c8c9) test(deps): bump ruby-lsp from 0.26.7 to 0.26.8 in /test (#1873)
+- [`ff3493a`](https://github.com/alexfalkowski/migrieren/commit/ff3493a794207c143213246b83b7fbf394716846) build(deps): upgraded github.com/alexfalkowski/bin (#1872)
+- [`8a6c74f`](https://github.com/alexfalkowski/migrieren/commit/8a6c74f75463d49df6bdc8a770f7220d50efb7d4) build(ci): use alexfalkowski/release:5.58 (#1871)
+- [`bcca501`](https://github.com/alexfalkowski/migrieren/commit/bcca5014fef70658ae9daeeefa8e9a61eb08a2aa) test(deps): upgraded bundler to 4.0.8 (#1870)
+- [`228d944`](https://github.com/alexfalkowski/migrieren/commit/228d944a40628ed105c4e12b2d0ebe72fea9e8ff) build(ci): use latest published images (#1869)
+- [`aede147`](https://github.com/alexfalkowski/migrieren/commit/aede1477f1d6f878e8612f9021a9b39fc18e8bc5) build(deps): upgraded github.com/alexfalkowski/bin (#1868)
+- [`dac1660`](https://github.com/alexfalkowski/migrieren/commit/dac16608eb5d04943d06a511c54dfdb148dd2706) build(deps): upgraded github.com/alexfalkowski/bin (#1867)
+- [`e5262ca`](https://github.com/alexfalkowski/migrieren/commit/e5262cad73ad6ad382dc4eec5fadebfa3a5c0d13) build(deps): upgraded github.com/alexfalkowski/bin (#1866)
+- [`c0d542b`](https://github.com/alexfalkowski/migrieren/commit/c0d542b1b09ef8d15f091bfdad2192b0b212af11) build(ci): add wait-all (#1865)
+- [`5768c75`](https://github.com/alexfalkowski/migrieren/commit/5768c7584c394a0018472d99eca69d7faeb6d693) build(ci): use latest published images (#1864)
+- [`c1f529d`](https://github.com/alexfalkowski/migrieren/commit/c1f529dfd93d18d4227cbfdc8bce94c8ccb4128f) build(ci): use latest published images (#1863)
+
 ## [v1.721.1](https://github.com/alexfalkowski/migrieren/releases/tag/v1.721.1) - 2026-03-10
 
 - [`ca3ba29`](https://github.com/alexfalkowski/migrieren/commit/ca3ba2908485b608ba1e960202a299ba9861c1a6) fix(migrate): always return (#1862)
