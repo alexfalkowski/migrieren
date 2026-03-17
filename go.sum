@@ -21,8 +21,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.14.0 h1:Ngo7tiwtrWsysdj7pxzS5JNM/3soF4yQlxazOCQs1s8=
 github.com/alexfalkowski/go-health/v2 v2.14.0/go.mod h1:zqX6BJ8Brqu7ittQjNtCItDDzHXef9lPHZCzSTrEzQo=
-github.com/alexfalkowski/go-service/v2 v2.303.6 h1:m37BLtbSgVEdXFlDBVqaSu/2LWnNCzLmxJwGV0EuQvM=
-github.com/alexfalkowski/go-service/v2 v2.303.6/go.mod h1:lYE+vX83EvBDXmjTPDdg7XvoCgC/nUka1bE4fykqw7I=
+github.com/alexfalkowski/go-service/v2 v2.304.0 h1:tM6ekvcYKlQPM9+lXIm/63cRh0Hn9NfTaRvedmuKAQg=
+github.com/alexfalkowski/go-service/v2 v2.304.0/go.mod h1:N91RV7zSsa4GI1sg4eQl0cEIFh9QviAPnyeeBk8eN0c=
 github.com/alexfalkowski/go-sync v1.16.1 h1:jaq0ixXLs8ta9e9MO2Shitfz0bj/uU8gw83CALiItgo=
 github.com/alexfalkowski/go-sync v1.16.1/go.mod h1:J2yBCIWJ1YAWqAJ94Bt2xroR2rOWlSyRBGqqNJDmLBw=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
@@ -165,6 +165,8 @@ github.com/hashicorp/go-multierror v1.1.1 h1:H5DkEtf6CXdFp0N0Em5UCwQpXMWke8IA0+l
 github.com/hashicorp/go-multierror v1.1.1/go.mod h1:iw975J/qwKPdAO1clOe2L8331t/9/fmwbPZ6JB6eMoM=
 github.com/hashicorp/go-retryablehttp v0.7.8 h1:ylXZWnqa7Lhqpk0L1P1LzDtGcCR0rPVUrx/c8Unxc48=
 github.com/hashicorp/go-retryablehttp v0.7.8/go.mod h1:rjiScheydd+CxvumBsIrFKlx3iS0jrZ7LvzFGFmuKbw=
+github.com/hjson/hjson-go/v4 v4.6.0 h1:16e6ViyVfAANKsXo/46h8szUADez7FJs67xl/l+KHS4=
+github.com/hjson/hjson-go/v4 v4.6.0/go.mod h1:4zx6c7Y0vWcm8IRyVoQJUHAPJLXLvbG6X8nk1RLigSo=
 github.com/iancoleman/strcase v0.3.0 h1:nTXanmYxhfFAMjZL34Ov6gkzEsSJZ5DbhxWjvSASxEI=
 github.com/iancoleman/strcase v0.3.0/go.mod h1:iwCmte+B7n89clKwxIoIXy/HfoL7AsD47ZCWhYzw7ho=
 github.com/ianlancetaylor/demangle v0.0.0-20230524184225-eabc099b10ab/go.mod h1:gx7rwoVhcfuVKG5uya9Hs3Sxj7EIvldVofAWIUtGouw=
