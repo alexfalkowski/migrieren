@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/XSAM/otelsql v0.41.0
 	github.com/alexfalkowski/go-health/v2 v2.14.0
-	github.com/alexfalkowski/go-service/v2 v2.307.0
+	github.com/alexfalkowski/go-service/v2 v2.308.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.8.0
 	go.opentelemetry.io/otel v1.42.0
