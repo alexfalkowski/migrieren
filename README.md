@@ -7,203 +7,329 @@
 
 # Migrieren
 
-Migrieren is a small Go service that runs database migrations via a **gRPC API** with an **HTTP RPC façade**.
+Migrieren is a Go service that runs database schema migrations through a gRPC API with an HTTP RPC façade.
 
-It’s designed to let you centralize migrations in one place (instead of duplicating migration tooling across multiple application frameworks), while still using “native” database migrations (e.g. SQL scripts) via [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate).
+The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate) so callers can ask it to migrate a named database to a target version without embedding migration logic into every application.
 
-- **Primary runtime:** Go service
-- **API contract:** Protobuf/gRPC (see `api/migrieren/v1/service.proto`)
-- **Feature tests / harness:** Ruby + Cucumber under `test/`
+## What the service does
 
-## Why a migration service?
+- Exposes a single RPC: `migrieren.v1.Service/Migrate`.
+- Looks up a logical database name in configuration.
+- Reads the migration source URL and database URL through the service filesystem abstraction.
+- Executes the migration with `golang-migrate`.
+- Returns migration logs and request metadata to the caller.
+- Publishes HTTP and gRPC health checks plus Prometheus-style metrics when configured through the shared service runtime.
 
-Most frameworks can run migrations, but they’re often coupled to an ORM. In practice, teams frequently prefer:
-- migrations written in SQL (or database-native tooling),
-- migrations managed once for many services,
-- a consistent operational model and observability for migrations.
+## Supported drivers
 
-Migrieren focuses on “run migration X for database Y” as an API, suitable for orchestration (Kubernetes init containers, CI jobs, etc.).
+The currently wired drivers are defined in code:
 
-## API overview
+- Migration sources:
+  - `file://...`
+  - `github://...`
+- Databases:
+  - Postgres via `pgx5://...`
 
-The gRPC contract is defined here:
+Database URLs use the `pgx5://` scheme in config and secrets. Internally the service rewrites that to the driver URL format expected by the Postgres migrate driver.
 
-- `api/migrieren/v1/service.proto`
+## Prerequisites
 
-At a high level:
+- Go `1.26.0` or newer.
+- Ruby and Bundler for the feature-test harness under `test/`.
+- The `bin/` git submodule. Most `make` targets delegate into scripts under that submodule.
 
-- `migrieren.v1.Service/Migrate` migrates a configured database to a target version and returns migration logs plus response metadata.
+Initialize the submodule before relying on `make`:
 
-## Supported sources and databases
-
-Migrieren uses `golang-migrate` under the hood. In this repo, the source/database drivers are wired internally:
-
-- Sources: commonly `file://...` and GitHub sources (depending on driver wiring).
-- Databases: Postgres via pgx (`pgx5://...`) is supported (the service rewrites internally to the expected migrate URL scheme).
-
-Exactly which drivers are enabled is determined by the internal driver registration code.
-
-## Configuration
-
-Migrieren is configured via a YAML config file passed to the `server` command.
-
-A sample development/test config exists in:
-
-- `test/.config/server.yml`
-
-### Migration configuration (`migrate`)
-
-You can configure multiple databases. Each database has:
-- `name`: a unique logical name referenced by the API (`database` in the request)
-- `source`: how to resolve the migration source (read via the service filesystem abstraction)
-- `url`: how to resolve the database connection URL (also read via the filesystem abstraction)
-
-Example:
-
-```/dev/null/example.server.yml#L1-28
-migrate:
-  databases:
-    - name: db1
-      # These values are read through the service filesystem abstraction.
-      # Common patterns are `file:relative/path` or similar, depending on config.
-      source: file:test/.migrations/db1
-      url: file:test/.secrets/db1.url
-
-    - name: db2
-      source: file:test/.migrations/db2
-      url: file:test/.secrets/db2.url
+```sh
+git submodule sync
+git submodule update --init
 ```
 
-Notes:
-- The service reads the contents of `source` and `url` using its filesystem abstraction (so `source` typically points to something that ultimately yields a migration source URL like `file://...`, and `url` yields a DB URL like `pgx5://...`).
-- If a database name is not found in the config, the service maps that to a “not found” condition at the transport layer.
+If you hit vendoring errors such as "inconsistent vendoring", refresh dependencies with:
 
-### Health configuration (`health`)
-
-Health checks include per-database checks. Configure basic health polling:
-
-```/dev/null/example.health.yml#L1-4
-health:
-  duration: 1s  # how often to check
-  timeout: 1s   # per-check timeout
+```sh
+make dep
 ```
 
-## Running the server
+## Quick start
 
-### Build
+Install dependencies, build the binary, and start the server with the checked-in development/test config:
 
-Most workflows are driven by `make`:
-
-```/dev/null/example.build.sh#L1-2
+```sh
 make dep
 make build
-```
-
-This produces a `./migrieren` binary in the repo root.
-
-### Start the server
-
-The CLI entrypoint registers a `server` command. Example using the repo’s dev/test configuration:
-
-```/dev/null/example.run.sh#L1-1
 ./migrieren server -i file:test/.config/server.yml
 ```
 
-Development hot-reload (if you have `air` available):
+This builds `./migrieren` in the repository root.
 
-```/dev/null/example.dev.sh#L1-1
+For live reload during local development:
+
+```sh
 make dev
 ```
 
-## Using the API
+`make dev` uses `air` and starts the same `server` command with `test/.config/server.yml`.
 
-### gRPC (conceptual)
+## How Migrieren resolves a migration
 
-The service exposes `migrieren.v1.Service/Migrate`.
+The API accepts a logical database name such as `postgres`. The service then:
 
-Request fields:
-- `database`: logical name (must match a configured database entry)
-- `version`: target version (uint64)
+1. Looks that name up in `migrate.databases`.
+2. Reads the configured `source` value through its filesystem abstraction.
+3. Reads the configured `url` value through the same abstraction.
+4. Passes the resolved source URL and database URL to the core migrator.
 
-Response fields:
-- `meta`: key/value metadata (used by the service for observability)
-- `migration`: includes `database`, `version`, and `logs`
+That means `source` and `url` in the YAML config are usually references to files or other resolvable inputs, not the final literal migration/source strings themselves.
 
-### HTTP façade
+## Configuration
 
-The HTTP façade routes RPC-like endpoints. For the v1 migrate call:
+Migrieren is configured through the `server` command input file. The repository includes a representative config at `test/.config/server.yml`.
 
-- `POST /migrieren.v1.Service/Migrate`
-- JSON body: `{ "database": "...", "version": 123 }`
+### Minimal configuration shape
+
+At minimum, you need:
+
+- `migrate.databases`
+- `transport.http.address`
+- `transport.grpc.address`
 
 Example:
 
-```/dev/null/example.http.txt#L1-9
+```yaml
+environment: development
+health:
+  duration: 1s
+  timeout: 1s
+migrate:
+  databases:
+    - name: postgres
+      source: file:secrets/source
+      url: file:secrets/pg
+transport:
+  http:
+    address: tcp://:11000
+    timeout: 5s
+  grpc:
+    address: tcp://:12000
+    timeout: 5s
+```
+
+### Migration database entries
+
+Each configured database entry has:
+
+- `name`: the logical database name used by the API request.
+- `source`: how to resolve the migration source URL.
+- `url`: how to resolve the database connection URL.
+
+In the checked-in test setup, the referenced secret files contain the actual values consumed by the migrator:
+
+```text
+# test/secrets/source
+file://migrations
+
+# test/secrets/github
+github://alexfalkowski/app-config/test/migrations
+
+# test/secrets/pg
+pgx5://test:test@localhost:5433/test?sslmode=disable
+```
+
+So a config entry like this:
+
+```yaml
+migrate:
+  databases:
+    - name: postgres
+      source: file:secrets/source
+      url: file:secrets/pg
+```
+
+ultimately migrates Postgres using the `file://migrations` source and the `pgx5://...` database URL resolved from those files.
+
+### About the checked-in test config
+
+`test/.config/server.yml` intentionally contains both valid and invalid database definitions:
+
+- `postgres` and `github` are used for successful migration scenarios.
+- `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, and `invalid_port` exist to exercise failure paths in feature tests.
+
+That is why the checked-in config is useful for development and testing, but it is not a "healthy production example" as-is.
+
+## API
+
+The protobuf contract lives at `api/migrieren/v1/service.proto`.
+
+### gRPC
+
+The service exposes:
+
+- `migrieren.v1.Service/Migrate`
+
+Request:
+
+- `database`: logical database name from config.
+- `version`: target migration version as `uint64`.
+
+Response:
+
+- `meta`: request metadata emitted by the service runtime.
+- `migration.database`: echoed database name.
+- `migration.version`: echoed target version.
+- `migration.logs`: in-memory migration log lines collected during execution.
+
+Conceptual request:
+
+```protobuf
+database: "postgres"
+version: 1
+```
+
+### HTTP façade
+
+The HTTP RPC façade exposes the same operation at:
+
+- `POST /migrieren.v1.Service/Migrate`
+
+Example:
+
+```http
 POST http://localhost:11000/migrieren.v1.Service/Migrate
 Content-Type: application/json
 
 {
-  "database": "db1",
+  "database": "postgres",
   "version": 1
 }
 ```
 
-## Deployment guidance
+### Error mapping
 
-In containerized environments (e.g. Kubernetes), common patterns are:
+Transport behavior is intentionally simple:
 
-- Run Migrieren as a shared service per bounded context (or per environment).
-- Run migrations during deploy via:
-  - a CI job step, or
-  - a Kubernetes init container that calls the Migrieren API before the main workload starts.
+- Unknown database name:
+  - gRPC: `NotFound`
+  - HTTP: `404`
+- Configuration, source, database, or migration failures:
+  - gRPC: `Internal`
+  - HTTP: `500`
 
-The “best” approach depends on your tolerance for coupling deploys to schema changes and your rollback strategy.
+The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
+
+## Health and observability
+
+When running with the shared service runtime, Migrieren exposes:
+
+- HTTP health endpoints:
+  - `/healthz`
+  - `/livez`
+  - `/readyz`
+- HTTP metrics:
+  - `/metrics`
+- gRPC health checks for `migrieren.v1.Service`
+
+There is an important detail in the checked-in test config:
+
+- gRPC health for `migrieren.v1.Service` reports `SERVING`.
+- HTTP `/livez` and `/readyz` report healthy.
+- HTTP `/healthz` is expected to be unhealthy because the test config deliberately registers invalid database entries for failure-path coverage.
+
+The sample test config also enables:
+
+- text logging,
+- Prometheus metrics, and
+- OTLP tracing with `http://localhost:4318/v1/traces`.
 
 ## Development
 
-### Repository structure
+### Common commands
 
-This repository follows the common Go project layout. Key locations:
+Use `make help` to list available targets. Common ones are:
 
-- `main.go`: CLI wiring
-- `internal/cmd/server.go`: `server` command registration
-- `api/`: protobuf contract + generation (managed by `buf`)
-- `internal/migrate/`: core migration logic (wraps `golang-migrate`)
-- `internal/api/v1/transport/{grpc,http}/`: gRPC + HTTP façade
-
-### Dependencies
-
-You’ll want:
-- [Go](https://go.dev/)
-- [Ruby](https://www.ruby-lang.org/en/) (for feature tests in `test/`)
-
-### Setup
-
-```/dev/null/example.setup.sh#L1-1
-make setup
-```
-
-### Tests
-
-Go tests:
-
-```/dev/null/example.specs.sh#L1-1
+```sh
+make dep
+make build
+make build-test
 make specs
-```
-
-Ruby feature tests (Cucumber):
-
-```/dev/null/example.features.sh#L1-1
 make features
-```
-
-### Protobuf generation
-
-```/dev/null/example.proto.sh#L1-2
+make benchmarks
+make lint
+make format
+make sec
+make coverage
 make proto-generate
 make proto-lint
+make proto-breaking
 ```
+
+What those do in this repository:
+
+- `make dep`: installs Go dependencies, runs `go mod tidy`, vendors modules, and installs Ruby gems for `test/`.
+- `make build`: builds the release binary `./migrieren`.
+- `make build-test`: builds a test binary with the `features` build tag.
+- `make specs`: runs Go tests with `gotestsum`, `-race`, and vendored dependencies.
+- `make features`: builds the test binary and runs the Ruby/Cucumber feature suite in `test/`.
+- `make benchmarks`: builds the release binary and runs the benchmark-tagged Ruby harness.
+- `make lint`: lints Go, the Ruby test harness, and protobuf definitions.
+- `make sec`: runs `govulncheck`.
+- `make coverage`: creates HTML and function coverage reports under `test/reports/`.
+
+### Local test harness expectations
+
+The Ruby harness under `test/` assumes:
+
+- HTTP server on `http://localhost:11000`
+- gRPC server on `localhost:12000`
+- Postgres reachable on `localhost:5433`
+
+The feature harness process wiring lives in `test/nonnative.yml`.
+
+### Repository layout
+
+Key locations:
+
+- `main.go`: CLI entrypoint.
+- `internal/cmd/server.go`: registers the `server` command.
+- `internal/config/config.go`: top-level config composition.
+- `internal/migrate/`: core migration engine and driver wiring.
+- `internal/api/migrate/`: transport-facing adapter that resolves database names through config.
+- `internal/api/v1/transport/grpc/`: gRPC server implementation.
+- `internal/api/v1/transport/http/`: HTTP RPC route registration.
+- `internal/health/`: health registration and database-specific health checks.
+- `api/migrieren/v1/service.proto`: protobuf contract.
+- `test/`: Ruby feature-test harness, migrations, and local test fixtures.
+
+## Protobuf workflow
+
+The API contract is managed with `buf`.
+
+Generate code:
+
+```sh
+make proto-generate
+```
+
+Lint and breaking-change checks:
+
+```sh
+make proto-lint
+make proto-breaking
+```
+
+Generation is configured in `api/buf.gen.yaml` and currently writes:
+
+- Go protobuf and gRPC files into `api/`
+- Ruby protobuf and gRPC files into `test/lib/`
+
+Do not hand-edit generated protobuf stubs. Update `api/migrieren/v1/service.proto` and regenerate instead.
+
+## Notes for contributors
+
+- Package documentation for Go packages belongs in `doc.go`.
+- The feature harness public API is primarily the Ruby helpers under `test/lib/`.
+- If `go test` or `go list` starts failing because of vendoring drift, run `make dep`.
 
 ## Changelog
 
-See `CHANGELOG.md` for release notes and changes.
+See `CHANGELOG.md` for release notes.
