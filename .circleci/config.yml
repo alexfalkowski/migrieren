@@ -78,7 +78,7 @@ jobs:
     resource_class: arm.large
   sync:
     docker:
-      - image: alexfalkowski/release:6.1
+      - image: alexfalkowski/release:6.2
     working_directory: ~/migrieren
     steps:
       - checkout:
@@ -89,7 +89,7 @@ jobs:
     resource_class: arm.large
   version:
     docker:
-      - image: alexfalkowski/release:6.1
+      - image: alexfalkowski/release:6.2
     working_directory: ~/migrieren
     steps:
       - checkout:
