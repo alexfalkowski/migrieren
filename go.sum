@@ -21,8 +21,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.14.0 h1:Ngo7tiwtrWsysdj7pxzS5JNM/3soF4yQlxazOCQs1s8=
 github.com/alexfalkowski/go-health/v2 v2.14.0/go.mod h1:zqX6BJ8Brqu7ittQjNtCItDDzHXef9lPHZCzSTrEzQo=
-github.com/alexfalkowski/go-service/v2 v2.310.0 h1:JwqD+jX6Csq+y3MxZREUT22eD437O8iu/vqp8dwj3tw=
-github.com/alexfalkowski/go-service/v2 v2.310.0/go.mod h1:U64TB11okZWXamTz+e86O7IM+hY8heb51wsIjhoNdjU=
+github.com/alexfalkowski/go-service/v2 v2.311.0 h1:4x2ZCWCiXnvcis8+aNva5QR36ddf8ELPoDQDx1bXeZ4=
+github.com/alexfalkowski/go-service/v2 v2.311.0/go.mod h1:j/MoeBMJE+KmP8kmI3MlDHXArmkv002Kpgi2lLSSvWc=
 github.com/alexfalkowski/go-sync v1.16.1 h1:jaq0ixXLs8ta9e9MO2Shitfz0bj/uU8gw83CALiItgo=
 github.com/alexfalkowski/go-sync v1.16.1/go.mod h1:J2yBCIWJ1YAWqAJ94Bt2xroR2rOWlSyRBGqqNJDmLBw=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
@@ -176,8 +176,8 @@ github.com/jackc/pgpassfile v1.0.0 h1:/6Hmqy13Ss2zCq62VdNG8tM1wchn8zjSGOBJ6icpsI
 github.com/jackc/pgpassfile v1.0.0/go.mod h1:CEx0iS5ambNFdcRtxPj5JhEz+xB6uRky5eyVu/W2HEg=
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 h1:iCEnooe7UlwOQYpKFhBabPMi4aNAfoODPEFNiAnClxo=
 github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761/go.mod h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=
-github.com/jackc/pgx/v5 v5.9.0 h1:T/dI+2TvmI2H8s/KH1/lXIbz1CUFk3gn5oTjr0/mBsE=
-github.com/jackc/pgx/v5 v5.9.0/go.mod h1:mal1tBGAFfLHvZzaYh77YS/eC6IX9OWbRV1QIIM0Jn4=
+github.com/jackc/pgx/v5 v5.9.1 h1:uwrxJXBnx76nyISkhr33kQLlUqjv7et7b9FjCen/tdc=
+github.com/jackc/pgx/v5 v5.9.1/go.mod h1:mal1tBGAFfLHvZzaYh77YS/eC6IX9OWbRV1QIIM0Jn4=
 github.com/jackc/puddle/v2 v2.2.2 h1:PR8nw+E/1w0GLuRFSmiioY6UooMp6KJv0/61nB7icHo=
 github.com/jackc/puddle/v2 v2.2.2/go.mod h1:vriiEXHvEE654aYKXXjOvZM39qJ0q+azkZFrfEOc3H4=
 github.com/jmoiron/sqlx v1.4.0 h1:1PLqN7S1UYp5t4SrVVnt4nUVNemrDAtxlulVe+Qgm3o=
