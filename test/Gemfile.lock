@@ -45,10 +45,10 @@ GEM
     get_process_mem (1.0.0)
       bigdecimal (>= 2.0)
       ffi (~> 1.0)
-    google-protobuf (4.34.0-x86_64-darwin)
+    google-protobuf (4.34.1-x86_64-darwin)
       bigdecimal
       rake (~> 13.3)
-    google-protobuf (4.34.0-x86_64-linux-gnu)
+    google-protobuf (4.34.1-x86_64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
     googleapis-common-protos-types (1.22.0)
@@ -77,10 +77,11 @@ GEM
       ruby2_keywords (~> 0.0.1)
     netrc (0.11.0)
     nio4r (2.7.5)
-    nonnative (2.0)
+    nonnative (2.1.0)
       concurrent-ruby (>= 1, < 2)
       config (>= 5, < 6)
       cucumber (>= 7, < 11)
+      cucumber-cucumber-expressions (< 19)
       get_process_mem (>= 1, < 2)
       grpc (>= 1, < 2)
       puma (>= 7, < 8)
@@ -111,8 +112,9 @@ GEM
       rack (>= 3.0.0)
     rainbow (3.1.1)
     rake (13.3.1)
-    rbs (3.10.3)
+    rbs (4.0.2)
       logger
+      prism (>= 1.6.0)
       tsort
     regexp_parser (2.11.3)
     rest-client (2.1.0)
