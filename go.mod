@@ -3,7 +3,7 @@ module github.com/alexfalkowski/migrieren
 go 1.26.0
 
 require (
-	github.com/XSAM/otelsql v0.41.0
+	github.com/XSAM/otelsql v0.42.0
 	github.com/alexfalkowski/go-health/v2 v2.18.0
 	github.com/alexfalkowski/go-service/v2 v2.320.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
