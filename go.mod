@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/XSAM/otelsql v0.42.0
 	github.com/alexfalkowski/go-health/v2 v2.18.0
-	github.com/alexfalkowski/go-service/v2 v2.332.0
+	github.com/alexfalkowski/go-service/v2 v2.334.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.9.1
 	go.opentelemetry.io/otel v1.43.0
@@ -35,6 +35,7 @@ require (
 	github.com/cloudevents/sdk-go/v2 v2.16.2 // indirect
 	github.com/cristalhq/acmd v0.12.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/docker/go-units v0.5.0 // indirect
 	github.com/ebitengine/purego v0.10.0 // indirect
 	github.com/elnormous/contenttype v1.0.4 // indirect
 	github.com/faabiosr/cachego v0.26.0 // indirect
