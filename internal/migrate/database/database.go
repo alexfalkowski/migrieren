@@ -6,10 +6,10 @@ import (
 	"github.com/alexfalkowski/go-service/v2/database/sql/telemetry"
 	"github.com/alexfalkowski/go-service/v2/runtime"
 	"github.com/alexfalkowski/go-service/v2/strings"
+	"github.com/alexfalkowski/go-service/v2/telemetry/attributes"
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
 	_ "github.com/jackc/pgx/v5"
-	semconv "go.opentelemetry.io/otel/semconv/v1.40.0"
 )
 
 var (
@@ -29,7 +29,7 @@ func Open(databaseURL string) (database.Driver, error) {
 
 	switch scheme {
 	case "pgx5":
-		attrs := telemetry.WithAttributes(semconv.DBSystemNamePostgreSQL)
+		attrs := telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 
 		db, err := telemetry.Open("pgx/v5", joinURL("postgres", host), attrs)
 		runtime.Must(err)
