@@ -3,7 +3,7 @@ package database
 import (
 	"errors"
 
-	"github.com/XSAM/otelsql"
+	"github.com/alexfalkowski/go-service/v2/database/sql/telemetry"
 	"github.com/alexfalkowski/go-service/v2/runtime"
 	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/golang-migrate/migrate/v4/database"
@@ -29,12 +29,12 @@ func Open(databaseURL string) (database.Driver, error) {
 
 	switch scheme {
 	case "pgx5":
-		attrs := otelsql.WithAttributes(semconv.DBSystemNamePostgreSQL)
+		attrs := telemetry.WithAttributes(semconv.DBSystemNamePostgreSQL)
 
-		db, err := otelsql.Open("pgx/v5", joinURL("postgres", host), attrs)
+		db, err := telemetry.Open("pgx/v5", joinURL("postgres", host), attrs)
 		runtime.Must(err)
 
-		_, err = otelsql.RegisterDBStatsMetrics(db, attrs)
+		_, err = telemetry.RegisterDBStatsMetrics(db, attrs)
 		runtime.Must(err)
 
 		return pgx.WithInstance(db, &pgx.Config{})
