@@ -21,8 +21,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.18.0 h1:iSqrgmWdt/qaUNr/LsOvesehWFksAvHaM4Sy+O6RtTA=
 github.com/alexfalkowski/go-health/v2 v2.18.0/go.mod h1:9KSzMMK4aLqFoML8IfFoCEOxGsg5o2QY3GgI0E1FCLU=
-github.com/alexfalkowski/go-service/v2 v2.336.0 h1:LQVo+0e7BUcR4lD4Qe/lcgLTdpROJkBljfUT+18Kwic=
-github.com/alexfalkowski/go-service/v2 v2.336.0/go.mod h1:OnqcdoVhuOcad+lSL2/HuP7JqMUnkks3nbxgFMUXbwg=
+github.com/alexfalkowski/go-service/v2 v2.337.0 h1:luVFeaGGKlw5Po80MyWFfhH39ZgmZEWqm/XYa7HHFcU=
+github.com/alexfalkowski/go-service/v2 v2.337.0/go.mod h1:OnqcdoVhuOcad+lSL2/HuP7JqMUnkks3nbxgFMUXbwg=
 github.com/alexfalkowski/go-sync v1.19.3 h1:sEmPvRa08IjuQ44YpglQDhXpbex1YPQCwRkKqarejQc=
 github.com/alexfalkowski/go-sync v1.19.3/go.mod h1:J2yBCIWJ1YAWqAJ94Bt2xroR2rOWlSyRBGqqNJDmLBw=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
