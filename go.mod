@@ -3,9 +3,8 @@ module github.com/alexfalkowski/migrieren
 go 1.26.0
 
 require (
-	github.com/XSAM/otelsql v0.42.0
 	github.com/alexfalkowski/go-health/v2 v2.18.0
-	github.com/alexfalkowski/go-service/v2 v2.341.0
+	github.com/alexfalkowski/go-service/v2 v2.342.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.9.1
 	go.opentelemetry.io/otel v1.43.0
@@ -20,6 +19,7 @@ require (
 	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/KimMachineGun/automemlimit v0.7.5 // indirect
+	github.com/XSAM/otelsql v0.42.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
 	github.com/alexfalkowski/go-sync v1.19.3 // indirect
 	github.com/arl/statsviz v0.8.0 // indirect
