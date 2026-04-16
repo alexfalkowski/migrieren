@@ -6,7 +6,6 @@ import (
 	"github.com/alexfalkowski/go-service/v2/env"
 	"github.com/alexfalkowski/go-service/v2/health"
 	"github.com/alexfalkowski/go-service/v2/os"
-	"github.com/alexfalkowski/go-service/v2/time"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/health/checker"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
@@ -25,16 +24,14 @@ type RegisterParams struct {
 
 // Register for health.
 func Register(params RegisterParams) {
-	d := time.MustParseDuration(params.Config.Duration)
-	t := time.MustParseDuration(params.Config.Timeout)
 	regs := health.Registrations{
-		server.NewRegistration("noop", d, checker.NewNoopChecker()),
-		server.NewOnlineRegistration(t, d),
+		server.NewRegistration("noop", params.Config.Duration.Duration(), checker.NewNoopChecker()),
+		server.NewOnlineRegistration(params.Config.Timeout.Duration(), params.Config.Duration.Duration()),
 	}
 
 	for _, db := range params.Migrate.Databases {
-		checker := checker.NewMigrator(db, params.FS, params.Migrator, t)
-		reg := server.NewRegistration(db.Name, d, checker)
+		checker := checker.NewMigrator(db, params.FS, params.Migrator, params.Config.Timeout)
+		reg := server.NewRegistration(db.Name, params.Config.Duration.Duration(), checker)
 		regs = append(regs, reg)
 	}
 

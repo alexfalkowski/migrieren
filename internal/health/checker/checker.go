@@ -40,7 +40,7 @@ func (c *Migrator) Check(ctx context.Context) error {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, c.timeout)
+	ctx, cancel := context.WithTimeout(ctx, c.timeout.Duration())
 	defer cancel()
 
 	return c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
