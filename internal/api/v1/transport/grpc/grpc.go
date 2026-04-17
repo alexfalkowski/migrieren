@@ -8,17 +8,20 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/api/migrate"
 )
 
-// Register server.
+// Register registers server as the migrieren.v1 gRPC service implementation.
 func Register(registrar grpc.ServiceRegistrar, server *Server) {
 	v1.RegisterServiceServer(registrar, server)
 }
 
-// NewServer for gRPC.
+// NewServer constructs a gRPC transport adapter around service.
 func NewServer(service *migrate.Migrator) *Server {
 	return &Server{migrator: service}
 }
 
-// Server for gRPC.
+// Server implements the migrieren.v1 gRPC service.
+//
+// It delegates migration work to the transport-facing migrator and maps domain
+// errors to gRPC status codes.
 type Server struct {
 	v1.UnimplementedServiceServer
 	migrator *migrate.Migrator

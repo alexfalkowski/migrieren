@@ -5,7 +5,8 @@ import (
 	"github.com/alexfalkowski/go-service/v2/di"
 )
 
-// Module for fx.
+// Module wires configuration loading and extraction helpers into the DI
+// container.
 var Module = di.Module(
 	di.Constructor(config.NewConfig[Config]),
 	di.Decorate(decorateConfig),

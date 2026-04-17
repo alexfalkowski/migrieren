@@ -6,7 +6,7 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/api/v1/transport/grpc"
 )
 
-// Register for HTTP.
+// Register exposes the gRPC Migrate method through the HTTP RPC facade.
 func Register(server *grpc.Server) {
 	rpc.Route(v1.Service_Migrate_FullMethodName, server.Migrate)
 }

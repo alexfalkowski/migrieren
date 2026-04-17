@@ -45,7 +45,6 @@
 // # Resource management
 //
 // The underlying migrate engine allocates resources for both the migration
-// source and the database connection. This package ensures those resources are
-// closed after each operation and joins any close errors with the operation
-// error where applicable.
+// source and the database connection. This package closes those resources after
+// each operation before returning to the caller.
 package migrate

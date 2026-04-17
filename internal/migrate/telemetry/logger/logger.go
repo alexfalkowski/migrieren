@@ -6,18 +6,21 @@ import (
 	"sync"
 )
 
-// New used for migrations.
+// New returns an in-memory logger for migration output.
 func New() *Logger {
 	return &Logger{logs: make([]string, 0)}
 }
 
-// Logger used for migrations.
+// Logger captures migration log lines in memory.
+//
+// It satisfies the logging interface expected by golang-migrate and is safe for
+// concurrent use.
 type Logger struct {
 	logs []string
 	mu   sync.RWMutex
 }
 
-// Printf the log message.
+// Printf formats and stores a log line.
 func (l *Logger) Printf(format string, v ...any) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -25,7 +28,7 @@ func (l *Logger) Printf(format string, v ...any) {
 	l.logs = append(l.logs, strings.TrimSpace(fmt.Sprintf(format, v...)))
 }
 
-// Logs that have been written.
+// Logs returns the captured log lines in insertion order.
 func (l *Logger) Logs() []string {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
@@ -33,7 +36,7 @@ func (l *Logger) Logs() []string {
 	return l.logs
 }
 
-// Verbose for our logger.
+// Verbose reports that verbose migration logging is enabled.
 func (l *Logger) Verbose() bool {
 	return true
 }
