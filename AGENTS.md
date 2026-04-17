@@ -2,7 +2,12 @@
 
 This repository is a Go service (plus a Ruby feature-test harness) that runs database migrations via a gRPC API and an HTTP RPC façade.
 
-Build/test automation is primarily driven by `make`, with most targets implemented in a required `bin/` git submodule.
+## Shared skill
+
+Use the shared `coding-standards` skill from `./bin/skills/coding-standards`
+for cross-repository coding, review, testing, documentation, and PR
+conventions. Treat this `AGENTS.md` as the repo-specific companion to that
+skill.
 
 ## Recent session notes (keep for future sessions)
 
