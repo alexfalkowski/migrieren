@@ -41,6 +41,15 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
     - any environment assumptions (localhost ports, DB URI).
   - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
 
+### Telemetry fail-fast behavior is intentional
+
+- In `internal/migrate/database/database.go`, failures from `telemetry.Open(...)`
+  and `telemetry.RegisterDBStatsMetrics(...)` are intentionally treated as
+  startup/runtime invariants and use `runtime.Must(...)` by design.
+- Reviewers should not flag those specific panic paths as accidental error
+  handling; the intended behavior is to fail fast if database telemetry cannot
+  be initialized.
+
 ### Linting Ruby code
 
 Feature-test Ruby linting is typically run via:
@@ -148,6 +157,10 @@ make dev
 Notes (observed in Makefiles / `main_test.go`):
 - Many Go test invocations use `-race -vet=off -mod vendor`.
 - `main_test.go` is guarded by `//go:build features`.
+- This repository intentionally relies on the Ruby/Cucumber feature harness in
+  `test/` as its primary automated test coverage. Reviewers should not assume
+  the absence of package-local Go `_test.go` files is a standards violation in
+  this repo by itself.
 
 ### Lint / format / security
 

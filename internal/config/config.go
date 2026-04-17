@@ -6,7 +6,10 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// Config for the service.
+// Config defines the top-level Migrieren service configuration.
+//
+// It embeds the shared go-service configuration and adds service-specific
+// health and migration settings.
 type Config struct {
 	Health         *health.Config  `yaml:"health,omitempty" json:"health,omitempty" toml:"health,omitempty"`
 	Migrate        *migrate.Config `yaml:"migrate,omitempty" json:"migrate,omitempty" toml:"migrate,omitempty"`

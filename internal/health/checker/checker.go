@@ -10,17 +10,21 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// NewNoopChecker is an alias of checker.NewNoopChecker.
+// NewNoopChecker returns a checker that always reports healthy.
 func NewNoopChecker() *checker.NoopChecker {
 	return checker.NewNoopChecker()
 }
 
-// NewMigrator checker.
+// NewMigrator constructs a health checker for one configured migration target.
+//
+// The checker resolves the database source and URL through fs, then pings the
+// migrator with the provided timeout.
 func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator, timeout time.Duration) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator, timeout: timeout}
 }
 
-// Migrator checker.
+// Migrator checks whether a configured migration target can be resolved and
+// pinged successfully.
 type Migrator struct {
 	db       *migrate.Database
 	fs       *os.FS
@@ -28,7 +32,8 @@ type Migrator struct {
 	timeout  time.Duration
 }
 
-// Check the migrator.
+// Check resolves the migration source and database URL, then pings the target
+// database within the configured timeout.
 func (c *Migrator) Check(ctx context.Context) error {
 	source, err := c.db.GetSource(c.fs)
 	if err != nil {

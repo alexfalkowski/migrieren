@@ -20,7 +20,16 @@ var (
 	ErrUnsupportedDriver = errors.New("database: unsupported driver")
 )
 
-// Open from the specified URL.
+// Open opens a migrate database driver for databaseURL.
+//
+// URL handling errors are returned to the caller via the exported sentinel
+// errors in this package.
+//
+// Telemetry wiring is treated differently on purpose: failures from
+// telemetry.Open or telemetry.RegisterDBStatsMetrics are considered
+// process-level misconfiguration/invariant violations for this service, so this
+// function fails fast via runtime.Must rather than degrading to a runtime
+// migration error.
 func Open(databaseURL string) (database.Driver, error) {
 	scheme, host, ok := splitURL(databaseURL)
 	if !ok {
@@ -32,9 +41,11 @@ func Open(databaseURL string) (database.Driver, error) {
 		attrs := telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 
 		db, err := telemetry.Open("pgx/v5", joinURL("postgres", host), attrs)
+		// Fail fast: the service treats DB telemetry initialization as required.
 		runtime.Must(err)
 
 		_, err = telemetry.RegisterDBStatsMetrics(db, attrs)
+		// Fail fast: running without DB stats metrics is an invalid process state.
 		runtime.Must(err)
 
 		return pgx.WithInstance(db, &pgx.Config{})

@@ -7,7 +7,8 @@ import (
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 )
 
-// Migrate for gRPC.
+// Migrate executes the requested migration and returns response metadata and
+// collected migration logs.
 func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.MigrateResponse, error) {
 	db := req.GetDatabase()
 	ver := req.GetVersion()

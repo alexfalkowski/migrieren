@@ -8,7 +8,7 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/health"
 )
 
-// Module for fx.
+// Module wires the full server command dependency graph into the DI container.
 var Module = di.Module(
 	module.Server,
 	config.Module,

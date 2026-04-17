@@ -11,7 +11,8 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// RegisterParams for health.
+// RegisterParams contains the dependencies required to register health checks
+// and observers.
 type RegisterParams struct {
 	di.In
 	Migrator *migrate.Migrator
@@ -22,7 +23,12 @@ type RegisterParams struct {
 	Name     env.Name
 }
 
-// Register for health.
+// Register installs service-level and per-database health registrations.
+//
+// The application service name receives the noop, online, and per-database
+// checks. The gRPC service name is registered with the noop check only so gRPC
+// health remains healthy even when intentionally invalid database entries exist
+// in test configuration.
 func Register(params RegisterParams) {
 	regs := health.Registrations{
 		server.NewRegistration("noop", params.Config.Duration.Duration(), checker.NewNoopChecker()),

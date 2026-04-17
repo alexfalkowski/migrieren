@@ -8,7 +8,7 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// Module for fx.
+// Module wires the v1 API transports and handlers into the DI container.
 var Module = di.Module(
 	api.Module,
 	migrate.Module,
