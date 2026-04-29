@@ -4,9 +4,7 @@ This repository is a Go service (plus a Ruby feature-test harness) that runs dat
 
 ## Shared skill
 
-Use the shared `coding-standards` skill from `./bin/skills/coding-standards`
-for cross-repository coding, review, testing, documentation, and PR
-conventions. Treat this `AGENTS.md` as the repo-specific companion to that
+Use the shared `coding-standards` skill from `bin/skills/coding-standards` for code changes, bug fixes, refactors, reviews, tests, linting, documentation, PR summaries, commits, Makefile changes, CI validation, and verification. Treat this `AGENTS.md` as the repo-specific companion to that
 skill.
 
 ## Recent session notes (keep for future sessions)
