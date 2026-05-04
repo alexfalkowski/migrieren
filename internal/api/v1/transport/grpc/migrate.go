@@ -19,7 +19,7 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		},
 	}
 
-	logs, err := s.migrator.Migrate(ctx, db, ver)
+	ctx, logs, err := s.migrator.Migrate(ctx, db, ver)
 
 	resp.Meta = meta.CamelStrings(ctx, strings.Empty)
 	resp.Migration.Logs = logs

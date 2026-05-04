@@ -50,23 +50,24 @@ type Migrator struct {
 // database URL are read via the filesystem abstraction, then passed to the core
 // migrator.
 //
-// Returns migration logs on success. If the database name does not exist in the
-// configuration, this returns an error that wraps `internal/migrate.ErrNotFound`
-// (detectable via [IsNotFound]).
-func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) ([]string, error) {
+// Returns the input context, or a derived context when the core migrator adds
+// metadata, plus migration logs from the core migrator. If the database name
+// does not exist in the configuration, this returns an error that wraps
+// `internal/migrate.ErrNotFound` (detectable via [IsNotFound]).
+func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) (context.Context, []string, error) {
 	d, err := s.config.Database(db)
 	if d == nil {
-		return nil, fmt.Errorf("%s: %w", db, err)
+		return ctx, nil, fmt.Errorf("%s: %w", db, err)
 	}
 
 	source, err := d.GetSource(s.fs)
 	if err != nil {
-		return nil, err
+		return ctx, nil, err
 	}
 
 	url, err := d.GetURL(s.fs)
 	if err != nil {
-		return nil, err
+		return ctx, nil, err
 	}
 
 	return s.migrator.Migrate(ctx, bytes.String(source), bytes.String(url), version)

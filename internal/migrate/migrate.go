@@ -48,18 +48,22 @@ type Migrator struct{}
 //   - version: the target migration version.
 //
 // Output:
-//   - logs: in-memory migration logs captured during the operation.
+//   - ctx: the input context, or a derived context containing "migrateError" when
+//     source/database setup or migration execution fails.
+//   - logs: in-memory migration logs captured during the operation. Logs may be
+//     returned on successful migrations, no-op migrations, and migration
+//     execution failures.
 //   - error: nil on success; otherwise one of:
 //     [ErrInvalidConfig] (cannot open src/db),
 //     [ErrInvalidMigration] (migration failed).
 //
 // The underlying migrate.ErrNoChange is treated as a successful no-op; logs are
 // still returned.
-func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) ([]string, error) {
+func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) (context.Context, []string, error) {
 	migrator, err := m.newMigrator(src, db)
 	if err != nil {
-		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-		return nil, ErrInvalidConfig
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, nil, ErrInvalidConfig
 	}
 	defer migrator.Close()
 
@@ -68,14 +72,14 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 
 	if err := migrator.Migrate(uint(version)); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
-			return logger.Logs(), nil
+			return ctx, logger.Logs(), nil
 		}
 
-		meta.WithAttribute(ctx, "migrateError", meta.Error(err))
-		return logger.Logs(), ErrInvalidMigration
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, logger.Logs(), ErrInvalidMigration
 	}
 
-	return logger.Logs(), nil
+	return ctx, logger.Logs(), nil
 }
 
 // Ping validates that the migration source and database can be opened and that
@@ -84,27 +88,28 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 // Ping does not apply any migrations. Internally it opens the migrator and
 // inspects the current version. A nil (unapplied) version is treated as healthy.
 //
-// Returns nil on success; otherwise one of:
+// Returns the input context, or a derived context containing "pingError" when
+// setup or version inspection fails, plus nil on success or one of:
 //   - [ErrInvalidConfig] if src/db cannot be opened.
 //   - [ErrInvalidPing] if the database cannot be inspected/pinged.
-func (m *Migrator) Ping(ctx context.Context, src, db string) error {
+func (m *Migrator) Ping(ctx context.Context, src, db string) (context.Context, error) {
 	migrator, err := m.newMigrator(src, db)
 	if err != nil {
-		meta.WithAttribute(ctx, "pingError", meta.Error(err))
-		return ErrInvalidConfig
+		ctx = meta.WithAttributes(ctx, meta.NewPair("pingError", meta.Error(err)))
+		return ctx, ErrInvalidConfig
 	}
 	defer migrator.Close()
 
 	if _, _, err := migrator.Version(); err != nil {
 		if errors.Is(err, migrate.ErrNilVersion) {
-			return nil
+			return ctx, nil
 		}
 
-		meta.WithAttribute(ctx, "pingError", meta.Error(err))
-		return ErrInvalidPing
+		ctx = meta.WithAttributes(ctx, meta.NewPair("pingError", meta.Error(err)))
+		return ctx, ErrInvalidPing
 	}
 
-	return nil
+	return ctx, nil
 }
 
 func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
