@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.19.2
-	github.com/alexfalkowski/go-service/v2 v2.376.0
+	github.com/alexfalkowski/go-service/v2 v2.379.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.9.2
 	google.golang.org/grpc v1.81.0
@@ -35,7 +35,6 @@ require (
 	github.com/cristalhq/acmd v0.12.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/ebitengine/purego v0.10.0 // indirect
-	github.com/elnormous/contenttype v1.0.4 // indirect
 	github.com/faabiosr/cachego v0.26.0 // indirect
 	github.com/felixge/fgprof v0.9.5 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
