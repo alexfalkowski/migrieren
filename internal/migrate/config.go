@@ -3,7 +3,7 @@ package migrate
 import (
 	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/os"
-	"github.com/alexfalkowski/go-service/v2/types/slices"
+	"github.com/alexfalkowski/go-service/v2/slices"
 )
 
 // ErrNotFound is returned when a named database is not present in [Config].
