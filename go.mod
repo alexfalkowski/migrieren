@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.21.0
-	github.com/alexfalkowski/go-service/v2 v2.397.0
+	github.com/alexfalkowski/go-service/v2 v2.398.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.9.2
 	go.opentelemetry.io/otel/metric v1.43.0
