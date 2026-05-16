@@ -10,6 +10,7 @@ import (
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
 	_ "github.com/jackc/pgx/v5"
+	"go.opentelemetry.io/otel/metric"
 )
 
 var (
@@ -44,14 +45,31 @@ func Open(databaseURL string) (database.Driver, error) {
 		// Fail fast: the service treats DB telemetry initialization as required.
 		runtime.Must(err)
 
-		_, err = telemetry.RegisterDBStatsMetrics(db, attrs)
+		reg, err := telemetry.RegisterDBStatsMetrics(db, attrs)
 		// Fail fast: running without DB stats metrics is an invalid process state.
 		runtime.Must(err)
 
-		return pgx.WithInstance(db, &pgx.Config{})
+		dbDriver, err := pgx.WithInstance(db, &pgx.Config{})
+		if err != nil {
+			_ = reg.Unregister()
+			_ = db.Close()
+
+			return nil, err
+		}
+
+		return &instrumentedDriver{Driver: dbDriver, registration: reg}, nil
 	default:
 		return nil, ErrUnsupportedDriver
 	}
+}
+
+type instrumentedDriver struct {
+	database.Driver
+	registration metric.Registration
+}
+
+func (d *instrumentedDriver) Close() error {
+	return errors.Join(d.Driver.Close(), d.registration.Unregister())
 }
 
 func splitURL(url string) (string, string, bool) {
