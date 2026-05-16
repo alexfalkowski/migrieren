@@ -48,7 +48,16 @@ func (c *Migrator) Check(ctx context.Context) error {
 	ctx, cancel := context.WithTimeout(ctx, c.timeout.Duration())
 	defer cancel()
 
-	_, err = c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
+	errCh := make(chan error, 1)
+	go func() {
+		_, err := c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
+		errCh <- err
+	}()
 
-	return err
+	select {
+	case err := <-errCh:
+		return err
+	case <-ctx.Done():
+		return ctx.Err()
+	}
 }
