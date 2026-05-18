@@ -33,8 +33,8 @@ func (s *Server) error(err error) error {
 	}
 
 	if migrate.IsNotFound(err) {
-		return status.Error(codes.NotFound, err.Error())
+		return status.SafeError(codes.NotFound, err)
 	}
 
-	return status.Error(codes.Internal, err.Error())
+	return status.SafeError(codes.Internal, err)
 }
