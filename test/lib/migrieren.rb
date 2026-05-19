@@ -49,12 +49,12 @@ module Migrieren
     ##
     # Returns the parsed server configuration for the test environment.
     #
-    # The harness loads `.config/server.yml` via `Nonnative.configurations` and
+    # The harness loads `.config/server.yml` via `Nonnative::ConfigurationFile.load` and
     # memoizes the resulting configuration object.
     #
     # @return [Object] the configuration structure returned by `nonnative`
     def server_config
-      @server_config ||= Nonnative.configurations('.config/server.yml')
+      @server_config ||= Nonnative::ConfigurationFile.load('.config/server.yml')
     end
 
     ##
