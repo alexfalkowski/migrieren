@@ -43,7 +43,7 @@ transport:
   http:
     address: tcp://:11000
     limiter:
-      kind: token
+      kind: user-id
       tokens: 1000
       interval: 1s
     retry:
@@ -54,7 +54,7 @@ transport:
   grpc:
     address: tcp://:12000
     limiter:
-      kind: token
+      kind: user-id
       tokens: 1000
       interval: 1s
     retry:
