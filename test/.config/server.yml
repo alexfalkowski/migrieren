@@ -46,10 +46,6 @@ transport:
       kind: user-id
       tokens: 1000
       interval: 1s
-    retry:
-      attempts: 3
-      backoff: 100ms
-      timeout: 10s
     timeout: 5s
   grpc:
     address: tcp://:12000
@@ -57,8 +53,4 @@ transport:
       kind: user-id
       tokens: 1000
       interval: 1s
-    retry:
-      attempts: 3
-      backoff: 100ms
-      timeout: 10s
     timeout: 5s
