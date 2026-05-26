@@ -30,17 +30,14 @@ type RegisterParams struct {
 // health remains healthy even when intentionally invalid database entries exist
 // in test configuration.
 func Register(params RegisterParams) {
-	duration := params.Config.GetDuration()
-	timeout := params.Config.GetTimeout()
-
 	regs := health.Registrations{
-		server.NewRegistration("noop", duration.Duration(), checker.NewNoopChecker()),
-		server.NewOnlineRegistration(timeout.Duration(), duration.Duration()),
+		server.NewRegistration("noop", params.Config.Duration.Duration(), checker.NewNoopChecker()),
+		server.NewOnlineRegistration(params.Config.Timeout.Duration(), params.Config.Duration.Duration()),
 	}
 
 	for _, db := range params.Migrate.Databases {
-		checker := checker.NewMigrator(db, params.FS, params.Migrator, timeout)
-		reg := server.NewRegistration(db.Name, duration.Duration(), checker)
+		checker := checker.NewMigrator(db, params.FS, params.Migrator, params.Config.Timeout)
+		reg := server.NewRegistration(db.Name, params.Config.Duration.Duration(), checker)
 		regs = append(regs, reg)
 	}
 
