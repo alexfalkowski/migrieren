@@ -1,10 +1,9 @@
 package checker
 
 import (
-	"context"
-
 	"github.com/alexfalkowski/go-health/v2/checker"
 	"github.com/alexfalkowski/go-service/v2/bytes"
+	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/go-service/v2/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
@@ -17,8 +16,8 @@ func NewNoopChecker() *checker.NoopChecker {
 
 // NewMigrator constructs a health checker for one configured migration target.
 //
-// The checker resolves the database source and URL through fs, then pings the
-// migrator with the provided timeout.
+// The checker resolves the database URL through fs, then pings the migrator
+// with the provided timeout.
 func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator, timeout time.Duration) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator, timeout: timeout}
 }
@@ -32,32 +31,17 @@ type Migrator struct {
 	timeout  time.Duration
 }
 
-// Check resolves the migration source and database URL, then pings the target
-// database within the configured timeout.
+// Check resolves the database URL, then pings the target database within the
+// configured timeout.
 func (c *Migrator) Check(ctx context.Context) error {
-	source, err := c.db.GetSource(c.fs)
-	if err != nil {
-		return err
-	}
-
 	url, err := c.db.GetURL(c.fs)
 	if err != nil {
 		return err
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, c.timeout.Duration())
+	ctx, cancel := context.WithTimeout(ctx, c.timeout)
 	defer cancel()
 
-	errCh := make(chan error, 1)
-	go func() {
-		_, err := c.migrator.Ping(ctx, bytes.String(source), bytes.String(url))
-		errCh <- err
-	}()
-
-	select {
-	case err := <-errCh:
-		return err
-	case <-ctx.Done():
-		return ctx.Err()
-	}
+	_, err = c.migrator.Ping(ctx, bytes.String(url))
+	return err
 }

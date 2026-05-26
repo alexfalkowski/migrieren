@@ -49,6 +49,15 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   handling; the intended behavior is to fail fast if database telemetry cannot
   be initialized.
 
+### Top-level runtime config sections are required
+
+- In `internal/config/config.go`, `Health`, `Migrate`, and the embedded
+  `*go-service/v2/config.Config` are pointer fields but are intentionally
+  marked `validate:"required"`.
+- Reviewers should not suggest silently materializing empty configs in the raw
+  projection helpers (`healthConfig`, `migrateConfig`, `decorateConfig`).
+  Missing top-level runtime sections should fail during config validation.
+
 ### Linting Ruby code
 
 Feature-test Ruby linting is typically run via:

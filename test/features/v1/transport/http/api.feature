@@ -29,6 +29,12 @@ Feature: HTTP API
       | database | version |
       | missing  |       1 |
 
+  Scenario: Reject zero migration version
+    When I request to migrate with HTTP:
+      | database | postgres |
+      | version  |        0 |
+    Then I should receive an invalid argument migration from HTTP
+
   @clean
   Scenario Outline: Migrate misconfigured databases
     When I request to migrate with HTTP:

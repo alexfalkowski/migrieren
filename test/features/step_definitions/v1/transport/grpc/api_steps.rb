@@ -17,6 +17,10 @@ Then('I should receive a not found migration from gRPC') do
   expect(@response).to be_a(GRPC::NotFound)
 end
 
+Then('I should receive an invalid argument migration from gRPC') do
+  expect(@response).to be_a(GRPC::InvalidArgument)
+end
+
 Then('I should receive an invalid migration from gRPC') do
   expect(@response).to be_a(GRPC::Internal)
 end

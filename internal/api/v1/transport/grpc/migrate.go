@@ -3,6 +3,8 @@ package grpc
 import (
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/meta"
+	"github.com/alexfalkowski/go-service/v2/net/grpc/codes"
+	"github.com/alexfalkowski/go-service/v2/net/grpc/status"
 	"github.com/alexfalkowski/go-service/v2/strings"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 )
@@ -17,6 +19,10 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 			Database: db,
 			Version:  ver,
 		},
+	}
+
+	if ver == 0 {
+		return resp, status.Error(codes.InvalidArgument, "version must be greater than zero")
 	}
 
 	ctx, logs, err := s.migrator.Migrate(ctx, db, ver)

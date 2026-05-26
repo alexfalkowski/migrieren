@@ -6,3 +6,4 @@ vendor
 /migrieren
 dist
 .source-key
+ISSUES.md

@@ -1,25 +1,24 @@
 package database
 
 import (
-	"errors"
-
+	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/database/sql/telemetry"
-	"github.com/alexfalkowski/go-service/v2/runtime"
-	"github.com/alexfalkowski/go-service/v2/strings"
+	"github.com/alexfalkowski/go-service/v2/errors"
 	"github.com/alexfalkowski/go-service/v2/telemetry/attributes"
+	"github.com/alexfalkowski/migrieren/internal/migrate/pgx"
+	"github.com/alexfalkowski/migrieren/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/database"
-	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
 	_ "github.com/jackc/pgx/v5"
 	"go.opentelemetry.io/otel/metric"
 )
 
-var (
-	// ErrInvalidURL is returned when the url is invalid.
-	ErrInvalidURL = errors.New("database: invalid url")
+// ErrInvalidURL is returned when the url is invalid.
+var ErrInvalidURL = errors.New("database: invalid url")
 
-	// ErrUnsupportedDriver is returned when the driver is not supported.
-	ErrUnsupportedDriver = errors.New("database: unsupported driver")
-)
+// ErrUnsupportedDriver is returned when the driver is not supported.
+var ErrUnsupportedDriver = errors.New("database: unsupported driver")
+
+var telemetryAttrs = telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 
 // Open opens a migrate database driver for databaseURL.
 //
@@ -32,24 +31,29 @@ var (
 // function fails fast via runtime.Must rather than degrading to a runtime
 // migration error.
 func Open(databaseURL string) (database.Driver, error) {
-	scheme, host, ok := splitURL(databaseURL)
-	if !ok {
+	u, err := url.Parse(databaseURL)
+	if err != nil {
 		return nil, ErrInvalidURL
 	}
 
-	switch scheme {
+	switch u.Scheme {
 	case "pgx5":
-		attrs := telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
+		cfg, err := pgx.ParseConfig(u)
+		if err != nil {
+			return nil, err
+		}
 
-		db, err := telemetry.Open("pgx/v5", joinURL("postgres", host), attrs)
-		// Fail fast: the service treats DB telemetry initialization as required.
-		runtime.Must(err)
+		db, err := telemetry.Open("pgx/v5", url.DatabaseURL(u), telemetryAttrs)
+		if err != nil {
+			return nil, err
+		}
 
-		reg, err := telemetry.RegisterDBStatsMetrics(db, attrs)
-		// Fail fast: running without DB stats metrics is an invalid process state.
-		runtime.Must(err)
+		reg, err := telemetry.RegisterDBStatsMetrics(db, telemetryAttrs)
+		if err != nil {
+			return nil, err
+		}
 
-		dbDriver, err := pgx.WithInstance(db, &pgx.Config{})
+		dbDriver, err := pgx.WithInstance(db, cfg)
 		if err != nil {
 			_ = reg.Unregister()
 			_ = db.Close()
@@ -63,6 +67,31 @@ func Open(databaseURL string) (database.Driver, error) {
 	}
 }
 
+// Ping opens databaseURL and verifies that the database can be reached with ctx.
+func Ping(ctx context.Context, databaseURL string) error {
+	u, err := url.Parse(databaseURL)
+	if err != nil {
+		return ErrInvalidURL
+	}
+
+	switch u.Scheme {
+	case "pgx5":
+		if _, err := pgx.ParseConfig(u); err != nil {
+			return err
+		}
+
+		db, err := telemetry.Open("pgx/v5", url.DatabaseURL(u), telemetryAttrs)
+		if err != nil {
+			return err
+		}
+		defer db.Close()
+
+		return db.PingContext(ctx)
+	default:
+		return ErrUnsupportedDriver
+	}
+}
+
 type instrumentedDriver struct {
 	database.Driver
 	registration metric.Registration
@@ -70,12 +99,4 @@ type instrumentedDriver struct {
 
 func (d *instrumentedDriver) Close() error {
 	return errors.Join(d.Driver.Close(), d.registration.Unregister())
-}
-
-func splitURL(url string) (string, string, bool) {
-	return strings.Cut(url, "://")
-}
-
-func joinURL(scheme, host string) string {
-	return strings.Join("://", scheme, host)
 }

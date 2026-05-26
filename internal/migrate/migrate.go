@@ -82,30 +82,24 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 	return ctx, logger.Logs(), nil
 }
 
-// Ping validates that the migration source and database can be opened and that
-// the database is reachable.
+// Ping validates that the database can be opened and reached.
 //
-// Ping does not apply any migrations. Internally it opens the migrator and
-// inspects the current version. A nil (unapplied) version is treated as healthy.
+// Ping does not apply any migrations. It pings the database with ctx instead
+// of using golang-migrate's Version path, because the pgx migrate driver does
+// not accept a request context for Version.
 //
 // Returns the input context, or a derived context containing "pingError" when
-// setup or version inspection fails, plus nil on success or one of:
-//   - [ErrInvalidConfig] if src/db cannot be opened.
-//   - [ErrInvalidPing] if the database cannot be inspected/pinged.
-func (m *Migrator) Ping(ctx context.Context, src, db string) (context.Context, error) {
-	migrator, err := m.newMigrator(src, db)
-	if err != nil {
+// database configuration or connectivity inspection fails, plus nil on success
+// or one of:
+//   - [ErrInvalidConfig] if db cannot be opened.
+//   - [ErrInvalidPing] if the database cannot be pinged.
+func (m *Migrator) Ping(ctx context.Context, db string) (context.Context, error) {
+	if err := database.Ping(ctx, db); err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("pingError", meta.Error(err)))
-		return ctx, ErrInvalidConfig
-	}
-	defer migrator.Close()
-
-	if _, _, err := migrator.Version(); err != nil {
-		if errors.Is(err, migrate.ErrNilVersion) {
-			return ctx, nil
+		if errors.Is(err, database.ErrInvalidURL) || errors.Is(err, database.ErrUnsupportedDriver) {
+			return ctx, ErrInvalidConfig
 		}
 
-		ctx = meta.WithAttributes(ctx, meta.NewPair("pingError", meta.Error(err)))
 		return ctx, ErrInvalidPing
 	}
 
