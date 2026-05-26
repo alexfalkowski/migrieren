@@ -39,11 +39,13 @@ module Migrieren
     # Currently, it drops:
     # - `accounts`
     # - `schema_migrations`
+    # - `migrieren_schema_migrations`
     #
     # @return [void]
     def destroy
       @conn.exec('DROP TABLE IF EXISTS accounts')
       @conn.exec('DROP TABLE IF EXISTS schema_migrations')
+      @conn.exec('DROP TABLE IF EXISTS migrieren_schema_migrations')
     end
   end
 end

@@ -22,6 +22,10 @@ Then('I should receive a not found migration from HTTP') do
   expect(@response.code).to eq(404)
 end
 
+Then('I should receive an invalid argument migration from HTTP') do
+  expect(@response.code).to eq(400)
+end
+
 Then('I should receive an invalid migration from HTTP') do
   expect(@response.code).to eq(500)
 end
