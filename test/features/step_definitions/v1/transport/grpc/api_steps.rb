@@ -11,6 +11,8 @@ Then('I should receive a successful migration from gRPC:') do |table|
   expect(@response.migration.database).to eq(rows['database'])
   expect(@response.migration.version).to eq(rows['version'].to_i)
   expect(@response.migration.logs.length).to be >= 0
+
+  expect_postgres_migration(rows['version'].to_i) if rows['database'] == 'postgres'
 end
 
 Then('I should receive a not found migration from gRPC') do

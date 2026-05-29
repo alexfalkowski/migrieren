@@ -16,6 +16,8 @@ Then('I should receive a successful migration from HTTP:') do |table|
   expect(migration['database']).to eq(rows['database'])
   expect(migration['version']).to eq(rows['version'].to_i)
   expect(logs.length).to be >= 0
+
+  expect_postgres_migration(rows['version'].to_i) if rows['database'] == 'postgres'
 end
 
 Then('I should receive a not found migration from HTTP') do
