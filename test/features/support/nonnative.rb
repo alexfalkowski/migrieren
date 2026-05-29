@@ -5,9 +5,17 @@ Nonnative.configure do |config|
 end
 
 BeforeAll do
-  Migrieren.pg.destroy
+  Migrieren.pg.verify_destroy
+  expect_destroyed_database
 end
 
 After('@clean') do
   Migrieren.pg.destroy
+  expect_destroyed_database
+end
+
+def expect_destroyed_database
+  return if Migrieren.pg.destroyed?
+
+  raise 'expected Migrieren.pg.destroy to remove managed tables'
 end

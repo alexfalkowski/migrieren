@@ -47,5 +47,81 @@ module Migrieren
       @conn.exec('DROP TABLE IF EXISTS schema_migrations')
       @conn.exec('DROP TABLE IF EXISTS migrieren_schema_migrations')
     end
+
+    ##
+    # Seeds the managed tables, then runs {#destroy}.
+    #
+    # This verifies the cleanup path from the feature harness without modeling it
+    # as an application feature.
+    #
+    # @return [void]
+    def verify_destroy
+      @conn.exec('CREATE TABLE IF NOT EXISTS accounts (user_id serial PRIMARY KEY)')
+      @conn.exec('CREATE TABLE IF NOT EXISTS schema_migrations (version bigint NOT NULL)')
+      @conn.exec('CREATE TABLE IF NOT EXISTS migrieren_schema_migrations (version bigint NOT NULL)')
+
+      destroy
+    end
+
+    ##
+    # Checks whether all tables managed by {#destroy} are absent.
+    #
+    # @return [Boolean] true when cleanup left no managed tables behind
+    def destroyed?
+      !table?('accounts') && !table?('schema_migrations') && !table?('migrieren_schema_migrations')
+    end
+
+    ##
+    # Checks whether a table exists in the public schema.
+    #
+    # @param name [String] table name
+    # @return [Boolean] true when the table exists
+    def table?(name)
+      query = <<~SQL
+        SELECT EXISTS (
+          SELECT 1
+          FROM information_schema.tables
+          WHERE table_schema = 'public' AND table_name = $1
+        )
+      SQL
+
+      @conn.exec_params(query, [name]).getvalue(0, 0) == 't'
+    end
+
+    ##
+    # Checks whether a column exists on a table in the public schema.
+    #
+    # @param table [String] table name
+    # @param column [String] column name
+    # @return [Boolean] true when the column exists
+    def column?(table, column)
+      query = <<~SQL
+        SELECT EXISTS (
+          SELECT 1
+          FROM information_schema.columns
+          WHERE table_schema = 'public' AND table_name = $1 AND column_name = $2
+        )
+      SQL
+
+      @conn.exec_params(query, [table, column]).getvalue(0, 0) == 't'
+    end
+
+    ##
+    # Returns the number of rows in the accounts fixture table.
+    #
+    # @return [Integer] row count
+    def account_count
+      @conn.exec('SELECT COUNT(*) FROM accounts').getvalue(0, 0).to_i
+    end
+
+    ##
+    # Returns the current clean migration version from the configured migration table.
+    #
+    # @return [Integer, nil] the version, or nil when the table has no row
+    def migration_version
+      result = @conn.exec('SELECT version FROM migrieren_schema_migrations WHERE dirty = false LIMIT 1')
+
+      result.ntuples.zero? ? nil : result.getvalue(0, 0).to_i
+    end
   end
 end

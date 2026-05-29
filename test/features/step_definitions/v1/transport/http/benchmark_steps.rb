@@ -9,5 +9,9 @@ When('I request to migrate with HTTP which performs in {int} ms') do |time|
     read_timeout: 10, open_timeout: 10
   }
 
-  expect { Migrieren::V1.server_http.migrate('postgres', rand(1..2), opts) }.to perform_under(time).ms
+  expect do
+    response = Migrieren::V1.server_http.migrate('postgres', rand(1..2), opts)
+
+    expect(response.code).to eq(200)
+  end.to perform_under(time).ms
 end
