@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.23.0
-	github.com/alexfalkowski/go-service/v2 v2.494.0
+	github.com/alexfalkowski/go-service/v2 v2.497.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.9.2
 	go.opentelemetry.io/otel/metric v1.44.0
@@ -88,9 +88,9 @@ require (
 	github.com/prometheus/common v0.67.5 // indirect
 	github.com/prometheus/otlptranslator v1.0.0 // indirect
 	github.com/prometheus/procfs v0.20.1 // indirect
-	github.com/redis/go-redis/extra/rediscmd/v9 v9.19.0 // indirect
-	github.com/redis/go-redis/extra/redisotel/v9 v9.19.0 // indirect
-	github.com/redis/go-redis/v9 v9.19.0 // indirect
+	github.com/redis/go-redis/extra/rediscmd/v9 v9.20.0 // indirect
+	github.com/redis/go-redis/extra/redisotel/v9 v9.20.0 // indirect
+	github.com/redis/go-redis/v9 v9.20.0 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/secure-io/siv-go v0.0.0-20180922214919-5ff40651e2c4 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
