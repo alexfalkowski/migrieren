@@ -23,8 +23,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.23.0 h1:fYAMpjTneRsi4h8mrvGseTeErYJlh96LK4aMcKs52O0=
 github.com/alexfalkowski/go-health/v2 v2.23.0/go.mod h1:ypy+lqZpEh2HPNLqaDAv6wJBbxuouOZoPkkrtrMNXrA=
-github.com/alexfalkowski/go-service/v2 v2.497.0 h1:AZjuowo3NwHH1j9XITc1hulRhLb5oYNTGAw6p5MficQ=
-github.com/alexfalkowski/go-service/v2 v2.497.0/go.mod h1:OcRIlcZbuu9XTP6lXWODjlA/B9mYlz0PVIEp5/INnjo=
+github.com/alexfalkowski/go-service/v2 v2.499.0 h1:H8zxeLMJRWiYKPbX+6J2tLguzjWKdtptYK2C1Wb2R8M=
+github.com/alexfalkowski/go-service/v2 v2.499.0/go.mod h1:sp7S2eJ8yMMQRGAPOKOxRWd2fW3JCyecTFAypvh36U0=
 github.com/alexfalkowski/go-sync v1.21.0 h1:Aydt3mB0FwmaRPjDsO4ZHJIa0HdueTwRt0i4NQtNvsA=
 github.com/alexfalkowski/go-sync v1.21.0/go.mod h1:J2yBCIWJ1YAWqAJ94Bt2xroR2rOWlSyRBGqqNJDmLBw=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
@@ -107,8 +107,8 @@ github.com/go-playground/locales v0.14.1 h1:EWaQ/wswjilfKLTECiXz7Rh+3BjFhfDFKv/o
 github.com/go-playground/locales v0.14.1/go.mod h1:hxrqLVvrK65+Rwrd5Fc6F2O76J/NuW9t0sjnWqG1slY=
 github.com/go-playground/universal-translator v0.18.1 h1:Bcnm0ZwsGyWbCzImXv+pAJnYK9S473LQFuzCbDbfSFY=
 github.com/go-playground/universal-translator v0.18.1/go.mod h1:xekY+UJKNuX9WP91TpwSH2VMlDf28Uj24BCp08ZFTUY=
-github.com/go-playground/validator/v10 v10.30.2 h1:JiFIMtSSHb2/XBUbWM4i/MpeQm9ZK2xqPNk8vgvu5JQ=
-github.com/go-playground/validator/v10 v10.30.2/go.mod h1:mAf2pIOVXjTEBrwUMGKkCWKKPs9NheYGabeB04txQSc=
+github.com/go-playground/validator/v10 v10.30.3 h1:4MU6YkEwx7GbcPJOZxrtbu+QfF3pJLJuaYTeAH0DYy8=
+github.com/go-playground/validator/v10 v10.30.3/go.mod h1:4Axh7oCNGcoGkqLoE4YWt6n20mcEIsPRlB7vPk3lpyc=
 github.com/go-sprout/sprout v1.0.3 h1:LLuz0D3aYazgbVTOwCVuMor3LOUVYinipXRIdjA/D+I=
 github.com/go-sprout/sprout v1.0.3/go.mod h1:cFFzpnyGGry3cmN0UNCAM1f7AGok6vPVabeYQzBMBZY=
 github.com/go-sql-driver/mysql v1.8.1/go.mod h1:wEBSXgmK//2ZFJyE+qWnIsVGmvmEKlqwuVSjsCm7DZg=
