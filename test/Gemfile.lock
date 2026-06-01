@@ -40,11 +40,15 @@ GEM
     deep_merge (1.2.2)
     diff-lcs (1.6.2)
     domain_name (0.6.20240107)
+    ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-x86_64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     get_process_mem (1.0.0)
       bigdecimal (>= 2.0)
       ffi (~> 1.0)
+    google-protobuf (4.35.0-aarch64-linux-gnu)
+      bigdecimal
+      rake (~> 13.3)
     google-protobuf (4.35.0-x86_64-darwin)
       bigdecimal
       rake (~> 13.3)
@@ -53,10 +57,13 @@ GEM
       rake (~> 13.3)
     googleapis-common-protos-types (1.23.0)
       google-protobuf (~> 4.26)
-    grpc (1.80.0-x86_64-darwin)
+    grpc (1.81.0-aarch64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.80.0-x86_64-linux-gnu)
+    grpc (1.81.0-x86_64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.81.0-x86_64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     http-accept (1.7.0)
@@ -95,6 +102,7 @@ GEM
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
+    pg (1.6.3-aarch64-linux)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     prism (1.9.0)
@@ -178,6 +186,7 @@ GEM
     unicode-emoji (4.2.0)
 
 PLATFORMS
+  aarch64-linux
   x86_64-darwin-21
   x86_64-darwin-23
   x86_64-linux
