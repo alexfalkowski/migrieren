@@ -5,13 +5,13 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/alexfalkowski/migrieren.svg)](https://pkg.go.dev/github.com/alexfalkowski/migrieren)
 [![Stability: Active](https://masterminds.github.io/stability/active.svg)](https://masterminds.github.io/stability/active.html)
 
-# Migrieren
+# 🧭 Migrieren
 
 Migrieren is a Go service that runs database schema migrations through a gRPC API with an HTTP RPC façade.
 
 The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate) so callers can ask it to migrate a named database to a target version without embedding migration logic into every application.
 
-## What the service does
+## 🧰 What the service does
 
 - Exposes a single RPC: `migrieren.v1.Service/Migrate`.
 - Looks up a logical database name in configuration.
@@ -20,7 +20,7 @@ The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/m
 - Returns migration logs and request metadata to the caller.
 - Publishes HTTP and gRPC health checks plus Prometheus-style metrics when configured through the shared service runtime.
 
-## Supported drivers
+## 🚚 Supported drivers
 
 The currently wired drivers are defined in code:
 
@@ -32,7 +32,10 @@ The currently wired drivers are defined in code:
 
 Database URLs use the `pgx5://` scheme in config and secrets. Internally the service rewrites that to the driver URL format expected by the Postgres migrate driver.
 
-## Prerequisites
+> [!NOTE]
+> Driver support comes from the drivers imported by this service. Adding another source or database kind requires wiring the driver in code, not only changing YAML.
+
+## ✅ Prerequisites
 
 - Go `1.26.0` or newer.
 - Ruby and Bundler for the feature-test harness under `test/`.
@@ -51,17 +54,20 @@ If you hit vendoring errors such as "inconsistent vendoring", refresh dependenci
 make dep
 ```
 
-## Quick start
+## 🚀 Quick start
 
 Install dependencies, build the binary, and start the server with the checked-in development/test config:
 
 ```sh
 make dep
 make build
-./migrieren server -i file:test/.config/server.yml
+./migrieren server -config file:test/.config/server.yml
 ```
 
 This builds `./migrieren` in the repository root.
+
+> [!WARNING]
+> The checked-in test config points Postgres at `localhost:5433` and OTLP tracing at `http://localhost:4318/v1/traces`. Start the local feature-test services or provide your own config before expecting migrations, health checks, and tracing to succeed.
 
 For live reload during local development:
 
@@ -71,7 +77,10 @@ make dev
 
 `make dev` uses `air` and starts the same `server` command with `test/.config/server.yml`.
 
-## How Migrieren resolves a migration
+> [!TIP]
+> Use `make help` to list the Make targets exposed by this checkout before reaching for direct tool commands.
+
+## 🔎 How Migrieren resolves a migration
 
 The API accepts a logical database name such as `postgres`. The service then:
 
@@ -82,14 +91,16 @@ The API accepts a logical database name such as `postgres`. The service then:
 
 That means `source` and `url` in the YAML config are usually references to files or other resolvable inputs, not the final literal migration/source strings themselves.
 
-## Configuration
+## ⚙️ Configuration
 
 Migrieren is configured through the `server` command input file. The repository includes a representative config at `test/.config/server.yml`.
 
-### Minimal configuration shape
+### 🧩 Minimal configuration shape
 
 At minimum, you need:
 
+- `health.duration`
+- `health.timeout`
 - `migrate.databases`
 - `transport.http.address`
 - `transport.grpc.address`
@@ -115,7 +126,7 @@ transport:
     timeout: 5s
 ```
 
-### Migration database entries
+### 🗄️ Migration database entries
 
 Each configured database entry has:
 
@@ -133,7 +144,7 @@ file://migrations
 github://alexfalkowski/app-config/test/migrations
 
 # test/secrets/pg
-pgx5://test:test@localhost:5433/test?sslmode=disable
+pgx5://test:test@localhost:5433/test?sslmode=disable&x-migrations-table=migrieren_schema_migrations&x-statement-timeout=5000&x-multi-statement=true&x-multi-statement-max-size=2097152
 ```
 
 So a config entry like this:
@@ -148,20 +159,23 @@ migrate:
 
 ultimately migrates Postgres using the `file://migrations` source and the `pgx5://...` database URL resolved from those files.
 
-### About the checked-in test config
+### 🧪 About the checked-in test config
 
 `test/.config/server.yml` intentionally contains both valid and invalid database definitions:
 
 - `postgres` and `github` are used for successful migration scenarios.
 - `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, and `invalid_port` exist to exercise failure paths in feature tests.
 
+> [!IMPORTANT]
+> The checked-in config is a test fixture. Use it for local development and feature coverage, but do not treat it as a healthy production config.
+
 That is why the checked-in config is useful for development and testing, but it is not a "healthy production example" as-is.
 
-## API
+## 🔌 API
 
 The protobuf contract lives at `api/migrieren/v1/service.proto`.
 
-### gRPC
+### 🔷 gRPC
 
 The service exposes:
 
@@ -170,7 +184,7 @@ The service exposes:
 Request:
 
 - `database`: logical database name from config.
-- `version`: target migration version as `uint64`.
+- `version`: target migration version as `uint64`; must be greater than `0`.
 
 Response:
 
@@ -186,7 +200,7 @@ database: "postgres"
 version: 1
 ```
 
-### HTTP façade
+### 🌐 HTTP façade
 
 The HTTP RPC façade exposes the same operation at:
 
@@ -204,10 +218,13 @@ Content-Type: application/json
 }
 ```
 
-### Error mapping
+### 🚦 Error mapping
 
 Transport behavior is intentionally simple:
 
+- Zero migration version:
+  - gRPC: `InvalidArgument`
+  - HTTP: `400`
 - Unknown database name:
   - gRPC: `NotFound`
   - HTTP: `404`
@@ -217,7 +234,7 @@ Transport behavior is intentionally simple:
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
 
-## Health and observability
+## 💓 Health and observability
 
 When running with the shared service runtime, Migrieren exposes:
 
@@ -241,9 +258,9 @@ The sample test config also enables:
 - Prometheus metrics, and
 - OTLP tracing with `http://localhost:4318/v1/traces`.
 
-## Development
+## 🛠️ Development
 
-### Common commands
+### 📋 Common commands
 
 Use `make help` to list available targets. Common ones are:
 
@@ -272,10 +289,10 @@ What those do in this repository:
 - `make features`: builds the test binary and runs the Ruby/Cucumber feature suite in `test/`.
 - `make benchmarks`: builds the release binary and runs the benchmark-tagged Ruby harness.
 - `make lint`: lints Go, the Ruby test harness, and protobuf definitions.
-- `make sec`: runs `govulncheck`.
+- `make sec`: runs `govulncheck` and the Trivy repository scan.
 - `make coverage`: creates HTML and function coverage reports under `test/reports/`.
 
-### Local test harness expectations
+### 🧪 Local test harness expectations
 
 The Ruby harness under `test/` assumes:
 
@@ -285,7 +302,7 @@ The Ruby harness under `test/` assumes:
 
 The feature harness process wiring lives in `test/nonnative.yml`.
 
-### Repository layout
+### 🗂️ Repository layout
 
 Key locations:
 
@@ -300,7 +317,7 @@ Key locations:
 - `api/migrieren/v1/service.proto`: protobuf contract.
 - `test/`: Ruby feature-test harness, migrations, and local test fixtures.
 
-## Protobuf workflow
+## 🧬 Protobuf workflow
 
 The API contract is managed with `buf`.
 
@@ -322,14 +339,11 @@ Generation is configured in `api/buf.gen.yaml` and currently writes:
 - Go protobuf and gRPC files into `api/`
 - Ruby protobuf and gRPC files into `test/lib/`
 
-Do not hand-edit generated protobuf stubs. Update `api/migrieren/v1/service.proto` and regenerate instead.
+> [!CAUTION]
+> Do not hand-edit generated protobuf stubs. Update `api/migrieren/v1/service.proto` and regenerate instead.
 
-## Notes for contributors
+## 🤝 Notes for contributors
 
 - Package documentation for Go packages belongs in `doc.go`.
 - The feature harness public API is primarily the Ruby helpers under `test/lib/`.
 - If `go test` or `go list` starts failing because of vendoring drift, run `make dep`.
-
-## Changelog
-
-See `CHANGELOG.md` for release notes.
