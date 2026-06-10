@@ -6,8 +6,21 @@ import (
 	"github.com/alexfalkowski/go-service/v2/bytes"
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/errors"
+	"github.com/alexfalkowski/go-service/v2/meta"
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
+)
+
+const (
+	// FailureStageKey is the safe metadata key used to identify setup-stage
+	// migration failures for transport diagnostics.
+	FailureStageKey = "migrateErrorStage"
+
+	// FailureStageSource identifies failures while resolving a migration source.
+	FailureStageSource = "source"
+
+	// FailureStageURL identifies failures while resolving a database URL.
+	FailureStageURL = "url"
 )
 
 // IsNotFound reports whether err indicates that the requested database name was
@@ -17,6 +30,45 @@ import (
 // status code (for example gRPC NotFound / HTTP 404).
 func IsNotFound(err error) bool {
 	return errors.Is(err, migrate.ErrNotFound)
+}
+
+// IsCanceled reports whether err indicates the caller canceled migration work.
+func IsCanceled(err error) bool {
+	return errors.Is(err, migrate.ErrMigrationCanceled)
+}
+
+// IsDeadlineExceeded reports whether err indicates migration work exceeded the
+// request deadline.
+func IsDeadlineExceeded(err error) bool {
+	return errors.Is(err, migrate.ErrMigrationDeadlineExceeded)
+}
+
+// IsInvalidConfig reports whether err indicates invalid migration configuration.
+func IsInvalidConfig(err error) bool {
+	return errors.Is(err, migrate.ErrInvalidConfig)
+}
+
+// IsInvalidMigration reports whether err indicates a migration execution failure.
+func IsInvalidMigration(err error) bool {
+	return errors.Is(err, migrate.ErrInvalidMigration)
+}
+
+// FailureKind returns a stable, safe diagnostic kind for err.
+func FailureKind(ctx context.Context, err error) string {
+	switch {
+	case IsNotFound(err):
+		return "not_found"
+	case IsCanceled(err):
+		return "canceled"
+	case IsDeadlineExceeded(err):
+		return "deadline_exceeded"
+	case !meta.Attribute(ctx, FailureStageKey).IsEmpty(), IsInvalidConfig(err):
+		return "invalid_config"
+	case IsInvalidMigration(err):
+		return "invalid_migration"
+	default:
+		return "unknown"
+	}
 }
 
 // NewMigrator constructs a transport-facing [Migrator].
@@ -62,11 +114,13 @@ func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) (cont
 
 	source, err := d.GetSource(s.fs)
 	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair(FailureStageKey, meta.String(FailureStageSource)))
 		return ctx, nil, err
 	}
 
 	url, err := d.GetURL(s.fs)
 	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair(FailureStageKey, meta.String(FailureStageURL)))
 		return ctx, nil, err
 	}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/alexfalkowski/go-service/v2/os"
 	"github.com/alexfalkowski/go-service/v2/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/internal/migrate/source"
 )
 
 // NewNoopChecker returns a checker that always reports healthy.
@@ -16,14 +17,14 @@ func NewNoopChecker() *checker.NoopChecker {
 
 // NewMigrator constructs a health checker for one configured migration target.
 //
-// The checker resolves the database URL through fs, then pings the migrator
-// with the provided timeout.
+// The checker resolves the migration source and database URL through fs, then
+// validates both within the provided timeout.
 func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator, timeout time.Duration) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator, timeout: timeout}
 }
 
-// Migrator checks whether a configured migration target can be resolved and
-// pinged successfully.
+// Migrator checks whether a configured migration target can resolve its source
+// and ping its database successfully.
 type Migrator struct {
 	db       *migrate.Database
 	fs       *os.FS
@@ -31,9 +32,14 @@ type Migrator struct {
 	timeout  time.Duration
 }
 
-// Check resolves the database URL, then pings the target database within the
-// configured timeout.
+// Check resolves the migration source and database URL, then validates the
+// source and pings the target database within the configured timeout.
 func (c *Migrator) Check(ctx context.Context) error {
+	src, err := c.db.GetSource(c.fs)
+	if err != nil {
+		return err
+	}
+
 	url, err := c.db.GetURL(c.fs)
 	if err != nil {
 		return err
@@ -41,6 +47,10 @@ func (c *Migrator) Check(ctx context.Context) error {
 
 	ctx, cancel := context.WithTimeout(ctx, c.timeout)
 	defer cancel()
+
+	if err := source.Check(ctx, bytes.String(src)); err != nil {
+		return err
+	}
 
 	_, err = c.migrator.Ping(ctx, bytes.String(url))
 	return err

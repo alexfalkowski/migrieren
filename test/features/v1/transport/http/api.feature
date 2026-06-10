@@ -52,6 +52,7 @@ Feature: HTTP API
       | invalid_port   |       1 |
       | postgres       |       3 |
 
+  @reset
   Scenario: Migrate erroneous databases
     Given I set the proxy for service 'postgres' to 'close_all'
     And I should see "postgres" as unhealthy
@@ -59,4 +60,3 @@ Feature: HTTP API
       | database | postgres |
       | version  |        1 |
     Then I should receive an invalid migration from HTTP
-    And I should reset the proxy for service 'postgres'

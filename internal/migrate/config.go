@@ -11,7 +11,7 @@ var ErrNotFound = errors.New("not found")
 
 // Config defines the configured migration targets for the service.
 type Config struct {
-	Databases []*Database `yaml:"databases,omitempty" json:"databases,omitempty" toml:"databases,omitempty" validate:"dive,required"`
+	Databases []*Database `yaml:"databases" json:"databases" toml:"databases" validate:"gt=0,unique=Name,dive,required"`
 }
 
 // Database returns the configured database entry with name.

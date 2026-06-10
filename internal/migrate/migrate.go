@@ -17,6 +17,14 @@ var (
 	// ErrInvalidMigration happened.
 	ErrInvalidMigration = errors.New("invalid migration")
 
+	// ErrMigrationCanceled is returned when migration execution stops because
+	// the request context was canceled.
+	ErrMigrationCanceled = errors.New("migration canceled")
+
+	// ErrMigrationDeadlineExceeded is returned when migration execution stops
+	// because the request context deadline expired.
+	ErrMigrationDeadlineExceeded = errors.New("migration deadline exceeded")
+
 	// ErrInvalidPing happened.
 	ErrInvalidPing = errors.New("invalid ping")
 )
@@ -55,28 +63,34 @@ type Migrator struct{}
 //     execution failures.
 //   - error: nil on success; otherwise one of:
 //     [ErrInvalidConfig] (cannot open src/db),
-//     [ErrInvalidMigration] (migration failed).
+//     [ErrInvalidMigration] (migration failed),
+//     [ErrMigrationCanceled] (request context canceled),
+//     [ErrMigrationDeadlineExceeded] (request context deadline expired).
 //
 // The underlying migrate.ErrNoChange is treated as a successful no-op; logs are
 // still returned.
 func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) (context.Context, []string, error) {
-	migrator, err := m.newMigrator(src, db)
+	if err := ctx.Err(); err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, nil, migrationError(err)
+	}
+
+	migrator, err := m.newMigrator(ctx, src, db)
 	if err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
 		return ctx, nil, ErrInvalidConfig
 	}
-	defer migrator.Close()
 
 	logger := logger.New()
 	migrator.Log = logger
 
-	if err := migrator.Migrate(uint(version)); err != nil {
+	if err := m.migrate(ctx, migrator, version); err != nil {
 		if errors.Is(err, migrate.ErrNoChange) {
 			return ctx, logger.Logs(), nil
 		}
 
 		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
-		return ctx, logger.Logs(), ErrInvalidMigration
+		return ctx, logger.Logs(), migrationError(err)
 	}
 
 	return ctx, logger.Logs(), nil
@@ -106,16 +120,67 @@ func (m *Migrator) Ping(ctx context.Context, db string) (context.Context, error)
 	return ctx, nil
 }
 
-func (m *Migrator) newMigrator(src, db string) (*migrate.Migrate, error) {
+func (m *Migrator) newMigrator(ctx context.Context, src, db string) (*migrate.Migrate, error) {
 	s, err := source.Open(src)
 	if err != nil {
 		return nil, err
 	}
 
-	d, err := database.Open(db)
+	d, err := database.Open(ctx, db)
 	if err != nil {
+		_ = s.Close()
 		return nil, err
 	}
 
-	return migrate.NewWithInstance(src, s, db, d)
+	migrator, err := migrate.NewWithInstance(src, s, db, d)
+	if err != nil {
+		_ = s.Close()
+		_ = d.Close()
+
+		return nil, err
+	}
+
+	return migrator, nil
+}
+
+func (m *Migrator) migrate(ctx context.Context, migrator *migrate.Migrate, version uint64) error {
+	if err := ctx.Err(); err != nil {
+		_, _ = migrator.Close()
+		return err
+	}
+
+	result := make(chan error, 1)
+
+	go func() {
+		result <- migrator.Migrate(uint(version))
+	}()
+
+	select {
+	case err := <-result:
+		_, _ = migrator.Close()
+		return err
+	case <-ctx.Done():
+		// Close can wait behind an in-flight statement, so cancellation must
+		// return promptly and leave driver cleanup to finish asynchronously.
+		select {
+		case migrator.GracefulStop <- true:
+		default:
+		}
+		go func() {
+			_, _ = migrator.Close()
+		}()
+
+		return ctx.Err()
+	}
+}
+
+func migrationError(err error) error {
+	switch {
+	case errors.Is(err, context.Canceled):
+		return ErrMigrationCanceled
+	case errors.Is(err, context.DeadlineExceeded):
+		return ErrMigrationDeadlineExceeded
+	default:
+		return ErrInvalidMigration
+	}
 }

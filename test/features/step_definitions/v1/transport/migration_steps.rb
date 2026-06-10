@@ -16,3 +16,7 @@ def expect_postgres_accounts(version)
   expect(Migrieren.pg.account_count).to be > 0
   expect(Migrieren.pg.column?('accounts', 'update_at')).to eq(version == 2)
 end
+
+Then('I should not see a completed timeout migration') do
+  expect(Migrieren.pg.timeout_migration_version).to be_nil
+end

@@ -1,0 +1,32 @@
+environment: development
+health:
+  duration: 1s
+  timeout: 1s
+id:
+  kind: uuid
+migrate:
+  databases: []
+telemetry:
+  logger:
+    kind: text
+    level: info
+  metrics:
+    kind: prometheus
+  tracer:
+    kind: otlp
+    url: http://localhost:4318/v1/traces
+transport:
+  http:
+    address: tcp://:11000
+    limiter:
+      kind: user-id
+      tokens: 1000
+      interval: 1s
+    timeout: 5s
+  grpc:
+    address: tcp://:12000
+    limiter:
+      kind: user-id
+      tokens: 1000
+      interval: 1s
+    timeout: 5s

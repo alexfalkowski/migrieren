@@ -2,7 +2,7 @@
 
 When('the system requests the health status with gRPC') do
   request = Grpc::Health::V1::HealthCheckRequest.new(service: 'migrieren.v1.Service')
-  @response = Migrieren.health_grpc.check(request)
+  @response = Migrieren.health_grpc.check(request, Migrieren.grpc_options)
 end
 
 Then('the system should respond with a healthy status with gRPC') do

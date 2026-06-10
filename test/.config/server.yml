@@ -30,6 +30,12 @@ migrate:
     - name: github
       source: file:secrets/github
       url: file:secrets/pg
+    - name: timeout
+      source: file:secrets/timeout_source
+      url: file:secrets/timeout_pg
+    - name: logs
+      source: file:secrets/log_source
+      url: file:secrets/log_pg
 telemetry:
   logger:
     kind: text

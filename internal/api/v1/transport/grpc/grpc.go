@@ -36,5 +36,13 @@ func (s *Server) error(err error) error {
 		return status.SafeError(codes.NotFound, err)
 	}
 
+	if migrate.IsCanceled(err) {
+		return status.SafeError(codes.Canceled, err)
+	}
+
+	if migrate.IsDeadlineExceeded(err) {
+		return status.SafeError(codes.DeadlineExceeded, err)
+	}
+
 	return status.SafeError(codes.Internal, err)
 }
