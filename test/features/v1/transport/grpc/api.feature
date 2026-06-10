@@ -36,6 +36,46 @@ Feature: gRPC API
     Then I should receive an invalid argument migration from gRPC
 
   @clean
+  Scenario: Stop migration when request deadline expires
+    When I request to migrate with gRPC:
+      | database | timeout |
+      | version  |       1 |
+    Then I should receive a stopped deadline migration from gRPC
+    And I should not see a completed timeout migration
+
+  @clean
+  Scenario: Stop migration when request is canceled
+    When I cancel a migration with gRPC:
+      | database | timeout |
+      | version  |       1 |
+    Then I should receive a canceled migration from gRPC
+    And I should not see a completed timeout migration
+
+  @clean
+  Scenario: Return bounded migration logs
+    When I request to migrate with gRPC:
+      | database | logs |
+      | version  |   40 |
+    Then I should receive bounded migration logs from gRPC
+
+  @clean
+  Scenario Outline: Return failure diagnostics
+    When I request to migrate with gRPC:
+      | database | <database> |
+      | version  | <version>  |
+    Then I should receive an invalid migration from gRPC
+    And I should receive failure diagnostics from gRPC:
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
+
+    Examples:
+      | database       | version | error             | logs    | stage  |
+      | missing_source |       1 | invalid_config    | empty   | source |
+      | missing_url    |       1 | invalid_config    | empty   | url    |
+      | postgres       |       3 | invalid_migration | present |        |
+
+  @clean
   Scenario Outline: Migrate misconfigured databases
     When I request to migrate with gRPC:
       | database | <database> |
@@ -52,6 +92,7 @@ Feature: gRPC API
       | invalid_port   |       1 |
       | postgres       |       3 |
 
+  @reset
   Scenario: Migrate erroneous databases
     Given I set the proxy for service 'postgres' to 'close_all'
     And I should see "postgres" as unhealthy
@@ -59,4 +100,3 @@ Feature: gRPC API
       | database | postgres |
       | version  |        1 |
     Then I should receive an invalid migration from gRPC
-    And I should reset the proxy for service 'postgres'

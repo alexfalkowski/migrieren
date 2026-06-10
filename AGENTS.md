@@ -58,6 +58,50 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   projection helpers (`healthConfig`, `migrateConfig`, `decorateConfig`).
   Missing top-level runtime sections should fail during config validation.
 
+### GitHub migration source in feature tests is intentional
+
+- The `github` migration target in `test/.config/server.yml` and
+  `test/secrets/github` is intentionally part of the regular HTTP/gRPC feature
+  scenarios.
+- This coverage verifies the wired `github://` source driver against the shared
+  remote fixture and should not be flagged as a reliability gap merely because
+  it is external to this repository.
+- Reviewers may still flag concrete breakage, missing credentials, or changed
+  upstream behavior if there is current evidence, but should not recommend
+  moving this coverage out of the default `make features` gate by default.
+
+### CI uses latest Mimir image by design
+
+- CircleCI currently uses `grafana/mimir:latest` for the auxiliary Mimir service
+  in the `build-service` job by design.
+- Reviewers should not flag the mutable Mimir tag as a reliability gap without a
+  concrete observed failure or incompatibility. The current preference is to
+  stay on `latest` until there is evidence that pinning is needed.
+
+### Docker publish shape is not a reliability gap by itself
+
+- The CircleCI Docker publish flow currently builds and pushes architecture
+  images in the publish jobs, then creates the multi-arch manifest.
+- Reviewers should not flag this release shape as a reliability gap solely
+  because build and push happen in the same job, because manifests are created
+  after push jobs, or because the workflow has `max_auto_reruns`.
+- Only raise a Docker publish reliability finding when there is concrete
+  evidence of a current failure mode, such as tag drift, a published digest that
+  bypassed scanning, a confirmed side-effecting rerun problem, or an operator
+  rollback/reproducibility incident.
+
+### Dependency setup drift is covered by repo workflow
+
+- Dependency changes are expected to go through the repository Make targets from
+  `go.mak`, `grpc.mak`, and `ruby.mak`, and review PRs are expected to use the
+  shared `review-pr` workflow.
+- The `review-pr` path stages all local changes before committing, so dependency
+  files produced by those Make targets are committed with the PR.
+- Reviewers should not flag CI `make dep` or release `go mod tidy` as a
+  reliability gap merely because those commands can mutate dependency files.
+  Only raise a finding when there is concrete evidence of dependency drift that
+  the normal repo workflow failed to capture.
+
 ### Linting Ruby code
 
 Feature-test Ruby linting is typically run via:

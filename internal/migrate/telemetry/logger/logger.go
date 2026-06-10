@@ -6,6 +6,11 @@ import (
 	"sync"
 )
 
+const (
+	maxLogLines = 100
+	truncated   = "migration logs truncated"
+)
+
 // New returns an in-memory logger for migration output.
 func New() *Logger {
 	return &Logger{logs: make([]string, 0)}
@@ -26,6 +31,9 @@ func (l *Logger) Printf(format string, v ...any) {
 	defer l.mu.Unlock()
 
 	l.logs = append(l.logs, strings.TrimSpace(fmt.Sprintf(format, v...)))
+	if len(l.logs) > maxLogLines {
+		l.logs = append([]string{truncated}, l.logs[len(l.logs)-maxLogLines+1:]...)
+	}
 }
 
 // Logs returns the captured log lines in insertion order.
@@ -33,7 +41,7 @@ func (l *Logger) Logs() []string {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	return l.logs
+	return append([]string(nil), l.logs...)
 }
 
 // Verbose reports that verbose migration logging is enabled.

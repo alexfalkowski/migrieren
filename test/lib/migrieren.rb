@@ -3,6 +3,8 @@
 require 'securerandom'
 require 'yaml'
 require 'base64'
+require 'open3'
+require 'timeout'
 
 require 'pg'
 require 'grpc/health/v1/health_services_pb'
@@ -88,6 +90,24 @@ module Migrieren
     # @return [Hash] gRPC channel arguments compatible with `grpc` Ruby stubs
     def user_agent
       @user_agent ||= Nonnative::Header.grpc_user_agent('Migrieren-ruby-client/1.0 gRPC/1.0')
+    end
+
+    ##
+    # Returns bounded per-call options for gRPC feature-harness requests.
+    #
+    # The default deadline is slightly longer than the service transport
+    # timeout in `.config/server.yml`, so ordinary requests can finish while a
+    # stalled endpoint still fails before an outer Cucumber or CI timeout.
+    #
+    # @param metadata [Hash] additional request metadata
+    # @param deadline [Time, nil] optional deadline override for scenarios that
+    #   intentionally exercise request cancellation
+    # @return [Hash] options compatible with Ruby gRPC unary calls
+    def grpc_options(metadata: {}, deadline: nil)
+      {
+        metadata: { 'request-id' => SecureRandom.uuid }.merge(metadata),
+        deadline: deadline || (Time.now + 6)
+      }
     end
   end
 

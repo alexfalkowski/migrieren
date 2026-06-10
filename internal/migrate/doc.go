@@ -30,6 +30,9 @@
 //     database URL cannot be opened.
 //   - [ErrInvalidMigration] is returned when a migration attempt fails for
 //     reasons other than "no change".
+//   - [ErrMigrationCanceled] and [ErrMigrationDeadlineExceeded] are returned
+//     when migration execution stops because the request context is canceled or
+//     its deadline expires.
 //   - [ErrInvalidPing] is returned when pinging/inspecting the database fails.
 //
 // Underlying errors are attached to the provided context as metadata attributes

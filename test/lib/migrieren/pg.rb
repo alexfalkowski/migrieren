@@ -40,12 +40,16 @@ module Migrieren
     # - `accounts`
     # - `schema_migrations`
     # - `migrieren_schema_migrations`
+    # - `migrieren_timeout_schema_migrations`
+    # - `migrieren_log_schema_migrations`
     #
     # @return [void]
     def destroy
       @conn.exec('DROP TABLE IF EXISTS accounts')
       @conn.exec('DROP TABLE IF EXISTS schema_migrations')
       @conn.exec('DROP TABLE IF EXISTS migrieren_schema_migrations')
+      @conn.exec('DROP TABLE IF EXISTS migrieren_timeout_schema_migrations')
+      @conn.exec('DROP TABLE IF EXISTS migrieren_log_schema_migrations')
     end
 
     ##
@@ -59,6 +63,8 @@ module Migrieren
       @conn.exec('CREATE TABLE IF NOT EXISTS accounts (user_id serial PRIMARY KEY)')
       @conn.exec('CREATE TABLE IF NOT EXISTS schema_migrations (version bigint NOT NULL)')
       @conn.exec('CREATE TABLE IF NOT EXISTS migrieren_schema_migrations (version bigint NOT NULL)')
+      @conn.exec('CREATE TABLE IF NOT EXISTS migrieren_timeout_schema_migrations (version bigint NOT NULL)')
+      @conn.exec('CREATE TABLE IF NOT EXISTS migrieren_log_schema_migrations (version bigint NOT NULL)')
 
       destroy
     end
@@ -68,7 +74,9 @@ module Migrieren
     #
     # @return [Boolean] true when cleanup left no managed tables behind
     def destroyed?
-      !table?('accounts') && !table?('schema_migrations') && !table?('migrieren_schema_migrations')
+      !table?('accounts') && !table?('schema_migrations') &&
+        !table?('migrieren_schema_migrations') && !table?('migrieren_timeout_schema_migrations') &&
+        !table?('migrieren_log_schema_migrations')
     end
 
     ##
@@ -120,6 +128,18 @@ module Migrieren
     # @return [Integer, nil] the version, or nil when the table has no row
     def migration_version
       result = @conn.exec('SELECT version FROM migrieren_schema_migrations WHERE dirty = false LIMIT 1')
+
+      result.ntuples.zero? ? nil : result.getvalue(0, 0).to_i
+    end
+
+    ##
+    # Returns the clean migration version from the timeout migration table.
+    #
+    # @return [Integer, nil] the version, or nil when no clean timeout migration exists
+    def timeout_migration_version
+      return nil unless table?('migrieren_timeout_schema_migrations')
+
+      result = @conn.exec('SELECT version FROM migrieren_timeout_schema_migrations WHERE dirty = false LIMIT 1')
 
       result.ntuples.zero? ? nil : result.getvalue(0, 0).to_i
     end
