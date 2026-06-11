@@ -23,8 +23,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.28.0 h1:m8joTG7hrUfPZCzlaW8y6ZkDaxro95frteIvydXjfWE=
 github.com/alexfalkowski/go-health/v2 v2.28.0/go.mod h1:oIzLvkIhiXUbPSYQRW2Gezah+sW+ZEY9BcoOi/5Agxo=
-github.com/alexfalkowski/go-service/v2 v2.571.0 h1:ceQ0dZRoDrGYNsHJzhPSLtpdpjnfLe6sNQNFM0ylhZA=
-github.com/alexfalkowski/go-service/v2 v2.571.0/go.mod h1:8fOyiQi6A7ev1Xh1oULQyzZ2VPKMylJw38MLw5tunOk=
+github.com/alexfalkowski/go-service/v2 v2.572.0 h1:IPpHZeQAb4IWSKkmj+SOS3h9IqTtQbYmGiDu71IorLc=
+github.com/alexfalkowski/go-service/v2 v2.572.0/go.mod h1:SDhvs92QcY10dlm28qc2KAGAwBP60pvUA9pI81DgLVg=
 github.com/alexfalkowski/go-sync v1.24.0 h1:CrV+LITc8C78v01u9ATGvIgipmNtJlZWGWW1znFsdjM=
 github.com/alexfalkowski/go-sync v1.24.0/go.mod h1:2vmRtpHHSoGPIiXJ7j3lm0GK2SI32XbYvvrjrZ+eo/k=
 github.com/arl/statsviz v0.8.0 h1:O6GjjVxEDxcByAucOSl29HaGYLXsuwA3ujJw8H9E7/U=
@@ -379,8 +379,8 @@ golang.org/x/crypto v0.53.0/go.mod h1:DNLU434OwVakk9PzuwV8w62mAJpRJL3vsgcfp4Qnsi
 golang.org/x/net v0.0.0-20190311183353-d8887717615a/go.mod h1:t9HGtf8HONx5eT2rtn7q6eTqICYqUVnKs3thJo3Qplg=
 golang.org/x/net v0.0.0-20190603091049-60506f45cf65/go.mod h1:HSz+uSET+XFnRR8LxR5pz3Of3rY3CfYBVs4xY44aLks=
 golang.org/x/net v0.0.0-20210226172049-e18ecbb05110/go.mod h1:m0MpNAwzfU5UDzcl9v0D8zg8gWTRqZa9RBIspLL5mdg=
-golang.org/x/net v0.55.0 h1:bcvxaJn3e1U6InsFWt1JUq1aSjnRxLzT2rtD2KfkDF8=
-golang.org/x/net v0.55.0/go.mod h1:L5U2KuzuOe1lY7Z+aWVIKK6qEeJXnXV9yzGA+WCHJww=
+golang.org/x/net v0.56.0 h1:Rw8j/hFzGvJUZwNBXnAtf5sVDVt+65SK2C7IxCxZt5o=
+golang.org/x/net v0.56.0/go.mod h1:D3Ku6r+V6JROoZK144D2XfMHFcMq/0zSfLelVTCFKec=
 golang.org/x/oauth2 v0.0.0-20180821212333-d2e6202438be/go.mod h1:N/0e6XlmueqKjAGxoOufVs8QHGRruUQn6yWY3a++T0U=
 golang.org/x/oauth2 v0.36.0 h1:peZ/1z27fi9hUOFCAZaHyrpWG5lwe0RJEEEeH0ThlIs=
 golang.org/x/oauth2 v0.36.0/go.mod h1:YDBUJMTkDnJS+A4BP4eZBjCqtokkg1hODuPjwiGPO7Q=
