@@ -246,6 +246,7 @@ workflows:
               only: master
       - manifest-docker:
           context: docker
+          serial-group: << pipeline.project.slug >>/manifest-docker
           requires:
             - release-docker-amd64
             - release-docker-arm64
