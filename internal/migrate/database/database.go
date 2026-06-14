@@ -87,6 +87,15 @@ func openPGX(ctx context.Context, u *url.URL) (database.Driver, error) {
 }
 
 // Ping opens databaseURL and verifies that the database can be reached with ctx.
+//
+// It parses databaseURL with the same supported scheme set as [Open]. Empty,
+// malformed, and unsupported-scheme URLs return [ErrInvalidURL] or
+// [ErrUnsupportedDriver]. Driver-specific option parsing errors, telemetry open
+// errors, and ping failures are returned as-is.
+//
+// Ping opens a telemetry-instrumented database handle, calls PingContext with
+// ctx, and closes the handle before returning. It does not register DB stats
+// metrics or create a migrate database driver.
 func Ping(ctx context.Context, databaseURL string) error {
 	u, err := url.Parse(databaseURL)
 	if err != nil {

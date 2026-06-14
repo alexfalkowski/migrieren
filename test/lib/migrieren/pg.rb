@@ -8,8 +8,10 @@ module Migrieren
   # by step definitions to perform direct database setup/teardown tasks outside
   # of the Migrieren API.
   #
-  # The helper connects to a local Postgres server using the `pg` gem with a
-  # fixed URI intended for the test environment.
+  # The helper connects directly to the backing local Postgres server using the
+  # `pg` gem with a fixed URI intended for the test environment. This direct
+  # connection uses `localhost:5432`; the service under test reaches the same
+  # database through the nonnative proxy configured at `localhost:5433`.
   #
   # @example Dropping test tables between scenarios
   #   Migrieren.pg.destroy
@@ -55,8 +57,9 @@ module Migrieren
     ##
     # Seeds the managed tables, then runs {#destroy}.
     #
-    # This verifies the cleanup path from the feature harness without modeling it
-    # as an application feature.
+    # This exercises the cleanup path from the feature harness without modeling
+    # it as an application feature. Callers must check {#destroyed?}, or use the
+    # support hook, to assert the cleanup postcondition.
     #
     # @return [void]
     def verify_destroy
@@ -117,6 +120,9 @@ module Migrieren
     ##
     # Returns the number of rows in the accounts fixture table.
     #
+    # This is intended for post-migration assertions. If `accounts` has not been
+    # created yet, the underlying `pg` exception is raised.
+    #
     # @return [Integer] row count
     def account_count
       @conn.exec('SELECT COUNT(*) FROM accounts').getvalue(0, 0).to_i
@@ -124,6 +130,10 @@ module Migrieren
 
     ##
     # Returns the current clean migration version from the configured migration table.
+    #
+    # This is intended for post-migration assertions. If
+    # `migrieren_schema_migrations` has not been created yet, the underlying `pg`
+    # exception is raised.
     #
     # @return [Integer, nil] the version, or nil when the table has no row
     def migration_version
