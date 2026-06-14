@@ -10,6 +10,11 @@ import (
 //
 // It embeds the shared go-service configuration and adds service-specific
 // health and migration settings.
+//
+// Health, Migrate, and the embedded shared config are required runtime
+// sections. Configuration validation is expected to run before the DI projection
+// helpers below are called, so those helpers intentionally return the configured
+// sections directly instead of materializing empty fallback structs.
 type Config struct {
 	Health         *health.Config  `yaml:"health,omitempty" json:"health,omitempty" toml:"health,omitempty" validate:"required"`
 	Migrate        *migrate.Config `yaml:"migrate,omitempty" json:"migrate,omitempty" toml:"migrate,omitempty" validate:"required"`

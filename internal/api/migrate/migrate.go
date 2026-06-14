@@ -54,6 +54,11 @@ func IsInvalidMigration(err error) bool {
 }
 
 // FailureKind returns a stable, safe diagnostic kind for err.
+//
+// The returned value is one of "not_found", "canceled", "deadline_exceeded",
+// "invalid_config", "invalid_migration", or "unknown". A context carrying
+// [FailureStageKey] is classified as "invalid_config" so source/URL resolution
+// failures are reported consistently by transports.
 func FailureKind(ctx context.Context, err error) string {
 	switch {
 	case IsNotFound(err):
@@ -106,6 +111,11 @@ type Migrator struct {
 // metadata, plus migration logs from the core migrator. If the database name
 // does not exist in the configuration, this returns an error that wraps
 // `internal/migrate.ErrNotFound` (detectable via [IsNotFound]).
+//
+// Source and URL resolution failures return the underlying filesystem error and
+// a derived context containing [FailureStageKey] set to [FailureStageSource] or
+// [FailureStageURL]. [FailureKind] maps those staged failures to
+// "invalid_config" for transport diagnostics.
 func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) (context.Context, []string, error) {
 	d, err := s.config.Database(db)
 	if d == nil {

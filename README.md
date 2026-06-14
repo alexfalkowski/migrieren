@@ -37,7 +37,7 @@ Database URLs use the `pgx5://` scheme in config and secrets. Internally the ser
 
 ## ✅ Prerequisites
 
-- Go `1.26.0` or newer.
+- Go, using the version declared in `go.mod`.
 - Ruby and Bundler for the feature-test harness under `test/`.
 - The `bin/` git submodule. Most `make` targets delegate into scripts under that submodule.
 
@@ -68,6 +68,9 @@ This builds `./migrieren` in the repository root.
 
 > [!WARNING]
 > The checked-in test config points Postgres at `localhost:5433` and OTLP tracing at `http://localhost:4318/v1/traces`. Start the local feature-test services or provide your own config before expecting migrations, health checks, and tracing to succeed.
+> In the feature harness, `localhost:5433` is a nonnative fault-injection proxy
+> to a backing Postgres instance on `localhost:5432`; both ports must line up
+> with either the local harness or your replacement config.
 
 For live reload during local development:
 
@@ -259,8 +262,10 @@ Transport behavior is intentionally simple:
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
 
-For gRPC requests that reach migration execution and then fail, the server also
-adds failure diagnostics as trailers:
+For gRPC requests that pass request validation and then fail, the server also
+adds failure diagnostics as trailers. This includes unknown database names and
+source/URL resolution failures as well as core migration failures; a zero
+version returns `InvalidArgument` before this trailer path runs.
 
 - `migration-error`: one of `not_found`, `canceled`, `deadline_exceeded`,
   `invalid_config`, `invalid_migration`, or `unknown`.
@@ -291,6 +296,12 @@ The sample test config also enables:
 - text logging,
 - Prometheus metrics, and
 - OTLP tracing with `http://localhost:4318/v1/traces`.
+
+GitHub migration sources have one health-check exception: `/healthz` parses a
+configured `github://` source but does not open the remote repository during the
+health check. The remote source is opened during migration execution, so GitHub
+reachability failures can still appear on a migration request after health has
+reported on the configured target.
 
 ## 🛠️ Development
 
@@ -333,7 +344,9 @@ The Ruby harness under `test/` assumes:
 
 - HTTP server on `http://localhost:11000`
 - gRPC server on `localhost:12000`
-- Postgres reachable on `localhost:5433`
+- Postgres reachable by the service on `localhost:5433`
+- A backing local Postgres instance on `localhost:5432` for the nonnative proxy
+  and direct harness cleanup/assertion helpers
 
 The feature harness process wiring lives in `test/nonnative.yml`.
 

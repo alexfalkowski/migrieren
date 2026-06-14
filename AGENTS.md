@@ -138,7 +138,7 @@ Note: `.gitmodules` points `bin` at `git@github.com:alexfalkowski/bin.git` (SSH 
 
 ## 1) Project type
 
-- **Primary**: Go service (`go.mod` module `github.com/alexfalkowski/migrieren`, `go 1.26.0`).
+- **Primary**: Go service (`go.mod` module `github.com/alexfalkowski/migrieren`; use the Go version declared there).
 - **API**: Protobuf/gRPC in `api/`, managed by `buf`.
 - **Integration/feature tests**: Ruby + Cucumber in `test/`.
 
