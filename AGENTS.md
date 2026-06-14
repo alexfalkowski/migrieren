@@ -40,14 +40,14 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
     - any environment assumptions (localhost ports, DB URI).
   - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
 
-### Telemetry fail-fast behavior is intentional
+### Database telemetry setup errors are returned by design
 
 - In `internal/migrate/database/database.go`, failures from `telemetry.Open(...)`
-  and `telemetry.RegisterDBStatsMetrics(...)` are intentionally treated as
-  startup/runtime invariants and use `runtime.Must(...)` by design.
-- Reviewers should not flag those specific panic paths as accidental error
-  handling; the intended behavior is to fail fast if database telemetry cannot
-  be initialized.
+  and `telemetry.RegisterDBStatsMetrics(...)` are intentionally returned through
+  the migration or ping path.
+- Reviewers should not suggest converting those setup failures to
+  `runtime.Must(...)` fail-fast paths without a concrete service startup
+  invariant that requires changing the current runtime behavior.
 
 ### Top-level runtime config sections are required
 

@@ -20,8 +20,15 @@ module Migrieren
         #
         # Errors use InvalidArgument for zero versions, NotFound for unknown
         # databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
-        # configuration, source, database, or migration failures. Failure diagnostics
-        # are returned in response metadata/trailers when available.
+        # configuration, source, database, or migration failures.
+        #
+        # gRPC failures from migration execution include trailers when the request
+        # reaches the migrator:
+        # - migration-error: not_found, canceled, deadline_exceeded, invalid_config,
+        #   invalid_migration, or unknown.
+        # - migration-log-count: the number of migration log lines returned.
+        # - migration-stage: source or url when configuration resolution failed.
+        # - migration-log-last: the last migration log line when logs were captured.
         rpc :Migrate, ::Migrieren::V1::MigrateRequest, ::Migrieren::V1::MigrateResponse
       end
 

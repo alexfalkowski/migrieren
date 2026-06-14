@@ -10,6 +10,10 @@ import (
 var ErrNotFound = errors.New("not found")
 
 // Config defines the configured migration targets for the service.
+//
+// Databases must be non-empty and each entry must have a unique Name. The
+// service validates that every configured entry is present before startup
+// completes.
 type Config struct {
 	Databases []*Database `yaml:"databases" json:"databases" toml:"databases" validate:"gt=0,unique=Name,dive,required"`
 }
@@ -30,6 +34,8 @@ func (c *Config) Database(name string) (*Database, error) {
 //
 // Source and URL are resolved through the service filesystem abstraction so they
 // can point at literal values or external sources such as `file:...`.
+//
+// Name, Source, and URL are all required configuration fields.
 type Database struct {
 	Name   string `yaml:"name,omitempty" json:"name,omitempty" toml:"name,omitempty" validate:"required"`
 	Source string `yaml:"source,omitempty" json:"source,omitempty" toml:"source,omitempty" validate:"required"`

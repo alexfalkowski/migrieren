@@ -37,9 +37,9 @@ module Migrieren
     ##
     # Returns the observability client used by tests.
     #
-    # This client is provided by the `nonnative` test utilities and is used by
-    # observability-related steps to query or assert on telemetry emitted by the
-    # service.
+    # This client is provided by the `nonnative` test utilities and is available
+    # to feature-harness code that needs to query or assert on telemetry emitted
+    # by the service.
     #
     # The client points at the service's HTTP endpoint.
     #
@@ -99,7 +99,11 @@ module Migrieren
     # timeout in `.config/server.yml`, so ordinary requests can finish while a
     # stalled endpoint still fails before an outer Cucumber or CI timeout.
     #
-    # @param metadata [Hash] additional request metadata
+    # Each call includes a generated `request-id` metadata value. Caller-provided
+    # metadata is merged afterward, so scenarios can override that value when
+    # they need a specific request identifier.
+    #
+    # @param metadata [Hash] request metadata merged after the generated default
     # @param deadline [Time, nil] optional deadline override for scenarios that
     #   intentionally exercise request cancellation
     # @return [Hash] options compatible with Ruby gRPC unary calls

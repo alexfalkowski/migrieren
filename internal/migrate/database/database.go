@@ -31,11 +31,10 @@ var telemetryAttrs = telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 // the exported sentinel errors in this package. Driver-specific option parsing
 // errors, such as invalid pgx query parameters, are returned as-is.
 //
-// Telemetry wiring is treated differently on purpose: failures from
-// telemetry.Open or telemetry.RegisterDBStatsMetrics are considered
-// process-level misconfiguration/invariant violations for this service, so this
-// function fails fast via runtime.Must rather than degrading to a runtime
-// migration error.
+// Telemetry setup errors from telemetry.Open or
+// telemetry.RegisterDBStatsMetrics are returned to the caller. Migration paths
+// map those setup failures through the core migrator's invalid-config error,
+// while health/ping paths return the underlying setup or connectivity error.
 func Open(ctx context.Context, databaseURL string) (database.Driver, error) {
 	u, err := url.Parse(databaseURL)
 	if err != nil {
