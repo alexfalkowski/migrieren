@@ -18,7 +18,8 @@ func NewNoopChecker() *checker.NoopChecker {
 // NewMigrator constructs a health checker for one configured migration target.
 //
 // The checker resolves the migration source and database URL through fs, then
-// validates both within the provided timeout.
+// validates the source reference and database connectivity within the provided
+// timeout.
 func NewMigrator(db *migrate.Database, fs *os.FS, migrator *migrate.Migrator, timeout time.Duration) *Migrator {
 	return &Migrator{db: db, fs: fs, migrator: migrator, timeout: timeout}
 }
@@ -33,7 +34,9 @@ type Migrator struct {
 }
 
 // Check resolves the migration source and database URL, then validates the
-// source and pings the target database within the configured timeout.
+// source reference and pings the target database within the configured timeout.
+// GitHub source checks are syntax-only; the remote source is opened during
+// migration execution.
 func (c *Migrator) Check(ctx context.Context) error {
 	src, err := c.db.GetSource(c.fs)
 	if err != nil {

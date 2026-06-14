@@ -21,12 +21,17 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Migration for a specific database and version with logs.
+// Migration reports the target database, version, and bounded migrate logs.
 type Migration struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Database      string                 `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
-	Version       uint64                 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
-	Logs          []string               `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// database is the configured logical database name requested by the caller.
+	Database string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
+	// version is the target migration version echoed from the request.
+	Version uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	// logs contains in-memory migrate log lines collected during execution.
+	// The service caps this list at 100 entries and marks truncation with
+	// "migration logs truncated" as the first entry.
+	Logs          []string `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -82,11 +87,13 @@ func (x *Migration) GetLogs() []string {
 	return nil
 }
 
-// MigrateRequest for a specific database and version.
+// MigrateRequest identifies a configured database and target schema version.
 type MigrateRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Database      string                 `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
-	Version       uint64                 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// database is the configured logical database name, not a raw database URL.
+	Database string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
+	// version is the target migration version. It must be greater than zero.
+	Version       uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -135,11 +142,13 @@ func (x *MigrateRequest) GetVersion() uint64 {
 	return 0
 }
 
-// MigrateResponse for a specific database and version.
+// MigrateResponse contains response metadata and the migration result.
 type MigrateResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Meta          map[string]string      `protobuf:"bytes,1,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Migration     *Migration             `protobuf:"bytes,2,opt,name=migration,proto3" json:"migration,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// meta contains request metadata emitted by the service runtime.
+	Meta map[string]string `protobuf:"bytes,1,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// migration echoes the requested database/version and collected logs.
+	Migration     *Migration `protobuf:"bytes,2,opt,name=migration,proto3" json:"migration,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

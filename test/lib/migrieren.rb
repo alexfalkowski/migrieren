@@ -26,10 +26,10 @@ require 'migrieren/v1/service_services_pb'
 # - centralize shared configuration such as gRPC user-agent headers.
 #
 # @example Using the HTTP façade client
-#   Migrieren::V1.server_http.migrate('test', 1)
+#   Migrieren::V1.server_http.migrate('postgres', 1)
 #
 # @example Using the gRPC API stub
-#   req = Migrieren::V1::MigrateRequest.new(database: 'test', version: 1)
+#   req = Migrieren::V1::MigrateRequest.new(database: 'postgres', version: 1)
 #   Migrieren::V1.server_grpc.migrate(req)
 #
 module Migrieren

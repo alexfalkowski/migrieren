@@ -32,8 +32,9 @@ var (
 // NewMigrator creates a new [Migrator] instance.
 //
 // The returned migrator is stateless; each call to [Migrator.Migrate] or
-// [Migrator.Ping] creates a new underlying github.com/golang-migrate/migrate/v4
-// engine instance and ensures resources are closed before returning.
+// [Migrator.Ping] creates fresh underlying resources. Migration resources are
+// closed before returning on normal completion and closed asynchronously when an
+// in-flight migration is stopped by context cancellation or deadline expiry.
 func NewMigrator() *Migrator {
 	return &Migrator{}
 }
@@ -60,7 +61,8 @@ type Migrator struct{}
 //     source/database setup or migration execution fails.
 //   - logs: in-memory migration logs captured during the operation. Logs may be
 //     returned on successful migrations, no-op migrations, and migration
-//     execution failures.
+//     execution failures. At most 100 entries are returned; truncation is marked
+//     by "migration logs truncated" as the first entry.
 //   - error: nil on success; otherwise one of:
 //     [ErrInvalidConfig] (cannot open src/db),
 //     [ErrInvalidMigration] (migration failed),
@@ -100,7 +102,8 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 //
 // Ping does not apply any migrations. It pings the database with ctx instead
 // of using golang-migrate's Version path, because the pgx migrate driver does
-// not accept a request context for Version.
+// not accept a request context for Version. Ping does not inspect or open a
+// migration source.
 //
 // Returns the input context, or a derived context containing "pingError" when
 // database configuration or connectivity inspection fails, plus nil on success

@@ -181,7 +181,7 @@ Run `make help` for the full list (help is generated from Makefile comments).
 Example run using the repo’s dev/test config:
 
 ```sh
-./migrieren server -i file:test/.config/server.yml
+./migrieren server -config file:test/.config/server.yml
 ```
 
 There is also a dev helper:
@@ -190,7 +190,7 @@ There is also a dev helper:
 make dev
 ```
 
-(Observed: `dev` uses `air` and runs `make dep build` before launching `./migrieren server -i file:test/.config/server.yml`.)
+(Observed: `dev` uses `air` and runs `make dep build` before launching `./migrieren server -config file:test/.config/server.yml`.)
 
 ### Test
 
@@ -275,6 +275,7 @@ From repo root:
 ```sh
 make proto-generate
 make proto-breaking
+make proto-stale
 make proto-lint
 make proto-format
 ```
@@ -299,6 +300,7 @@ CircleCI (`.circleci/config.yml`) does roughly:
 - `make dep`
 - `make lint`
 - `make proto-breaking`
+- `make proto-stale`
 - `make sec`
 - `make trivy-repo`
 - `make features`
@@ -368,7 +370,7 @@ Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
 ### Error handling
 
 - Domain errors are exported vars in packages and returned upward (e.g. migrate errors in `internal/migrate/migrate.go`).
-- gRPC transport maps a “not found” error to `codes.NotFound` and everything else to `codes.Internal` (`internal/api/v1/transport/grpc/grpc.go`).
+- gRPC transport maps “not found” to `codes.NotFound`, cancellation to `codes.Canceled`, deadlines to `codes.DeadlineExceeded`, and other migration failures to `codes.Internal` (`internal/api/v1/transport/grpc/grpc.go`).
 - Migration errors are attached to request metadata via `meta.WithAttribute(...)`.
 
 ### Formatting / lint
