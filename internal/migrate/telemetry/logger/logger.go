@@ -26,6 +26,10 @@ type Logger struct {
 }
 
 // Printf formats and stores a log line.
+//
+// The logger keeps at most 100 entries. When that limit is exceeded, the first
+// entry is replaced with "migration logs truncated" and the remaining entries
+// are the latest log lines.
 func (l *Logger) Printf(format string, v ...any) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -37,6 +41,9 @@ func (l *Logger) Printf(format string, v ...any) {
 }
 
 // Logs returns the captured log lines in insertion order.
+//
+// A first entry of "migration logs truncated" means earlier log lines were
+// discarded to keep only the latest 100 entries.
 func (l *Logger) Logs() []string {
 	l.mu.RLock()
 	defer l.mu.RUnlock()

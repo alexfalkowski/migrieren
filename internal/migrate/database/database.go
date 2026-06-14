@@ -27,8 +27,9 @@ var telemetryAttrs = telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 // the remaining request duration. A shorter configured statement timeout is
 // preserved.
 //
-// URL handling errors are returned to the caller via the exported sentinel
-// errors in this package.
+// Empty, malformed, and unsupported-scheme URLs are returned to the caller via
+// the exported sentinel errors in this package. Driver-specific option parsing
+// errors, such as invalid pgx query parameters, are returned as-is.
 //
 // Telemetry wiring is treated differently on purpose: failures from
 // telemetry.Open or telemetry.RegisterDBStatsMetrics are considered

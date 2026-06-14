@@ -1,17 +1,15 @@
 // Package migrate provides the core migration engine used by the service.
 //
 // This package wraps github.com/golang-migrate/migrate/v4 to perform database
-// schema migrations and to "ping" databases to verify connectivity and basic
-// migrator health.
+// schema migrations and to "ping" databases to verify connectivity.
 //
 // # Overview
 //
 // The primary type is [Migrator], which offers:
 //
-//   - [Migrator.Migrate] to migrate a database to a target version, returning
-//     in-memory migration logs.
-//   - [Migrator.Ping] to validate that the migration source and database can be
-//     opened and that the database is reachable.
+//   - [Migrator.Migrate] to open a migration source and database, migrate the
+//     database to a target version, and return in-memory migration logs.
+//   - [Migrator.Ping] to validate that the database can be opened and reached.
 //
 // The migrator operates on two string inputs:
 //
@@ -41,13 +39,18 @@
 // # Logs
 //
 // Migration logs are captured in memory and returned from [Migrator.Migrate] as
-// a slice of strings. When the underlying migrate engine reports
-// migrate.ErrNoChange, it is treated as a successful no-op and the accumulated
-// logs are still returned.
+// a slice of strings. The logger keeps at most 100 entries; when output exceeds
+// that cap, the first returned entry is "migration logs truncated" and the
+// remaining entries are the latest log lines. When the underlying migrate
+// engine reports migrate.ErrNoChange, it is treated as a successful no-op and
+// the accumulated logs are still returned.
 //
 // # Resource management
 //
 // The underlying migrate engine allocates resources for both the migration
-// source and the database connection. This package closes those resources after
-// each operation before returning to the caller.
+// source and the database connection. Normal completion closes those resources
+// before returning to the caller. When the request context is canceled or its
+// deadline expires while a migration is running, this package requests a
+// graceful stop and closes resources asynchronously so cancellation can return
+// promptly.
 package migrate

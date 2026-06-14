@@ -191,7 +191,7 @@ Response:
 - `meta`: request metadata emitted by the service runtime.
 - `migration.database`: echoed database name.
 - `migration.version`: echoed target version.
-- `migration.logs`: in-memory migration log lines collected during execution.
+- `migration.logs`: in-memory migration log lines collected during execution. Returned logs are capped at 100 entries and start with `migration logs truncated` when older lines were discarded.
 
 Conceptual request:
 
@@ -231,6 +231,10 @@ Transport behavior is intentionally simple:
 - Configuration, source, database, or migration failures:
   - gRPC: `Internal`
   - HTTP: `500`
+- Request canceled by the caller:
+  - gRPC: `Canceled`
+- Request deadline exceeded:
+  - gRPC: `DeadlineExceeded`
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
 
@@ -278,6 +282,7 @@ make coverage
 make proto-generate
 make proto-lint
 make proto-breaking
+make proto-stale
 ```
 
 What those do in this repository:
@@ -332,7 +337,11 @@ Lint and breaking-change checks:
 ```sh
 make proto-lint
 make proto-breaking
+make proto-stale
 ```
+
+`make proto-stale` verifies generated protobuf outputs are current; CI runs it
+after the breaking-change check.
 
 Generation is configured in `api/buf.gen.yaml` and currently writes:
 

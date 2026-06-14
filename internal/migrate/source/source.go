@@ -10,6 +10,10 @@ import (
 
 // Check validates that sourceURL can be used as a migration source without
 // making unbounded external dependency calls.
+//
+// GitHub sources are parsed but not opened here, because the upstream source
+// driver does not expose a request-scoped timeout hook. The actual GitHub source
+// is opened later during migration execution.
 func Check(ctx context.Context, sourceURL string) error {
 	if err := ctx.Err(); err != nil {
 		return err

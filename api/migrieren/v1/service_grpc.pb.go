@@ -26,9 +26,14 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// Service allows to migrate databases.
+// Service runs configured database migrations.
 type ServiceClient interface {
-	// Migrate a specific database to version.
+	// Migrate migrates a configured database to the requested version.
+	//
+	// Errors use InvalidArgument for zero versions, NotFound for unknown
+	// databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
+	// configuration, source, database, or migration failures. Failure diagnostics
+	// are returned in response metadata/trailers when available.
 	Migrate(ctx context.Context, in *MigrateRequest, opts ...grpc.CallOption) (*MigrateResponse, error)
 }
 
@@ -54,9 +59,14 @@ func (c *serviceClient) Migrate(ctx context.Context, in *MigrateRequest, opts ..
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility.
 //
-// Service allows to migrate databases.
+// Service runs configured database migrations.
 type ServiceServer interface {
-	// Migrate a specific database to version.
+	// Migrate migrates a configured database to the requested version.
+	//
+	// Errors use InvalidArgument for zero versions, NotFound for unknown
+	// databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
+	// configuration, source, database, or migration failures. Failure diagnostics
+	// are returned in response metadata/trailers when available.
 	Migrate(context.Context, *MigrateRequest) (*MigrateResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }

@@ -7,7 +7,7 @@ require 'migrieren/v1/service_pb'
 module Migrieren
   module V1
     module Service
-      # Service allows to migrate databases.
+      # Service runs configured database migrations.
       class Service
 
         include ::GRPC::GenericService
@@ -16,7 +16,12 @@ module Migrieren
         self.unmarshal_class_method = :decode
         self.service_name = 'migrieren.v1.Service'
 
-        # Migrate a specific database to version.
+        # Migrate migrates a configured database to the requested version.
+        #
+        # Errors use InvalidArgument for zero versions, NotFound for unknown
+        # databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
+        # configuration, source, database, or migration failures. Failure diagnostics
+        # are returned in response metadata/trailers when available.
         rpc :Migrate, ::Migrieren::V1::MigrateRequest, ::Migrieren::V1::MigrateResponse
       end
 

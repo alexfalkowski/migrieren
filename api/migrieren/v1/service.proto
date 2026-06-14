@@ -5,27 +5,45 @@ package migrieren.v1;
 option go_package = "github.com/alexfalkowski/migrieren/api/migrieren/v1";
 option ruby_package = "Migrieren::V1";
 
-// Migration for a specific database and version with logs.
+// Migration reports the target database, version, and bounded migrate logs.
 message Migration {
+  // database is the configured logical database name requested by the caller.
   string database = 1;
+
+  // version is the target migration version echoed from the request.
   uint64 version = 2;
+
+  // logs contains in-memory migrate log lines collected during execution.
+  // The service caps this list at 100 entries and marks truncation with
+  // "migration logs truncated" as the first entry.
   repeated string logs = 3;
 }
 
-// MigrateRequest for a specific database and version.
+// MigrateRequest identifies a configured database and target schema version.
 message MigrateRequest {
+  // database is the configured logical database name, not a raw database URL.
   string database = 1;
+
+  // version is the target migration version. It must be greater than zero.
   uint64 version = 2;
 }
 
-// MigrateResponse for a specific database and version.
+// MigrateResponse contains response metadata and the migration result.
 message MigrateResponse {
+  // meta contains request metadata emitted by the service runtime.
   map<string, string> meta = 1;
+
+  // migration echoes the requested database/version and collected logs.
   Migration migration = 2;
 }
 
-// Service allows to migrate databases.
+// Service runs configured database migrations.
 service Service {
-  // Migrate a specific database to version.
+  // Migrate migrates a configured database to the requested version.
+  //
+  // Errors use InvalidArgument for zero versions, NotFound for unknown
+  // databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
+  // configuration, source, database, or migration failures. Failure diagnostics
+  // are returned in response metadata/trailers when available.
   rpc Migrate(MigrateRequest) returns (MigrateResponse) {}
 }
