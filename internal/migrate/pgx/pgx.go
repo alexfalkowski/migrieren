@@ -19,6 +19,20 @@ var ErrInvalidMigrationsTable = errors.New("migrate pgx: invalid migrations tabl
 type Config = pgx.Config
 
 // ParseConfig extracts golang-migrate pgx driver options from u.
+//
+// Supported pgx5 query parameters:
+//   - x-migrations-table: migration table name. When omitted, the upstream
+//     driver default is used.
+//   - x-migrations-table-quoted: boolean parsed with strconv.ParseBool. When
+//     true, x-migrations-table must include surrounding double quotes.
+//   - x-statement-timeout: integer statement timeout in milliseconds. Malformed
+//     integers reject the URL.
+//   - x-multi-statement: boolean parsed with strconv.ParseBool.
+//   - x-multi-statement-max-size: integer byte limit for multi-statement
+//     migrations. Empty or non-positive values use the upstream driver default.
+//
+// Malformed booleans or integers return parsing errors. An invalid quoted table
+// configuration returns [ErrInvalidMigrationsTable].
 func ParseConfig(u *url.URL) (*Config, error) {
 	query := u.Query()
 	migrationsTable, migrationsTableQuoted, err := parseMigrationsTableOptions(query)

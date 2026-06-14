@@ -128,7 +128,8 @@ transport:
 
 ### 🗄️ Migration database entries
 
-Each configured database entry has:
+`migrate.databases` must contain at least one entry. Each entry must have a
+unique `name` and all of these fields:
 
 - `name`: the logical database name used by the API request.
 - `source`: how to resolve the migration source URL.
@@ -159,11 +160,31 @@ migrate:
 
 ultimately migrates Postgres using the `file://migrations` source and the `pgx5://...` database URL resolved from those files.
 
+### 🐘 Postgres URL options
+
+Postgres targets use `pgx5://...` URLs. In addition to normal Postgres
+connection parameters, Migrieren recognizes these migration-driver query
+parameters:
+
+- `x-migrations-table`: migration table name. When omitted, the upstream driver
+  default is used.
+- `x-migrations-table-quoted`: boolean. When `true`, `x-migrations-table` must
+  include surrounding double quotes.
+- `x-statement-timeout`: statement timeout in milliseconds. Request deadlines
+  can lower this timeout for an individual migration or health check.
+- `x-multi-statement`: boolean enabling multi-statement migrations.
+- `x-multi-statement-max-size`: byte limit for multi-statement migrations.
+  Empty or non-positive values use the upstream driver default.
+
+Malformed boolean or integer values reject the configured database URL.
+
 ### 🧪 About the checked-in test config
 
 `test/.config/server.yml` intentionally contains both valid and invalid database definitions:
 
 - `postgres` and `github` are used for successful migration scenarios.
+- `timeout` is used for deadline and cancellation scenarios.
+- `logs` is used for bounded migration log scenarios.
 - `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, and `invalid_port` exist to exercise failure paths in feature tests.
 
 > [!IMPORTANT]
@@ -237,6 +258,15 @@ Transport behavior is intentionally simple:
   - gRPC: `DeadlineExceeded`
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
+
+For gRPC requests that reach migration execution and then fail, the server also
+adds failure diagnostics as trailers:
+
+- `migration-error`: one of `not_found`, `canceled`, `deadline_exceeded`,
+  `invalid_config`, `invalid_migration`, or `unknown`.
+- `migration-log-count`: number of migration log lines returned.
+- `migration-stage`: `source` or `url` when configuration resolution failed.
+- `migration-log-last`: last migration log line when logs were captured.
 
 ## 💓 Health and observability
 
