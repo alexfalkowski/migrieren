@@ -29,6 +29,9 @@ func Parse(raw string) (*URL, error) {
 
 // DatabaseURL converts a pgx5 migrate URL into the PostgreSQL URL consumed
 // by the underlying SQL driver.
+//
+// It also removes golang-migrate custom query parameters, so migration-only
+// options such as x-migrations-table are not passed to the SQL driver.
 func DatabaseURL(u *URL) string {
 	dbURL := *u
 	dbURL.Scheme = "postgres"

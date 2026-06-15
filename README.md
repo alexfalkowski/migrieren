@@ -72,6 +72,18 @@ This builds `./migrieren` in the repository root.
 > to a backing Postgres instance on `localhost:5432`; both ports must line up
 > with either the local harness or your replacement config.
 
+If you use this repository's shared local Docker environment, start and stop it with:
+
+```sh
+make start
+make stop
+```
+
+Those targets manage the shared sibling Docker checkout and may require SSH access
+to that repository. If you do not use them, provide an equivalent local Postgres
+database named `test` with user/password `test:test` on `localhost:5432`; the
+feature harness exposes it to the service through the proxy on `localhost:5433`.
+
 For live reload during local development:
 
 ```sh
@@ -93,6 +105,15 @@ The API accepts a logical database name such as `postgres`. The service then:
 4. Passes the resolved source URL and database URL to the core migrator.
 
 That means `source` and `url` in the YAML config are usually references to files or other resolvable inputs, not the final literal migration/source strings themselves.
+
+The resolver accepts the shared go-service source-string forms:
+
+- `env:NAME`: reads the value of environment variable `NAME`. An omitted or
+  unset variable fails resolution; an explicitly empty variable resolves to an
+  empty value.
+- `file:<path>`: reads the file at `<path>`. Relative paths are resolved from
+  the server process working directory.
+- any other value: used as the literal migration source URL or database URL.
 
 ## ⚙️ Configuration
 
@@ -242,6 +263,14 @@ Content-Type: application/json
 }
 ```
 
+Copy-paste request against the local HTTP façade:
+
+```sh
+curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
+  -H 'Content-Type: application/json' \
+  -d '{"database":"postgres","version":1}'
+```
+
 ### 🚦 Error mapping
 
 Transport behavior is intentionally simple:
@@ -257,8 +286,10 @@ Transport behavior is intentionally simple:
   - HTTP: `500`
 - Request canceled by the caller:
   - gRPC: `Canceled`
+  - HTTP: `499` (`Client Closed Request`, non-standard)
 - Request deadline exceeded:
   - gRPC: `DeadlineExceeded`
+  - HTTP: `504`
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
 

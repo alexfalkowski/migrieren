@@ -54,7 +54,9 @@ type Migrator struct{}
 //   - ctx: a service context used for metadata/telemetry.
 //   - src: migration source URL (for example "file://...").
 //   - db: database URL (for example a Postgres URL).
-//   - version: the target migration version.
+//   - version: the target migration version. Public API callers must reject
+//     zero before calling Migrate; this method forwards the value to
+//     golang-migrate.
 //
 // Output:
 //   - ctx: the input context, or a derived context containing "migrateError" when

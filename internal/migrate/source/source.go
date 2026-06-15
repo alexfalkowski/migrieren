@@ -44,6 +44,8 @@ func Check(ctx context.Context, sourceURL string) error {
 // imports. Open does not accept a context or per-call timeout; callers that need
 // bounded validation should use [Check], which intentionally avoids opening
 // GitHub sources during health checks.
+//
+// Callers own the returned driver and must close it after successful opens.
 func Open(sourceURL string) (source.Driver, error) {
 	return source.Open(sourceURL)
 }

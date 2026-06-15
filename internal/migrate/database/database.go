@@ -35,6 +35,9 @@ var telemetryAttrs = telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 // telemetry.RegisterDBStatsMetrics are returned to the caller. Migration paths
 // map those setup failures through the core migrator's invalid-config error,
 // while health/ping paths return the underlying setup or connectivity error.
+//
+// Callers own the returned driver and must close it. Closing releases the
+// underlying database driver and unregisters DB stats metrics.
 func Open(ctx context.Context, databaseURL string) (database.Driver, error) {
 	u, err := url.Parse(databaseURL)
 	if err != nil {
