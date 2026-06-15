@@ -107,6 +107,10 @@ type Migrator struct {
 // database URL are read via the filesystem abstraction, then passed to the core
 // migrator.
 //
+// This adapter does not perform public request validation such as rejecting a
+// zero version; transport callers that expose the migrieren.v1 API must enforce
+// that contract before calling Migrate.
+//
 // Returns the input context, or a derived context when the core migrator adds
 // metadata, plus migration logs from the core migrator. If the database name
 // does not exist in the configuration, this returns an error that wraps
