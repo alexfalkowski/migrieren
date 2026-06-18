@@ -22,23 +22,23 @@ jobs:
       - restore_cache:
           name: restore go cache
           keys:
-            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-cache-
       - restore_cache:
           name: restore ruby cache
           keys:
-            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}-{{ checksum ".source-key" }}
+            - migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
             - migrieren-ruby-cache-
       - run: make clean
       - run: make dep
       - save_cache:
           name: save go cache
-          key: migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+          key: migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
           paths:
             - ~/go/pkg/mod
       - save_cache:
           name: save ruby cache
-          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}-{{ checksum ".source-key" }}
+          key: migrieren-ruby-cache-{{ checksum "test/Gemfile.lock" }}-{{ checksum "~/.ruby-version" }}
           paths:
             - test/vendor
       - restore_cache:
@@ -100,7 +100,7 @@ jobs:
       - restore_cache:
           name: restore go cache
           keys:
-            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}-{{ checksum ".source-key" }}
+            - migrieren-go-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-version" }}
             - migrieren-go-cache-
       - restore_cache:
           name: restore go build cache
