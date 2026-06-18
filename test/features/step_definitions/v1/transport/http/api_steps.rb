@@ -34,13 +34,12 @@ end
 
 def request_with_http(table)
   rows = table.rows_hash
-  opts = {
+  opts = Migrieren.http_options(
     headers: {
-      request_id: SecureRandom.uuid, user_agent: 'Migrieren-ruby-client/1.0 HTTP/1.0',
+      user_agent: 'Migrieren-ruby-client/1.0 HTTP/1.0',
       content_type: :json, accept: :json
-    },
-    read_timeout: 10, open_timeout: 10
-  }
+    }
+  )
 
   Migrieren::V1.server_http.migrate(rows['database'], rows['version'].to_i, opts)
 end

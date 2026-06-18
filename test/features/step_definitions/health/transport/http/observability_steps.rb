@@ -2,10 +2,7 @@
 
 When('the system requests the {string} with HTTP') do |name|
   @observability_name = name
-  @observability_opts = {
-    headers: { request_id: SecureRandom.uuid },
-    read_timeout: 10, open_timeout: 10
-  }
+  @observability_opts = Migrieren.http_options
 end
 
 Then('the system should respond with a healthy status with HTTP') do
