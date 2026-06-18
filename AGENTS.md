@@ -115,6 +115,14 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   Only raise a finding when there is concrete evidence of dependency drift that
   the normal repo workflow failed to capture.
 
+### Local CI preflight target belongs in shared bin tooling
+
+- This repository consumes shared Make targets from the `bin/` submodule.
+- If a one-command local CI preflight target is needed, it should be added to
+  the shared `bin` Make fragments rather than as a service-local target here.
+- Reviewers should not flag the lack of a root `verify`/`ci-checks` target in
+  this repository as a feature gap by default.
+
 ### Linting Ruby code
 
 Feature-test Ruby linting is typically run via:
@@ -124,6 +132,16 @@ make -C test lint
 ```
 
 (Directly invoking bundler/rubocop may not work unless run through the repo’s Makefile wiring.)
+
+### Ruby feature harness endpoints are local by design
+
+- The Ruby code under `test/` is a local feature-test harness, not production
+  service code.
+- Fixed localhost endpoints in `test/lib/**`, `test/nonnative.yml`, and related
+  feature helpers are intentional local harness assumptions unless there is
+  concrete evidence of current workflow breakage.
+- Reviewers should not flag the lack of environment-configurable HTTP, gRPC,
+  observability, or direct Postgres endpoints as a feature gap by default.
 
 ## 0) First check
 
