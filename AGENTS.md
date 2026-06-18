@@ -83,6 +83,30 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   upstream-supported hook becomes available, or the project explicitly decides
   to own a local GitHub source wrapper.
 
+### pgx advisory lock timeout behavior is an accepted library shortcoming
+
+- The wired Postgres migration path uses the upstream `golang-migrate/migrate`
+  pgx driver through `pgx.WithInstance(...)`.
+- That upstream constructor path can call `ensureVersionTable` and acquire the
+  migration advisory lock before Migrieren reaches its request-context-aware
+  migration goroutine.
+- Do not keep resurfacing that constructor-time advisory lock wait as a
+  repository-owned reliability gap by default. Treat it as an accepted upstream
+  library shortcoming unless there is concrete production evidence, a simpler
+  upstream-supported hook becomes available, or the project explicitly decides
+  to own a local pgx driver wrapper/fork.
+
+### Health probe names are reserved by convention
+
+- Health wiring uses internal probe names such as `noop` and `online`.
+- Migration database names are not currently validation-blocked from using
+  those values, but those names are reserved by convention and are documented as
+  such.
+- Reviewers should not keep resurfacing the hypothetical `noop`/`online`
+  database-name collision as a reliability gap by default. Only raise it with
+  concrete evidence of production/config misuse, or if the project explicitly
+  decides to enforce reserved health probe names in config validation.
+
 ### CI uses latest Mimir image by design
 
 - CircleCI currently uses `grafana/mimir:latest` for the auxiliary Mimir service

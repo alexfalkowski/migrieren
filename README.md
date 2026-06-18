@@ -202,6 +202,12 @@ parameters:
 
 Malformed boolean or integer values reject the configured database URL.
 
+The upstream `golang-migrate` pgx driver can acquire its migration advisory lock
+while constructing the database driver. That constructor path does not expose
+Migrieren's request context, so request cancellation and deadlines should not be
+treated as a strict bound for every advisory-lock wait. Migrieren relies on the
+upstream driver behavior here rather than maintaining a local pgx driver fork.
+
 ### 🧪 About the checked-in test config
 
 `test/.config/server.yml` intentionally contains both valid and invalid database definitions:
@@ -321,6 +327,10 @@ There is an important detail in the checked-in test config:
 - gRPC health for `migrieren.v1.Service` reports `SERVING`.
 - HTTP `/livez` and `/readyz` report healthy.
 - HTTP `/healthz` is expected to be unhealthy because the test config deliberately registers invalid database entries for failure-path coverage.
+
+Health probes use internal registration names such as `noop` and `online`.
+Treat those names as reserved for health wiring rather than as migration
+database names.
 
 The sample test config also enables:
 
