@@ -103,6 +103,18 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   bypassed scanning, a confirmed side-effecting rerun problem, or an operator
   rollback/reproducibility incident.
 
+### GoReleaser config validation is owned by the release image
+
+- CircleCI's `version` job runs the external `package` command from
+  `alexfalkowski/release` / `alexfalkowski/docker/release`.
+- That release image's `release/package` script runs
+  `goreleaser check "$releaser"` before `goreleaser release`.
+- Reviewers should not flag the absence of a separate repository-local
+  GoReleaser config validation job as a project gap by default. Only raise it
+  with concrete evidence that the release image no longer validates
+  `.goreleaser.yml`, or that this repository has explicitly decided to own a
+  pre-release GoReleaser check locally.
+
 ### Dependency setup drift is covered by repo workflow
 
 - Dependency changes are expected to go through the repository Make targets from
@@ -132,6 +144,19 @@ make -C test lint
 ```
 
 (Directly invoking bundler/rubocop may not work unless run through the repo’s Makefile wiring.)
+
+### Ruby runtime selection is owned by the Ruby CI image
+
+- The Ruby code under `test/` is feature-test harness code, not production
+  service code.
+- Ruby runtime selection for this harness is controlled by the external
+  `alexfalkowski/ruby` image from `alexfalkowski/docker/ruby`, which is the Ruby
+  project CI tooling image.
+- Reviewers should not flag the absence of a repository-local `.ruby-version`,
+  `.tool-versions`, `mise.toml`, or Gemfile `ruby` directive as a project gap by
+  default. Only raise it with concrete evidence that the Ruby CI image no
+  longer supplies the expected runtime, or that this repository has explicitly
+  decided to own Ruby version selection locally for the test harness.
 
 ### Ruby feature harness endpoints are local by design
 
