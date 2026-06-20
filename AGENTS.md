@@ -2,11 +2,9 @@
 
 This repository is a Go service (plus a Ruby feature-test harness) that runs database migrations via a gRPC API and an HTTP RPC façade.
 
-## Shared skills
+## Shared guidance
 
-This repository uses the shared skills from `bin/skills/`. Read
-`bin/AGENTS.md` for the canonical shared skill list and use the smallest
-matching skill for the task.
+Use `bin/AGENTS.md` for shared skills and cross-repository defaults.
 
 ## Recent session notes (keep for future sessions)
 
@@ -39,24 +37,6 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
     - endpoint/route mapping for HTTP helpers,
     - any environment assumptions (localhost ports, DB URI).
   - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
-
-### Submodule bootstrap assumptions
-
-- The root `Makefile` is intentionally a thin include wrapper around `bin/`.
-  It is not expected to work as a no-submodule bootstrap shim when
-  `bin/build/make/*.mak` files are absent.
-- If a checkout has not populated the `bin` submodule files yet, run the raw
-  bootstrap command directly:
-
-  ```sh
-  git submodule sync && git submodule update --init
-  ```
-
-- Do **not** flag the lack of a root-owned `make submodule` fallback as a
-  project workflow gap.
-- The SSH submodule URL is intentional for this repository. Read-only users may
-  override it in local Git configuration, but reviewers should not flag the SSH
-  default as a setup or project workflow gap.
 
 ### Database telemetry setup errors are returned by design
 
@@ -140,26 +120,10 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
 - Reviewers should not flag this release shape as a reliability gap solely
   because build and push happen in the same job, because manifests are created
   after push jobs, or because the workflow has `max_auto_reruns`.
-- Docker image validation jobs intentionally run on non-master branches and are
-  not required again before the master `version`/`package` release step. Do not
-  flag the lack of master-branch `test-docker-*` gating before release writes
-  as a project workflow gap by default.
 - Only raise a Docker publish reliability finding when there is concrete
   evidence of a current failure mode, such as tag drift, a published digest that
   bypassed scanning, a confirmed side-effecting rerun problem, or an operator
   rollback/reproducibility incident.
-
-### GoReleaser config validation is owned by the release image
-
-- CircleCI's `version` job runs the external `package` command from
-  `alexfalkowski/release` / `alexfalkowski/docker/release`.
-- That release image's `release/package` script runs
-  `goreleaser check "$releaser"` before `goreleaser release`.
-- Reviewers should not flag the absence of a separate repository-local
-  GoReleaser config validation job as a project gap by default. Only raise it
-  with concrete evidence that the release image no longer validates
-  `.goreleaser.yml`, or that this repository has explicitly decided to own a
-  pre-release GoReleaser check locally.
 
 ### Dependency setup drift is covered by repo workflow
 
@@ -173,14 +137,6 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   Only raise a finding when there is concrete evidence of dependency drift that
   the normal repo workflow failed to capture.
 
-### Local CI preflight target belongs in shared bin tooling
-
-- This repository consumes shared Make targets from the `bin/` submodule.
-- If a one-command local CI preflight target is needed, it should be added to
-  the shared `bin` Make fragments rather than as a service-local target here.
-- Reviewers should not flag the lack of a root `verify`/`ci-checks` target in
-  this repository as a feature gap by default.
-
 ### Linting Ruby code
 
 Feature-test Ruby linting is typically run via:
@@ -191,36 +147,6 @@ make -C test lint
 
 (Directly invoking bundler/rubocop may not work unless run through the repo’s Makefile wiring.)
 
-### Ruby runtime selection is owned by the Ruby CI image
-
-- The Ruby code under `test/` is feature-test harness code, not production
-  service code.
-- Ruby runtime selection for this harness is controlled by the external
-  `alexfalkowski/ruby` image from `alexfalkowski/docker/ruby`, which is the Ruby
-  project CI tooling image.
-- Reviewers should not flag the absence of a repository-local `.ruby-version`,
-  `.tool-versions`, `mise.toml`, or Gemfile `ruby` directive as a project gap by
-  default. Only raise it with concrete evidence that the Ruby CI image no
-  longer supplies the expected runtime, or that this repository has explicitly
-  decided to own Ruby version selection locally for the test harness.
-
-### Ruby feature harness endpoints are local by design
-
-- The Ruby code under `test/` is a local feature-test harness, not production
-  service code.
-- Fixed localhost endpoints in `test/lib/**`, `test/nonnative.yml`, and related
-  feature helpers are intentional local harness assumptions unless there is
-  concrete evidence of current workflow breakage.
-- Reviewers should not flag the lack of environment-configurable HTTP, gRPC,
-  observability, or direct Postgres endpoints as a feature gap by default.
-
-### Cucumber report artifacts
-
-- Feature and benchmark Cucumber runs intentionally share the configured HTML
-  report path in `test/.config/cucumber.yml`. Treat the JUnit XML reports and
-  coverage files as the durable CI artifacts; do not flag the lack of separate
-  feature and benchmark HTML report paths as a project workflow gap by default.
-
 ## 0) First check
 
 If `bin/` is missing, most `make` targets will fail.
@@ -229,8 +155,6 @@ If `bin/` is missing, most `make` targets will fail.
 git submodule sync
 git submodule update --init
 ```
-
-Note: `.gitmodules` points `bin` at `git@github.com:alexfalkowski/bin.git` (SSH URL). You need SSH access/keys for submodule init.
 
 ## 1) Project type
 
@@ -384,15 +308,6 @@ make -C api breaking
 make -C api lint
 make -C api format
 ```
-
-### Proto breaking baseline naming convention
-
-- `make proto-breaking` intentionally uses the shared `bin/build/make/buf.mak`
-  convention that derives the GitHub repository name from the checkout
-  directory basename.
-- This repository is expected to be checked out as `migrieren` for that
-  workflow. Do **not** flag the lack of a local `NAME := migrieren` override in
-  `api/Makefile` as a project workflow gap.
 
 Observed generation behavior (`api/buf.gen.yaml`):
 - Go protobuf + Go gRPC stubs output into `api/` (source-relative).
