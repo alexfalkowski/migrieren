@@ -8,7 +8,7 @@ Use `bin/AGENTS.md` for shared skills and cross-repository defaults.
 
 ## Recent session notes (keep for future sessions)
 
-### Vendoring can break `go list` / `go test`
+### Vendoring can break Go tooling
 
 If you see “inconsistent vendoring” errors, run:
 
@@ -105,13 +105,11 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   concrete evidence of production/config misuse, or if the project explicitly
   decides to enforce reserved health probe names in config validation.
 
-### CI uses latest Mimir image by design
+### CI auxiliary service selection is intentional
 
-- CircleCI currently uses `grafana/mimir:latest` for the auxiliary Mimir service
-  in the `build-service` job by design.
-- Reviewers should not flag the mutable Mimir tag as a reliability gap without a
-  concrete observed failure or incompatibility. The current preference is to
-  stay on `latest` until there is evidence that pinning is needed.
+- CircleCI owns the auxiliary Mimir service used by the `build-service` job.
+- Reviewers should not flag the service selection as a reliability gap without a
+  concrete observed failure or incompatibility.
 
 ### Docker publish shape is not a reliability gap by itself
 
@@ -132,10 +130,10 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   shared `review-pr` workflow.
 - The `review-pr` path stages all local changes before committing, so dependency
   files produced by those Make targets are committed with the PR.
-- Reviewers should not flag CI `make dep` or release `go mod tidy` as a
-  reliability gap merely because those commands can mutate dependency files.
-  Only raise a finding when there is concrete evidence of dependency drift that
-  the normal repo workflow failed to capture.
+- Reviewers should not flag dependency targets as a reliability gap merely
+  because they can mutate dependency files. Only raise a finding when there is
+  concrete evidence of dependency drift that the normal repo workflow failed to
+  capture.
 
 ### Linting Ruby code
 
@@ -145,20 +143,17 @@ Feature-test Ruby linting is typically run via:
 make -C test lint
 ```
 
-(Directly invoking bundler/rubocop may not work unless run through the repo’s Makefile wiring.)
+Use the Makefile wiring instead of direct Ruby tool commands.
 
 ## 0) First check
 
-If `bin/` is missing, most `make` targets will fail.
-
-```sh
-git submodule sync
-git submodule update --init
-```
+If `bin/` is missing, most `make` targets will fail. Use `make submodule` once
+the shared checkout is present; see `bin/AGENTS.md` for fresh-clone bootstrap
+details.
 
 ## 1) Project type
 
-- **Primary**: Go service (`go.mod` module `github.com/alexfalkowski/migrieren`; use the Go version declared there).
+- **Primary**: Go service; use `go.mod` for module path and toolchain details.
 - **API**: Protobuf/gRPC in `api/`, managed by `buf`.
 - **Integration/feature tests**: Ruby + Cucumber in `test/`.
 
@@ -175,8 +170,9 @@ Run `make help` for the full list (help is generated from Makefile comments).
   ```
 
   Observed behavior from Makefiles:
-  - Go: `go mod download`, `go mod tidy`, `go mod vendor`.
-  - Ruby (in `test/`): `bundler check || bundler install` with `bundler config set path vendor/bundle`.
+  - Go dependencies and vendor state are refreshed.
+  - Ruby harness dependencies in `test/` are installed through the shared Ruby
+    Make target.
 
 ### Build
 
@@ -198,19 +194,13 @@ Run `make help` for the full list (help is generated from Makefile comments).
 
 - The CLI entrypoint is `main.go` and registers a `server` command (`internal/cmd/server.go`).
 
-Example run using the repo’s dev/test config:
-
-```sh
-./migrieren server -config file:test/.config/server.yml
-```
-
-There is also a dev helper:
+Use the dev helper for local runtime work:
 
 ```sh
 make dev
 ```
 
-(Observed: `dev` uses `air` and runs `make dep build` before launching `./migrieren server -config file:test/.config/server.yml`.)
+(Observed: `dev` uses the shared live-reload path and the repo dev/test config.)
 
 ### Test
 
@@ -256,9 +246,9 @@ Notes (observed in Makefiles / `main_test.go`):
   ```
 
   Observed lint sources:
-  - Go: `bin/build/go/lint run` (golangci-lint wrapper) + `bin/build/go/fa`.
-  - Ruby: `bundler exec rubocop`.
-  - Protos: `buf lint`.
+  - Go linting through shared `bin` helpers.
+  - Ruby linting through the test harness Makefile.
+  - Protobuf linting through the API Makefile.
 
 - Auto-fix where possible:
 
@@ -277,8 +267,6 @@ Notes (observed in Makefiles / `main_test.go`):
   ```sh
   make sec
   ```
-
-  Observed: `govulncheck -show verbose -test ./...`.
 
 - Repo scan (Trivy):
 
@@ -316,7 +304,7 @@ Observed generation behavior (`api/buf.gen.yaml`):
 ## 3) CI / workflow notes (observed)
 
 CircleCI (`.circleci/config.yml`) does roughly:
-- init submodules
+- initialize submodules
 - `make dep`
 - `make lint`
 - `make proto-breaking`
@@ -413,12 +401,9 @@ Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
 - **Checked-in test config is intentionally mixed**: `test/.config/server.yml` contains both valid and invalid database entries to exercise failure paths in feature tests.
 - **Health behavior in tests is asymmetric by design**: gRPC health for `migrieren.v1.Service` is expected to be healthy, while HTTP `/healthz` is expected to be unhealthy because per-database checks include intentionally invalid entries.
 
-## 7) Tooling used by Make targets (non-exhaustive, observed)
+## 7) Tooling used by Make targets
 
-Some targets assume these tools exist on PATH (or are provided by the `bin/` submodule wrappers):
-- Go: `gotestsum`, `govulncheck`
-- Proto: `buf`
-- Ruby: `bundler`, `rubocop`, `cucumber`
-- Dev: `air`
-- Security/CI: `codecovcli`, `trivy` (invoked via `bin/`)
-- Misc targets reference: `mkcert`, `dot` (Graphviz), `goda`, `gsa`, `scc` (only if you run those specific targets)
+Some targets assume external tools exist on `PATH` or are provided by shared
+`bin` wrappers. Prefer the Make targets as the documented command surface, and
+only run direct tools for narrow diagnosis when a target reports a missing
+dependency.
