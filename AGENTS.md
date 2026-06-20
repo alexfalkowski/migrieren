@@ -40,6 +40,24 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
     - any environment assumptions (localhost ports, DB URI).
   - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
 
+### Submodule bootstrap assumptions
+
+- The root `Makefile` is intentionally a thin include wrapper around `bin/`.
+  It is not expected to work as a no-submodule bootstrap shim when
+  `bin/build/make/*.mak` files are absent.
+- If a checkout has not populated the `bin` submodule files yet, run the raw
+  bootstrap command directly:
+
+  ```sh
+  git submodule sync && git submodule update --init
+  ```
+
+- Do **not** flag the lack of a root-owned `make submodule` fallback as a
+  project workflow gap.
+- The SSH submodule URL is intentional for this repository. Read-only users may
+  override it in local Git configuration, but reviewers should not flag the SSH
+  default as a setup or project workflow gap.
+
 ### Database telemetry setup errors are returned by design
 
 - In `internal/migrate/database/database.go`, failures from `telemetry.Open(...)`
@@ -122,6 +140,10 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
 - Reviewers should not flag this release shape as a reliability gap solely
   because build and push happen in the same job, because manifests are created
   after push jobs, or because the workflow has `max_auto_reruns`.
+- Docker image validation jobs intentionally run on non-master branches and are
+  not required again before the master `version`/`package` release step. Do not
+  flag the lack of master-branch `test-docker-*` gating before release writes
+  as a project workflow gap by default.
 - Only raise a Docker publish reliability finding when there is concrete
   evidence of a current failure mode, such as tag drift, a published digest that
   bypassed scanning, a confirmed side-effecting rerun problem, or an operator
@@ -191,6 +213,13 @@ make -C test lint
   concrete evidence of current workflow breakage.
 - Reviewers should not flag the lack of environment-configurable HTTP, gRPC,
   observability, or direct Postgres endpoints as a feature gap by default.
+
+### Cucumber report artifacts
+
+- Feature and benchmark Cucumber runs intentionally share the configured HTML
+  report path in `test/.config/cucumber.yml`. Treat the JUnit XML reports and
+  coverage files as the durable CI artifacts; do not flag the lack of separate
+  feature and benchmark HTML report paths as a project workflow gap by default.
 
 ## 0) First check
 
@@ -355,6 +384,15 @@ make -C api breaking
 make -C api lint
 make -C api format
 ```
+
+### Proto breaking baseline naming convention
+
+- `make proto-breaking` intentionally uses the shared `bin/build/make/buf.mak`
+  convention that derives the GitHub repository name from the checkout
+  directory basename.
+- This repository is expected to be checked out as `migrieren` for that
+  workflow. Do **not** flag the lack of a local `NAME := migrieren` override in
+  `api/Makefile` as a project workflow gap.
 
 Observed generation behavior (`api/buf.gen.yaml`):
 - Go protobuf + Go gRPC stubs output into `api/` (source-relative).
