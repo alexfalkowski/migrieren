@@ -78,7 +78,7 @@ func parseMigrationsTableOptions(query url.Values) (string, bool, error) {
 	if err != nil {
 		return "", false, fmt.Errorf("unable to parse option x-migrations-table-quoted: %w", err)
 	}
-	if migrationsTable != "" && migrationsTableQuoted && (migrationsTable[0] != '"' || migrationsTable[len(migrationsTable)-1] != '"') {
+	if migrationsTableQuoted && (migrationsTable == "" || migrationsTable[0] != '"' || migrationsTable[len(migrationsTable)-1] != '"') {
 		return "", false, fmt.Errorf(
 			"%w: x-migrations-table must be quoted when x-migrations-table-quoted is enabled, current value is %q",
 			ErrInvalidMigrationsTable, migrationsTable,

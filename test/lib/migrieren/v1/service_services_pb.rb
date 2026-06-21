@@ -18,14 +18,15 @@ module Migrieren
 
         # Migrate migrates a configured database to the requested version.
         #
-        # Errors use InvalidArgument for zero versions, NotFound for unknown
-        # databases, Canceled/DeadlineExceeded for stopped requests, and Internal for
-        # configuration, source, database, or migration failures.
+        # Errors use InvalidArgument for versions outside the supported range,
+        # NotFound for unknown databases, Canceled/DeadlineExceeded for stopped
+        # requests, and Internal for configuration, source, database, or migration
+        # failures.
         #
         # gRPC failures after request validation include trailers when the request
         # reaches the transport migrator. This includes unknown database names and
-        # source/URL resolution failures; zero-version InvalidArgument responses do
-        # not use this trailer path.
+        # source/URL resolution failures; pre-migration validation InvalidArgument
+        # responses do not use this trailer path.
         # - migration-error: not_found, canceled, deadline_exceeded, invalid_config,
         #   invalid_migration, or unknown.
         # - migration-log-count: the number of migration log lines returned.

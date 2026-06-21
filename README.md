@@ -215,7 +215,7 @@ upstream driver behavior here rather than maintaining a local pgx driver fork.
 - `postgres` and `github` are used for successful migration scenarios.
 - `timeout` is used for deadline and cancellation scenarios.
 - `logs` is used for bounded migration log scenarios.
-- `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, and `invalid_port` exist to exercise failure paths in feature tests.
+- `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, `invalid_quoted_table`, and `invalid_port` exist to exercise failure paths in feature tests.
 
 > [!IMPORTANT]
 > The checked-in config is a test fixture. Use it for local development and feature coverage, but do not treat it as a healthy production config.
@@ -235,7 +235,7 @@ The service exposes:
 Request:
 
 - `database`: logical database name from config.
-- `version`: target migration version as `uint64`; must be greater than `0`.
+- `version`: target migration version as `uint64`; must be between `1` and the server-supported signed integer maximum.
 
 Response:
 
@@ -281,7 +281,7 @@ curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
 
 Transport behavior is intentionally simple:
 
-- Zero migration version:
+- Migration version outside the supported range:
   - gRPC: `InvalidArgument`
   - HTTP: `400`
 - Unknown database name:
@@ -301,8 +301,8 @@ The core migrator also treats `migrate.ErrNoChange` as a successful no-op and st
 
 For gRPC requests that pass request validation and then fail, the server also
 adds failure diagnostics as trailers. This includes unknown database names and
-source/URL resolution failures as well as core migration failures; a zero
-version returns `InvalidArgument` before this trailer path runs.
+source/URL resolution failures as well as core migration failures; invalid
+version values return `InvalidArgument` before this trailer path runs.
 
 - `migration-error`: one of `not_found`, `canceled`, `deadline_exceeded`,
   `invalid_config`, `invalid_migration`, or `unknown`.

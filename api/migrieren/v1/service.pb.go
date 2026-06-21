@@ -92,7 +92,8 @@ type MigrateRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// database is the configured logical database name, not a raw database URL.
 	Database string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
-	// version is the target migration version. It must be greater than zero.
+	// version is the target migration version. It must be greater than zero and
+	// fit within the server-supported signed integer range.
 	Version       uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

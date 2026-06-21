@@ -75,6 +75,8 @@ func openPGX(ctx context.Context, u *url.URL) (database.Driver, error) {
 
 	reg, err := telemetry.RegisterDBStatsMetrics(db, telemetryAttrs)
 	if err != nil {
+		_ = db.Close()
+
 		return nil, err
 	}
 
