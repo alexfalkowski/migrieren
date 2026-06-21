@@ -29,11 +29,16 @@ Feature: gRPC API
       | database | version |
       | missing  |       1 |
 
-  Scenario: Reject zero migration version
+  Scenario Outline: Reject <case> migration version
     When I request to migrate with gRPC:
-      | database | postgres |
-      | version  |        0 |
+      | database | postgres  |
+      | version  | <version> |
     Then I should receive an invalid argument migration from gRPC
+
+    Examples:
+      | case      | version             |
+      | zero      |                   0 |
+      | oversized | 9223372036854775808 |
 
   @clean
   Scenario: Stop migration when request deadline expires
@@ -83,14 +88,15 @@ Feature: gRPC API
     Then I should receive an invalid migration from gRPC
 
     Examples:
-      | database       | version |
-      | missing_source |       1 |
-      | invalid_source |       1 |
-      | missing_url    |       1 |
-      | invalid_url    |       1 |
-      | invalid_db     |       1 |
-      | invalid_port   |       1 |
-      | postgres       |       3 |
+      | database             | version |
+      | missing_source       |       1 |
+      | invalid_source       |       1 |
+      | missing_url          |       1 |
+      | invalid_url          |       1 |
+      | invalid_db           |       1 |
+      | invalid_quoted_table |       1 |
+      | invalid_port         |       1 |
+      | postgres             |       3 |
 
   @reset
   Scenario: Migrate erroneous databases

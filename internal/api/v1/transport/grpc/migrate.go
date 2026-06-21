@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"math"
 	"strconv"
 
 	"github.com/alexfalkowski/go-service/v2/context"
@@ -26,8 +27,8 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 		},
 	}
 
-	if ver == 0 {
-		return resp, status.Error(codes.InvalidArgument, "version must be greater than zero")
+	if ver == 0 || ver > math.MaxInt {
+		return resp, status.Error(codes.InvalidArgument, "version must be between 1 and math.MaxInt")
 	}
 
 	ctx, logs, err := s.migrator.Migrate(ctx, db, ver)

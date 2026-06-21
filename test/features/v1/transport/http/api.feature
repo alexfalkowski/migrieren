@@ -29,11 +29,16 @@ Feature: HTTP API
       | database | version |
       | missing  |       1 |
 
-  Scenario: Reject zero migration version
+  Scenario Outline: Reject <case> migration version
     When I request to migrate with HTTP:
-      | database | postgres |
-      | version  |        0 |
+      | database | postgres  |
+      | version  | <version> |
     Then I should receive an invalid argument migration from HTTP
+
+    Examples:
+      | case      | version             |
+      | zero      |                   0 |
+      | oversized | 9223372036854775808 |
 
   @clean
   Scenario Outline: Migrate misconfigured databases
@@ -43,14 +48,15 @@ Feature: HTTP API
     Then I should receive an invalid migration from HTTP
 
     Examples:
-      | database       | version |
-      | missing_source |       1 |
-      | invalid_source |       1 |
-      | missing_url    |       1 |
-      | invalid_url    |       1 |
-      | invalid_db     |       1 |
-      | invalid_port   |       1 |
-      | postgres       |       3 |
+      | database             | version |
+      | missing_source       |       1 |
+      | invalid_source       |       1 |
+      | missing_url          |       1 |
+      | invalid_url          |       1 |
+      | invalid_db           |       1 |
+      | invalid_quoted_table |       1 |
+      | invalid_port         |       1 |
+      | postgres             |       3 |
 
   @reset
   Scenario: Migrate erroneous databases
