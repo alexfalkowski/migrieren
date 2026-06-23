@@ -2,8 +2,8 @@
 // engine.
 //
 // This package is used by API/transport layers (for example gRPC or HTTP) to
-// execute migrations or inspect migration status by logical database name,
-// based on the service configuration.
+// execute migrations, inspect migration status, or list configured logical
+// database names based on the service configuration.
 //
 // # Responsibilities
 //
@@ -14,6 +14,8 @@
 //     service filesystem abstraction (see github.com/alexfalkowski/go-service/v2/os.FS).
 //   - Delegating migration execution and status inspection to the core migrator
 //     (see [github.com/alexfalkowski/migrieren/internal/migrate.Migrator]).
+//   - Listing configured logical database names without exposing source or URL
+//     values.
 //
 // The transport-facing API intentionally does not expose the underlying
 // source/URL resolution details to callers; callers typically provide only a

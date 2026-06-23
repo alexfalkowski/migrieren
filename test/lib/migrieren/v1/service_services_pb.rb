@@ -43,6 +43,11 @@ module Migrieren
         # depends on upstream migrate v4 context support, which is currently
         # incomplete in some database driver inspection paths.
         rpc :Status, ::Migrieren::V1::StatusRequest, ::Migrieren::V1::StatusResponse
+        # ListDatabases reports configured logical database names.
+        #
+        # This does not expose configured source strings, database URL strings, or
+        # resolved secret values.
+        rpc :ListDatabases, ::Migrieren::V1::ListDatabasesRequest, ::Migrieren::V1::ListDatabasesResponse
       end
 
       Stub = Service.rpc_stub_class

@@ -236,6 +236,7 @@ The service exposes:
 
 - `migrieren.v1.Service/Migrate`
 - `migrieren.v1.Service/Status`
+- `migrieren.v1.Service/ListDatabases`
 
 Request:
 
@@ -286,12 +287,31 @@ database: "postgres"
 > not accept Migrieren's request context until the upstream project provides
 > context-aware driver APIs.
 
+### 📋 Database discovery
+
+`migrieren.v1.Service/ListDatabases` reports configured logical database names
+from `migrate.databases` in config order.
+
+Request:
+
+- Empty request.
+
+Response:
+
+- `meta`: request metadata emitted by the service runtime.
+- `databases[].name`: configured logical database name.
+
+The response does not include configured `source` strings, configured `url`
+strings, resolved database URLs, resolved migration source URLs, or secret
+values.
+
 ### 🌐 HTTP façade
 
 The HTTP RPC façade exposes the same operation at:
 
 - `POST /migrieren.v1.Service/Migrate`
 - `POST /migrieren.v1.Service/Status`
+- `POST /migrieren.v1.Service/ListDatabases`
 
 Example:
 
@@ -319,6 +339,14 @@ Copy-paste status request against the local HTTP façade:
 curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Status \
   -H 'Content-Type: application/json' \
   -d '{"database":"postgres"}'
+```
+
+Copy-paste database discovery request against the local HTTP façade:
+
+```sh
+curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ListDatabases \
+  -H 'Content-Type: application/json' \
+  -d '{}'
 ```
 
 ### 🚦 Error mapping
