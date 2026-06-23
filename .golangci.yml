@@ -24,6 +24,9 @@ linters:
   settings:
     lll:
       line-length: 140
+    mnd:
+      ignored-numbers:
+        - "2"
   exclusions:
     generated: lax
     presets:

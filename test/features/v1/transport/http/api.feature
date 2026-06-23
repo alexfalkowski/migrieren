@@ -140,6 +140,38 @@ Feature: HTTP API
       | invalid_port                     |       1 |
       | postgres                         |       3 |
 
+  @clean
+  Scenario Outline: Return failure diagnostics
+    When I request to migrate with HTTP:
+      | database | <database> |
+      | version  | <version>  |
+    Then I should receive an invalid migration from HTTP
+    And I should receive failure diagnostics from HTTP:
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
+
+    Examples:
+      | database        | version | error             | logs    | stage  |
+      | missing_source  |       1 | invalid_config    | empty   | source |
+      | missing_url     |       1 | invalid_config    | empty   | url    |
+      | postgres        |       3 | invalid_migration | present |        |
+
+  @clean
+  Scenario Outline: Return apply failure diagnostics
+    When I request to apply migrations with HTTP:
+      | database | <database> |
+    Then I should receive an invalid migration from HTTP
+    And I should receive failure diagnostics from HTTP:
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
+
+    Examples:
+      | database       | error          | logs  | stage  |
+      | missing_source | invalid_config | empty | source |
+      | missing_url    | invalid_config | empty | url    |
+
   @reset
   Scenario: Migrate erroneous databases
     Given I set the proxy for service 'postgres' to 'close_all'

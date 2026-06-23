@@ -2,7 +2,6 @@ package grpc
 
 import (
 	"math"
-	"strconv"
 
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/meta"
@@ -12,7 +11,7 @@ import (
 	"github.com/alexfalkowski/go-service/v2/net/grpc/status"
 	"github.com/alexfalkowski/go-service/v2/strings"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/internal/api/migrate"
+	"github.com/alexfalkowski/migrieren/internal/diagnostics"
 )
 
 // Migrate executes the requested migration and returns response metadata and
@@ -32,26 +31,28 @@ func (s *Server) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Migra
 	}
 
 	ctx, logs, err := s.migrator.Migrate(ctx, db, ver)
+	setFailureTrailer(ctx, diagnostics.FromError(err))
 
 	resp.Meta = meta.CamelStrings(ctx, strings.Empty)
 	resp.Migration.Logs = logs
 
-	if err != nil {
-		values := []string{
-			"migration-error", migrate.FailureKind(ctx, err),
-			"migration-log-count", strconv.Itoa(len(logs)),
-		}
+	return resp, s.error(err)
+}
 
-		if stage := meta.Attribute(ctx, migrate.FailureStageKey); !stage.IsEmpty() {
-			values = append(values, "migration-stage", stage.String())
-		}
-
-		if len(logs) > 0 {
-			values = append(values, "migration-log-last", logs[len(logs)-1])
-		}
-
-		_ = grpc.SetTrailer(ctx, grpcmeta.Pairs(values...))
+func setFailureTrailer(ctx context.Context, values diagnostics.Values) {
+	pairs := failureDiagnosticPairs(values)
+	if len(pairs) == 0 {
+		return
 	}
 
-	return resp, s.error(err)
+	_ = grpc.SetTrailer(ctx, grpcmeta.Pairs(pairs...))
+}
+
+func failureDiagnosticPairs(values diagnostics.Values) []string {
+	pairs := make([]string, 0, len(values)*2)
+	for key, value := range values {
+		pairs = append(pairs, key, value)
+	}
+
+	return pairs
 }

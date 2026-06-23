@@ -24,14 +24,16 @@
 // # Not found handling
 //
 // When a database name is not present in the configuration,
-// [Migrator.Migrate] and [Migrator.Status] return a wrapped error that includes
-// the original sentinel error
+// [Migrator.Migrate], [Migrator.ApplyMigrations], and [Migrator.Status] return
+// a wrapped error that includes the original sentinel error
 // [github.com/alexfalkowski/migrieren/internal/migrate.ErrNotFound]. Use [IsNotFound]
 // to test for this condition when mapping errors to transport status codes.
 //
 // # Observability
 //
 // Underlying migration and driver errors are handled by the core migrator and
-// are typically attached to request metadata for telemetry. This adapter focuses
-// on configuration lookup and secret/source resolution.
+// are typically attached to request metadata for telemetry. Failed migration
+// requests also carry safe diagnostics on the returned error for transport
+// headers or trailers. This adapter focuses on configuration lookup,
+// secret/source resolution, and safe diagnostic classification.
 package migrate
