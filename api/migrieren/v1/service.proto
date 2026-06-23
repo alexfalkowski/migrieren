@@ -5,12 +5,13 @@ package migrieren.v1;
 option go_package = "github.com/alexfalkowski/migrieren/api/migrieren/v1";
 option ruby_package = "Migrieren::V1";
 
-// Migration reports the target database, version, and bounded migrate logs.
+// Migration reports the database, migration version, and bounded migrate logs.
 message Migration {
   // database is the configured logical database name requested by the caller.
   string database = 1;
 
-  // version is the target migration version echoed from the request.
+  // version is the target migration version for Migrate responses, or the
+  // resulting migration version for ApplyMigrations responses.
   uint64 version = 2;
 
   // logs contains in-memory migrate log lines collected during execution.
@@ -35,6 +36,23 @@ message MigrateResponse {
   map<string, string> meta = 1;
 
   // migration echoes the requested database/version and collected logs.
+  Migration migration = 2;
+}
+
+// ApplyMigrationsRequest identifies a configured database to converge.
+message ApplyMigrationsRequest {
+  // database is the configured logical database name, not a raw database URL.
+  string database = 1;
+}
+
+// ApplyMigrationsResponse contains response metadata and the resulting
+// migration state.
+message ApplyMigrationsResponse {
+  // meta contains request metadata emitted by the service runtime.
+  map<string, string> meta = 1;
+
+  // migration reports the requested database, resulting version, and collected
+  // logs.
   Migration migration = 2;
 }
 
@@ -121,6 +139,21 @@ service Service {
   // - migration-stage: source or url when configuration resolution failed.
   // - migration-log-last: the last migration log line when logs were captured.
   rpc Migrate(MigrateRequest) returns (MigrateResponse) {}
+
+  // ApplyMigrations applies all pending up migrations for a configured
+  // database.
+  //
+  // If the database is already current, the request succeeds as a no-op and
+  // reports the current migration version.
+  //
+  // Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+  // stopped requests, and Internal for configuration, source, database, final
+  // version inspection, or migration failures.
+  //
+  // As with Migrate and Status, strict request cancellation depends on upstream
+  // migrate v4 context support, which is currently incomplete in some database
+  // driver paths.
+  rpc ApplyMigrations(ApplyMigrationsRequest) returns (ApplyMigrationsResponse) {}
 
   // Status reports the current migration version state for a configured
   // database.

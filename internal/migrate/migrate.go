@@ -32,7 +32,8 @@ var (
 // NewMigrator creates a new [Migrator] instance.
 //
 // The returned migrator is stateless; each call to [Migrator.Migrate],
-// [Migrator.Ping], or [Migrator.Status] creates fresh underlying resources.
+// [Migrator.ApplyMigrations], [Migrator.Ping], or [Migrator.Status] creates
+// fresh underlying resources.
 // Migration resources are closed before returning on normal completion and
 // closed asynchronously when an in-flight migration is stopped by context
 // cancellation or deadline expiry.
@@ -101,6 +102,58 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 	return ctx, logger.Logs(), nil
 }
 
+// ApplyMigrations applies all pending up migrations for the database identified
+// by db.
+//
+// Inputs:
+//   - ctx: a service context used for metadata/telemetry.
+//   - src: migration source URL (for example "file://...").
+//   - db: database URL (for example a Postgres URL).
+//
+// Output:
+//   - ctx: the input context, or a derived context containing "migrateError" when
+//     source/database setup, migration execution, or final version inspection
+//     fails.
+//   - version: the resulting clean migration version. It is zero when no
+//     migration version has been recorded.
+//   - logs: in-memory migration logs captured during the operation. Logs may be
+//     returned on successful migrations, no-op migrations, and migration
+//     execution failures. At most 100 entries are returned; truncation is marked
+//     by "migration logs truncated" as the first entry.
+//   - error: nil on success; otherwise one of:
+//     [ErrInvalidConfig] (cannot open src/db),
+//     [ErrInvalidMigration] (migration failed or final version cannot be read),
+//     [ErrMigrationCanceled] (request context canceled),
+//     [ErrMigrationDeadlineExceeded] (request context deadline expired).
+//
+// The underlying migrate.ErrNoChange is treated as a successful no-op; logs and
+// the current migration version are still returned. As with [Migrator.Status],
+// strict request cancellation depends on upstream migrate v4 context support in
+// database driver paths.
+func (m *Migrator) ApplyMigrations(ctx context.Context, src, db string) (context.Context, uint64, []string, error) {
+	if err := ctx.Err(); err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, 0, nil, migrationError(err)
+	}
+
+	migrator, err := m.newMigrator(ctx, src, db)
+	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, 0, nil, ErrInvalidConfig
+	}
+
+	logger := logger.New()
+	migrator.Log = logger
+
+	version, err := m.applyMigrations(ctx, migrator)
+	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
+		return ctx, 0, logger.Logs(), migrationError(err)
+	}
+
+	return ctx, version, logger.Logs(), nil
+}
+
 // Ping validates that the database can be opened and reached.
 //
 // Ping does not apply any migrations. It pings the database with ctx instead
@@ -150,6 +203,35 @@ func (m *Migrator) newMigrator(ctx context.Context, src, db string) (*migrate.Mi
 }
 
 func (m *Migrator) migrate(ctx context.Context, migrator *migrate.Migrate, version uint64) error {
+	return m.run(ctx, migrator, func() error {
+		return migrator.Migrate(uint(version))
+	})
+}
+
+func (m *Migrator) applyMigrations(ctx context.Context, migrator *migrate.Migrate) (uint64, error) {
+	var version uint64
+	err := m.run(ctx, migrator, func() error {
+		if err := migrator.Up(); err != nil && !errors.Is(err, migrate.ErrNoChange) {
+			return err
+		}
+
+		current, _, err := migrator.Version()
+		if errors.Is(err, migrate.ErrNilVersion) {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+
+		version = uint64(current)
+
+		return nil
+	})
+
+	return version, err
+}
+
+func (m *Migrator) run(ctx context.Context, migrator *migrate.Migrate, operation func() error) error {
 	if err := ctx.Err(); err != nil {
 		_, _ = migrator.Close()
 		return err
@@ -158,7 +240,7 @@ func (m *Migrator) migrate(ctx context.Context, migrator *migrate.Migrate, versi
 	result := make(chan error, 1)
 
 	go func() {
-		result <- migrator.Migrate(uint(version))
+		result <- operation()
 	}()
 
 	select {

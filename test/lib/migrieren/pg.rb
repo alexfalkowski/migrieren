@@ -153,5 +153,17 @@ module Migrieren
 
       result.ntuples.zero? ? nil : result.getvalue(0, 0).to_i
     end
+
+    ##
+    # Returns the clean migration version from the log migration table.
+    #
+    # @return [Integer, nil] the version, or nil when no clean log migration exists
+    def log_migration_version
+      return nil unless table?('migrieren_log_schema_migrations')
+
+      result = @conn.exec('SELECT version FROM migrieren_log_schema_migrations WHERE dirty = false LIMIT 1')
+
+      result.ntuples.zero? ? nil : result.getvalue(0, 0).to_i
+    end
   end
 end

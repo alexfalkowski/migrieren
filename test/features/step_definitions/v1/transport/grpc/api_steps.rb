@@ -4,6 +4,10 @@ When('I request to migrate with gRPC:') do |table|
   @response = request_with_grpc(table)
 end
 
+When('I request to apply migrations with gRPC:') do |table|
+  @response = request_apply_with_grpc(table)
+end
+
 When('I request migration status with gRPC:') do |table|
   @response = request_status_with_grpc(table)
 end
@@ -25,6 +29,7 @@ Then('I should receive a successful migration from gRPC:') do |table|
   expect(@response.migration.logs.length).to be >= 0
 
   expect_postgres_migration(rows['version'].to_i) if rows['database'] == 'postgres'
+  expect_log_migration(rows['version'].to_i) if rows['database'] == 'logs'
 end
 
 Then('I should receive a not found migration from gRPC') do
@@ -91,6 +96,15 @@ def request_with_grpc(table)
   request = Migrieren::V1::MigrateRequest.new(database: rows['database'], version: rows['version'].to_i)
 
   Migrieren::V1.server_grpc.migrate(request, Migrieren.grpc_options(deadline:))
+rescue StandardError => e
+  e
+end
+
+def request_apply_with_grpc(table)
+  rows = table.rows_hash
+  request = Migrieren::V1::ApplyMigrationsRequest.new(database: rows['database'])
+
+  Migrieren::V1.server_grpc.apply_migrations(request, Migrieren.grpc_options)
 rescue StandardError => e
   e
 end
