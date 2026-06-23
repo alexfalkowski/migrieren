@@ -8,6 +8,10 @@ When('I request migration status with gRPC:') do |table|
   @response = request_status_with_grpc(table)
 end
 
+When('I request configured databases with gRPC') do
+  @response = request_databases_with_grpc
+end
+
 When('I cancel a migration with gRPC:') do |table|
   @response = cancel_with_grpc(table)
 end
@@ -34,6 +38,11 @@ Then('I should receive a migration status from gRPC:') do |table|
   expect(@response.status.database).to eq(rows['database'])
   expect(@response.status.version).to eq(rows['version'].to_i)
   expect(migration_state(@response.status.state)).to eq(rows['state'])
+end
+
+Then('I should receive configured databases from gRPC:') do |table|
+  expect(@response.meta.length).to be > 0
+  expect(@response.databases.map(&:name)).to eq(table.hashes.map { |row| row['database'] })
 end
 
 Then('I should receive an invalid argument migration from gRPC') do
@@ -91,6 +100,14 @@ def request_status_with_grpc(table)
   request = Migrieren::V1::StatusRequest.new(database: rows['database'])
 
   Migrieren::V1.server_grpc.status(request, Migrieren.grpc_options)
+rescue StandardError => e
+  e
+end
+
+def request_databases_with_grpc
+  request = Migrieren::V1::ListDatabasesRequest.new
+
+  Migrieren::V1.server_grpc.list_databases(request, Migrieren.grpc_options)
 rescue StandardError => e
   e
 end

@@ -84,6 +84,24 @@ message StatusResponse {
   MigrationStatus status = 2;
 }
 
+// Database identifies one configured logical database.
+message Database {
+  // name is the configured logical database name accepted by migration RPCs.
+  string name = 1;
+}
+
+// ListDatabasesRequest requests the configured logical database names.
+message ListDatabasesRequest {}
+
+// ListDatabasesResponse contains configured logical database names.
+message ListDatabasesResponse {
+  // meta contains request metadata emitted by the service runtime.
+  map<string, string> meta = 1;
+
+  // databases contains configured logical database names in config order.
+  repeated Database databases = 2;
+}
+
 // Service runs configured database migrations.
 service Service {
   // Migrate migrates a configured database to the requested version.
@@ -114,4 +132,10 @@ service Service {
   // depends on upstream migrate v4 context support, which is currently
   // incomplete in some database driver inspection paths.
   rpc Status(StatusRequest) returns (StatusResponse) {}
+
+  // ListDatabases reports configured logical database names.
+  //
+  // This does not expose configured source strings, database URL strings, or
+  // resolved secret values.
+  rpc ListDatabases(ListDatabasesRequest) returns (ListDatabasesResponse) {}
 }

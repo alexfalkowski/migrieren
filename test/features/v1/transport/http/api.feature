@@ -29,6 +29,23 @@ Feature: HTTP API
       | database | version |
       | missing  |       1 |
 
+  Scenario: List configured databases
+    When I request configured databases with HTTP
+    Then I should receive configured databases from HTTP:
+      | database                        |
+      | postgres                        |
+      | invalid_source                  |
+      | missing_source                  |
+      | missing_url                     |
+      | invalid_url                     |
+      | invalid_db                      |
+      | invalid_quoted_table            |
+      | invalid_incomplete_quoted_table |
+      | invalid_port                    |
+      | github                          |
+      | timeout                         |
+      | logs                            |
+
   @clean
   Scenario: Report migration status
     When I request to migrate with HTTP:

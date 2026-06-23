@@ -94,11 +94,25 @@ func NewMigrator(migrator *migrate.Migrator, fs *os.FS, cfg *migrate.Config) *Mi
 // The adapter:
 //   - looks up a database by name in the provided config,
 //   - reads its source and URL through the filesystem abstraction,
-//   - delegates migration execution or status inspection to the core migrator.
+//   - delegates migration execution or status inspection to the core migrator,
+//   - lists configured logical database names without exposing source or URL values.
 type Migrator struct {
 	migrator *migrate.Migrator
 	config   *migrate.Config
 	fs       *os.FS
+}
+
+// Databases returns the configured logical database names in config order.
+//
+// It intentionally exposes only names, not configured source strings, database
+// URL strings, or resolved secret values.
+func (s *Migrator) Databases() []string {
+	databases := make([]string, 0, len(s.config.Databases))
+	for _, d := range s.config.Databases {
+		databases = append(databases, d.Name)
+	}
+
+	return databases
 }
 
 // Migrate migrates the named database to the given target version.

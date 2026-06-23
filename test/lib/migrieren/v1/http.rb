@@ -46,6 +46,18 @@ module Migrieren
       def status(database, opts = {})
         post('/migrieren.v1.Service/Status', { database: }.to_json, opts)
       end
+
+      ##
+      # Calls the `ListDatabases` RPC via the HTTP façade.
+      #
+      # This maps to the HTTP RPC route:
+      # `POST /migrieren.v1.Service/ListDatabases`
+      #
+      # @param opts [Hash] optional request options passed through to `post`
+      # @return [Object] whatever `Nonnative::HTTPClient#post` returns (typically a response wrapper)
+      def list_databases(opts = {})
+        post('/migrieren.v1.Service/ListDatabases', {}.to_json, opts)
+      end
     end
   end
 end
