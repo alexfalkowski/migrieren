@@ -31,10 +31,11 @@ var (
 
 // NewMigrator creates a new [Migrator] instance.
 //
-// The returned migrator is stateless; each call to [Migrator.Migrate] or
-// [Migrator.Ping] creates fresh underlying resources. Migration resources are
-// closed before returning on normal completion and closed asynchronously when an
-// in-flight migration is stopped by context cancellation or deadline expiry.
+// The returned migrator is stateless; each call to [Migrator.Migrate],
+// [Migrator.Ping], or [Migrator.Status] creates fresh underlying resources.
+// Migration resources are closed before returning on normal completion and
+// closed asynchronously when an in-flight migration is stopped by context
+// cancellation or deadline expiry.
 func NewMigrator() *Migrator {
 	return &Migrator{}
 }

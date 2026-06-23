@@ -30,6 +30,22 @@ module Migrieren
       def migrate(database, version, opts = {})
         post('/migrieren.v1.Service/Migrate', { database:, version: }.to_json, opts)
       end
+
+      ##
+      # Calls the `Status` RPC via the HTTP façade.
+      #
+      # This maps to the HTTP RPC route:
+      # `POST /migrieren.v1.Service/Status`
+      #
+      # The request body is JSON with the following shape:
+      # `{ "database": String }`
+      #
+      # @param database [String] logical database name as configured in the service
+      # @param opts [Hash] optional request options passed through to `post`
+      # @return [Object] whatever `Nonnative::HTTPClient#post` returns (typically a response wrapper)
+      def status(database, opts = {})
+        post('/migrieren.v1.Service/Status', { database: }.to_json, opts)
+      end
     end
   end
 end

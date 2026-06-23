@@ -17,6 +17,19 @@ def expect_postgres_accounts(version)
   expect(Migrieren.pg.column?('accounts', 'update_at')).to eq(version == 2)
 end
 
+MIGRATION_STATES = {
+  1 => 'unapplied',
+  2 => 'clean',
+  3 => 'dirty',
+  'MIGRATION_STATE_UNAPPLIED' => 'unapplied',
+  'MIGRATION_STATE_CLEAN' => 'clean',
+  'MIGRATION_STATE_DIRTY' => 'dirty'
+}.freeze
+
+def migration_state(state)
+  MIGRATION_STATES.fetch(state) { MIGRATION_STATES.fetch(state.to_s) }
+end
+
 Then('I should not see a completed timeout migration') do
   expect(Migrieren.pg.timeout_migration_version).to be_nil
 end

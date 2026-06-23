@@ -13,10 +13,12 @@ The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/m
 
 ## 🧰 What the service does
 
-- Exposes a single RPC: `migrieren.v1.Service/Migrate`.
+- Exposes RPCs to migrate configured databases and inspect migration status.
 - Looks up a logical database name in configuration.
 - Reads the migration source URL and database URL through the service filesystem abstraction.
-- Executes the migration with `golang-migrate`.
+- Executes migrations with `golang-migrate`.
+- Reports the current migration version and dirty state for a configured
+  database.
 - Returns migration logs and request metadata to the caller.
 - Publishes HTTP and gRPC health checks plus Prometheus-style metrics when configured through the shared service runtime.
 
@@ -203,10 +205,12 @@ parameters:
 Malformed boolean or integer values reject the configured database URL.
 
 The upstream `golang-migrate` pgx driver can acquire its migration advisory lock
-while constructing the database driver. That constructor path does not expose
-Migrieren's request context, so request cancellation and deadlines should not be
-treated as a strict bound for every advisory-lock wait. Migrieren relies on the
-upstream driver behavior here rather than maintaining a local pgx driver fork.
+or inspect migration metadata while constructing or using the database driver.
+Those upstream paths do not consistently expose Migrieren's request context, so
+request cancellation and deadlines should not be treated as a strict bound for
+every advisory-lock wait or status inspection. Migrieren relies on the upstream
+driver behavior here rather than maintaining a local pgx driver fork, and can
+tighten this once context-aware migrate v5 driver APIs are available.
 
 ### 🧪 About the checked-in test config
 
@@ -231,6 +235,7 @@ The protobuf contract lives at `api/migrieren/v1/service.proto`.
 The service exposes:
 
 - `migrieren.v1.Service/Migrate`
+- `migrieren.v1.Service/Status`
 
 Request:
 
@@ -251,11 +256,42 @@ database: "postgres"
 version: 1
 ```
 
+### 🔎 Migration status
+
+`migrieren.v1.Service/Status` reports the current migration state for a
+configured database without applying migration files.
+
+Request:
+
+- `database`: logical database name from config.
+
+Response:
+
+- `meta`: request metadata emitted by the service runtime.
+- `status.database`: echoed database name.
+- `status.version`: current clean or dirty migration version. When
+  `status.state` is `MIGRATION_STATE_UNAPPLIED`, this is `0`.
+- `status.state`: one of `MIGRATION_STATE_UNAPPLIED`,
+  `MIGRATION_STATE_CLEAN`, or `MIGRATION_STATE_DIRTY`.
+
+Conceptual request:
+
+```protobuf
+database: "postgres"
+```
+
+> [!NOTE]
+> Status is non-migrating, but strict request cancellation depends on upstream
+> `golang-migrate` v4 context support. Some database-driver inspection paths do
+> not accept Migrieren's request context until the upstream project provides
+> context-aware driver APIs.
+
 ### 🌐 HTTP façade
 
 The HTTP RPC façade exposes the same operation at:
 
 - `POST /migrieren.v1.Service/Migrate`
+- `POST /migrieren.v1.Service/Status`
 
 Example:
 
@@ -275,6 +311,14 @@ Copy-paste request against the local HTTP façade:
 curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
   -H 'Content-Type: application/json' \
   -d '{"database":"postgres","version":1}'
+```
+
+Copy-paste status request against the local HTTP façade:
+
+```sh
+curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Status \
+  -H 'Content-Type: application/json' \
+  -d '{"database":"postgres"}'
 ```
 
 ### 🚦 Error mapping

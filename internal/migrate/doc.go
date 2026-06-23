@@ -10,6 +10,7 @@
 //   - [Migrator.Migrate] to open a migration source and database, migrate the
 //     database to a target version, and return in-memory migration logs.
 //   - [Migrator.Ping] to validate that the database can be opened and reached.
+//   - [Migrator.Status] to report the current migration version and dirty state.
 //
 // The migrator operates on two string inputs:
 //
@@ -32,6 +33,7 @@
 //     when migration execution stops because the request context is canceled or
 //     its deadline expires.
 //   - [ErrInvalidPing] is returned when pinging/inspecting the database fails.
+//   - [ErrInvalidStatus] is returned when migration status inspection fails.
 //
 // Underlying errors are attached to the provided context as metadata attributes
 // for observability, but are not returned directly to callers.
@@ -53,4 +55,9 @@
 // deadline expires while a migration is running, this package requests a
 // graceful stop and closes resources asynchronously so cancellation can return
 // promptly.
+//
+// Status inspection is non-migrating, but the underlying migrate v4 database
+// driver version path does not accept a request context. The migrator checks
+// cancellation before and after status inspection, but cannot interrupt every
+// upstream driver path until migrate v5 provides context-aware driver APIs.
 package migrate

@@ -9,6 +9,11 @@ BeforeAll do
   expect_destroyed_database
 end
 
+Before('@clean') do
+  Migrieren.pg.destroy
+  expect_destroyed_database
+end
+
 After('@clean') do
   Migrieren.pg.destroy
   expect_destroyed_database
