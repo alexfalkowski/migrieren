@@ -33,6 +33,16 @@ module Migrieren
         # - migration-stage: source or url when configuration resolution failed.
         # - migration-log-last: the last migration log line when logs were captured.
         rpc :Migrate, ::Migrieren::V1::MigrateRequest, ::Migrieren::V1::MigrateResponse
+        # Status reports the current migration version state for a configured
+        # database.
+        #
+        # Errors use NotFound for unknown databases and Internal for configuration or
+        # database inspection failures.
+        #
+        # Status does not apply migration files, but strict request cancellation
+        # depends on upstream migrate v4 context support, which is currently
+        # incomplete in some database driver inspection paths.
+        rpc :Status, ::Migrieren::V1::StatusRequest, ::Migrieren::V1::StatusResponse
       end
 
       Stub = Service.rpc_stub_class

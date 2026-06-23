@@ -29,6 +29,37 @@ Feature: gRPC API
       | database | version |
       | missing  |       1 |
 
+  @clean
+  Scenario: Report migration status
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        1 |
+    And I request migration status with gRPC:
+      | database | postgres |
+    Then I should receive a migration status from gRPC:
+      | database | postgres |
+      | version  |        1 |
+      | state    | clean    |
+
+  @clean
+  Scenario: Report unapplied migration status
+    When I request migration status with gRPC:
+      | database | postgres |
+    Then I should receive a migration status from gRPC:
+      | database | postgres  |
+      | version  |         0 |
+      | state    | unapplied |
+
+  Scenario: Report missing migration status
+    When I request migration status with gRPC:
+      | database | missing |
+    Then I should receive a not found migration from gRPC
+
+  Scenario: Report misconfigured migration status
+    When I request migration status with gRPC:
+      | database | missing_url |
+    Then I should receive an invalid migration from gRPC
+
   Scenario Outline: Reject <case> migration version
     When I request to migrate with gRPC:
       | database | postgres  |
@@ -80,6 +111,19 @@ Feature: gRPC API
       | missing_url                      |       1 | invalid_config    | empty   | url    |
       | invalid_incomplete_quoted_table  |       1 | invalid_config    | empty   |        |
       | postgres                         |       3 | invalid_migration | present |        |
+
+  @clean
+  Scenario: Report dirty migration status
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        3 |
+    Then I should receive an invalid migration from gRPC
+    When I request migration status with gRPC:
+      | database | postgres |
+    Then I should receive a migration status from gRPC:
+      | database | postgres |
+      | version  |        3 |
+      | state    | dirty    |
 
   @clean
   Scenario Outline: Migrate misconfigured databases

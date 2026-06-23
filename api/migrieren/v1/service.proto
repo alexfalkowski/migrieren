@@ -38,6 +38,52 @@ message MigrateResponse {
   Migration migration = 2;
 }
 
+// MigrationState identifies whether a database has no recorded migration,
+// a clean recorded version, or a dirty recorded version.
+enum MigrationState {
+  // MIGRATION_STATE_UNSPECIFIED is the default value for unknown states.
+  MIGRATION_STATE_UNSPECIFIED = 0;
+
+  // MIGRATION_STATE_UNAPPLIED means no migration version has been recorded.
+  MIGRATION_STATE_UNAPPLIED = 1;
+
+  // MIGRATION_STATE_CLEAN means a non-dirty migration version is recorded.
+  MIGRATION_STATE_CLEAN = 2;
+
+  // MIGRATION_STATE_DIRTY means the recorded migration version is dirty.
+  MIGRATION_STATE_DIRTY = 3;
+}
+
+// MigrationStatus reports the current version state for a configured database.
+message MigrationStatus {
+  // database is the configured logical database name requested by the caller.
+  string database = 1;
+
+  // version is the current clean or dirty migration version.
+  //
+  // When state is MIGRATION_STATE_UNAPPLIED, version is zero and no migration
+  // version has been recorded yet.
+  uint64 version = 2;
+
+  // state reports whether the migration version is unapplied, clean, or dirty.
+  MigrationState state = 3;
+}
+
+// StatusRequest identifies the configured database to inspect.
+message StatusRequest {
+  // database is the configured logical database name, not a raw database URL.
+  string database = 1;
+}
+
+// StatusResponse contains response metadata and current migration status.
+message StatusResponse {
+  // meta contains request metadata emitted by the service runtime.
+  map<string, string> meta = 1;
+
+  // status reports the current migration version state.
+  MigrationStatus status = 2;
+}
+
 // Service runs configured database migrations.
 service Service {
   // Migrate migrates a configured database to the requested version.
@@ -57,4 +103,15 @@ service Service {
   // - migration-stage: source or url when configuration resolution failed.
   // - migration-log-last: the last migration log line when logs were captured.
   rpc Migrate(MigrateRequest) returns (MigrateResponse) {}
+
+  // Status reports the current migration version state for a configured
+  // database.
+  //
+  // Errors use NotFound for unknown databases and Internal for configuration or
+  // database inspection failures.
+  //
+  // Status does not apply migration files, but strict request cancellation
+  // depends on upstream migrate v4 context support, which is currently
+  // incomplete in some database driver inspection paths.
+  rpc Status(StatusRequest) returns (StatusResponse) {}
 }
