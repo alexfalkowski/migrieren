@@ -27,6 +27,9 @@ migrate:
     - name: invalid_quoted_table
       source: file:secrets/source
       url: file:secrets/invalid_quoted_table
+    - name: invalid_incomplete_quoted_table
+      source: file:secrets/source
+      url: file:secrets/invalid_incomplete_quoted_table
     - name: invalid_port
       source: file:secrets/source
       url: file:secrets/invalid_port

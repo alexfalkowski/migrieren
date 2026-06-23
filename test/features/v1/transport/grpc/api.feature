@@ -75,10 +75,11 @@ Feature: gRPC API
       | stage | <stage> |
 
     Examples:
-      | database       | version | error             | logs    | stage  |
-      | missing_source |       1 | invalid_config    | empty   | source |
-      | missing_url    |       1 | invalid_config    | empty   | url    |
-      | postgres       |       3 | invalid_migration | present |        |
+      | database                         | version | error             | logs    | stage  |
+      | missing_source                   |       1 | invalid_config    | empty   | source |
+      | missing_url                      |       1 | invalid_config    | empty   | url    |
+      | invalid_incomplete_quoted_table  |       1 | invalid_config    | empty   |        |
+      | postgres                         |       3 | invalid_migration | present |        |
 
   @clean
   Scenario Outline: Migrate misconfigured databases
@@ -88,15 +89,16 @@ Feature: gRPC API
     Then I should receive an invalid migration from gRPC
 
     Examples:
-      | database             | version |
-      | missing_source       |       1 |
-      | invalid_source       |       1 |
-      | missing_url          |       1 |
-      | invalid_url          |       1 |
-      | invalid_db           |       1 |
-      | invalid_quoted_table |       1 |
-      | invalid_port         |       1 |
-      | postgres             |       3 |
+      | database                         | version |
+      | missing_source                   |       1 |
+      | invalid_source                   |       1 |
+      | missing_url                      |       1 |
+      | invalid_url                      |       1 |
+      | invalid_db                       |       1 |
+      | invalid_quoted_table             |       1 |
+      | invalid_incomplete_quoted_table  |       1 |
+      | invalid_port                     |       1 |
+      | postgres                         |       3 |
 
   @reset
   Scenario: Migrate erroneous databases

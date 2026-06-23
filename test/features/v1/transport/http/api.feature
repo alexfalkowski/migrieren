@@ -48,15 +48,16 @@ Feature: HTTP API
     Then I should receive an invalid migration from HTTP
 
     Examples:
-      | database             | version |
-      | missing_source       |       1 |
-      | invalid_source       |       1 |
-      | missing_url          |       1 |
-      | invalid_url          |       1 |
-      | invalid_db           |       1 |
-      | invalid_quoted_table |       1 |
-      | invalid_port         |       1 |
-      | postgres             |       3 |
+      | database                         | version |
+      | missing_source                   |       1 |
+      | invalid_source                   |       1 |
+      | missing_url                      |       1 |
+      | invalid_url                      |       1 |
+      | invalid_db                       |       1 |
+      | invalid_quoted_table             |       1 |
+      | invalid_incomplete_quoted_table  |       1 |
+      | invalid_port                     |       1 |
+      | postgres                         |       3 |
 
   @reset
   Scenario: Migrate erroneous databases
