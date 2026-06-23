@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/alexfalkowski/go-service/v2/errors"
+	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/alexfalkowski/go-service/v2/time"
 	"github.com/golang-migrate/migrate/v4/database"
 	"github.com/golang-migrate/migrate/v4/database/pgx/v5"
@@ -78,7 +79,7 @@ func parseMigrationsTableOptions(query url.Values) (string, bool, error) {
 	if err != nil {
 		return "", false, fmt.Errorf("unable to parse option x-migrations-table-quoted: %w", err)
 	}
-	if migrationsTableQuoted && (migrationsTable == "" || migrationsTable[0] != '"' || migrationsTable[len(migrationsTable)-1] != '"') {
+	if migrationsTableQuoted && invalidQuotedMigrationsTable(migrationsTable) {
 		return "", false, fmt.Errorf(
 			"%w: x-migrations-table must be quoted when x-migrations-table-quoted is enabled, current value is %q",
 			ErrInvalidMigrationsTable, migrationsTable,
@@ -86,6 +87,13 @@ func parseMigrationsTableOptions(query url.Values) (string, bool, error) {
 	}
 
 	return migrationsTable, migrationsTableQuoted, nil
+}
+
+func invalidQuotedMigrationsTable(migrationsTable string) bool {
+	return strings.IsEmpty(migrationsTable) ||
+		migrationsTable[0] != '"' ||
+		migrationsTable[len(migrationsTable)-1] != '"' ||
+		strings.IsEmpty(strings.Trim(migrationsTable, `"`))
 }
 
 func parseMultiStatementMaxSize(query url.Values) (int, error) {
