@@ -32,6 +32,22 @@ module Migrieren
       end
 
       ##
+      # Calls the `ApplyMigrations` RPC via the HTTP façade.
+      #
+      # This maps to the HTTP RPC route:
+      # `POST /migrieren.v1.Service/ApplyMigrations`
+      #
+      # The request body is JSON with the following shape:
+      # `{ "database": String }`
+      #
+      # @param database [String] logical database name as configured in the service
+      # @param opts [Hash] optional request options passed through to `post`
+      # @return [Object] whatever `Nonnative::HTTPClient#post` returns (typically a response wrapper)
+      def apply_migrations(database, opts = {})
+        post('/migrieren.v1.Service/ApplyMigrations', { database: }.to_json, opts)
+      end
+
+      ##
       # Calls the `Status` RPC via the HTTP façade.
       #
       # This maps to the HTTP RPC route:

@@ -33,6 +33,20 @@ module Migrieren
         # - migration-stage: source or url when configuration resolution failed.
         # - migration-log-last: the last migration log line when logs were captured.
         rpc :Migrate, ::Migrieren::V1::MigrateRequest, ::Migrieren::V1::MigrateResponse
+        # ApplyMigrations applies all pending up migrations for a configured
+        # database.
+        #
+        # If the database is already current, the request succeeds as a no-op and
+        # reports the current migration version.
+        #
+        # Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+        # stopped requests, and Internal for configuration, source, database, final
+        # version inspection, or migration failures.
+        #
+        # As with Migrate and Status, strict request cancellation depends on upstream
+        # migrate v4 context support, which is currently incomplete in some database
+        # driver paths.
+        rpc :ApplyMigrations, ::Migrieren::V1::ApplyMigrationsRequest, ::Migrieren::V1::ApplyMigrationsResponse
         # Status reports the current migration version state for a configured
         # database.
         #

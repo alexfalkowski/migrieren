@@ -29,6 +29,39 @@ Feature: HTTP API
       | database | version |
       | missing  |       1 |
 
+  @clean
+  Scenario: Apply all pending migrations
+    When I request to apply migrations with HTTP:
+      | database | logs |
+    Then I should receive a successful migration from HTTP:
+      | database | logs |
+      | version  |   40 |
+
+  @clean
+  Scenario: Apply all pending migrations when already current
+    When I request to apply migrations with HTTP:
+      | database | logs |
+    And I request to apply migrations with HTTP:
+      | database | logs |
+    Then I should receive a successful migration from HTTP:
+      | database | logs |
+      | version  |   40 |
+
+  Scenario: Apply missing databases
+    When I request to apply migrations with HTTP:
+      | database | missing |
+    Then I should receive a not found migration from HTTP
+
+  Scenario Outline: Apply misconfigured databases
+    When I request to apply migrations with HTTP:
+      | database | <database> |
+    Then I should receive an invalid migration from HTTP
+
+    Examples:
+      | database       |
+      | missing_source |
+      | missing_url    |
+
   Scenario: List configured databases
     When I request configured databases with HTTP
     Then I should receive configured databases from HTTP:

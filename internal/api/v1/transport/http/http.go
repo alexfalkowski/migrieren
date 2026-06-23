@@ -9,6 +9,7 @@ import (
 // Register exposes the gRPC service methods through the HTTP RPC facade.
 func Register(server *grpc.Server) {
 	rpc.Route(v1.Service_Migrate_FullMethodName, server.Migrate)
+	rpc.Route(v1.Service_ApplyMigrations_FullMethodName, server.ApplyMigrations)
 	rpc.Route(v1.Service_Status_FullMethodName, server.Status)
 	rpc.Route(v1.Service_ListDatabases_FullMethodName, server.ListDatabases)
 }

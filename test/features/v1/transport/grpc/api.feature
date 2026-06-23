@@ -29,6 +29,39 @@ Feature: gRPC API
       | database | version |
       | missing  |       1 |
 
+  @clean
+  Scenario: Apply all pending migrations
+    When I request to apply migrations with gRPC:
+      | database | logs |
+    Then I should receive a successful migration from gRPC:
+      | database | logs |
+      | version  |   40 |
+
+  @clean
+  Scenario: Apply all pending migrations when already current
+    When I request to apply migrations with gRPC:
+      | database | logs |
+    And I request to apply migrations with gRPC:
+      | database | logs |
+    Then I should receive a successful migration from gRPC:
+      | database | logs |
+      | version  |   40 |
+
+  Scenario: Apply missing databases
+    When I request to apply migrations with gRPC:
+      | database | missing |
+    Then I should receive a not found migration from gRPC
+
+  Scenario Outline: Apply misconfigured databases
+    When I request to apply migrations with gRPC:
+      | database | <database> |
+    Then I should receive an invalid migration from gRPC
+
+    Examples:
+      | database       |
+      | missing_source |
+      | missing_url    |
+
   Scenario: List configured databases
     When I request configured databases with gRPC
     Then I should receive configured databases from gRPC:

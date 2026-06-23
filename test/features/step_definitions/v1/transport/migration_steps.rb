@@ -5,6 +5,10 @@ def expect_postgres_migration(version)
   expect_postgres_accounts(version)
 end
 
+def expect_log_migration(version)
+  expect(Migrieren.pg.log_migration_version).to eq(version)
+end
+
 def expect_postgres_migration_table(version)
   expect(Migrieren.pg.table?('schema_migrations')).to be(false)
   expect(Migrieren.pg.table?('migrieren_schema_migrations')).to be(true)

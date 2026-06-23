@@ -13,7 +13,8 @@ The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/m
 
 ## 🧰 What the service does
 
-- Exposes RPCs to migrate configured databases and inspect migration status.
+- Exposes RPCs to migrate configured databases, apply all pending migrations,
+  and inspect migration status.
 - Looks up a logical database name in configuration.
 - Reads the migration source URL and database URL through the service filesystem abstraction.
 - Executes migrations with `golang-migrate`.
@@ -235,6 +236,7 @@ The protobuf contract lives at `api/migrieren/v1/service.proto`.
 The service exposes:
 
 - `migrieren.v1.Service/Migrate`
+- `migrieren.v1.Service/ApplyMigrations`
 - `migrieren.v1.Service/Status`
 - `migrieren.v1.Service/ListDatabases`
 
@@ -256,6 +258,39 @@ Conceptual request:
 database: "postgres"
 version: 1
 ```
+
+### ⏫ Apply all pending migrations
+
+`migrieren.v1.Service/ApplyMigrations` applies all pending up migrations for a
+configured database and reports the resulting migration version. If the database
+is already current, the request succeeds as a no-op and reports the current
+version.
+
+Request:
+
+- `database`: logical database name from config.
+
+Response:
+
+- `meta`: request metadata emitted by the service runtime.
+- `migration.database`: echoed database name.
+- `migration.version`: resulting migration version after applying pending
+  migrations.
+- `migration.logs`: in-memory migration log lines collected during execution.
+  Returned logs are capped at 100 entries and start with `migration logs
+  truncated` when older lines were discarded.
+
+Conceptual request:
+
+```protobuf
+database: "postgres"
+```
+
+> [!NOTE]
+> ApplyMigrations uses the upstream `golang-migrate` v4 all-pending up path.
+> Request cancellation and deadlines are honored around the migration call, but
+> strict cancellation still depends on upstream context-aware driver support in
+> some database paths.
 
 ### 🔎 Migration status
 
@@ -310,6 +345,7 @@ values.
 The HTTP RPC façade exposes the same operation at:
 
 - `POST /migrieren.v1.Service/Migrate`
+- `POST /migrieren.v1.Service/ApplyMigrations`
 - `POST /migrieren.v1.Service/Status`
 - `POST /migrieren.v1.Service/ListDatabases`
 
@@ -331,6 +367,14 @@ Copy-paste request against the local HTTP façade:
 curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
   -H 'Content-Type: application/json' \
   -d '{"database":"postgres","version":1}'
+```
+
+Copy-paste apply-all request against the local HTTP façade:
+
+```sh
+curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ApplyMigrations \
+  -H 'Content-Type: application/json' \
+  -d '{"database":"postgres"}'
 ```
 
 Copy-paste status request against the local HTTP façade:

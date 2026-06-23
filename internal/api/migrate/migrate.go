@@ -155,6 +155,43 @@ func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) (cont
 	return s.migrator.Migrate(ctx, bytes.String(source), bytes.String(url), version)
 }
 
+// ApplyMigrations applies all pending up migrations for the named database.
+//
+// The database is resolved from configuration by name. Its migration source and
+// database URL are read via the filesystem abstraction, then passed to the core
+// migrator.
+//
+// Returns the input context, or a derived context when the core migrator adds
+// metadata, plus the resulting migration version and migration logs from the
+// core migrator. If the database name does not exist in the configuration, this
+// returns an error that wraps `internal/migrate.ErrNotFound` (detectable via
+// [IsNotFound]).
+//
+// Source and URL resolution failures return the underlying filesystem error and
+// a derived context containing [FailureStageKey] set to [FailureStageSource] or
+// [FailureStageURL]. [FailureKind] maps those staged failures to
+// "invalid_config" for transport diagnostics.
+func (s *Migrator) ApplyMigrations(ctx context.Context, db string) (context.Context, uint64, []string, error) {
+	d, err := s.config.Database(db)
+	if err != nil {
+		return ctx, 0, nil, fmt.Errorf("%s: %w", db, err)
+	}
+
+	source, err := d.GetSource(s.fs)
+	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair(FailureStageKey, meta.String(FailureStageSource)))
+		return ctx, 0, nil, err
+	}
+
+	url, err := d.GetURL(s.fs)
+	if err != nil {
+		ctx = meta.WithAttributes(ctx, meta.NewPair(FailureStageKey, meta.String(FailureStageURL)))
+		return ctx, 0, nil, err
+	}
+
+	return s.migrator.ApplyMigrations(ctx, bytes.String(source), bytes.String(url))
+}
+
 // Status reports the current migration version state for the named database.
 //
 // The database is resolved from configuration by name. Only its database URL is
