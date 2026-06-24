@@ -6,7 +6,7 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/api/v1/migrate"
 )
 
-func responseError(err error) error {
+func (s *Server) error(err error) error {
 	if migrate.IsInvalidVersion(err) {
 		return status.Error(http.StatusBadRequest, err.Error())
 	}
