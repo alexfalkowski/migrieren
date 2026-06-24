@@ -11,30 +11,16 @@ import (
 // The database is resolved from configuration by name. Its migration source and
 // database URL are read via the filesystem abstraction, then passed to the core
 // migrator.
-//
-// This adapter does not perform public request validation such as rejecting a
-// zero version; transport callers that expose the migrieren.v1 API must enforce
-// that contract before calling Migrate.
-//
-// Returns the input context, or a derived context when migration setup or the
-// core migrator adds metadata, plus migration logs. If the database name does
-// not exist in the configuration, this returns an error that wraps
-// `internal/migrate.ErrNotFound` (detectable via [IsNotFound]).
-//
-// Source and URL resolution failures return the underlying filesystem error and
-// a derived context containing a diagnostic stage. Staged failures are
-// classified as "invalid_config" for transport diagnostics. Failed migrations
-// may carry safe failure diagnostics on the returned error.
 func (s *Migrator) Migrate(ctx context.Context, db string, version uint64) (context.Context, []string, error) {
-	ctx, source, url, err := s.sourceAndURL(ctx, db)
+	source, url, err := s.sourceAndURL(db)
 	if err != nil {
 		return ctx, nil, err
 	}
 
 	ctx, logs, err := s.migrator.Migrate(ctx, bytes.String(source), bytes.String(url), version)
 	if err != nil {
-		err = diagnostics.Error(ctx, err, logs)
+		return ctx, logs, diagnostics.Error(err, logs)
 	}
 
-	return ctx, logs, err
+	return ctx, logs, nil
 }

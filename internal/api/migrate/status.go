@@ -14,11 +14,6 @@ import (
 // The database is resolved from configuration by name. Only its database URL is
 // read via the filesystem abstraction; source resolution is not needed for this
 // status inspection path.
-//
-// If the database name does not exist in the configuration, this returns an
-// error that wraps `internal/migrate.ErrNotFound` (detectable via [IsNotFound]).
-// URL resolution failures return the underlying filesystem error and a derived
-// context containing a URL diagnostic stage.
 func (s *Migrator) Status(ctx context.Context, db string) (context.Context, *migrate.Status, error) {
 	d, err := s.config.Database(db)
 	if err != nil {
@@ -27,8 +22,7 @@ func (s *Migrator) Status(ctx context.Context, db string) (context.Context, *mig
 
 	url, err := d.GetURL(s.fs)
 	if err != nil {
-		ctx = diagnostics.WithStage(ctx, diagnostics.StageURL)
-		return ctx, nil, err
+		return ctx, nil, diagnostics.InvalidConfig(err, diagnostics.StageURL)
 	}
 
 	return s.migrator.Status(ctx, bytes.String(url))

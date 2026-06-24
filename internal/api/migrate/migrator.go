@@ -5,26 +5,22 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
-// NewMigrator constructs a transport-facing [Migrator].
+// NewMigrator constructs an API-facing [Migrator].
 //
 // Dependencies:
-//   - migrator: the core migrator that executes migrations given a source URL and
-//     database URL.
-//   - fs: a filesystem abstraction used to resolve `Database.Source` and
-//     `Database.URL` values (for example `file:...`).
-//   - cfg: the migration configuration containing the list of named databases.
+//   - migrator executes core migration operations against resolved source and
+//     database URLs.
+//   - fs resolves configured source and URL values.
+//   - cfg contains the configured logical database list.
 func NewMigrator(migrator *migrate.Migrator, fs *os.FS, cfg *migrate.Config) *Migrator {
 	return &Migrator{migrator: migrator, fs: fs, config: cfg}
 }
 
-// Migrator adapts the core migrator to a "database name + version" API that is
-// convenient for transport layers.
+// Migrator adapts the core migrator to a database-name API.
 //
-// The adapter:
-//   - looks up a database by name in the provided config,
-//   - reads its source and URL through the filesystem abstraction,
-//   - delegates migration execution or status inspection to the core migrator,
-//   - lists configured logical database names without exposing source or URL values.
+// It resolves configured source and URL values for a logical database name,
+// delegates work to the core migrator, and keeps configured secrets out of the
+// versioned API layer.
 type Migrator struct {
 	migrator *migrate.Migrator
 	config   *migrate.Config
