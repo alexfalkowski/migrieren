@@ -349,7 +349,8 @@ A sample config used for dev/tests exists at `test/.config/server.yml`.
 ### API / transport
 
 - `api/migrieren/v1/service.proto`: gRPC contract.
-- `internal/api/migrate/`: transport-facing migrator (reads source/URL bytes using `go-service/v2/os.FS`).
+- `internal/api/migrate/`: API-facing migrator that resolves database names through config.
+- `internal/api/v1/migrate/`: versioned API contract shared by HTTP and gRPC transports.
 - `internal/api/v1/transport/grpc/`: gRPC server + handler implementation.
 - `internal/api/v1/transport/http/`: HTTP routing via `go-service/v2/net/http/rpc`.
 

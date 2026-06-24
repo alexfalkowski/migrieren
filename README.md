@@ -524,7 +524,8 @@ Key locations:
 - `internal/cmd/server.go`: registers the `server` command.
 - `internal/config/config.go`: top-level config composition.
 - `internal/migrate/`: core migration engine and driver wiring.
-- `internal/api/migrate/`: transport-facing adapter that resolves database names through config.
+- `internal/api/migrate/`: API-facing adapter that resolves database names through config.
+- `internal/api/v1/migrate/`: versioned API contract shared by HTTP and gRPC transports.
 - `internal/api/v1/transport/grpc/`: gRPC server implementation.
 - `internal/api/v1/transport/http/`: HTTP RPC route registration.
 - `internal/health/`: health registration and database-specific health checks.

@@ -1,9 +1,9 @@
-// Package migrate provides a transport-facing adapter around the core migration
+// Package migrate provides an API-facing adapter around the core migration
 // engine.
 //
-// This package is used by API/transport layers (for example gRPC or HTTP) to
-// execute migrations, inspect migration status, or list configured logical
-// database names based on the service configuration.
+// This package is used by versioned API layers to execute migrations, inspect
+// migration status, or list configured logical database names based on the
+// service configuration.
 //
 // # Responsibilities
 //
@@ -17,23 +17,7 @@
 //   - Listing configured logical database names without exposing source or URL
 //     values.
 //
-// The transport-facing API intentionally does not expose the underlying
-// source/URL resolution details to callers; callers typically provide only a
-// database name, plus a target version for migration requests.
-//
-// # Not found handling
-//
-// When a database name is not present in the configuration,
-// [Migrator.Migrate], [Migrator.ApplyMigrations], and [Migrator.Status] return
-// a wrapped error that includes the original sentinel error
-// [github.com/alexfalkowski/migrieren/internal/migrate.ErrNotFound]. Use [IsNotFound]
-// to test for this condition when mapping errors to transport status codes.
-//
-// # Observability
-//
-// Underlying migration and driver errors are handled by the core migrator and
-// are typically attached to request metadata for telemetry. Failed migration
-// requests also carry safe diagnostics on the returned error for transport
-// headers or trailers. This adapter focuses on configuration lookup,
-// secret/source resolution, and safe diagnostic classification.
+// The API-facing contract intentionally does not expose the underlying
+// source/URL resolution details to callers; callers provide only a database name,
+// plus a target version for migration requests.
 package migrate

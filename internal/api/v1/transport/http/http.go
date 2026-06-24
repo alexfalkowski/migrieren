@@ -5,16 +5,16 @@ import (
 	"github.com/alexfalkowski/go-service/v2/net/http/meta"
 	"github.com/alexfalkowski/go-service/v2/net/http/rpc"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/internal/api/v1/transport/grpc"
+	"github.com/alexfalkowski/migrieren/internal/api/v1/migrate"
 	"github.com/alexfalkowski/migrieren/internal/diagnostics"
 )
 
-// Register exposes the gRPC service methods through the HTTP RPC facade.
-func Register(server *grpc.Server) {
-	rpc.Route(v1.Service_Migrate_FullMethodName, migrate(server))
-	rpc.Route(v1.Service_ApplyMigrations_FullMethodName, apply(server))
-	rpc.Route(v1.Service_Status_FullMethodName, server.Status)
-	rpc.Route(v1.Service_ListDatabases_FullMethodName, server.ListDatabases)
+// Register exposes the v1 service methods through the HTTP RPC facade.
+func Register(migrator *migrate.Migrator) {
+	rpc.Route(v1.Service_Migrate_FullMethodName, migrateDatabase(migrator))
+	rpc.Route(v1.Service_ApplyMigrations_FullMethodName, applyMigrations(migrator))
+	rpc.Route(v1.Service_Status_FullMethodName, getStatus(migrator))
+	rpc.Route(v1.Service_ListDatabases_FullMethodName, migrator.ListDatabases)
 }
 
 func setFailureHeaders(ctx context.Context, values diagnostics.Values) {
