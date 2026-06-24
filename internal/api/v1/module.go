@@ -11,6 +11,7 @@ import (
 var Module = di.Module(
 	migrate.Module,
 	di.Constructor(grpc.NewServer),
+	di.Constructor(http.NewServer),
 	di.Register(grpc.Register),
 	di.Register(http.Register),
 )
