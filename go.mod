@@ -3,8 +3,8 @@ module github.com/alexfalkowski/migrieren
 go 1.26.0
 
 require (
-	github.com/alexfalkowski/go-health/v2 v2.29.0
-	github.com/alexfalkowski/go-service/v2 v2.617.0
+	github.com/alexfalkowski/go-health/v2 v2.32.0
+	github.com/alexfalkowski/go-service/v2 v2.619.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.10.0
 	go.opentelemetry.io/otel/metric v1.44.0
@@ -21,7 +21,7 @@ require (
 	github.com/KimMachineGun/automemlimit v0.7.5 // indirect
 	github.com/XSAM/otelsql v0.42.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
-	github.com/alexfalkowski/go-sync v1.24.0 // indirect
+	github.com/alexfalkowski/go-sync v1.27.0 // indirect
 	github.com/arl/statsviz v0.8.0 // indirect
 	github.com/avfs/avfs v0.35.0 // indirect
 	github.com/beevik/ntp v1.5.0 // indirect
@@ -132,6 +132,6 @@ require (
 	golang.org/x/sync v0.21.0 // indirect
 	golang.org/x/sys v0.46.0 // indirect
 	golang.org/x/text v0.38.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260618152121-87f3d3e198d3 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260618152121-87f3d3e198d3 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260622175928-b703f567277d // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260622175928-b703f567277d // indirect
 )
