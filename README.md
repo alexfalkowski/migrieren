@@ -64,10 +64,13 @@ Install dependencies, build the binary, and start the server with the checked-in
 ```sh
 make dep
 make build
-./migrieren server -config file:test/.config/server.yml
+cd test
+../migrieren server -config file:.config/server.yml
 ```
 
-This builds `./migrieren` in the repository root.
+This builds `./migrieren` in the repository root. The checked-in test config is
+run from `test/` because its `file:...` references point at `test/secrets/` and
+its file migration sources are relative to that working directory.
 
 > [!WARNING]
 > The checked-in test config points Postgres at `localhost:5433` and OTLP tracing at `http://localhost:4318/v1/traces`. Start the local feature-test services or provide your own config before expecting migrations, health checks, and tracing to succeed.
@@ -220,7 +223,9 @@ tighten this once context-aware migrate v5 driver APIs are available.
 - `postgres` and `github` are used for successful migration scenarios.
 - `timeout` is used for deadline and cancellation scenarios.
 - `logs` is used for bounded migration log scenarios.
-- `missing_source`, `invalid_source`, `missing_url`, `invalid_url`, `invalid_db`, `invalid_quoted_table`, and `invalid_port` exist to exercise failure paths in feature tests.
+- `missing_source`, `invalid_source`, `missing_url`, `invalid_url`,
+  `invalid_db`, `invalid_quoted_table`, `invalid_incomplete_quoted_table`, and
+  `invalid_port` exist to exercise failure paths in feature tests.
 
 > [!IMPORTANT]
 > The checked-in config is a test fixture. Use it for local development and feature coverage, but do not treat it as a healthy production config.
@@ -440,18 +445,18 @@ HTTP uses the same names as response headers:
 When running with the shared service runtime, Migrieren exposes:
 
 - HTTP health endpoints:
-  - `/healthz`
-  - `/livez`
-  - `/readyz`
+  - `/migrieren/healthz`
+  - `/migrieren/livez`
+  - `/migrieren/readyz`
 - HTTP metrics:
-  - `/metrics`
+  - `/migrieren/metrics`
 - gRPC health checks for `migrieren.v1.Service`
 
 There is an important detail in the checked-in test config:
 
 - gRPC health for `migrieren.v1.Service` reports `SERVING`.
-- HTTP `/livez` and `/readyz` report healthy.
-- HTTP `/healthz` is expected to be unhealthy because the test config deliberately registers invalid database entries for failure-path coverage.
+- HTTP `/migrieren/livez` and `/migrieren/readyz` report healthy.
+- HTTP `/migrieren/healthz` is expected to be unhealthy because the test config deliberately registers invalid database entries for failure-path coverage.
 
 Health probes use internal registration names such as `noop` and `online`.
 Treat those names as reserved for health wiring rather than as migration
@@ -463,11 +468,11 @@ The sample test config also enables:
 - Prometheus metrics, and
 - OTLP tracing with `http://localhost:4318/v1/traces`.
 
-GitHub migration sources have one health-check exception: `/healthz` parses a
-configured `github://` source but does not open the remote repository during the
-health check. The remote source is opened during migration execution, so GitHub
-reachability failures can still appear on a migration request after health has
-reported on the configured target.
+GitHub migration sources have one health-check exception: `/migrieren/healthz`
+parses a configured `github://` source but does not open the remote repository
+during the health check. The remote source is opened during migration
+execution, so GitHub reachability failures can still appear on a migration
+request after health has reported on the configured target.
 
 ## 🛠️ Development
 

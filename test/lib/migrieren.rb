@@ -35,7 +35,7 @@ require 'migrieren/v1/service_services_pb'
 module Migrieren
   class << self
     ##
-    # Returns the observability client used by tests.
+    # Returns an observability client for feature-harness code.
     #
     # This client is provided by the `nonnative` test utilities and is available
     # to feature-harness code that needs to query or assert on telemetry emitted

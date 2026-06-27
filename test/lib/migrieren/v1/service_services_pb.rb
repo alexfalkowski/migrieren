@@ -43,6 +43,10 @@ module Migrieren
         # stopped requests, and Internal for configuration, source, database, final
         # version inspection, or migration failures.
         #
+        # Failures after request routing expose the same safe diagnostic trailers as
+        # Migrate, including migration-error, migration-log-count, migration-stage,
+        # and migration-log-last when those values are available.
+        #
         # As with Migrate and Status, strict request cancellation depends on upstream
         # migrate v4 context support, which is currently incomplete in some database
         # driver paths.
