@@ -7,7 +7,6 @@ require 'open3'
 require 'timeout'
 
 require 'pg'
-require 'grpc/health/v1/health_services_pb'
 
 require 'migrieren/pg'
 require 'migrieren/v1/http'
@@ -65,9 +64,9 @@ module Migrieren
     # This is used by health-related steps to query standard gRPC health
     # endpoints.
     #
-    # @return [Grpc::Health::V1::Health::Stub] a memoized gRPC health stub
+    # @return [Nonnative::GRPCHealth] a memoized gRPC health client
     def health_grpc
-      @health_grpc ||= Grpc::Health::V1::Health::Stub.new('localhost:12000', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
+      @health_grpc ||= Nonnative.grpc_health(host: 'localhost', port: 12_000, service: 'migrieren.v1.Service')
     end
 
     ##

@@ -18,12 +18,20 @@ processes:
       - 12000
     log: reports/server.log
     readiness:
-      port: 11000
-      path: /migrieren/readyz
+      - kind: http
+        port: 11000
+        path: /migrieren/readyz
+      - kind: grpc
+        port: 12000
+        service: migrieren.v1.Service
 services:
   - name: postgres
     host: 127.0.0.1
     port: 5433
+    readiness:
+      - kind: tcp
+        host: 127.0.0.1
+        port: 5432
     proxy:
       kind: fault_injection
       host: 127.0.0.1
