@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 When('the system requests the health status with gRPC') do
-  request = Grpc::Health::V1::HealthCheckRequest.new(service: 'migrieren.v1.Service')
-  @response = Migrieren.health_grpc.check(request, Migrieren.grpc_options)
+  @response = Migrieren.health_grpc.check(deadline: Time.now + 6)
 end
 
 Then('the system should respond with a healthy status with gRPC') do
