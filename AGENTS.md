@@ -94,6 +94,19 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   upstream-supported hook becomes available, or the project explicitly decides
   to own a local pgx driver wrapper/fork.
 
+### Dirty migration repair is not a normal feature gap
+
+- Migrieren intentionally reports dirty migration state through `Status`, but
+  does not expose a public force/repair endpoint for clearing dirty migration
+  metadata.
+- A remote force/repair API would be destructive metadata surgery: the service
+  can verify migration table state, but cannot prove the operator correctly
+  repaired the real schema or data before clearing the dirty flag.
+- Reviewers should not keep recording the absence of a force-version,
+  repair-dirty, or clear-dirty RPC as a regular feature gap. Raise it only if
+  the project explicitly asks for a dedicated product/security design covering
+  guardrails, auditability, documentation, and test strategy.
+
 ### Health probe names are reserved by convention
 
 - Health wiring uses internal probe names such as `noop` and `online`.

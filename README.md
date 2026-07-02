@@ -327,6 +327,14 @@ database: "postgres"
 > not accept Migrieren's request context until the upstream project provides
 > context-aware driver APIs.
 
+Migrieren intentionally does not expose a public force-version or dirty-state
+repair RPC. Dirty status means an operator must investigate the failed
+migration and repair the database state outside this service before any
+migration metadata is changed. A remote repair endpoint would be destructive
+metadata surgery that Migrieren cannot validate generically, because the service
+cannot prove the real schema or data was repaired correctly for every
+application.
+
 ### 📋 Database discovery
 
 `migrieren.v1.Service/ListDatabases` reports configured logical database names
