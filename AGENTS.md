@@ -107,6 +107,17 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   the project explicitly asks for a dedicated product/security design covering
   guardrails, auditability, documentation, and test strategy.
 
+### Step-based migration execution is not desired
+
+- Migrieren intentionally keeps public execution choices to:
+  - `Migrate` for an explicit target version chosen by the caller.
+  - `ApplyMigrations` for converging to the latest available up migration.
+- Do not keep recording step-based up/down execution, rollback-by-step,
+  all-down, or version-zero migration requests as feature gaps by default.
+  Operators that need to move backward should choose an explicit target version
+  and call `Migrate`; hidden source-topology step execution is not part of the
+  current product direction.
+
 ### Health probe names are reserved by convention
 
 - Health wiring uses internal probe names such as `noop` and `online`.

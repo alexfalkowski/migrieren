@@ -296,6 +296,11 @@ database: "postgres"
 > Request cancellation and deadlines are honored around the migration call, but
 > strict cancellation still depends on upstream context-aware driver support in
 > some database paths.
+>
+> Migrieren intentionally does not expose step-based up/down, rollback-by-step,
+> all-down, or version-zero migration APIs. Use `Migrate` when the caller knows
+> the target version, or `ApplyMigrations` to converge to the latest available
+> up migration.
 
 ### 🔎 Migration status
 
