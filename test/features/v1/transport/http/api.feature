@@ -109,6 +109,10 @@ Feature: HTTP API
     When I request migration status with HTTP:
       | database | missing_url |
     Then I should receive an invalid migration from HTTP
+    And I should receive failure diagnostics from HTTP:
+      | error | invalid_config |
+      | logs  | empty          |
+      | stage | url            |
 
   Scenario Outline: Reject <case> migration version
     When I request to migrate with HTTP:
