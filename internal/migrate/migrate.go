@@ -32,8 +32,8 @@ var (
 // NewMigrator creates a new [Migrator] instance.
 //
 // The returned migrator is stateless; each call to [Migrator.Migrate],
-// [Migrator.ApplyMigrations], [Migrator.Ping], or [Migrator.Status] creates
-// fresh underlying resources.
+// [Migrator.ApplyMigrations], [Migrator.Plan], [Migrator.Ping], or
+// [Migrator.Status] creates fresh underlying resources.
 // Migration resources are closed before returning on normal completion and
 // closed asynchronously when an in-flight migration is stopped by context
 // cancellation or deadline expiry.

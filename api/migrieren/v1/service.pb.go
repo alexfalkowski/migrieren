@@ -79,6 +79,60 @@ func (MigrationState) EnumDescriptor() ([]byte, []int) {
 	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{0}
 }
 
+// MigrationDirection identifies whether the current database state can move
+// toward the latest available source version by applying up migrations.
+type MigrationDirection int32
+
+const (
+	// MIGRATION_DIRECTION_UNSPECIFIED is the default value for unknown directions.
+	MigrationDirection_MIGRATION_DIRECTION_UNSPECIFIED MigrationDirection = 0
+	// MIGRATION_DIRECTION_NONE means no up migrations are pending.
+	MigrationDirection_MIGRATION_DIRECTION_NONE MigrationDirection = 1
+	// MIGRATION_DIRECTION_UP means one or more up migrations are pending.
+	MigrationDirection_MIGRATION_DIRECTION_UP MigrationDirection = 2
+)
+
+// Enum value maps for MigrationDirection.
+var (
+	MigrationDirection_name = map[int32]string{
+		0: "MIGRATION_DIRECTION_UNSPECIFIED",
+		1: "MIGRATION_DIRECTION_NONE",
+		2: "MIGRATION_DIRECTION_UP",
+	}
+	MigrationDirection_value = map[string]int32{
+		"MIGRATION_DIRECTION_UNSPECIFIED": 0,
+		"MIGRATION_DIRECTION_NONE":        1,
+		"MIGRATION_DIRECTION_UP":          2,
+	}
+)
+
+func (x MigrationDirection) Enum() *MigrationDirection {
+	p := new(MigrationDirection)
+	*p = x
+	return p
+}
+
+func (x MigrationDirection) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MigrationDirection) Descriptor() protoreflect.EnumDescriptor {
+	return file_migrieren_v1_service_proto_enumTypes[1].Descriptor()
+}
+
+func (MigrationDirection) Type() protoreflect.EnumType {
+	return &file_migrieren_v1_service_proto_enumTypes[1]
+}
+
+func (x MigrationDirection) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MigrationDirection.Descriptor instead.
+func (MigrationDirection) EnumDescriptor() ([]byte, []int) {
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{1}
+}
+
 // Migration reports the database, migration version, and bounded migrate logs.
 type Migration struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -427,6 +481,196 @@ func (x *MigrationStatus) GetState() MigrationState {
 	return MigrationState_MIGRATION_STATE_UNSPECIFIED
 }
 
+// MigrationPlan reports non-mutating migration planning information for a
+// configured database.
+type MigrationPlan struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// status reports the current database migration version state.
+	Status *MigrationStatus `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	// latest_version is the highest migration version available from the
+	// configured source. It is zero when the source has no migrations.
+	LatestVersion uint64 `protobuf:"varint,2,opt,name=latest_version,json=latestVersion,proto3" json:"latest_version,omitempty"`
+	// target_version is the version a clean or unapplied database can converge
+	// toward using pending up migrations. It equals latest_version when direction
+	// is MIGRATION_DIRECTION_UP, and otherwise equals the current status version.
+	TargetVersion uint64 `protobuf:"varint,3,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
+	// direction reports whether pending up migrations can currently apply.
+	Direction MigrationDirection `protobuf:"varint,4,opt,name=direction,proto3,enum=migrieren.v1.MigrationDirection" json:"direction,omitempty"`
+	// pending_versions contains source versions greater than the current status
+	// version, in apply order. It is empty when no up migrations are pending.
+	PendingVersions []uint64 `protobuf:"varint,5,rep,packed,name=pending_versions,json=pendingVersions,proto3" json:"pending_versions,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *MigrationPlan) Reset() {
+	*x = MigrationPlan{}
+	mi := &file_migrieren_v1_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MigrationPlan) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MigrationPlan) ProtoMessage() {}
+
+func (x *MigrationPlan) ProtoReflect() protoreflect.Message {
+	mi := &file_migrieren_v1_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MigrationPlan.ProtoReflect.Descriptor instead.
+func (*MigrationPlan) Descriptor() ([]byte, []int) {
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *MigrationPlan) GetStatus() *MigrationStatus {
+	if x != nil {
+		return x.Status
+	}
+	return nil
+}
+
+func (x *MigrationPlan) GetLatestVersion() uint64 {
+	if x != nil {
+		return x.LatestVersion
+	}
+	return 0
+}
+
+func (x *MigrationPlan) GetTargetVersion() uint64 {
+	if x != nil {
+		return x.TargetVersion
+	}
+	return 0
+}
+
+func (x *MigrationPlan) GetDirection() MigrationDirection {
+	if x != nil {
+		return x.Direction
+	}
+	return MigrationDirection_MIGRATION_DIRECTION_UNSPECIFIED
+}
+
+func (x *MigrationPlan) GetPendingVersions() []uint64 {
+	if x != nil {
+		return x.PendingVersions
+	}
+	return nil
+}
+
+// PlanMigrationsRequest identifies the configured database to inspect against
+// its migration source.
+type PlanMigrationsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// database is the configured logical database name, not a raw database URL.
+	Database      string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlanMigrationsRequest) Reset() {
+	*x = PlanMigrationsRequest{}
+	mi := &file_migrieren_v1_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlanMigrationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlanMigrationsRequest) ProtoMessage() {}
+
+func (x *PlanMigrationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_migrieren_v1_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlanMigrationsRequest.ProtoReflect.Descriptor instead.
+func (*PlanMigrationsRequest) Descriptor() ([]byte, []int) {
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *PlanMigrationsRequest) GetDatabase() string {
+	if x != nil {
+		return x.Database
+	}
+	return ""
+}
+
+// PlanMigrationsResponse contains response metadata and the migration plan.
+type PlanMigrationsResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// meta contains request metadata emitted by the service runtime.
+	Meta map[string]string `protobuf:"bytes,1,rep,name=meta,proto3" json:"meta,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	// plan reports current status and pending source versions without applying
+	// migrations.
+	Plan          *MigrationPlan `protobuf:"bytes,2,opt,name=plan,proto3" json:"plan,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PlanMigrationsResponse) Reset() {
+	*x = PlanMigrationsResponse{}
+	mi := &file_migrieren_v1_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlanMigrationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlanMigrationsResponse) ProtoMessage() {}
+
+func (x *PlanMigrationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_migrieren_v1_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlanMigrationsResponse.ProtoReflect.Descriptor instead.
+func (*PlanMigrationsResponse) Descriptor() ([]byte, []int) {
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PlanMigrationsResponse) GetMeta() map[string]string {
+	if x != nil {
+		return x.Meta
+	}
+	return nil
+}
+
+func (x *PlanMigrationsResponse) GetPlan() *MigrationPlan {
+	if x != nil {
+		return x.Plan
+	}
+	return nil
+}
+
 // StatusRequest identifies the configured database to inspect.
 type StatusRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
@@ -438,7 +682,7 @@ type StatusRequest struct {
 
 func (x *StatusRequest) Reset() {
 	*x = StatusRequest{}
-	mi := &file_migrieren_v1_service_proto_msgTypes[6]
+	mi := &file_migrieren_v1_service_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -450,7 +694,7 @@ func (x *StatusRequest) String() string {
 func (*StatusRequest) ProtoMessage() {}
 
 func (x *StatusRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_migrieren_v1_service_proto_msgTypes[6]
+	mi := &file_migrieren_v1_service_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -463,7 +707,7 @@ func (x *StatusRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusRequest.ProtoReflect.Descriptor instead.
 func (*StatusRequest) Descriptor() ([]byte, []int) {
-	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{6}
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *StatusRequest) GetDatabase() string {
@@ -486,7 +730,7 @@ type StatusResponse struct {
 
 func (x *StatusResponse) Reset() {
 	*x = StatusResponse{}
-	mi := &file_migrieren_v1_service_proto_msgTypes[7]
+	mi := &file_migrieren_v1_service_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +742,7 @@ func (x *StatusResponse) String() string {
 func (*StatusResponse) ProtoMessage() {}
 
 func (x *StatusResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_migrieren_v1_service_proto_msgTypes[7]
+	mi := &file_migrieren_v1_service_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +755,7 @@ func (x *StatusResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StatusResponse.ProtoReflect.Descriptor instead.
 func (*StatusResponse) Descriptor() ([]byte, []int) {
-	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{7}
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *StatusResponse) GetMeta() map[string]string {
@@ -539,7 +783,7 @@ type Database struct {
 
 func (x *Database) Reset() {
 	*x = Database{}
-	mi := &file_migrieren_v1_service_proto_msgTypes[8]
+	mi := &file_migrieren_v1_service_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -551,7 +795,7 @@ func (x *Database) String() string {
 func (*Database) ProtoMessage() {}
 
 func (x *Database) ProtoReflect() protoreflect.Message {
-	mi := &file_migrieren_v1_service_proto_msgTypes[8]
+	mi := &file_migrieren_v1_service_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -564,7 +808,7 @@ func (x *Database) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Database.ProtoReflect.Descriptor instead.
 func (*Database) Descriptor() ([]byte, []int) {
-	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{8}
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Database) GetName() string {
@@ -583,7 +827,7 @@ type ListDatabasesRequest struct {
 
 func (x *ListDatabasesRequest) Reset() {
 	*x = ListDatabasesRequest{}
-	mi := &file_migrieren_v1_service_proto_msgTypes[9]
+	mi := &file_migrieren_v1_service_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -595,7 +839,7 @@ func (x *ListDatabasesRequest) String() string {
 func (*ListDatabasesRequest) ProtoMessage() {}
 
 func (x *ListDatabasesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_migrieren_v1_service_proto_msgTypes[9]
+	mi := &file_migrieren_v1_service_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -608,7 +852,7 @@ func (x *ListDatabasesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDatabasesRequest.ProtoReflect.Descriptor instead.
 func (*ListDatabasesRequest) Descriptor() ([]byte, []int) {
-	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{9}
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{12}
 }
 
 // ListDatabasesResponse contains configured logical database names.
@@ -624,7 +868,7 @@ type ListDatabasesResponse struct {
 
 func (x *ListDatabasesResponse) Reset() {
 	*x = ListDatabasesResponse{}
-	mi := &file_migrieren_v1_service_proto_msgTypes[10]
+	mi := &file_migrieren_v1_service_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -636,7 +880,7 @@ func (x *ListDatabasesResponse) String() string {
 func (*ListDatabasesResponse) ProtoMessage() {}
 
 func (x *ListDatabasesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_migrieren_v1_service_proto_msgTypes[10]
+	mi := &file_migrieren_v1_service_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -649,7 +893,7 @@ func (x *ListDatabasesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDatabasesResponse.ProtoReflect.Descriptor instead.
 func (*ListDatabasesResponse) Descriptor() ([]byte, []int) {
-	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{10}
+	return file_migrieren_v1_service_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListDatabasesResponse) GetMeta() map[string]string {
@@ -695,7 +939,21 @@ const file_migrieren_v1_service_proto_rawDesc = "" +
 	"\x0fMigrationStatus\x12\x1a\n" +
 	"\bdatabase\x18\x01 \x01(\tR\bdatabase\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\x04R\aversion\x122\n" +
-	"\x05state\x18\x03 \x01(\x0e2\x1c.migrieren.v1.MigrationStateR\x05state\"+\n" +
+	"\x05state\x18\x03 \x01(\x0e2\x1c.migrieren.v1.MigrationStateR\x05state\"\xff\x01\n" +
+	"\rMigrationPlan\x125\n" +
+	"\x06status\x18\x01 \x01(\v2\x1d.migrieren.v1.MigrationStatusR\x06status\x12%\n" +
+	"\x0elatest_version\x18\x02 \x01(\x04R\rlatestVersion\x12%\n" +
+	"\x0etarget_version\x18\x03 \x01(\x04R\rtargetVersion\x12>\n" +
+	"\tdirection\x18\x04 \x01(\x0e2 .migrieren.v1.MigrationDirectionR\tdirection\x12)\n" +
+	"\x10pending_versions\x18\x05 \x03(\x04R\x0fpendingVersions\"3\n" +
+	"\x15PlanMigrationsRequest\x12\x1a\n" +
+	"\bdatabase\x18\x01 \x01(\tR\bdatabase\"\xc6\x01\n" +
+	"\x16PlanMigrationsResponse\x12B\n" +
+	"\x04meta\x18\x01 \x03(\v2..migrieren.v1.PlanMigrationsResponse.MetaEntryR\x04meta\x12/\n" +
+	"\x04plan\x18\x02 \x01(\v2\x1b.migrieren.v1.MigrationPlanR\x04plan\x1a7\n" +
+	"\tMetaEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"+\n" +
 	"\rStatusRequest\x12\x1a\n" +
 	"\bdatabase\x18\x01 \x01(\tR\bdatabase\"\xbc\x01\n" +
 	"\x0eStatusResponse\x12:\n" +
@@ -717,10 +975,15 @@ const file_migrieren_v1_service_proto_rawDesc = "" +
 	"\x1bMIGRATION_STATE_UNSPECIFIED\x10\x00\x12\x1d\n" +
 	"\x19MIGRATION_STATE_UNAPPLIED\x10\x01\x12\x19\n" +
 	"\x15MIGRATION_STATE_CLEAN\x10\x02\x12\x19\n" +
-	"\x15MIGRATION_STATE_DIRTY\x10\x032\xd8\x02\n" +
+	"\x15MIGRATION_STATE_DIRTY\x10\x03*s\n" +
+	"\x12MigrationDirection\x12#\n" +
+	"\x1fMIGRATION_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18MIGRATION_DIRECTION_NONE\x10\x01\x12\x1a\n" +
+	"\x16MIGRATION_DIRECTION_UP\x10\x022\xb7\x03\n" +
 	"\aService\x12H\n" +
 	"\aMigrate\x12\x1c.migrieren.v1.MigrateRequest\x1a\x1d.migrieren.v1.MigrateResponse\"\x00\x12`\n" +
-	"\x0fApplyMigrations\x12$.migrieren.v1.ApplyMigrationsRequest\x1a%.migrieren.v1.ApplyMigrationsResponse\"\x00\x12E\n" +
+	"\x0fApplyMigrations\x12$.migrieren.v1.ApplyMigrationsRequest\x1a%.migrieren.v1.ApplyMigrationsResponse\"\x00\x12]\n" +
+	"\x0ePlanMigrations\x12#.migrieren.v1.PlanMigrationsRequest\x1a$.migrieren.v1.PlanMigrationsResponse\"\x00\x12E\n" +
 	"\x06Status\x12\x1b.migrieren.v1.StatusRequest\x1a\x1c.migrieren.v1.StatusResponse\"\x00\x12Z\n" +
 	"\rListDatabases\x12\".migrieren.v1.ListDatabasesRequest\x1a#.migrieren.v1.ListDatabasesResponse\"\x00BEZ3github.com/alexfalkowski/migrieren/api/migrieren/v1\xea\x02\rMigrieren::V1b\x06proto3"
 
@@ -736,49 +999,60 @@ func file_migrieren_v1_service_proto_rawDescGZIP() []byte {
 	return file_migrieren_v1_service_proto_rawDescData
 }
 
-var file_migrieren_v1_service_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_migrieren_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_migrieren_v1_service_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
+var file_migrieren_v1_service_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_migrieren_v1_service_proto_goTypes = []any{
 	(MigrationState)(0),             // 0: migrieren.v1.MigrationState
-	(*Migration)(nil),               // 1: migrieren.v1.Migration
-	(*MigrateRequest)(nil),          // 2: migrieren.v1.MigrateRequest
-	(*MigrateResponse)(nil),         // 3: migrieren.v1.MigrateResponse
-	(*ApplyMigrationsRequest)(nil),  // 4: migrieren.v1.ApplyMigrationsRequest
-	(*ApplyMigrationsResponse)(nil), // 5: migrieren.v1.ApplyMigrationsResponse
-	(*MigrationStatus)(nil),         // 6: migrieren.v1.MigrationStatus
-	(*StatusRequest)(nil),           // 7: migrieren.v1.StatusRequest
-	(*StatusResponse)(nil),          // 8: migrieren.v1.StatusResponse
-	(*Database)(nil),                // 9: migrieren.v1.Database
-	(*ListDatabasesRequest)(nil),    // 10: migrieren.v1.ListDatabasesRequest
-	(*ListDatabasesResponse)(nil),   // 11: migrieren.v1.ListDatabasesResponse
-	nil,                             // 12: migrieren.v1.MigrateResponse.MetaEntry
-	nil,                             // 13: migrieren.v1.ApplyMigrationsResponse.MetaEntry
-	nil,                             // 14: migrieren.v1.StatusResponse.MetaEntry
-	nil,                             // 15: migrieren.v1.ListDatabasesResponse.MetaEntry
+	(MigrationDirection)(0),         // 1: migrieren.v1.MigrationDirection
+	(*Migration)(nil),               // 2: migrieren.v1.Migration
+	(*MigrateRequest)(nil),          // 3: migrieren.v1.MigrateRequest
+	(*MigrateResponse)(nil),         // 4: migrieren.v1.MigrateResponse
+	(*ApplyMigrationsRequest)(nil),  // 5: migrieren.v1.ApplyMigrationsRequest
+	(*ApplyMigrationsResponse)(nil), // 6: migrieren.v1.ApplyMigrationsResponse
+	(*MigrationStatus)(nil),         // 7: migrieren.v1.MigrationStatus
+	(*MigrationPlan)(nil),           // 8: migrieren.v1.MigrationPlan
+	(*PlanMigrationsRequest)(nil),   // 9: migrieren.v1.PlanMigrationsRequest
+	(*PlanMigrationsResponse)(nil),  // 10: migrieren.v1.PlanMigrationsResponse
+	(*StatusRequest)(nil),           // 11: migrieren.v1.StatusRequest
+	(*StatusResponse)(nil),          // 12: migrieren.v1.StatusResponse
+	(*Database)(nil),                // 13: migrieren.v1.Database
+	(*ListDatabasesRequest)(nil),    // 14: migrieren.v1.ListDatabasesRequest
+	(*ListDatabasesResponse)(nil),   // 15: migrieren.v1.ListDatabasesResponse
+	nil,                             // 16: migrieren.v1.MigrateResponse.MetaEntry
+	nil,                             // 17: migrieren.v1.ApplyMigrationsResponse.MetaEntry
+	nil,                             // 18: migrieren.v1.PlanMigrationsResponse.MetaEntry
+	nil,                             // 19: migrieren.v1.StatusResponse.MetaEntry
+	nil,                             // 20: migrieren.v1.ListDatabasesResponse.MetaEntry
 }
 var file_migrieren_v1_service_proto_depIdxs = []int32{
-	12, // 0: migrieren.v1.MigrateResponse.meta:type_name -> migrieren.v1.MigrateResponse.MetaEntry
-	1,  // 1: migrieren.v1.MigrateResponse.migration:type_name -> migrieren.v1.Migration
-	13, // 2: migrieren.v1.ApplyMigrationsResponse.meta:type_name -> migrieren.v1.ApplyMigrationsResponse.MetaEntry
-	1,  // 3: migrieren.v1.ApplyMigrationsResponse.migration:type_name -> migrieren.v1.Migration
+	16, // 0: migrieren.v1.MigrateResponse.meta:type_name -> migrieren.v1.MigrateResponse.MetaEntry
+	2,  // 1: migrieren.v1.MigrateResponse.migration:type_name -> migrieren.v1.Migration
+	17, // 2: migrieren.v1.ApplyMigrationsResponse.meta:type_name -> migrieren.v1.ApplyMigrationsResponse.MetaEntry
+	2,  // 3: migrieren.v1.ApplyMigrationsResponse.migration:type_name -> migrieren.v1.Migration
 	0,  // 4: migrieren.v1.MigrationStatus.state:type_name -> migrieren.v1.MigrationState
-	14, // 5: migrieren.v1.StatusResponse.meta:type_name -> migrieren.v1.StatusResponse.MetaEntry
-	6,  // 6: migrieren.v1.StatusResponse.status:type_name -> migrieren.v1.MigrationStatus
-	15, // 7: migrieren.v1.ListDatabasesResponse.meta:type_name -> migrieren.v1.ListDatabasesResponse.MetaEntry
-	9,  // 8: migrieren.v1.ListDatabasesResponse.databases:type_name -> migrieren.v1.Database
-	2,  // 9: migrieren.v1.Service.Migrate:input_type -> migrieren.v1.MigrateRequest
-	4,  // 10: migrieren.v1.Service.ApplyMigrations:input_type -> migrieren.v1.ApplyMigrationsRequest
-	7,  // 11: migrieren.v1.Service.Status:input_type -> migrieren.v1.StatusRequest
-	10, // 12: migrieren.v1.Service.ListDatabases:input_type -> migrieren.v1.ListDatabasesRequest
-	3,  // 13: migrieren.v1.Service.Migrate:output_type -> migrieren.v1.MigrateResponse
-	5,  // 14: migrieren.v1.Service.ApplyMigrations:output_type -> migrieren.v1.ApplyMigrationsResponse
-	8,  // 15: migrieren.v1.Service.Status:output_type -> migrieren.v1.StatusResponse
-	11, // 16: migrieren.v1.Service.ListDatabases:output_type -> migrieren.v1.ListDatabasesResponse
-	13, // [13:17] is the sub-list for method output_type
-	9,  // [9:13] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	7,  // 5: migrieren.v1.MigrationPlan.status:type_name -> migrieren.v1.MigrationStatus
+	1,  // 6: migrieren.v1.MigrationPlan.direction:type_name -> migrieren.v1.MigrationDirection
+	18, // 7: migrieren.v1.PlanMigrationsResponse.meta:type_name -> migrieren.v1.PlanMigrationsResponse.MetaEntry
+	8,  // 8: migrieren.v1.PlanMigrationsResponse.plan:type_name -> migrieren.v1.MigrationPlan
+	19, // 9: migrieren.v1.StatusResponse.meta:type_name -> migrieren.v1.StatusResponse.MetaEntry
+	7,  // 10: migrieren.v1.StatusResponse.status:type_name -> migrieren.v1.MigrationStatus
+	20, // 11: migrieren.v1.ListDatabasesResponse.meta:type_name -> migrieren.v1.ListDatabasesResponse.MetaEntry
+	13, // 12: migrieren.v1.ListDatabasesResponse.databases:type_name -> migrieren.v1.Database
+	3,  // 13: migrieren.v1.Service.Migrate:input_type -> migrieren.v1.MigrateRequest
+	5,  // 14: migrieren.v1.Service.ApplyMigrations:input_type -> migrieren.v1.ApplyMigrationsRequest
+	9,  // 15: migrieren.v1.Service.PlanMigrations:input_type -> migrieren.v1.PlanMigrationsRequest
+	11, // 16: migrieren.v1.Service.Status:input_type -> migrieren.v1.StatusRequest
+	14, // 17: migrieren.v1.Service.ListDatabases:input_type -> migrieren.v1.ListDatabasesRequest
+	4,  // 18: migrieren.v1.Service.Migrate:output_type -> migrieren.v1.MigrateResponse
+	6,  // 19: migrieren.v1.Service.ApplyMigrations:output_type -> migrieren.v1.ApplyMigrationsResponse
+	10, // 20: migrieren.v1.Service.PlanMigrations:output_type -> migrieren.v1.PlanMigrationsResponse
+	12, // 21: migrieren.v1.Service.Status:output_type -> migrieren.v1.StatusResponse
+	15, // 22: migrieren.v1.Service.ListDatabases:output_type -> migrieren.v1.ListDatabasesResponse
+	18, // [18:23] is the sub-list for method output_type
+	13, // [13:18] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_migrieren_v1_service_proto_init() }
@@ -791,8 +1065,8 @@ func file_migrieren_v1_service_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_migrieren_v1_service_proto_rawDesc), len(file_migrieren_v1_service_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   15,
+			NumEnums:      2,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

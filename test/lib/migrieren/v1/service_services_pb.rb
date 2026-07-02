@@ -51,6 +51,21 @@ module Migrieren
         # migrate v4 context support, which is currently incomplete in some database
         # driver paths.
         rpc :ApplyMigrations, ::Migrieren::V1::ApplyMigrationsRequest, ::Migrieren::V1::ApplyMigrationsResponse
+        # PlanMigrations reports current status and pending up migration versions for
+        # a configured database without applying migration files.
+        #
+        # Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+        # stopped requests, and Internal for configuration, source, or database
+        # inspection failures.
+        #
+        # Failures after request routing expose the same safe diagnostic trailers as
+        # Migrate, including migration-error, migration-log-count, migration-stage,
+        # and migration-log-last when those values are available.
+        #
+        # PlanMigrations opens the configured migration source to discover available
+        # versions, but it does not read migration bodies or expose configured source
+        # strings, database URL strings, or resolved secret values.
+        rpc :PlanMigrations, ::Migrieren::V1::PlanMigrationsRequest, ::Migrieren::V1::PlanMigrationsResponse
         # Status reports the current migration version state for a configured
         # database.
         #
