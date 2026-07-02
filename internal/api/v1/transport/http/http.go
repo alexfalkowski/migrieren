@@ -13,6 +13,7 @@ import (
 func Register(server *Server) {
 	rpc.Route(v1.Service_Migrate_FullMethodName, server.Migrate)
 	rpc.Route(v1.Service_ApplyMigrations_FullMethodName, server.ApplyMigrations)
+	rpc.Route(v1.Service_PlanMigrations_FullMethodName, server.PlanMigrations)
 	rpc.Route(v1.Service_Status_FullMethodName, server.Status)
 	rpc.Route(v1.Service_ListDatabases_FullMethodName, server.ListDatabases)
 }

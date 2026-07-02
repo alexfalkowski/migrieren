@@ -242,6 +242,7 @@ The service exposes:
 
 - `migrieren.v1.Service/Migrate`
 - `migrieren.v1.Service/ApplyMigrations`
+- `migrieren.v1.Service/PlanMigrations`
 - `migrieren.v1.Service/Status`
 - `migrieren.v1.Service/ListDatabases`
 
@@ -301,6 +302,43 @@ database: "postgres"
 > all-down, or version-zero migration APIs. Use `Migrate` when the caller knows
 > the target version, or `ApplyMigrations` to converge to the latest available
 > up migration.
+
+### 🧭 Migration plan
+
+`migrieren.v1.Service/PlanMigrations` reports current status and pending up
+migration versions for a configured database without applying migration files.
+It opens the configured source to discover available migration versions, but it
+does not read migration bodies, execute migrations, or expose configured source
+strings, database URL strings, resolved URLs, or secret values.
+
+Request:
+
+- `database`: logical database name from config.
+
+Response:
+
+- `meta`: request metadata emitted by the service runtime.
+- `plan.status`: current migration status for the database.
+- `plan.latest_version`: highest migration version available from the
+  configured source, or `0` when the source has no migrations.
+- `plan.target_version`: version a clean or unapplied database can converge
+  toward using pending up migrations; when no up migrations can apply, this is
+  the current status version.
+- `plan.direction`: `MIGRATION_DIRECTION_UP` when pending up migrations can
+  apply, otherwise `MIGRATION_DIRECTION_NONE`.
+- `plan.pending_versions`: source versions greater than the current status
+  version, in apply order.
+
+Conceptual request:
+
+```protobuf
+database: "postgres"
+```
+
+> [!NOTE]
+> PlanMigrations is informational. Migrieren intentionally does not expose
+> step-based up/down, rollback-by-step, all-down, or version-zero migration APIs.
+> Use `Migrate` for an explicit target version and `ApplyMigrations` for latest.
 
 ### 🔎 Migration status
 
@@ -364,6 +402,7 @@ The HTTP RPC façade exposes the same operation at:
 
 - `POST /migrieren.v1.Service/Migrate`
 - `POST /migrieren.v1.Service/ApplyMigrations`
+- `POST /migrieren.v1.Service/PlanMigrations`
 - `POST /migrieren.v1.Service/Status`
 - `POST /migrieren.v1.Service/ListDatabases`
 
@@ -391,6 +430,14 @@ Copy-paste apply-all request against the local HTTP façade:
 
 ```sh
 curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ApplyMigrations \
+  -H 'Content-Type: application/json' \
+  -d '{"database":"postgres"}'
+```
+
+Copy-paste plan request against the local HTTP façade:
+
+```sh
+curl -sS -X POST http://localhost:11000/migrieren.v1.Service/PlanMigrations \
   -H 'Content-Type: application/json' \
   -d '{"database":"postgres"}'
 ```

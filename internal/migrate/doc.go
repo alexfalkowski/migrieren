@@ -9,6 +9,10 @@
 //
 //   - [Migrator.Migrate] to open a migration source and database, migrate the
 //     database to a target version, and return in-memory migration logs.
+//   - [Migrator.ApplyMigrations] to apply all pending up migrations and return
+//     the resulting migration version and in-memory migration logs.
+//   - [Migrator.Plan] to report current status, latest source version, target
+//     version, direction, and pending up versions without applying migrations.
 //   - [Migrator.Ping] to validate that the database can be opened and reached.
 //   - [Migrator.Status] to report the current migration version and dirty state.
 //

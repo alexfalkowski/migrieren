@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Service_Migrate_FullMethodName         = "/migrieren.v1.Service/Migrate"
 	Service_ApplyMigrations_FullMethodName = "/migrieren.v1.Service/ApplyMigrations"
+	Service_PlanMigrations_FullMethodName  = "/migrieren.v1.Service/PlanMigrations"
 	Service_Status_FullMethodName          = "/migrieren.v1.Service/Status"
 	Service_ListDatabases_FullMethodName   = "/migrieren.v1.Service/ListDatabases"
 )
@@ -66,6 +67,21 @@ type ServiceClient interface {
 	// migrate v4 context support, which is currently incomplete in some database
 	// driver paths.
 	ApplyMigrations(ctx context.Context, in *ApplyMigrationsRequest, opts ...grpc.CallOption) (*ApplyMigrationsResponse, error)
+	// PlanMigrations reports current status and pending up migration versions for
+	// a configured database without applying migration files.
+	//
+	// Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+	// stopped requests, and Internal for configuration, source, or database
+	// inspection failures.
+	//
+	// Failures after request routing expose the same safe diagnostic trailers as
+	// Migrate, including migration-error, migration-log-count, migration-stage,
+	// and migration-log-last when those values are available.
+	//
+	// PlanMigrations opens the configured migration source to discover available
+	// versions, but it does not read migration bodies or expose configured source
+	// strings, database URL strings, or resolved secret values.
+	PlanMigrations(ctx context.Context, in *PlanMigrationsRequest, opts ...grpc.CallOption) (*PlanMigrationsResponse, error)
 	// Status reports the current migration version state for a configured
 	// database.
 	//
@@ -105,6 +121,16 @@ func (c *serviceClient) ApplyMigrations(ctx context.Context, in *ApplyMigrations
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ApplyMigrationsResponse)
 	err := c.cc.Invoke(ctx, Service_ApplyMigrations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *serviceClient) PlanMigrations(ctx context.Context, in *PlanMigrationsRequest, opts ...grpc.CallOption) (*PlanMigrationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PlanMigrationsResponse)
+	err := c.cc.Invoke(ctx, Service_PlanMigrations_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -172,6 +198,21 @@ type ServiceServer interface {
 	// migrate v4 context support, which is currently incomplete in some database
 	// driver paths.
 	ApplyMigrations(context.Context, *ApplyMigrationsRequest) (*ApplyMigrationsResponse, error)
+	// PlanMigrations reports current status and pending up migration versions for
+	// a configured database without applying migration files.
+	//
+	// Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+	// stopped requests, and Internal for configuration, source, or database
+	// inspection failures.
+	//
+	// Failures after request routing expose the same safe diagnostic trailers as
+	// Migrate, including migration-error, migration-log-count, migration-stage,
+	// and migration-log-last when those values are available.
+	//
+	// PlanMigrations opens the configured migration source to discover available
+	// versions, but it does not read migration bodies or expose configured source
+	// strings, database URL strings, or resolved secret values.
+	PlanMigrations(context.Context, *PlanMigrationsRequest) (*PlanMigrationsResponse, error)
 	// Status reports the current migration version state for a configured
 	// database.
 	//
@@ -202,6 +243,9 @@ func (UnimplementedServiceServer) Migrate(context.Context, *MigrateRequest) (*Mi
 }
 func (UnimplementedServiceServer) ApplyMigrations(context.Context, *ApplyMigrationsRequest) (*ApplyMigrationsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ApplyMigrations not implemented")
+}
+func (UnimplementedServiceServer) PlanMigrations(context.Context, *PlanMigrationsRequest) (*PlanMigrationsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PlanMigrations not implemented")
 }
 func (UnimplementedServiceServer) Status(context.Context, *StatusRequest) (*StatusResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method Status not implemented")
@@ -266,6 +310,24 @@ func _Service_ApplyMigrations_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_PlanMigrations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlanMigrationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).PlanMigrations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Service_PlanMigrations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).PlanMigrations(ctx, req.(*PlanMigrationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Service_Status_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(StatusRequest)
 	if err := dec(in); err != nil {
@@ -316,6 +378,10 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ApplyMigrations",
 			Handler:    _Service_ApplyMigrations_Handler,
+		},
+		{
+			MethodName: "PlanMigrations",
+			Handler:    _Service_PlanMigrations_Handler,
 		},
 		{
 			MethodName: "Status",

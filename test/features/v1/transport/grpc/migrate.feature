@@ -1,6 +1,6 @@
 @startup
-Feature: gRPC API
-  These endpoints allows users to migrate different databases.
+Feature: gRPC migrate API
+  These endpoints allow users to migrate configured databases.
 
   Scenario Outline: Migrate valid databases
     When I request to migrate with gRPC:
@@ -16,6 +16,10 @@ Feature: gRPC API
       | postgres |       1 |
       | postgres |       2 |
       | postgres |       1 |
+
+    @github
+    Examples:
+      | database | version |
       | github   |       1 |
       | github   |       2 |
 
@@ -28,91 +32,6 @@ Feature: gRPC API
     Examples:
       | database | version |
       | missing  |       1 |
-
-  @clean
-  Scenario: Apply all pending migrations
-    When I request to apply migrations with gRPC:
-      | database | logs |
-    Then I should receive a successful migration from gRPC:
-      | database | logs |
-      | version  |   40 |
-
-  @clean
-  Scenario: Apply all pending migrations when already current
-    When I request to apply migrations with gRPC:
-      | database | logs |
-    And I request to apply migrations with gRPC:
-      | database | logs |
-    Then I should receive a successful migration from gRPC:
-      | database | logs |
-      | version  |   40 |
-
-  Scenario: Apply missing databases
-    When I request to apply migrations with gRPC:
-      | database | missing |
-    Then I should receive a not found migration from gRPC
-
-  Scenario Outline: Apply misconfigured databases
-    When I request to apply migrations with gRPC:
-      | database | <database> |
-    Then I should receive an invalid migration from gRPC
-
-    Examples:
-      | database       |
-      | missing_source |
-      | missing_url    |
-
-  Scenario: List configured databases
-    When I request configured databases with gRPC
-    Then I should receive configured databases from gRPC:
-      | database                        |
-      | postgres                        |
-      | invalid_source                  |
-      | missing_source                  |
-      | missing_url                     |
-      | invalid_url                     |
-      | invalid_db                      |
-      | invalid_quoted_table            |
-      | invalid_incomplete_quoted_table |
-      | invalid_port                    |
-      | github                          |
-      | timeout                         |
-      | logs                            |
-
-  @clean
-  Scenario: Report migration status
-    When I request to migrate with gRPC:
-      | database | postgres |
-      | version  |        1 |
-    And I request migration status with gRPC:
-      | database | postgres |
-    Then I should receive a migration status from gRPC:
-      | database | postgres |
-      | version  |        1 |
-      | state    | clean    |
-
-  @clean
-  Scenario: Report unapplied migration status
-    When I request migration status with gRPC:
-      | database | postgres |
-    Then I should receive a migration status from gRPC:
-      | database | postgres  |
-      | version  |         0 |
-      | state    | unapplied |
-
-  Scenario: Report missing migration status
-    When I request migration status with gRPC:
-      | database | missing |
-    Then I should receive a not found migration from gRPC
-
-  Scenario: Report misconfigured migration status
-    When I request migration status with gRPC:
-      | database | missing_url |
-    Then I should receive an invalid migration from gRPC
-    And I should receive failure diagnostics from gRPC:
-      | error | invalid_config |
-      | logs  | empty          |
-      | stage | url            |
 
   Scenario Outline: Reject <case> migration version
     When I request to migrate with gRPC:
@@ -165,19 +84,6 @@ Feature: gRPC API
       | missing_url                      |       1 | invalid_config    | empty   | url    |
       | invalid_incomplete_quoted_table  |       1 | invalid_config    | empty   |        |
       | postgres                         |       3 | invalid_migration | present |        |
-
-  @clean
-  Scenario: Report dirty migration status
-    When I request to migrate with gRPC:
-      | database | postgres |
-      | version  |        3 |
-    Then I should receive an invalid migration from gRPC
-    When I request migration status with gRPC:
-      | database | postgres |
-    Then I should receive a migration status from gRPC:
-      | database | postgres |
-      | version  |        3 |
-      | state    | dirty    |
 
   @clean
   Scenario Outline: Migrate misconfigured databases
