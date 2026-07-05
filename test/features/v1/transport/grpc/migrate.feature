@@ -112,3 +112,12 @@ Feature: gRPC migrate API
       | database | postgres |
       | version  |        1 |
     Then I should receive an invalid migration from gRPC
+
+  @reset
+  Scenario: Stop migration when Postgres times out
+    Given I set the proxy for service 'postgres' to 'timeout'
+    And I should see "postgres" as unhealthy
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive a stopped deadline migration from gRPC

@@ -88,3 +88,12 @@ Feature: HTTP migrate API
       | database | postgres |
       | version  |        1 |
     Then I should receive an invalid migration from HTTP
+
+  @reset
+  Scenario: Stop migration when Postgres times out
+    Given I set the proxy for service 'postgres' to 'timeout'
+    And I should see "postgres" as unhealthy
+    When I request to migrate with HTTP:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive a timed out migration from HTTP

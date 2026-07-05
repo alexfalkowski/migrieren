@@ -25,6 +25,10 @@ Then('I should receive an invalid argument migration from HTTP') do
   expect(@response.code).to eq(400)
 end
 
+Then('I should receive a timed out migration from HTTP') do
+  expect(@response).to be_a(RestClient::Exceptions::ReadTimeout)
+end
+
 def request_with_http(table)
   rows = table.rows_hash
   opts = Migrieren.http_options(
@@ -35,4 +39,6 @@ def request_with_http(table)
   )
 
   Migrieren::V1.server_http.migrate(rows['database'], rows['version'].to_i, opts)
+rescue StandardError => e
+  e
 end
