@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.33.0
-	github.com/alexfalkowski/go-service/v2 v2.638.0
+	github.com/alexfalkowski/go-service/v2 v2.642.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/jackc/pgx/v5 v5.10.0
 	go.opentelemetry.io/otel/metric v1.44.0
@@ -22,7 +22,7 @@ require (
 	github.com/XSAM/otelsql v0.42.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
 	github.com/alexfalkowski/go-sync v1.27.0 // indirect
-	github.com/arl/statsviz v0.8.0 // indirect
+	github.com/arl/statsviz v0.8.1 // indirect
 	github.com/avfs/avfs v0.35.0 // indirect
 	github.com/beevik/ntp v1.5.0 // indirect
 	github.com/beevik/nts v0.3.0 // indirect
