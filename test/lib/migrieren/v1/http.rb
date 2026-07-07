@@ -90,6 +90,25 @@ module Migrieren
       def list_databases(opts = {})
         post('/migrieren.v1.Service/ListDatabases', {}.to_json, opts)
       end
+
+      protected
+
+      ##
+      # Authenticates every HTTP RPC call before delegating to the base client.
+      #
+      # Adds a route-scoped `migrieren` Bearer token (see
+      # {Migrieren.authorize_http}) unless the caller already set an
+      # `:authorization` header, so authentication is transparent to the endpoint
+      # helpers above while rejection scenarios opt out by passing their own
+      # header.
+      #
+      # @param pathname [String] the HTTP RPC path
+      # @param payload [String] the JSON request body
+      # @param opts [Hash] request options passed to `Nonnative::HTTPClient#post`
+      # @return [Object] the base client's response
+      def post(pathname, payload, opts = {})
+        super(pathname, payload, Migrieren.authorize_http(pathname, opts))
+      end
     end
   end
 end
