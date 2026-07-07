@@ -216,6 +216,73 @@ every advisory-lock wait or status inspection. Migrieren relies on the upstream
 driver behavior here rather than maintaining a local pgx driver fork, and can
 tighten this once context-aware migrate v5 driver APIs are available.
 
+### 🔐 Authentication and access control
+
+Migrieren can require an authenticated, authorized caller on both the gRPC API
+and the HTTP façade. This reuses the shared `go-service` transport wiring:
+
+- `transport.<http|grpc>.token` enables server-side token verification. The
+  supported kinds are `jwt`, `paseto`, and `ssh`. When present, application RPCs
+  require a valid `Authorization: Bearer <token>` value; the operation routes
+  (`/migrieren/livez`, `/migrieren/readyz`, `/migrieren/healthz`, metrics, and
+  the gRPC health service) are always exempt.
+- `transport.access` enables a Casbin authorization policy that is enforced
+  after verification. The policy subject is the verified token subject, the
+  object is the transport-scoped method, and the action is `invoke`.
+
+The verification audience is bound to the request so a token cannot be replayed
+against another endpoint:
+
+- HTTP audience is `"POST <path>"`, for example `POST /migrieren.v1.Service/Status`.
+- gRPC audience is the full method, for example `/migrieren.v1.Service/Status`.
+
+The transport-scoped access objects are prefixed by transport, for example
+`http:POST /migrieren.v1.Service/Status` and `grpc:/migrieren.v1.Service/Status`.
+
+The checked-in test config wires the `ssh` kind on both transports. SSH tokens
+fix `sub == kid == key`, so the signing key id is the verified subject that the
+policy is evaluated against:
+
+```yaml
+transport:
+  access:
+    model: file:secrets/access_model
+    policy: file:secrets/access_policy
+  http:
+    address: tcp://:11000
+    token:
+      kind: ssh
+      ssh:
+        key: migrieren
+        exp: 1h
+        keys:
+          migrieren:
+            public: file:secrets/ssh_migrieren.pub
+          guest:
+            public: file:secrets/ssh_guest.pub
+  grpc:
+    address: tcp://:12000
+    token:
+      kind: ssh
+      ssh:
+        key: migrieren
+        exp: 1h
+        keys:
+          migrieren:
+            public: file:secrets/ssh_migrieren.pub
+          guest:
+            public: file:secrets/ssh_guest.pub
+```
+
+The `secrets/access_policy` file grants the `migrieren` subject `invoke` on every
+method for both transports. The `guest` key is trusted for verification but is
+absent from the policy, so a `guest`-signed token authenticates yet is denied.
+
+The Ruby feature harness mints matching tokens with `nonnative`
+(`Migrieren.auth_token`) and attaches them automatically: an HTTP `post`
+override adds a route-scoped Bearer header, and a gRPC client interceptor adds
+route-scoped `authorization` metadata. See `test/features/v1/transport/*/auth.feature`.
+
 ### 🧪 About the checked-in test config
 
 `test/.config/server.yml` intentionally contains both valid and invalid database definitions:

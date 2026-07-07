@@ -52,8 +52,21 @@ telemetry:
     kind: otlp
     url: http://localhost:4318/v1/traces
 transport:
+  access:
+    model: file:secrets/access_model
+    policy: file:secrets/access_policy
   http:
     address: tcp://:11000
+    token:
+      kind: ssh
+      ssh:
+        key: migrieren
+        exp: 1h
+        keys:
+          migrieren:
+            public: file:secrets/ssh_migrieren.pub
+          guest:
+            public: file:secrets/ssh_guest.pub
     limiter:
       kind: user-id
       tokens: 1000
@@ -61,6 +74,16 @@ transport:
     timeout: 5s
   grpc:
     address: tcp://:12000
+    token:
+      kind: ssh
+      ssh:
+        key: migrieren
+        exp: 1h
+        keys:
+          migrieren:
+            public: file:secrets/ssh_migrieren.pub
+          guest:
+            public: file:secrets/ssh_guest.pub
     limiter:
       kind: user-id
       tokens: 1000

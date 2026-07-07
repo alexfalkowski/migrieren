@@ -131,6 +131,96 @@ module Migrieren
         open_timeout:
       }
     end
+
+    ##
+    # Lifetime, in seconds, of tokens minted by the feature harness.
+    #
+    # It is comfortably below the server's configured token expiration
+    # (`transport.*.token.ssh.exp` in `.config/server.yml`) so generated tokens
+    # never exceed the verifier's signed-lifetime cap.
+    TOKEN_EXPIRATION = 300
+
+    ##
+    # Returns a memoized `nonnative` SSH token generator for a signing key.
+    #
+    # The service verifies go-service SSH tokens (`transport.*.token.ssh`), and
+    # `nonnative` mints matching tokens. SSH tokens fix `sub == kid == key`, so
+    # the key id becomes the verified user id the access policy is evaluated
+    # against. Two keys exist under `secrets/`: `migrieren` (granted by the
+    # Casbin policy) and `guest` (verifiable but not granted).
+    #
+    # @param key [String] the signing key id, matching a `secrets/ssh_<key>`
+    #   OpenSSH private key and a server-side public key
+    # @return [Nonnative::Token] a memoized token generator for that key
+    def auth_token(key = 'migrieren')
+      (@auth_tokens ||= {})[key] ||=
+        Nonnative.token(kind: 'ssh', issuer: 'migrieren', key:, private_key: "secrets/ssh_#{key}", expiration: TOKEN_EXPIRATION)
+    end
+
+    ##
+    # Builds a `Bearer` Authorization header value for an HTTP RPC route.
+    #
+    # The audience is bound to the route (`"POST <path>"`) so the token cannot be
+    # replayed against a different endpoint.
+    #
+    # @param path [String] the HTTP RPC path, for example `/migrieren.v1.Service/Status`
+    # @param key [String] the signing key id (see {auth_token})
+    # @return [String] an Authorization header value such as `"Bearer <token>"`
+    def http_authorization(path, key = 'migrieren')
+      Nonnative::Header.auth_bearer(auth_token(key).generate(aud: Nonnative::Token.http_audience('POST', path), sub: key))[:authorization]
+    end
+
+    ##
+    # Builds a `Bearer` Authorization metadata value for a gRPC method.
+    #
+    # The audience is bound to the gRPC full method so the token is scoped to a
+    # single RPC.
+    #
+    # @param full_method [String] the gRPC full method, for example `/migrieren.v1.Service/Status`
+    # @param key [String] the signing key id (see {auth_token})
+    # @return [String] an Authorization metadata value such as `"Bearer <token>"`
+    def grpc_authorization(full_method, key = 'migrieren')
+      "Bearer #{auth_token(key).generate(aud: Nonnative::Token.grpc_audience(full_method.to_s), sub: key)}"
+    end
+
+    ##
+    # Returns HTTP request options with a route-scoped Authorization header.
+    #
+    # This is the default authentication path used by {Migrieren::V1::HTTP}: it
+    # mints a `migrieren` token bound to `"POST <path>"` unless the caller already
+    # set an `:authorization` header. Scenarios exercising rejection pass an
+    # explicit header (empty, malformed, or `guest`-signed) to opt out.
+    #
+    # @param path [String] the HTTP RPC path being called
+    # @param opts [Hash] request options passed to `Nonnative::HTTPClient#post`
+    # @return [Hash] the options with an Authorization header when one was absent
+    def authorize_http(path, opts)
+      headers = opts[:headers] || {}
+      return opts if headers.key?(:authorization)
+
+      opts.merge(headers: headers.merge(authorization: http_authorization(path)))
+    end
+  end
+
+  ##
+  # gRPC client interceptor that attaches a route-scoped Bearer token.
+  #
+  # It authenticates every unary call made through {Migrieren::V1.server_grpc} by
+  # setting an `authorization` metadata entry scoped to the call's full method,
+  # unless the call already supplies one. Scenarios exercising rejection pass an
+  # explicit `authorization` metadata value (empty, malformed, or `guest`-signed)
+  # to opt out.
+  class GRPCAuthorization < GRPC::ClientInterceptor
+    ##
+    # Injects the Authorization metadata for a unary request/response call.
+    #
+    # @param method [String] the gRPC full method being invoked
+    # @param metadata [Hash] the mutable per-call metadata
+    # @return [Object] the result of the intercepted call
+    def request_response(method:, metadata:, **)
+      metadata['authorization'] ||= Migrieren.grpc_authorization(method)
+      yield
+    end
   end
 
   ##
@@ -158,7 +248,10 @@ module Migrieren
       #
       # @return [Migrieren::V1::Service::Stub] a memoized gRPC stub
       def server_grpc
-        @server_grpc ||= Migrieren::V1::Service::Stub.new('localhost:12000', :this_channel_is_insecure, channel_args: Migrieren.user_agent)
+        @server_grpc ||= Migrieren::V1::Service::Stub.new(
+          'localhost:12000', :this_channel_is_insecure,
+          channel_args: Migrieren.user_agent, interceptors: [Migrieren::GRPCAuthorization.new]
+        )
       end
     end
   end
