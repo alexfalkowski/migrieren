@@ -14,7 +14,7 @@ commands:
 executors:
   go-with-postgres-mimir:
     docker:
-      - image: alexfalkowski/go:4.23
+      - image: alexfalkowski/go:4.24
       - image: postgres:18-trixie
         environment:
           POSTGRES_DB: test
@@ -24,13 +24,13 @@ executors:
         command: -server.http-listen-port=9009 -auth.multitenancy-enabled=false -ingester.ring.replication-factor=1
   release:
     docker:
-      - image: alexfalkowski/release:8.21
+      - image: alexfalkowski/release:8.22
   alpine:
     docker:
       - image: alpine:latest
   go:
     docker:
-      - image: alexfalkowski/go:4.23
+      - image: alexfalkowski/go:4.24
 
 jobs:
   build-service:
