@@ -118,6 +118,22 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   and call `Migrate`; hidden source-topology step execution is not part of the
   current product direction.
 
+### Surfacing pending migration names in PlanMigrations is not desired
+
+- `PlanMigrations` intentionally reports pending migrations as source version
+  numbers only. It does not return migration names/identifiers alongside those
+  versions.
+- We considered adding a `{version, name}` pending list (readable via the
+  upstream source driver's `ReadUp` identifier without reading bodies) and
+  decided against it: operators can easily look up which migrations the pending
+  version numbers correspond to from the migration source, so the added Plan
+  behavior (opening each pending migration to read its identifier) is not worth
+  the marginal convenience.
+- Reviewers should not keep recording "expose pending migration names/identifiers
+  in the plan" as a feature gap by default. Raise it only if the project
+  explicitly decides it wants human-meaningful names in the plan response, or
+  there is concrete operator evidence that version-number lookup is insufficient.
+
 ### Health probe names are reserved by convention
 
 - Health wiring uses internal probe names such as `noop` and `online`.

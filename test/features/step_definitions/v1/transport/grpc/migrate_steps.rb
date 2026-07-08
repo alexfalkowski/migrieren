@@ -36,7 +36,7 @@ Then('I should receive bounded migration logs from gRPC') do
   logs = @response.migration.logs
 
   expect(logs.length).to be <= 100
-  expect(logs.first).to eq('migration logs truncated')
+  expect(logs.first).to start_with('migration logs truncated')
 end
 
 def request_with_grpc(table)

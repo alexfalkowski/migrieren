@@ -165,6 +165,11 @@ unique `name` and all of these fields:
 - `source`: how to resolve the migration source URL.
 - `url`: how to resolve the database connection URL.
 
+`migrate.logs` is optional. `migrate.logs.max` bounds how many migration log
+lines each `Migrate`/`ApplyMigrations` response returns (default 100). When the
+limit is exceeded, the oldest lines are dropped and the first returned entry is a
+`migration logs truncated (showing last N of M)` marker.
+
 In the checked-in test setup, the referenced secret files contain the actual values consumed by the migrator:
 
 ```text
@@ -323,7 +328,7 @@ Response:
 - `meta`: request metadata emitted by the service runtime.
 - `migration.database`: echoed database name.
 - `migration.version`: echoed target version.
-- `migration.logs`: in-memory migration log lines collected during execution. Returned logs are capped at 100 entries and start with `migration logs truncated` when older lines were discarded.
+- `migration.logs`: in-memory migration log lines collected during execution. Returned logs are capped at a configured maximum (`migrate.logs.max`, default 100) and start with a `migration logs truncated (showing last N of M)` marker when older lines were discarded.
 
 Conceptual request:
 
@@ -350,8 +355,9 @@ Response:
 - `migration.version`: resulting migration version after applying pending
   migrations.
 - `migration.logs`: in-memory migration log lines collected during execution.
-  Returned logs are capped at 100 entries and start with `migration logs
-  truncated` when older lines were discarded.
+  Returned logs are capped at a configured maximum (`migrate.logs.max`, default
+  100) and start with a `migration logs truncated (showing last N of M)` marker
+  when older lines were discarded.
 
 Conceptual request:
 
