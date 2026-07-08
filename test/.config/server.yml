@@ -5,6 +5,8 @@ health:
 id:
   kind: uuid
 migrate:
+  logs:
+    max: 20
   databases:
     - name: postgres
       source: file:secrets/source

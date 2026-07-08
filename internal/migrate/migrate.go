@@ -37,8 +37,12 @@ var (
 // Migration resources are closed before returning on normal completion and
 // closed asynchronously when an in-flight migration is stopped by context
 // cancellation or deadline expiry.
-func NewMigrator() *Migrator {
-	return &Migrator{}
+//
+// The configured [Logs.Max], when positive, bounds how many migration log lines
+// each operation returns; otherwise a default maximum is used (see
+// [Logs.GetMax]).
+func NewMigrator(cfg *Config) *Migrator {
+	return &Migrator{logMax: cfg.Logs.GetMax()}
 }
 
 // Migrator performs database schema migrations using golang-migrate.
@@ -48,7 +52,9 @@ func NewMigrator() *Migrator {
 //   - Captures migration logs in memory and returns them to the caller.
 //   - Maps underlying driver/migration errors onto stable sentinel errors,
 //     attaching the original error to context metadata for observability.
-type Migrator struct{}
+type Migrator struct {
+	logMax int
+}
 
 // Migrate migrates the database identified by db to the given target version.
 //
@@ -65,8 +71,9 @@ type Migrator struct{}
 //     source/database setup or migration execution fails.
 //   - logs: in-memory migration logs captured during the operation. Logs may be
 //     returned on successful migrations, no-op migrations, and migration
-//     execution failures. At most 100 entries are returned; truncation is marked
-//     by "migration logs truncated" as the first entry.
+//     execution failures. At most the configured maximum (default 100) entries
+//     are returned; when older lines are dropped the first entry begins with
+//     "migration logs truncated" and reports how many lines are shown.
 //   - error: nil on success; otherwise one of:
 //     [ErrInvalidConfig] (cannot open src/db),
 //     [ErrInvalidMigration] (migration failed),
@@ -87,7 +94,7 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 		return ctx, nil, ErrInvalidConfig
 	}
 
-	logger := logger.New()
+	logger := logger.New(m.logMax)
 	migrator.Log = logger
 
 	if err := m.migrate(ctx, migrator, version); err != nil {
@@ -118,8 +125,9 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 //     migration version has been recorded.
 //   - logs: in-memory migration logs captured during the operation. Logs may be
 //     returned on successful migrations, no-op migrations, and migration
-//     execution failures. At most 100 entries are returned; truncation is marked
-//     by "migration logs truncated" as the first entry.
+//     execution failures. At most the configured maximum (default 100) entries
+//     are returned; when older lines are dropped the first entry begins with
+//     "migration logs truncated" and reports how many lines are shown.
 //   - error: nil on success; otherwise one of:
 //     [ErrInvalidConfig] (cannot open src/db),
 //     [ErrInvalidMigration] (migration failed or final version cannot be read),
@@ -142,7 +150,7 @@ func (m *Migrator) ApplyMigrations(ctx context.Context, src, db string) (context
 		return ctx, 0, nil, ErrInvalidConfig
 	}
 
-	logger := logger.New()
+	logger := logger.New(m.logMax)
 	migrator.Log = logger
 
 	version, err := m.applyMigrations(ctx, migrator)

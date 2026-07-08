@@ -45,9 +45,11 @@
 // # Logs
 //
 // Migration logs are captured in memory and returned from [Migrator.Migrate] as
-// a slice of strings. The logger keeps at most 100 entries; when output exceeds
-// that cap, the first returned entry is "migration logs truncated" and the
-// remaining entries are the latest log lines. When the underlying migrate
+// a slice of strings. The logger keeps at most the configured maximum number of
+// entries (migrate.logs.max, default 100); when output exceeds that cap, the
+// oldest lines are dropped and the first returned entry is a marker beginning
+// with "migration logs truncated" that reports how many recent lines are shown,
+// followed by those most recent log lines. When the underlying migrate
 // engine reports migrate.ErrNoChange, it is treated as a successful no-op and
 // the accumulated logs are still returned.
 //

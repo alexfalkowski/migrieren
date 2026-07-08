@@ -142,8 +142,9 @@ type Migration struct {
 	// resulting migration version for ApplyMigrations responses.
 	Version uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
 	// logs contains in-memory migrate log lines collected during execution.
-	// The service caps this list at 100 entries and marks truncation with
-	// "migration logs truncated" as the first entry.
+	// The service caps this list at a configured maximum (default 100). When
+	// older lines are dropped, the first entry begins with "migration logs
+	// truncated" and reports how many recent lines are shown out of the total.
 	Logs          []string `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

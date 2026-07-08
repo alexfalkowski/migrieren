@@ -20,6 +20,13 @@ Feature: HTTP apply API
       | database | logs |
       | version  |   40 |
 
+  @clean
+  Scenario: Apply migrations truncates logs to the configured maximum
+    When I request to apply migrations with HTTP:
+      | database | logs |
+    Then I should receive truncated migration logs from HTTP:
+      | max | 20 |
+
   Scenario: Apply missing databases
     When I request to apply migrations with HTTP:
       | database | missing |

@@ -20,6 +20,13 @@ Feature: gRPC apply API
       | database | logs |
       | version  |   40 |
 
+  @clean
+  Scenario: Apply migrations truncates logs to the configured maximum
+    When I request to apply migrations with gRPC:
+      | database | logs |
+    Then I should receive truncated migration logs from gRPC:
+      | max | 20 |
+
   Scenario: Apply missing databases
     When I request to apply migrations with gRPC:
       | database | missing |

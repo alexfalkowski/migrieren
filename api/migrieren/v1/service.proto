@@ -15,8 +15,9 @@ message Migration {
   uint64 version = 2;
 
   // logs contains in-memory migrate log lines collected during execution.
-  // The service caps this list at 100 entries and marks truncation with
-  // "migration logs truncated" as the first entry.
+  // The service caps this list at a configured maximum (default 100). When
+  // older lines are dropped, the first entry begins with "migration logs
+  // truncated" and reports how many recent lines are shown out of the total.
   repeated string logs = 3;
 }
 
