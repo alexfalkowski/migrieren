@@ -11,7 +11,7 @@ import (
 	"github.com/alexfalkowski/go-service/v2/io"
 	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/golang-migrate/migrate/v4/source"
-	"github.com/google/go-github/v72/github"
+	"github.com/google/go-github/v89/github"
 )
 
 var (
@@ -75,14 +75,19 @@ func (d *Driver) Open(rawURL string) (source.Driver, error) {
 		return nil, err
 	}
 
-	client := github.NewClient(nil)
+	var opts []github.ClientOptionsFunc
 	if parsed.User != nil {
 		token, ok := parsed.User.Password()
 		if !ok {
 			return nil, ErrNoPassword
 		}
 
-		client = client.WithAuthToken(token)
+		opts = append(opts, github.WithAuthToken(token))
+	}
+
+	client, err := github.NewClient(opts...)
+	if err != nil {
+		return nil, err
 	}
 
 	repository, repoPath, _ := strings.Cut(strings.Trim(parsed.Path, "/"), "/")
