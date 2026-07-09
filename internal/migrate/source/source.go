@@ -2,10 +2,10 @@ package source
 
 import (
 	"github.com/alexfalkowski/go-service/v2/context"
+	_ "github.com/alexfalkowski/migrieren/internal/migrate/source/github"
 	"github.com/alexfalkowski/migrieren/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/source"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	_ "github.com/golang-migrate/migrate/v4/source/github"
 )
 
 // Check validates that sourceURL can be used as a migration source without

@@ -6,6 +6,7 @@ require (
 	github.com/alexfalkowski/go-health/v2 v2.33.0
 	github.com/alexfalkowski/go-service/v2 v2.652.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
+	github.com/google/go-github/v72 v72.0.0
 	github.com/jackc/pgx/v5 v5.10.0
 	go.opentelemetry.io/otel/metric v1.44.0
 	google.golang.org/grpc v1.82.0
@@ -47,7 +48,6 @@ require (
 	github.com/go-playground/validator/v10 v10.30.3 // indirect
 	github.com/go-sprout/sprout v1.0.3 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
-	github.com/google/go-github/v39 v39.2.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/pprof v0.0.0-20260604005048-7023385849c0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -132,7 +132,6 @@ require (
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.54.0 // indirect
 	golang.org/x/net v0.57.0 // indirect
-	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
