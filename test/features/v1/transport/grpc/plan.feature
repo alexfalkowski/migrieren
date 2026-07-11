@@ -119,6 +119,20 @@ Feature: gRPC plan API
       | version  |        3 |
       | state    | dirty    |
 
+  @clean
+  Scenario: Plan a dirty unapplied database
+    Given the postgres database has a dirty unapplied migration
+    When I request a migration plan with gRPC:
+      | database | postgres |
+    Then I should receive a migration plan from gRPC:
+      | database         | postgres |
+      | version          |        0 |
+      | state            | dirty    |
+      | latest_version   |        3 |
+      | target_version   |        0 |
+      | direction        | none     |
+      | pending_versions | 1,2,3    |
+
   Scenario: Plan missing databases
     When I request a migration plan with gRPC:
       | database | missing |

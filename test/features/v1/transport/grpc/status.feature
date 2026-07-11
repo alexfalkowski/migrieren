@@ -54,3 +54,13 @@ Feature: gRPC status API
       | database | postgres |
       | version  |        3 |
       | state    | dirty    |
+
+  @clean
+  Scenario: Report a dirty migration status for an unapplied database
+    Given the postgres database has a dirty unapplied migration
+    When I request migration status with gRPC:
+      | database | postgres |
+    Then I should receive a migration status from gRPC:
+      | database | postgres |
+      | version  |        0 |
+      | state    | dirty    |
