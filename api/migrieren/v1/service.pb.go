@@ -80,16 +80,18 @@ func (MigrationState) EnumDescriptor() ([]byte, []int) {
 }
 
 // MigrationDirection identifies whether the current database state can move
-// toward the latest available source version by applying up migrations.
+// toward a planned migration target.
 type MigrationDirection int32
 
 const (
 	// MIGRATION_DIRECTION_UNSPECIFIED is the default value for unknown directions.
 	MigrationDirection_MIGRATION_DIRECTION_UNSPECIFIED MigrationDirection = 0
-	// MIGRATION_DIRECTION_NONE means no up migrations are pending.
+	// MIGRATION_DIRECTION_NONE means no migrations are pending for the plan.
 	MigrationDirection_MIGRATION_DIRECTION_NONE MigrationDirection = 1
 	// MIGRATION_DIRECTION_UP means one or more up migrations are pending.
 	MigrationDirection_MIGRATION_DIRECTION_UP MigrationDirection = 2
+	// MIGRATION_DIRECTION_DOWN means one or more down migrations are pending.
+	MigrationDirection_MIGRATION_DIRECTION_DOWN MigrationDirection = 3
 )
 
 // Enum value maps for MigrationDirection.
@@ -98,11 +100,13 @@ var (
 		0: "MIGRATION_DIRECTION_UNSPECIFIED",
 		1: "MIGRATION_DIRECTION_NONE",
 		2: "MIGRATION_DIRECTION_UP",
+		3: "MIGRATION_DIRECTION_DOWN",
 	}
 	MigrationDirection_value = map[string]int32{
 		"MIGRATION_DIRECTION_UNSPECIFIED": 0,
 		"MIGRATION_DIRECTION_NONE":        1,
 		"MIGRATION_DIRECTION_UP":          2,
+		"MIGRATION_DIRECTION_DOWN":        3,
 	}
 )
 
@@ -491,14 +495,20 @@ type MigrationPlan struct {
 	// latest_version is the highest migration version available from the
 	// configured source. It is zero when the source has no migrations.
 	LatestVersion uint64 `protobuf:"varint,2,opt,name=latest_version,json=latestVersion,proto3" json:"latest_version,omitempty"`
-	// target_version is the version a clean or unapplied database can converge
-	// toward using pending up migrations. It equals latest_version when direction
-	// is MIGRATION_DIRECTION_UP, and otherwise equals the current status version.
+	// target_version is the version the plan can converge toward. It equals the
+	// requested PlanMigrationsRequest target_version when supplied. Otherwise,
+	// it equals latest_version when direction is MIGRATION_DIRECTION_UP, or the
+	// current status version when no up migrations are pending.
 	TargetVersion uint64 `protobuf:"varint,3,opt,name=target_version,json=targetVersion,proto3" json:"target_version,omitempty"`
-	// direction reports whether pending up migrations can currently apply.
+	// direction reports whether the plan applies up migrations, removes down
+	// migrations, or makes no migration changes.
 	Direction MigrationDirection `protobuf:"varint,4,opt,name=direction,proto3,enum=migrieren.v1.MigrationDirection" json:"direction,omitempty"`
-	// pending_versions contains source versions greater than the current status
-	// version, in apply order. It is empty when no up migrations are pending.
+	// pending_versions contains source versions that the plan would apply or
+	// remove, in execution order. Down plans include the current version and
+	// exclude the target version. For an omitted target on a dirty database, it
+	// instead reports later source versions discovered during legacy planning;
+	// direction remains MIGRATION_DIRECTION_NONE and the list is not executable.
+	// It is empty when no migrations are pending or discovered.
 	PendingVersions []uint64 `protobuf:"varint,5,rep,packed,name=pending_versions,json=pendingVersions,proto3" json:"pending_versions,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -569,12 +579,17 @@ func (x *MigrationPlan) GetPendingVersions() []uint64 {
 	return nil
 }
 
-// PlanMigrationsRequest identifies the configured database to inspect against
-// its migration source.
+// PlanMigrationsRequest identifies the configured database and optional target
+// to inspect against its migration source.
 type PlanMigrationsRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// database is the configured logical database name, not a raw database URL.
-	Database      string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
+	Database string `protobuf:"bytes,1,opt,name=database,proto3" json:"database,omitempty"`
+	// target_version is an optional migration version to preview. When omitted,
+	// the service previews convergence to the latest available up migration.
+	// When supplied, it must be greater than zero and fit within the
+	// server-supported signed integer range.
+	TargetVersion *uint64 `protobuf:"varint,2,opt,name=target_version,json=targetVersion,proto3,oneof" json:"target_version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -614,6 +629,13 @@ func (x *PlanMigrationsRequest) GetDatabase() string {
 		return x.Database
 	}
 	return ""
+}
+
+func (x *PlanMigrationsRequest) GetTargetVersion() uint64 {
+	if x != nil && x.TargetVersion != nil {
+		return *x.TargetVersion
+	}
+	return 0
 }
 
 // PlanMigrationsResponse contains response metadata and the migration plan.
@@ -946,9 +968,11 @@ const file_migrieren_v1_service_proto_rawDesc = "" +
 	"\x0elatest_version\x18\x02 \x01(\x04R\rlatestVersion\x12%\n" +
 	"\x0etarget_version\x18\x03 \x01(\x04R\rtargetVersion\x12>\n" +
 	"\tdirection\x18\x04 \x01(\x0e2 .migrieren.v1.MigrationDirectionR\tdirection\x12)\n" +
-	"\x10pending_versions\x18\x05 \x03(\x04R\x0fpendingVersions\"3\n" +
+	"\x10pending_versions\x18\x05 \x03(\x04R\x0fpendingVersions\"r\n" +
 	"\x15PlanMigrationsRequest\x12\x1a\n" +
-	"\bdatabase\x18\x01 \x01(\tR\bdatabase\"\xc6\x01\n" +
+	"\bdatabase\x18\x01 \x01(\tR\bdatabase\x12*\n" +
+	"\x0etarget_version\x18\x02 \x01(\x04H\x00R\rtargetVersion\x88\x01\x01B\x11\n" +
+	"\x0f_target_version\"\xc6\x01\n" +
 	"\x16PlanMigrationsResponse\x12B\n" +
 	"\x04meta\x18\x01 \x03(\v2..migrieren.v1.PlanMigrationsResponse.MetaEntryR\x04meta\x12/\n" +
 	"\x04plan\x18\x02 \x01(\v2\x1b.migrieren.v1.MigrationPlanR\x04plan\x1a7\n" +
@@ -976,11 +1000,12 @@ const file_migrieren_v1_service_proto_rawDesc = "" +
 	"\x1bMIGRATION_STATE_UNSPECIFIED\x10\x00\x12\x1d\n" +
 	"\x19MIGRATION_STATE_UNAPPLIED\x10\x01\x12\x19\n" +
 	"\x15MIGRATION_STATE_CLEAN\x10\x02\x12\x19\n" +
-	"\x15MIGRATION_STATE_DIRTY\x10\x03*s\n" +
+	"\x15MIGRATION_STATE_DIRTY\x10\x03*\x91\x01\n" +
 	"\x12MigrationDirection\x12#\n" +
 	"\x1fMIGRATION_DIRECTION_UNSPECIFIED\x10\x00\x12\x1c\n" +
 	"\x18MIGRATION_DIRECTION_NONE\x10\x01\x12\x1a\n" +
-	"\x16MIGRATION_DIRECTION_UP\x10\x022\xb7\x03\n" +
+	"\x16MIGRATION_DIRECTION_UP\x10\x02\x12\x1c\n" +
+	"\x18MIGRATION_DIRECTION_DOWN\x10\x032\xb7\x03\n" +
 	"\aService\x12H\n" +
 	"\aMigrate\x12\x1c.migrieren.v1.MigrateRequest\x1a\x1d.migrieren.v1.MigrateResponse\"\x00\x12`\n" +
 	"\x0fApplyMigrations\x12$.migrieren.v1.ApplyMigrationsRequest\x1a%.migrieren.v1.ApplyMigrationsResponse\"\x00\x12]\n" +
@@ -1061,6 +1086,7 @@ func file_migrieren_v1_service_proto_init() {
 	if File_migrieren_v1_service_proto != nil {
 		return
 	}
+	file_migrieren_v1_service_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

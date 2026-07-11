@@ -12,7 +12,8 @@
 //   - [Migrator.ApplyMigrations] to apply all pending up migrations and return
 //     the resulting migration version and in-memory migration logs.
 //   - [Migrator.Plan] to report current status, latest source version, target
-//     version, direction, and pending up versions without applying migrations.
+//     version, direction, and planned migration versions in execution order
+//     without applying migrations. Explicit plans may move up or down.
 //   - [Migrator.Ping] to validate that the database can be opened and reached.
 //   - [Migrator.Status] to report the current migration version and dirty state.
 //

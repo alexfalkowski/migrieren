@@ -89,16 +89,19 @@ message MigrationStatus {
 }
 
 // MigrationDirection identifies whether the current database state can move
-// toward the latest available source version by applying up migrations.
+// toward a planned migration target.
 enum MigrationDirection {
   // MIGRATION_DIRECTION_UNSPECIFIED is the default value for unknown directions.
   MIGRATION_DIRECTION_UNSPECIFIED = 0;
 
-  // MIGRATION_DIRECTION_NONE means no up migrations are pending.
+  // MIGRATION_DIRECTION_NONE means no migrations are pending for the plan.
   MIGRATION_DIRECTION_NONE = 1;
 
   // MIGRATION_DIRECTION_UP means one or more up migrations are pending.
   MIGRATION_DIRECTION_UP = 2;
+
+  // MIGRATION_DIRECTION_DOWN means one or more down migrations are pending.
+  MIGRATION_DIRECTION_DOWN = 3;
 }
 
 // MigrationPlan reports non-mutating migration planning information for a
@@ -111,24 +114,36 @@ message MigrationPlan {
   // configured source. It is zero when the source has no migrations.
   uint64 latest_version = 2;
 
-  // target_version is the version a clean or unapplied database can converge
-  // toward using pending up migrations. It equals latest_version when direction
-  // is MIGRATION_DIRECTION_UP, and otherwise equals the current status version.
+  // target_version is the version the plan can converge toward. It equals the
+  // requested PlanMigrationsRequest target_version when supplied. Otherwise,
+  // it equals latest_version when direction is MIGRATION_DIRECTION_UP, or the
+  // current status version when no up migrations are pending.
   uint64 target_version = 3;
 
-  // direction reports whether pending up migrations can currently apply.
+  // direction reports whether the plan applies up migrations, removes down
+  // migrations, or makes no migration changes.
   MigrationDirection direction = 4;
 
-  // pending_versions contains source versions greater than the current status
-  // version, in apply order. It is empty when no up migrations are pending.
+  // pending_versions contains source versions that the plan would apply or
+  // remove, in execution order. Down plans include the current version and
+  // exclude the target version. For an omitted target on a dirty database, it
+  // instead reports later source versions discovered during legacy planning;
+  // direction remains MIGRATION_DIRECTION_NONE and the list is not executable.
+  // It is empty when no migrations are pending or discovered.
   repeated uint64 pending_versions = 5;
 }
 
-// PlanMigrationsRequest identifies the configured database to inspect against
-// its migration source.
+// PlanMigrationsRequest identifies the configured database and optional target
+// to inspect against its migration source.
 message PlanMigrationsRequest {
   // database is the configured logical database name, not a raw database URL.
   string database = 1;
+
+  // target_version is an optional migration version to preview. When omitted,
+  // the service previews convergence to the latest available up migration.
+  // When supplied, it must be greater than zero and fit within the
+  // server-supported signed integer range.
+  optional uint64 target_version = 2;
 }
 
 // PlanMigrationsResponse contains response metadata and the migration plan.
@@ -213,12 +228,13 @@ service Service {
   // driver paths.
   rpc ApplyMigrations(ApplyMigrationsRequest) returns (ApplyMigrationsResponse) {}
 
-  // PlanMigrations reports current status and pending up migration versions for
-  // a configured database without applying migration files.
+  // PlanMigrations reports current status and planned migration versions for a
+  // configured database without applying migration files.
   //
-  // Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
-  // stopped requests, and Internal for configuration, source, or database
-  // inspection failures.
+  // Errors use InvalidArgument for supplied target versions outside the
+  // supported range, NotFound for unknown databases, Canceled/DeadlineExceeded
+  // for stopped requests, and Internal for configuration, source, database, or
+  // migration inspection failures.
   //
   // Failures after request routing expose the same safe diagnostic trailers as
   // Migrate, including migration-error, migration-log-count, migration-stage,
