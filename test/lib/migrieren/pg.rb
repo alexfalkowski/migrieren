@@ -118,6 +118,22 @@ module Migrieren
     end
 
     ##
+    # Seeds the migrations table with a dirty NilVersion row.
+    #
+    # This reproduces golang-migrate's NilVersion-dirty recovery state
+    # (version -1, dirty true), which the pgx driver persists after a failed
+    # down migration that reverts the first migration. Migrieren's own API
+    # cannot produce this state (it only calls `Migrate` with version >= 1 and
+    # `ApplyMigrations`), so this helper seeds it directly with SQL, mirroring
+    # the driver's own migrations-table schema.
+    #
+    # @return [void]
+    def seed_dirty_nil_version_migration
+      @conn.exec('CREATE TABLE IF NOT EXISTS migrieren_schema_migrations (version bigint NOT NULL PRIMARY KEY, dirty boolean NOT NULL)')
+      @conn.exec('INSERT INTO migrieren_schema_migrations (version, dirty) VALUES (-1, true)')
+    end
+
+    ##
     # Returns the number of rows in the accounts fixture table.
     #
     # This is intended for post-migration assertions. If `accounts` has not been

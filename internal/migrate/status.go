@@ -31,7 +31,9 @@ type Status struct {
 	State StatusState
 
 	// Version is the current clean or dirty migration version. It is zero when
-	// State is StatusStateUnapplied.
+	// State is StatusStateUnapplied, and also zero when State is
+	// StatusStateDirty but no migration version was ever recorded (golang-migrate's
+	// NilVersion-dirty recovery state).
 	Version uint64
 }
 
@@ -72,12 +74,15 @@ func (m *Migrator) Status(ctx context.Context, db string) (context.Context, *Sta
 	}
 
 	status := &Status{State: StatusStateUnapplied}
-	if version >= 0 {
+	switch {
+	case dirty:
+		status.State = StatusStateDirty
+		if version >= 0 {
+			status.Version = uint64(version)
+		}
+	case version >= 0:
 		status.Version = uint64(version)
 		status.State = StatusStateClean
-		if dirty {
-			status.State = StatusStateDirty
-		}
 	}
 
 	return ctx, status, nil

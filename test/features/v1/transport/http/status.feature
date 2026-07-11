@@ -41,3 +41,13 @@ Feature: HTTP status API
       | database    | error          | logs  | stage |
       | missing_url | invalid_config | empty | url   |
       | invalid_url | invalid_config | empty | url   |
+
+  @clean
+  Scenario: Report a dirty migration status for an unapplied database
+    Given the postgres database has a dirty unapplied migration
+    When I request migration status with HTTP:
+      | database | postgres |
+    Then I should receive a migration status from HTTP:
+      | database | postgres |
+      | version  |        0 |
+      | state    | dirty    |

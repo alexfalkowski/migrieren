@@ -57,6 +57,10 @@ def empty_to_nil(value)
   value.empty? ? nil : value
 end
 
+Given('the postgres database has a dirty unapplied migration') do
+  Migrieren.pg.seed_dirty_nil_version_migration
+end
+
 Then('I should not see a completed timeout migration') do
   expect(Migrieren.pg.timeout_migration_version).to be_nil
 end
