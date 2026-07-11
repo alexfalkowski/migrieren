@@ -41,15 +41,36 @@ var telemetryAttrs = telemetry.WithAttributes(attributes.DBSystemNamePostgreSQL)
 func Open(ctx context.Context, databaseURL string) (database.Driver, error) {
 	u, err := url.Parse(databaseURL)
 	if err != nil {
-		return nil, ErrInvalidURL
+		return nil, &openError{err: ErrInvalidURL}
 	}
 
 	switch u.Scheme {
 	case "pgx5":
-		return openPGX(ctx, u)
+		driver, err := openPGX(ctx, u)
+		if err != nil {
+			return nil, &openError{err: err}
+		}
+
+		return driver, nil
 	default:
-		return nil, ErrUnsupportedDriver
+		return nil, &openError{err: ErrUnsupportedDriver}
 	}
+}
+
+type openError struct {
+	err error
+}
+
+func (e *openError) Error() string {
+	return e.err.Error()
+}
+
+func (e *openError) Unwrap() error {
+	return e.err
+}
+
+func (e *openError) Stage() string {
+	return "url"
 }
 
 func openPGX(ctx context.Context, u *url.URL) (database.Driver, error) {

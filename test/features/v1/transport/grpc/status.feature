@@ -28,14 +28,19 @@ Feature: gRPC status API
       | database | missing |
     Then I should receive a not found migration from gRPC
 
-  Scenario: Report misconfigured migration status
+  Scenario Outline: Report misconfigured migration status
     When I request migration status with gRPC:
-      | database | missing_url |
+      | database | <database> |
     Then I should receive an invalid migration from gRPC
     And I should receive failure diagnostics from gRPC:
-      | error | invalid_config |
-      | logs  | empty          |
-      | stage | url            |
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
+
+    Examples:
+      | database    | error          | logs  | stage |
+      | missing_url | invalid_config | empty | url   |
+      | invalid_url | invalid_config | empty | url   |
 
   @clean
   Scenario: Report dirty migration status

@@ -156,7 +156,7 @@ func (d *Driver) Next(version uint) (uint, error) {
 func (d *Driver) ReadUp(version uint) (io.ReadCloser, string, error) {
 	migration, ok := d.migrations.Up(version)
 	if !ok {
-		return nil, "", &os.PathError{Op: fmt.Sprintf("read up version %d", version), Path: d.path, Err: os.ErrNotExist}
+		return nil, strings.Empty, &os.PathError{Op: fmt.Sprintf("read up version %d", version), Path: d.path, Err: os.ErrNotExist}
 	}
 
 	return d.read(migration)
@@ -168,7 +168,7 @@ func (d *Driver) ReadUp(version uint) (io.ReadCloser, string, error) {
 func (d *Driver) ReadDown(version uint) (io.ReadCloser, string, error) {
 	migration, ok := d.migrations.Down(version)
 	if !ok {
-		return nil, "", &os.PathError{Op: fmt.Sprintf("read down version %d", version), Path: d.path, Err: os.ErrNotExist}
+		return nil, strings.Empty, &os.PathError{Op: fmt.Sprintf("read down version %d", version), Path: d.path, Err: os.ErrNotExist}
 	}
 
 	return d.read(migration)
@@ -203,7 +203,7 @@ func (d *Driver) read(migration *source.Migration) (io.ReadCloser, string, error
 		context.Background(), d.owner, d.repository, path.Join(d.path, migration.Raw), d.options,
 	)
 	if err != nil {
-		return nil, "", err
+		return nil, strings.Empty, err
 	}
 
 	return reader, migration.Identifier, nil

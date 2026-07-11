@@ -54,7 +54,7 @@ func (m *Migrator) Status(ctx context.Context, db string) (context.Context, *Sta
 	driver, err := database.Open(ctx, db)
 	if err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("statusError", meta.Error(err)))
-		return ctx, nil, ErrInvalidConfig
+		return ctx, nil, &invalidConfigError{err: err}
 	}
 	defer func() {
 		_ = driver.Close()

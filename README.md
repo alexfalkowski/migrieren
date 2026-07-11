@@ -565,17 +565,22 @@ Transport behavior is intentionally simple:
 
 The core migrator also treats `migrate.ErrNoChange` as a successful no-op and still returns any accumulated logs.
 
-For migration requests that pass request validation and then fail, the server
-also adds safe failure diagnostics. gRPC exposes them as trailers and HTTP
-exposes them as response headers without changing the HTTP status code or error
-body shape. This includes unknown database names and source/URL resolution
-failures as well as core migration failures; invalid version values return
-`InvalidArgument`/`400` before this diagnostic path runs.
+For Migrate, ApplyMigrations, PlanMigrations, and Status requests that pass
+request validation and then fail, the server adds safe failure diagnostics when
+they are available. gRPC exposes them as trailers and HTTP exposes them as
+response headers without changing the HTTP status code or error body shape.
+This includes unknown database names, source/database setup and
+reference-resolution failures, and core migration failures; invalid version
+values return `InvalidArgument`/`400` before this diagnostic path runs.
 
 - `migration-error`: one of `not_found`, `canceled`, `deadline_exceeded`,
   `invalid_config`, `invalid_migration`, or `unknown`.
 - `migration-log-count`: number of migration log lines returned.
-- `migration-stage`: `source` or `url` when configuration resolution failed.
+- `migration-stage`: `source` when migration-source setup or reference
+  resolution failed, or `url` when database setup or database-URL reference
+  resolution failed. `url` identifies the database-setup branch; it does not
+  imply malformed URL syntax. Later migration or database-inspection failures
+  omit this value.
 - `migration-log-last`: last migration log line when logs were captured.
 
 HTTP uses the same names as response headers:

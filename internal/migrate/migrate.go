@@ -91,7 +91,7 @@ func (m *Migrator) Migrate(ctx context.Context, src, db string, version uint64) 
 	migrator, err := m.newMigrator(ctx, src, db)
 	if err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
-		return ctx, nil, ErrInvalidConfig
+		return ctx, nil, &invalidConfigError{err: err}
 	}
 
 	logger := logger.New(m.logMax)
@@ -147,7 +147,7 @@ func (m *Migrator) ApplyMigrations(ctx context.Context, src, db string) (context
 	migrator, err := m.newMigrator(ctx, src, db)
 	if err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("migrateError", meta.Error(err)))
-		return ctx, 0, nil, ErrInvalidConfig
+		return ctx, 0, nil, &invalidConfigError{err: err}
 	}
 
 	logger := logger.New(m.logMax)

@@ -41,12 +41,13 @@ type ServiceClient interface {
 	//
 	// gRPC failures after request validation include trailers when the request
 	// reaches the transport migrator. This includes unknown database names and
-	// source/URL resolution failures; pre-migration validation InvalidArgument
-	// responses do not use this trailer path.
+	// source/database setup or reference-resolution failures; pre-migration
+	// validation InvalidArgument responses do not use this trailer path.
 	//   - migration-error: not_found, canceled, deadline_exceeded, invalid_config,
 	//     invalid_migration, or unknown.
 	//   - migration-log-count: the number of migration log lines returned.
-	//   - migration-stage: source or url when configuration resolution failed.
+	//   - migration-stage: source for source setup or resolution failures, or url
+	//     for database setup or URL-resolution failures.
 	//   - migration-log-last: the last migration log line when logs were captured.
 	Migrate(ctx context.Context, in *MigrateRequest, opts ...grpc.CallOption) (*MigrateResponse, error)
 	// ApplyMigrations applies all pending up migrations for a configured
@@ -88,6 +89,11 @@ type ServiceClient interface {
 	//
 	// Errors use NotFound for unknown databases and Internal for configuration or
 	// database inspection failures.
+	//
+	// Failures after request routing expose the same safe diagnostic trailers as
+	// Migrate when those values are available. Status does not open a migration
+	// source, so migration-stage is url when database setup or URL resolution
+	// fails.
 	//
 	// Status does not apply migration files, but strict request cancellation
 	// depends on upstream migrate v4 context support, which is currently
@@ -173,12 +179,13 @@ type ServiceServer interface {
 	//
 	// gRPC failures after request validation include trailers when the request
 	// reaches the transport migrator. This includes unknown database names and
-	// source/URL resolution failures; pre-migration validation InvalidArgument
-	// responses do not use this trailer path.
+	// source/database setup or reference-resolution failures; pre-migration
+	// validation InvalidArgument responses do not use this trailer path.
 	//   - migration-error: not_found, canceled, deadline_exceeded, invalid_config,
 	//     invalid_migration, or unknown.
 	//   - migration-log-count: the number of migration log lines returned.
-	//   - migration-stage: source or url when configuration resolution failed.
+	//   - migration-stage: source for source setup or resolution failures, or url
+	//     for database setup or URL-resolution failures.
 	//   - migration-log-last: the last migration log line when logs were captured.
 	Migrate(context.Context, *MigrateRequest) (*MigrateResponse, error)
 	// ApplyMigrations applies all pending up migrations for a configured
@@ -220,6 +227,11 @@ type ServiceServer interface {
 	//
 	// Errors use NotFound for unknown databases and Internal for configuration or
 	// database inspection failures.
+	//
+	// Failures after request routing expose the same safe diagnostic trailers as
+	// Migrate when those values are available. Status does not open a migration
+	// source, so migration-stage is url when database setup or URL resolution
+	// fails.
 	//
 	// Status does not apply migration files, but strict request cancellation
 	// depends on upstream migrate v4 context support, which is currently

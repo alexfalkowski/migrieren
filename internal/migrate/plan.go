@@ -78,7 +78,7 @@ func (m *Migrator) Plan(ctx context.Context, src, db string, target *uint64) (co
 	driver, err := source.Open(src)
 	if err != nil {
 		ctx = meta.WithAttributes(ctx, meta.NewPair("planError", meta.Error(err)))
-		return ctx, nil, ErrInvalidConfig
+		return ctx, nil, &invalidConfigError{err: err}
 	}
 	defer func() {
 		_ = driver.Close()

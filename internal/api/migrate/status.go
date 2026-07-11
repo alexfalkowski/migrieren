@@ -5,6 +5,7 @@ import (
 
 	"github.com/alexfalkowski/go-service/v2/bytes"
 	"github.com/alexfalkowski/go-service/v2/context"
+	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/alexfalkowski/migrieren/internal/diagnostics"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
@@ -25,5 +26,14 @@ func (s *Migrator) Status(ctx context.Context, db string) (context.Context, *mig
 		return ctx, nil, diagnostics.InvalidConfig(err, diagnostics.StageURL)
 	}
 
-	return s.migrator.Status(ctx, bytes.String(url))
+	ctx, status, err := s.migrator.Status(ctx, bytes.String(url))
+	if err != nil {
+		if stage := diagnostics.Stage(err); !strings.IsEmpty(stage) {
+			return ctx, nil, diagnostics.InvalidConfig(err, stage)
+		}
+
+		return ctx, nil, err
+	}
+
+	return ctx, status, nil
 }
