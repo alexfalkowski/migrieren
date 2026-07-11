@@ -56,3 +56,5 @@ Feature: HTTP apply API
       | database       | error          | logs  | stage  |
       | missing_source | invalid_config | empty | source |
       | missing_url    | invalid_config | empty | url    |
+      | invalid_source | invalid_config | empty | source |
+      | invalid_url    | invalid_config | empty | url    |

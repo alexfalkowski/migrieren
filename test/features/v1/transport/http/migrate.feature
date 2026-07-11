@@ -78,6 +78,8 @@ Feature: HTTP migrate API
       | database        | version | error             | logs    | stage  |
       | missing_source  |       1 | invalid_config    | empty   | source |
       | missing_url     |       1 | invalid_config    | empty   | url    |
+      | invalid_source  |       1 | invalid_config    | empty   | source |
+      | invalid_url     |       1 | invalid_config    | empty   | url    |
       | postgres        |       3 | invalid_migration | present |        |
 
   @reset

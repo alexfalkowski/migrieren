@@ -32,12 +32,18 @@ Feature: gRPC apply API
       | database | missing |
     Then I should receive a not found migration from gRPC
 
-  Scenario Outline: Apply misconfigured databases
+  Scenario Outline: Return apply failure diagnostics
     When I request to apply migrations with gRPC:
       | database | <database> |
     Then I should receive an invalid migration from gRPC
+    And I should receive failure diagnostics from gRPC:
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
 
     Examples:
-      | database       |
-      | missing_source |
-      | missing_url    |
+      | database       | error          | logs  | stage  |
+      | missing_source | invalid_config | empty | source |
+      | missing_url    | invalid_config | empty | url    |
+      | invalid_source | invalid_config | empty | source |
+      | invalid_url    | invalid_config | empty | url    |

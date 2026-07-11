@@ -57,7 +57,28 @@ func Check(ctx context.Context, sourceURL string) error {
 //
 // Callers own the returned driver and must close it after successful opens.
 func Open(sourceURL string) (source.Driver, error) {
-	return source.Open(sourceURL)
+	driver, err := source.Open(sourceURL)
+	if err != nil {
+		return nil, &openError{err: err}
+	}
+
+	return driver, nil
+}
+
+type openError struct {
+	err error
+}
+
+func (e *openError) Error() string {
+	return e.err.Error()
+}
+
+func (e *openError) Unwrap() error {
+	return e.err
+}
+
+func (e *openError) Stage() string {
+	return "source"
 }
 
 // Versions returns all migration versions from driver in ascending order.

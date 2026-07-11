@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/alexfalkowski/go-service/v2/errors"
+	"github.com/alexfalkowski/go-service/v2/strings"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
@@ -21,18 +22,23 @@ const StageURL = "url"
 // The returned error unwraps to err, so errors.Is and errors.As continue to
 // match the original cause.
 func Error(err error, logs []string) error {
+	values := newValues(err, logs)
+	if stage := Stage(err); !strings.IsEmpty(stage) {
+		values["migration-stage"] = stage
+	}
+
 	return &diagnosticError{
 		err:    err,
-		values: newValues(err, logs),
+		values: values,
 	}
 }
 
 // InvalidConfig wraps err with diagnostics for a migration configuration
-// resolution failure.
+// setup or reference-resolution failure.
 func InvalidConfig(err error, stage string) error {
 	values := newValues(err, nil)
 	values["migration-error"] = invalidConfig
-	if stage != "" {
+	if !strings.IsEmpty(stage) {
 		values["migration-stage"] = stage
 	}
 
@@ -72,6 +78,26 @@ func failureKind(err error) string {
 	}
 }
 
+// Stage returns the safe migration setup stage carried by err.
+//
+// It returns an empty string when err did not result from source or database
+// setup, or when its stage is not part of the public diagnostic vocabulary.
+func Stage(err error) string {
+	staged, ok := errors.AsType[stagedError](err)
+	if !ok {
+		return strings.Empty
+	}
+
+	// Stages are emitted as public HTTP headers and gRPC trailers. Do not let an
+	// arbitrary error-provided value extend that contract or leak diagnostics.
+	switch stage := staged.Stage(); stage {
+	case StageSource, StageURL:
+		return stage
+	default:
+		return strings.Empty
+	}
+}
+
 // FromError returns the safe diagnostic values carried by err.
 //
 // If err does not carry diagnostics, FromError returns an empty map.
@@ -101,6 +127,11 @@ func (v Values) copy() Values {
 type diagnosticError struct {
 	err    error
 	values Values
+}
+
+type stagedError interface {
+	error
+	Stage() string
 }
 
 func (d *diagnosticError) Error() string {

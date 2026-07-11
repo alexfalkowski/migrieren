@@ -28,11 +28,16 @@ Feature: HTTP status API
       | database | missing |
     Then I should receive a not found migration from HTTP
 
-  Scenario: Report misconfigured migration status
+  Scenario Outline: Report misconfigured migration status
     When I request migration status with HTTP:
-      | database | missing_url |
+      | database | <database> |
     Then I should receive an invalid migration from HTTP
     And I should receive failure diagnostics from HTTP:
-      | error | invalid_config |
-      | logs  | empty          |
-      | stage | url            |
+      | error | <error> |
+      | logs  | <logs>  |
+      | stage | <stage> |
+
+    Examples:
+      | database    | error          | logs  | stage |
+      | missing_url | invalid_config | empty | url   |
+      | invalid_url | invalid_config | empty | url   |
