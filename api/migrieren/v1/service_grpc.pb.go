@@ -67,12 +67,13 @@ type ServiceClient interface {
 	// migrate v4 context support, which is currently incomplete in some database
 	// driver paths.
 	ApplyMigrations(ctx context.Context, in *ApplyMigrationsRequest, opts ...grpc.CallOption) (*ApplyMigrationsResponse, error)
-	// PlanMigrations reports current status and pending up migration versions for
-	// a configured database without applying migration files.
+	// PlanMigrations reports current status and planned migration versions for a
+	// configured database without applying migration files.
 	//
-	// Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
-	// stopped requests, and Internal for configuration, source, or database
-	// inspection failures.
+	// Errors use InvalidArgument for supplied target versions outside the
+	// supported range, NotFound for unknown databases, Canceled/DeadlineExceeded
+	// for stopped requests, and Internal for configuration, source, database, or
+	// migration inspection failures.
 	//
 	// Failures after request routing expose the same safe diagnostic trailers as
 	// Migrate, including migration-error, migration-log-count, migration-stage,
@@ -198,12 +199,13 @@ type ServiceServer interface {
 	// migrate v4 context support, which is currently incomplete in some database
 	// driver paths.
 	ApplyMigrations(context.Context, *ApplyMigrationsRequest) (*ApplyMigrationsResponse, error)
-	// PlanMigrations reports current status and pending up migration versions for
-	// a configured database without applying migration files.
+	// PlanMigrations reports current status and planned migration versions for a
+	// configured database without applying migration files.
 	//
-	// Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
-	// stopped requests, and Internal for configuration, source, or database
-	// inspection failures.
+	// Errors use InvalidArgument for supplied target versions outside the
+	// supported range, NotFound for unknown databases, Canceled/DeadlineExceeded
+	// for stopped requests, and Internal for configuration, source, database, or
+	// migration inspection failures.
 	//
 	// Failures after request routing expose the same safe diagnostic trailers as
 	// Migrate, including migration-error, migration-log-count, migration-stage,

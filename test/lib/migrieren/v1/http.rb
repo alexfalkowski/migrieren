@@ -54,13 +54,18 @@ module Migrieren
       # `POST /migrieren.v1.Service/PlanMigrations`
       #
       # The request body is JSON with the following shape:
-      # `{ "database": String }`
+      # `{ "database": String, "target_version"?: Integer }`
       #
       # @param database [String] logical database name as configured in the service
       # @param opts [Hash] optional request options passed through to `post`
+      # @param target_version [Integer, nil] optional explicit migration version
+      #   to preview; when nil, the request preserves latest-up planning
       # @return [Object] whatever `Nonnative::HTTPClient#post` returns (typically a response wrapper)
-      def plan_migrations(database, opts = {})
-        post('/migrieren.v1.Service/PlanMigrations', { database: }.to_json, opts)
+      def plan_migrations(database, opts = {}, target_version: nil)
+        payload = { database: }
+        payload[:target_version] = target_version unless target_version.nil?
+
+        post('/migrieren.v1.Service/PlanMigrations', payload.to_json, opts)
       end
 
       ##

@@ -378,15 +378,19 @@ database: "postgres"
 
 ### 🧭 Migration plan
 
-`migrieren.v1.Service/PlanMigrations` reports current status and pending up
-migration versions for a configured database without applying migration files.
-It opens the configured source to discover available migration versions, but it
-does not read migration bodies, execute migrations, or expose configured source
-strings, database URL strings, resolved URLs, or secret values.
+`migrieren.v1.Service/PlanMigrations` reports current status and the migration
+versions that would run for a configured database without applying migration
+files. It opens the configured source to discover available migration versions,
+but it does not read migration bodies, execute migrations, or expose configured
+source strings, database URL strings, resolved URLs, or secret values.
 
 Request:
 
 - `database`: logical database name from config.
+- `target_version` (optional): explicit version to preview. When omitted, the
+  service preserves latest-up planning. When supplied, it must be greater than
+  `0`, within the server-supported signed integer range, and present in the
+  migration source.
 
 Response:
 
@@ -394,24 +398,32 @@ Response:
 - `plan.status`: current migration status for the database.
 - `plan.latest_version`: highest migration version available from the
   configured source, or `0` when the source has no migrations.
-- `plan.target_version`: version a clean or unapplied database can converge
-  toward using pending up migrations; when no up migrations can apply, this is
-  the current status version.
-- `plan.direction`: `MIGRATION_DIRECTION_UP` when pending up migrations can
-  apply, otherwise `MIGRATION_DIRECTION_NONE`.
-- `plan.pending_versions`: source versions greater than the current status
-  version, in apply order.
+- `plan.target_version`: effective planned version. It equals an explicit
+  request target when supplied; otherwise it is the latest source version for
+  an up plan or the current status version when no up migrations can apply.
+- `plan.direction`: `MIGRATION_DIRECTION_UP`, `MIGRATION_DIRECTION_DOWN`, or
+  `MIGRATION_DIRECTION_NONE`.
+- `plan.pending_versions`: source versions that would run in execution order.
+  A down plan includes the current version and excludes the target version. For
+  an omitted target on a dirty database, this preserves legacy behavior by
+  listing later discovered source versions while `plan.direction` remains
+  `MIGRATION_DIRECTION_NONE`; it is informational rather than executable.
 
 Conceptual request:
 
 ```protobuf
 database: "postgres"
+target_version: 1
 ```
 
 > [!NOTE]
-> PlanMigrations is informational. Migrieren intentionally does not expose
-> step-based up/down, rollback-by-step, all-down, or version-zero migration APIs.
-> Use `Migrate` for an explicit target version and `ApplyMigrations` for latest.
+> PlanMigrations is informational and does not reserve the migration source or
+> database for a later request. Migrieren intentionally does not expose
+> step-based up/down, rollback-by-step, all-down, or version-zero migration
+> APIs. Use `Migrate` for an explicit target version and `ApplyMigrations` for
+> latest. An explicit plan reports the same safe migration failure as `Migrate`
+> when the current database state is dirty or its requested target is absent
+> from the source.
 
 ### 🔎 Migration status
 
@@ -512,7 +524,7 @@ Copy-paste plan request against the local HTTP façade:
 ```sh
 curl -sS -X POST http://localhost:11000/migrieren.v1.Service/PlanMigrations \
   -H 'Content-Type: application/json' \
-  -d '{"database":"postgres"}'
+  -d '{"database":"postgres","target_version":1}'
 ```
 
 Copy-paste status request against the local HTTP façade:

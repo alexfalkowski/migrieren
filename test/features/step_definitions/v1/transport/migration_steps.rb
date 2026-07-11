@@ -37,8 +37,10 @@ end
 MIGRATION_DIRECTIONS = {
   1 => 'none',
   2 => 'up',
+  3 => 'down',
   'MIGRATION_DIRECTION_NONE' => 'none',
-  'MIGRATION_DIRECTION_UP' => 'up'
+  'MIGRATION_DIRECTION_UP' => 'up',
+  'MIGRATION_DIRECTION_DOWN' => 'down'
 }.freeze
 
 def migration_direction(direction)

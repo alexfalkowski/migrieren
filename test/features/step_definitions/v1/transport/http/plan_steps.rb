@@ -24,12 +24,14 @@ end
 
 def request_plan_with_http(table)
   rows = table.rows_hash
+
   opts = Migrieren.http_options(
     headers: {
       user_agent: 'Migrieren-ruby-client/1.0 HTTP/1.0',
       content_type: :json, accept: :json
     }
   )
+  target_version = rows['target_version'].to_i if rows.key?('target_version')
 
-  Migrieren::V1.server_http.plan_migrations(rows['database'], opts)
+  Migrieren::V1.server_http.plan_migrations(rows['database'], opts, target_version:)
 end

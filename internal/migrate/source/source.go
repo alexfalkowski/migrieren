@@ -1,12 +1,22 @@
 package source
 
 import (
+	"os"
+
 	"github.com/alexfalkowski/go-service/v2/context"
+	"github.com/alexfalkowski/go-service/v2/errors"
 	_ "github.com/alexfalkowski/migrieren/internal/migrate/source/github"
 	"github.com/alexfalkowski/migrieren/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/source"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
+
+// VersionSource traverses the ordered versions available from a migration
+// source. An opened golang-migrate source driver satisfies this interface.
+type VersionSource interface {
+	First() (uint, error)
+	Next(version uint) (uint, error)
+}
 
 // Check validates that sourceURL can be used as a migration source without
 // making unbounded external dependency calls.
@@ -48,4 +58,25 @@ func Check(ctx context.Context, sourceURL string) error {
 // Callers own the returned driver and must close it after successful opens.
 func Open(sourceURL string) (source.Driver, error) {
 	return source.Open(sourceURL)
+}
+
+// Versions returns all migration versions from driver in ascending order.
+//
+// An empty source returns an empty slice. Errors other than the expected
+// os.ErrNotExist end-of-list signal are returned unchanged.
+func Versions(driver VersionSource) ([]uint64, error) {
+	version, err := driver.First()
+	versions := make([]uint64, 0)
+	for {
+		if errors.Is(err, os.ErrNotExist) {
+			return versions, nil
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		versions = append(versions, uint64(version))
+
+		version, err = driver.Next(version)
+	}
 }

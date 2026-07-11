@@ -21,7 +21,9 @@ end
 
 def request_plan_with_grpc(table)
   rows = table.rows_hash
-  request = Migrieren::V1::PlanMigrationsRequest.new(database: rows['database'])
+  attrs = { database: rows['database'] }
+  attrs[:target_version] = rows['target_version'].to_i if rows.key?('target_version')
+  request = Migrieren::V1::PlanMigrationsRequest.new(**attrs)
 
   Migrieren::V1.server_grpc.plan_migrations(request, Migrieren.grpc_options)
 rescue StandardError => e

@@ -6,7 +6,7 @@ import (
 	"github.com/alexfalkowski/migrieren/internal/diagnostics"
 )
 
-// PlanMigrations reports current status and pending up migration versions for a
+// PlanMigrations reports current status and planned migration versions for a
 // configured database without applying migration files.
 func (s *Server) PlanMigrations(ctx context.Context, req *v1.PlanMigrationsRequest) (*v1.PlanMigrationsResponse, error) {
 	resp, err := s.migrator.PlanMigrations(ctx, req)
