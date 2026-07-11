@@ -134,6 +134,24 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   explicitly decides it wants human-meaningful names in the plan response, or
   there is concrete operator evidence that version-number lookup is insufficient.
 
+### A one-shot migration CLI is not desired
+
+- Migrieren is deliberately a service. Migration execution and inspection are
+  exposed through the authenticated gRPC API and HTTP façade, not through a
+  local run-and-exit command. The only CLI subcommand is `server` (plus the
+  framework-provided `help`/`version`).
+- We considered adding a short-lived client subcommand (for example
+  `migrieren apply|migrate|status|plan -config ... -database ...`) built on the
+  go-service `AddClient`/`module.Client` batch-job wrappers, so a CI/CD deploy
+  job could run a migration without hosting the server. We decided against it:
+  if local one-shot execution is wanted, use the upstream `golang-migrate` CLI
+  directly. Migrieren does not aim to reimplement that CLI, and it intentionally
+  keeps migration execution behind the authenticated service so remote callers
+  go through token verification and the Casbin access policy.
+- Reviewers should not keep recording a one-shot/batch CLI migrate, apply,
+  status, or plan subcommand as a feature gap by default. Raise it only if the
+  project explicitly decides it wants a second, non-server execution entrypoint.
+
 ### Health probe names are reserved by convention
 
 - Health wiring uses internal probe names such as `noop` and `online`.
