@@ -71,8 +71,9 @@ module Migrieren
         # Status reports the current migration version state for a configured
         # database.
         #
-        # Errors use NotFound for unknown databases and Internal for configuration or
-        # database inspection failures.
+        # Errors use NotFound for unknown databases, Canceled/DeadlineExceeded for
+        # stopped requests, and Internal for configuration or database inspection
+        # failures.
         #
         # Failures after request routing expose the same safe diagnostic trailers as
         # Migrate when those values are available. Status does not open a migration
