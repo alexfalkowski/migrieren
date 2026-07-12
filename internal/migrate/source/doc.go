@@ -2,5 +2,5 @@
 //
 // It registers the supported golang-migrate source drivers and provides a
 // bounded health-check path that avoids opening GitHub sources, because the
-// upstream GitHub driver does not expose a request-scoped timeout hook.
+// registered GitHub driver's Open method is not request-scoped.
 package source

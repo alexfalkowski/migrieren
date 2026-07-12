@@ -32,7 +32,8 @@ const (
 	MigrationState_MIGRATION_STATE_UNAPPLIED MigrationState = 1
 	// MIGRATION_STATE_CLEAN means a non-dirty migration version is recorded.
 	MigrationState_MIGRATION_STATE_CLEAN MigrationState = 2
-	// MIGRATION_STATE_DIRTY means the recorded migration version is dirty.
+	// MIGRATION_STATE_DIRTY means migration metadata is dirty. Its associated
+	// version can be zero when the dirty state has no recorded version.
 	MigrationState_MIGRATION_STATE_DIRTY MigrationState = 3
 )
 
@@ -427,7 +428,9 @@ type MigrationStatus struct {
 	// version is the current clean or dirty migration version.
 	//
 	// When state is MIGRATION_STATE_UNAPPLIED, version is zero and no migration
-	// version has been recorded yet.
+	// version has been recorded yet. Version can also be zero when state is
+	// MIGRATION_STATE_DIRTY and the dirty metadata has no recorded version, so
+	// callers must inspect state rather than classifying zero by itself.
 	Version uint64 `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
 	// state reports whether the migration version is unapplied, clean, or dirty.
 	State         MigrationState `protobuf:"varint,3,opt,name=state,proto3,enum=migrieren.v1.MigrationState" json:"state,omitempty"`
@@ -588,7 +591,10 @@ type PlanMigrationsRequest struct {
 	// target_version is an optional migration version to preview. When omitted,
 	// the service previews convergence to the latest available up migration.
 	// When supplied, it must be greater than zero and fit within the
-	// server-supported signed integer range.
+	// server-supported signed integer range. The database must not be dirty, the
+	// target must exist in the source, and any recorded current version must also
+	// exist in the source; violations are migration-inspection failures rather
+	// than InvalidArgument errors.
 	TargetVersion *uint64 `protobuf:"varint,2,opt,name=target_version,json=targetVersion,proto3,oneof" json:"target_version,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache

@@ -68,19 +68,6 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   upstream behavior if there is current evidence, but should not recommend
   moving this coverage out of the default `make features` gate by default.
 
-### GitHub source timeout behavior is an accepted library shortcoming
-
-- The wired `github://` migration source uses the upstream
-  `golang-migrate/migrate` GitHub source driver through `source.Open(...)`.
-- That upstream path does not expose this service's request context or a clean
-  per-request timeout hook without duplicating the driver's URL parsing and
-  client construction locally.
-- Do not keep resurfacing the lack of a repository-owned GitHub source timeout
-  wrapper as a reliability gap by default. Treat it as an accepted upstream
-  library shortcoming unless there is concrete production evidence, a simpler
-  upstream-supported hook becomes available, or the project explicitly decides
-  to own a local GitHub source wrapper.
-
 ### pgx advisory lock timeout behavior is an accepted library shortcoming
 
 - The wired Postgres migration path uses the upstream `golang-migrate/migrate`

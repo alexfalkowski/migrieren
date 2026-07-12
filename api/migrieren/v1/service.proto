@@ -69,7 +69,8 @@ enum MigrationState {
   // MIGRATION_STATE_CLEAN means a non-dirty migration version is recorded.
   MIGRATION_STATE_CLEAN = 2;
 
-  // MIGRATION_STATE_DIRTY means the recorded migration version is dirty.
+  // MIGRATION_STATE_DIRTY means migration metadata is dirty. Its associated
+  // version can be zero when the dirty state has no recorded version.
   MIGRATION_STATE_DIRTY = 3;
 }
 
@@ -81,7 +82,9 @@ message MigrationStatus {
   // version is the current clean or dirty migration version.
   //
   // When state is MIGRATION_STATE_UNAPPLIED, version is zero and no migration
-  // version has been recorded yet.
+  // version has been recorded yet. Version can also be zero when state is
+  // MIGRATION_STATE_DIRTY and the dirty metadata has no recorded version, so
+  // callers must inspect state rather than classifying zero by itself.
   uint64 version = 2;
 
   // state reports whether the migration version is unapplied, clean, or dirty.
@@ -142,7 +145,10 @@ message PlanMigrationsRequest {
   // target_version is an optional migration version to preview. When omitted,
   // the service previews convergence to the latest available up migration.
   // When supplied, it must be greater than zero and fit within the
-  // server-supported signed integer range.
+  // server-supported signed integer range. The database must not be dirty, the
+  // target must exist in the source, and any recorded current version must also
+  // exist in the source; violations are migration-inspection failures rather
+  // than InvalidArgument errors.
   optional uint64 target_version = 2;
 }
 
@@ -240,6 +246,10 @@ service Service {
   // Failures after request routing expose the same safe diagnostic trailers as
   // Migrate, including migration-error, migration-log-count, migration-stage,
   // and migration-log-last when those values are available.
+  //
+  // An explicit target requires a non-dirty database state and source
+  // membership for both the target and any recorded current version. Violations
+  // are reported as Internal migration-inspection failures, not InvalidArgument.
   //
   // PlanMigrations opens the configured migration source to discover available
   // versions, but it does not read migration bodies or expose configured source
