@@ -2,9 +2,9 @@
 // transports.
 //
 // The package accepts generated v1 request messages and returns generated v1
-// response messages. It owns versioned API response construction, public request
-// validation, configured database lookup, source/URL resolution, and delegation
-// to the core migration engine.
+// response messages. It owns versioned API response construction and public
+// request validation, then delegates configured database lookup, source/URL
+// resolution, and core migration work to the API-facing migrate adapter.
 //
 // Transport packages remain responsible for registration, safe status-code
 // mapping, and exposing diagnostics as the correct transport metadata

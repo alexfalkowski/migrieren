@@ -156,6 +156,11 @@ transport:
     timeout: 5s
 ```
 
+`health.duration` sets how often the service evaluates its noop, online, and
+per-database health registrations. `health.timeout` bounds the online check and
+each database target's source validation and database ping. Migration request
+timeouts are configured separately by the transport and database URL options.
+
 ### 🗄️ Migration database entries
 
 `migrate.databases` must contain at least one entry. Each entry must have a
@@ -166,9 +171,11 @@ unique `name` and all of these fields:
 - `url`: how to resolve the database connection URL.
 
 `migrate.logs` is optional. `migrate.logs.max` bounds how many migration log
-lines each `Migrate`/`ApplyMigrations` response returns (default 100). When the
-limit is exceeded, the oldest lines are dropped and the first returned entry is a
-`migration logs truncated (showing last N of M)` marker.
+lines each `Migrate`/`ApplyMigrations` response returns. Omitting it or setting
+it to `0` selects the default of 100; only positive values set a custom cap, and
+there is no value that disables returned logs. Negative values are invalid.
+When the limit is exceeded, the oldest lines are dropped and the first returned
+entry is a `migration logs truncated (showing last N of M)` marker.
 
 In the checked-in test setup, the referenced secret files contain the actual values consumed by the migrator:
 
@@ -195,6 +202,25 @@ migrate:
 
 ultimately migrates Postgres using the `file://migrations` source and the `pgx5://...` database URL resolved from those files.
 
+### 🐙 GitHub migration sources
+
+GitHub sources use this URL shape:
+
+```text
+github://[user:personal-access-token@]owner/repository[/path][#ref]
+```
+
+- Without user information, the repository is read without authentication.
+- For a private repository, place the personal access token in the URL password;
+  the user name is ignored.
+- The optional path selects a migration directory within the repository.
+- The optional fragment selects a branch, tag, or commit SHA. When omitted,
+  GitHub's default branch is used.
+
+The migration directory is listed when the source opens. Keep credential-bearing
+URLs out of checked-in YAML: set `source` to a secret-backed `file:` reference or
+to an `env:` reference whose value is the complete `github://` URL.
+
 ### 🐘 Postgres URL options
 
 Postgres targets use `pgx5://...` URLs. In addition to normal Postgres
@@ -205,8 +231,10 @@ parameters:
   default is used.
 - `x-migrations-table-quoted`: boolean. When `true`, `x-migrations-table` must
   include surrounding double quotes.
-- `x-statement-timeout`: statement timeout in milliseconds. Request deadlines
-  can lower this timeout for an individual migration or health check.
+- `x-statement-timeout`: statement timeout in milliseconds for migration
+  operations. A migration request deadline can lower this timeout. Health checks
+  instead use `health.timeout` to bound `PingContext` and do not use this
+  statement timeout.
 - `x-multi-statement`: boolean enabling multi-statement migrations.
 - `x-multi-statement-max-size`: byte limit for multi-statement migrations.
   Empty or non-positive values use the upstream driver default.
@@ -422,8 +450,8 @@ target_version: 1
 > step-based up/down, rollback-by-step, all-down, or version-zero migration
 > APIs. Use `Migrate` for an explicit target version and `ApplyMigrations` for
 > latest. An explicit plan reports the same safe migration failure as `Migrate`
-> when the current database state is dirty or its requested target is absent
-> from the source.
+> when the current database state is dirty, its requested target is absent from
+> the source, or a recorded current version is absent from the source.
 
 ### 🔎 Migration status
 
@@ -438,8 +466,10 @@ Response:
 
 - `meta`: request metadata emitted by the service runtime.
 - `status.database`: echoed database name.
-- `status.version`: current clean or dirty migration version. When
-  `status.state` is `MIGRATION_STATE_UNAPPLIED`, this is `0`.
+- `status.version`: current clean or dirty migration version. It is `0` when
+  `status.state` is `MIGRATION_STATE_UNAPPLIED`, and can also be `0` with
+  `MIGRATION_STATE_DIRTY` when migration metadata records a dirty recovery state
+  without a version. Always use `status.state` to distinguish those cases.
 - `status.state`: one of `MIGRATION_STATE_UNAPPLIED`,
   `MIGRATION_STATE_CLEAN`, or `MIGRATION_STATE_DIRTY`.
 
@@ -491,11 +521,27 @@ The HTTP RPC façade exposes the same operation at:
 - `POST /migrieren.v1.Service/Status`
 - `POST /migrieren.v1.Service/ListDatabases`
 
+The checked-in test config requires a route-scoped Bearer value for application
+RPCs. After `make dep`, run the examples below from `test/` and define this
+helper once; it uses the throwaway test signing key to mint a header for the
+exact route passed to it without placing the token in curl's process arguments:
+
+```sh
+http_authorization() {
+  bundle exec ruby -Ilib -rnonnative -rmigrieren \
+    -e 'puts "Authorization: #{Migrieren.http_authorization(ARGV.fetch(0))}"' "$1"
+}
+```
+
+If your own config omits token verification and access control, the
+`Authorization` header is unnecessary.
+
 Example:
 
 ```http
 POST http://localhost:11000/migrieren.v1.Service/Migrate
 Content-Type: application/json
+Authorization: Bearer <route-scoped-token>
 
 {
   "database": "postgres",
@@ -506,40 +552,50 @@ Content-Type: application/json
 Copy-paste request against the local HTTP façade:
 
 ```sh
-curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
+http_authorization '/migrieren.v1.Service/Migrate' |
+  curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Migrate \
   -H 'Content-Type: application/json' \
+  --header @- \
   -d '{"database":"postgres","version":1}'
 ```
 
 Copy-paste apply-all request against the local HTTP façade:
 
 ```sh
-curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ApplyMigrations \
+http_authorization '/migrieren.v1.Service/ApplyMigrations' |
+  curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ApplyMigrations \
   -H 'Content-Type: application/json' \
+  --header @- \
   -d '{"database":"postgres"}'
 ```
 
 Copy-paste plan request against the local HTTP façade:
 
 ```sh
-curl -sS -X POST http://localhost:11000/migrieren.v1.Service/PlanMigrations \
+http_authorization '/migrieren.v1.Service/PlanMigrations' |
+  curl -sS -X POST http://localhost:11000/migrieren.v1.Service/PlanMigrations \
   -H 'Content-Type: application/json' \
+  --header @- \
   -d '{"database":"postgres","target_version":1}'
 ```
 
 Copy-paste status request against the local HTTP façade:
 
 ```sh
-curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Status \
+http_authorization '/migrieren.v1.Service/Status' |
+  curl -sS -X POST http://localhost:11000/migrieren.v1.Service/Status \
   -H 'Content-Type: application/json' \
+  --header @- \
   -d '{"database":"postgres"}'
 ```
 
 Copy-paste database discovery request against the local HTTP façade:
 
 ```sh
-curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ListDatabases \
+http_authorization '/migrieren.v1.Service/ListDatabases' |
+  curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ListDatabases \
   -H 'Content-Type: application/json' \
+  --header @- \
   -d '{}'
 ```
 
@@ -547,6 +603,12 @@ curl -sS -X POST http://localhost:11000/migrieren.v1.Service/ListDatabases \
 
 Transport behavior is intentionally simple:
 
+- Missing or invalid credentials when token verification is enabled:
+  - gRPC: `Unauthenticated`
+  - HTTP: `401`
+- Authenticated subject denied by the access policy:
+  - gRPC: `PermissionDenied`
+  - HTTP: `403`
 - Migration version outside the supported range:
   - gRPC: `InvalidArgument`
   - HTTP: `400`
@@ -601,6 +663,19 @@ When running with the shared service runtime, Migrieren exposes:
 - HTTP metrics:
   - `/migrieren/metrics`
 - gRPC health checks for `migrieren.v1.Service`
+
+The probe contracts are deliberately different:
+
+| Surface | Checks observed | Operational meaning |
+| --- | --- | --- |
+| HTTP `/migrieren/livez` | `noop` | Process liveness only. |
+| HTTP `/migrieren/readyz` | `noop` | Process readiness only; it does not gate on migration dependencies. |
+| HTTP `/migrieren/healthz` | `online` and every configured database target | Public connectivity plus source validation and database reachability. |
+| gRPC health for `migrieren.v1.Service` | `noop` | Service-process health independent of migration dependencies. |
+
+The shared `online` check uses its default public connectivity endpoints. Use
+`healthz` for dependency health, not as a liveness probe that should remain
+stable during an egress or database outage.
 
 There is an important detail in the checked-in test config:
 
