@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.35.0
-	github.com/alexfalkowski/go-service/v2 v2.664.0
+	github.com/alexfalkowski/go-service/v2 v2.665.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.10.0
@@ -20,7 +20,7 @@ require (
 	github.com/Basekick-Labs/msgpack/v6 v6.1.0 // indirect
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/KimMachineGun/automemlimit v0.7.5 // indirect
-	github.com/XSAM/otelsql v0.42.0 // indirect
+	github.com/XSAM/otelsql v0.43.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
 	github.com/alexfalkowski/go-sync v1.30.0 // indirect
 	github.com/arl/statsviz v0.8.1 // indirect
@@ -126,6 +126,6 @@ require (
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260706201446-f0a921348800 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260706201446-f0a921348800 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20260713192124-69af07f8185f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260713194154-142c488ef3d3 // indirect
 )
