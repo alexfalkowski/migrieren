@@ -18,3 +18,4 @@ test/reports/*
 /migrieren
 dist/
 tmp/
+/test/secrets/github
