@@ -109,7 +109,7 @@ module Migrieren
     def grpc_options(metadata: {}, deadline: nil)
       {
         metadata: { 'request-id' => SecureRandom.uuid }.merge(metadata),
-        deadline: deadline || (Time.now + 6)
+        deadline: deadline || (Time.now + 31)
       }
     end
 
@@ -124,7 +124,7 @@ module Migrieren
     # @param read_timeout [Integer] read timeout in seconds
     # @param open_timeout [Integer] connection open timeout in seconds
     # @return [Hash] options compatible with `Nonnative::HTTPClient` calls
-    def http_options(headers: {}, read_timeout: 10, open_timeout: 10)
+    def http_options(headers: {}, read_timeout: 31, open_timeout: 10)
       {
         headers: { request_id: SecureRandom.uuid }.merge(headers),
         read_timeout:,

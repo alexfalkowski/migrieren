@@ -73,7 +73,7 @@ transport:
       kind: user-id
       tokens: 1000
       interval: 1s
-    timeout: 5s
+    timeout: 30s
   grpc:
     address: tcp://:12000
     token:
@@ -90,4 +90,4 @@ transport:
       kind: user-id
       tokens: 1000
       interval: 1s
-    timeout: 5s
+    timeout: 30s
