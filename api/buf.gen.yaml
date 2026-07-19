@@ -10,5 +10,5 @@ plugins:
       - paths=source_relative
   - remote: buf.build/protocolbuffers/ruby:v35.1
     out: ../test/lib
-  - remote: buf.build/grpc/ruby:v1.81.1
+  - remote: buf.build/grpc/ruby:v1.82.1
     out: ../test/lib
