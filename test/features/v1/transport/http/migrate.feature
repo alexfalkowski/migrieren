@@ -99,3 +99,23 @@ Feature: HTTP migrate API
       | database | postgres |
       | version  |        1 |
     Then I should receive a timed out migration from HTTP
+
+  @reset
+  Scenario: Recover public migrations after Postgres resets the connection
+    Given I set the proxy for service 'postgres' to 'reset_peer'
+    And I should see "postgres" as unhealthy
+    When I request to migrate with HTTP:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive an invalid migration from HTTP
+    And I should receive failure diagnostics from HTTP:
+      | error | invalid_config |
+      | logs  | empty          |
+      | stage | url            |
+    And I should reset the proxy for service 'postgres'
+    When I request to migrate with HTTP:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive a successful migration from HTTP:
+      | database | postgres |
+      | version  |        1 |

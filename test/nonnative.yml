@@ -40,3 +40,6 @@ services:
       wait: 1
       options:
         delay: 2
+        bytes: 1
+        slice_size: 32
+        slice_delay: 0.01

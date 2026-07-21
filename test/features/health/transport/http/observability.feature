@@ -12,6 +12,16 @@ Feature: Observability
     Given I set the proxy for service 'postgres' to 'timeout'
     Then I should see "postgres" as unhealthy
 
+  @reset
+  Scenario: Health with a reset Postgres dependency
+    Given I set the proxy for service 'postgres' to 'reset_peer'
+    Then I should see "postgres" as unhealthy
+
+  @reset
+  Scenario: Health with a slow but live Postgres dependency
+    Given I set the proxy for service 'postgres' to 'delay'
+    Then I should see "postgres" as unhealthy
+
   Scenario: Liveness with HTTP
     When the system requests the "liveness" with HTTP
     Then the system should respond with a healthy status with HTTP
