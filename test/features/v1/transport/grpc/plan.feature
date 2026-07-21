@@ -15,6 +15,20 @@ Feature: gRPC plan API
       | direction        | up        |
       | pending_versions | 1..40     |
 
+  @clean @reset
+  Scenario: Plan all pending migrations over a fragmented connection
+    Given I set the proxy for service 'postgres' to 'slicer'
+    When I request a migration plan with gRPC:
+      | database | logs |
+    Then I should receive a migration plan from gRPC:
+      | database         | logs      |
+      | version          | 0         |
+      | state            | unapplied |
+      | latest_version   | 40        |
+      | target_version   | 40        |
+      | direction        | up        |
+      | pending_versions | 1..40     |
+
   @clean
   Scenario: Plan migrations when already current
     When I request to apply migrations with gRPC:

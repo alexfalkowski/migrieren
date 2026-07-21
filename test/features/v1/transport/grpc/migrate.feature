@@ -123,3 +123,23 @@ Feature: gRPC migrate API
       | database | postgres |
       | version  |        1 |
     Then I should receive a stopped deadline migration from gRPC
+
+  @reset
+  Scenario: Recover public migrations after Postgres resets the connection
+    Given I set the proxy for service 'postgres' to 'reset_peer'
+    And I should see "postgres" as unhealthy
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive an invalid migration from gRPC
+    And I should receive failure diagnostics from gRPC:
+      | error | invalid_config |
+      | logs  | empty          |
+      | stage | url            |
+    And I should reset the proxy for service 'postgres'
+    When I request to migrate with gRPC:
+      | database | postgres |
+      | version  |        1 |
+    Then I should receive a successful migration from gRPC:
+      | database | postgres |
+      | version  |        1 |

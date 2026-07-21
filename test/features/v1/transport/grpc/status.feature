@@ -64,3 +64,15 @@ Feature: gRPC status API
       | database | postgres |
       | version  |        0 |
       | state    | dirty    |
+
+  @reset
+  Scenario Outline: Reject <fault> Postgres responses
+    Given I set the proxy for service 'postgres' to '<fault>'
+    When I request migration status with gRPC:
+      | database | postgres |
+    Then I should receive an invalid migration from gRPC
+
+    Examples:
+      | fault        |
+      | invalid_data |
+      | limit_data   |

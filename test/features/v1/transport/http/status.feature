@@ -51,3 +51,15 @@ Feature: HTTP status API
       | database | postgres |
       | version  |        0 |
       | state    | dirty    |
+
+  @reset
+  Scenario Outline: Reject <fault> Postgres responses
+    Given I set the proxy for service 'postgres' to '<fault>'
+    When I request migration status with HTTP:
+      | database | postgres |
+    Then I should receive an invalid migration from HTTP
+
+    Examples:
+      | fault        |
+      | invalid_data |
+      | limit_data   |
