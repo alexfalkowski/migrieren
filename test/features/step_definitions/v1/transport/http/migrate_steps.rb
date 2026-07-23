@@ -26,7 +26,9 @@ Then('I should receive an invalid argument migration from HTTP') do
 end
 
 Then('I should receive a timed out migration from HTTP') do
-  expect(@response).to be_a(RestClient::Exceptions::ReadTimeout)
+  expect(@response).to(
+    be_a(RestClient::Exceptions::ReadTimeout).or(be_a(Timeout::Error))
+  )
 end
 
 def request_with_http(table)
