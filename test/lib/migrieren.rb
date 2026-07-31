@@ -50,12 +50,12 @@ module Migrieren
     ##
     # Returns the parsed server configuration for the test environment.
     #
-    # The harness loads `.config/server.yml` via `Nonnative::ConfigurationFile.load` and
+    # The harness loads `.config/server.yaml` via `Nonnative::ConfigurationFile.load` and
     # memoizes the resulting configuration object.
     #
     # @return [Object] the configuration structure returned by `nonnative`
     def server_config
-      @server_config ||= Nonnative::ConfigurationFile.load('.config/server.yml')
+      @server_config ||= Nonnative::ConfigurationFile.load('.config/server.yaml')
     end
 
     ##
@@ -95,7 +95,7 @@ module Migrieren
     # Returns bounded per-call options for gRPC feature-harness requests.
     #
     # The default deadline is slightly longer than the service transport
-    # timeout in `.config/server.yml`, so ordinary requests can finish while a
+    # timeout in `.config/server.yaml`, so ordinary requests can finish while a
     # stalled endpoint still fails before an outer Cucumber or CI timeout.
     #
     # Each call includes a generated `request-id` metadata value. Caller-provided
@@ -136,7 +136,7 @@ module Migrieren
     # Lifetime, in seconds, of tokens minted by the feature harness.
     #
     # It is comfortably below the server's configured token expiration
-    # (`transport.*.token.ssh.exp` in `.config/server.yml`) so generated tokens
+    # (`transport.*.token.ssh.exp` in `.config/server.yaml`) so generated tokens
     # never exceed the verifier's signed-lifetime cap.
     TOKEN_EXPIRATION = 300
 

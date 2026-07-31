@@ -58,7 +58,7 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
 
 ### GitHub migration source in feature tests is intentional
 
-- The `github` migration target in `test/.config/server.yml` and
+- The `github` migration target in `test/.config/server.yaml` and
   `test/secrets/github` is intentionally part of the regular HTTP/gRPC feature
   scenarios.
 - This coverage verifies the wired `github://` source driver against the shared
@@ -381,7 +381,7 @@ Feature tests themselves talk to Postgres through the nonnative proxy on `localh
   - `health` (`internal/health/config.go`)
   - `migrate` (`internal/migrate/config.go`)
 
-A sample config used for dev/tests exists at `test/.config/server.yml`.
+A sample config used for dev/tests exists at `test/.config/server.yaml`.
 
 ### Migration core
 
@@ -442,9 +442,9 @@ Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
 
 - **Submodule required**: Make targets call scripts under `bin/`; init/update submodule before running most automation.
 - **Vendoring is relied on**: multiple Go targets run with `-mod vendor`; run `make dep` after changing Go deps.
-- **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v2/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yml`).
+- **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v2/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yaml`).
 - **DB URL scheme**: database driver expects `pgx5://...` and rewrites to `postgres://...` internally (`internal/migrate/database/database.go`).
-- **Checked-in test config is intentionally mixed**: `test/.config/server.yml` contains both valid and invalid database entries to exercise failure paths in feature tests.
+- **Checked-in test config is intentionally mixed**: `test/.config/server.yaml` contains both valid and invalid database entries to exercise failure paths in feature tests.
 - **Health behavior in tests is asymmetric by design**: gRPC health for `migrieren.v1.Service` is expected to be healthy, while HTTP `/migrieren/healthz` is expected to be unhealthy because per-database checks include intentionally invalid entries.
 
 ## 7) Tooling used by Make targets

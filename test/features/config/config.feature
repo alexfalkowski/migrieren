@@ -6,6 +6,6 @@ Feature: Configuration
     Then the server should fail to start
 
     Examples:
-      | config                         |
-      | empty_databases.yml            |
-      | duplicate_database_names.yml   |
+      | config                          |
+      | empty_databases.yaml            |
+      | duplicate_database_names.yaml   |

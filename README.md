@@ -65,7 +65,7 @@ Install dependencies, build the binary, and start the server with the checked-in
 make dep
 make build
 cd test
-../migrieren server -config file:.config/server.yml
+../migrieren server -config file:.config/server.yaml
 ```
 
 This builds `./migrieren` in the repository root. The checked-in test config is
@@ -96,7 +96,7 @@ For live reload during local development:
 make dev
 ```
 
-`make dev` uses `air` and starts the same `server` command with `test/.config/server.yml`.
+`make dev` uses `air` and starts the same `server` command with `test/.config/server.yaml`.
 
 > [!TIP]
 > Use `make help` to list the Make targets exposed by this checkout before reaching for direct tool commands.
@@ -123,7 +123,7 @@ The resolver accepts the shared go-service source-string forms:
 
 ## ⚙️ Configuration
 
-Migrieren is configured through the `server` command input file. The repository includes a representative config at `test/.config/server.yml`.
+Migrieren is configured through the `server` command input file. The repository includes a representative config at `test/.config/server.yaml`.
 
 ### 🧩 Minimal configuration shape
 
@@ -320,7 +320,7 @@ route-scoped `authorization` metadata. See `test/features/v1/transport/*/auth.fe
 
 ### 🧪 About the checked-in test config
 
-`test/.config/server.yml` intentionally contains both valid and invalid database definitions:
+`test/.config/server.yaml` intentionally contains both valid and invalid database definitions:
 
 - `postgres` and `github` are used for successful migration scenarios.
 - `timeout` is used for deadline and cancellation scenarios.
