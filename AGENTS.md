@@ -68,19 +68,6 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
   upstream behavior if there is current evidence, but should not recommend
   moving this coverage out of the default `make features` gate by default.
 
-### pgx advisory lock timeout behavior is an accepted library shortcoming
-
-- The wired Postgres migration path uses the upstream `golang-migrate/migrate`
-  pgx driver through `pgx.WithInstance(...)`.
-- That upstream constructor path can call `ensureVersionTable` and acquire the
-  migration advisory lock before Migrieren reaches its request-context-aware
-  migration goroutine.
-- Do not keep resurfacing that constructor-time advisory lock wait as a
-  repository-owned reliability gap by default. Treat it as an accepted upstream
-  library shortcoming unless there is concrete production evidence, a simpler
-  upstream-supported hook becomes available, or the project explicitly decides
-  to own a local pgx driver wrapper/fork.
-
 ### Dirty migration repair is not a normal feature gap
 
 - Migrieren intentionally reports dirty migration state through `Status`, but
