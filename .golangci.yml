@@ -12,6 +12,7 @@ linters:
     - gomodguard
     - gomodguard_v2
     - ireturn
+    - mnd
     - nlreturn
     - noinlineerr
     - paralleltest
@@ -22,12 +23,10 @@ linters:
     - wrapcheck
     - wsl
     - wsl_v5
+    - exhaustruct_v5
   settings:
     lll:
       line-length: 140
-    mnd:
-      ignored-numbers:
-        - "2"
   exclusions:
     generated: lax
     presets:
