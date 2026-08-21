@@ -1,10 +1,10 @@
 module github.com/alexfalkowski/migrieren
 
-go 1.26.0
+go 1.27.0
 
 require (
-	github.com/alexfalkowski/go-health/v2 v2.38.0
-	github.com/alexfalkowski/go-service/v2 v2.757.0
+	github.com/alexfalkowski/go-health/v2 v2.39.0
+	github.com/alexfalkowski/go-service/v2 v2.758.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.10.0
@@ -22,7 +22,7 @@ require (
 	github.com/KimMachineGun/automemlimit v0.7.5 // indirect
 	github.com/XSAM/otelsql v0.43.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
-	github.com/alexfalkowski/go-sync v1.33.0 // indirect
+	github.com/alexfalkowski/go-sync v1.34.0 // indirect
 	github.com/arl/statsviz v0.8.1 // indirect
 	github.com/avfs/avfs v0.35.0 // indirect
 	github.com/beevik/ntp v1.5.0 // indirect
