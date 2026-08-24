@@ -11,16 +11,16 @@ import (
 
 // Register exposes the v1 service methods through the HTTP RPC facade.
 func Register(server *Server) {
-	rpc.Route(v1.Service_Migrate_FullMethodName, server.Migrate)
-	rpc.Route(v1.Service_ApplyMigrations_FullMethodName, server.ApplyMigrations)
-	rpc.Route(v1.Service_PlanMigrations_FullMethodName, server.PlanMigrations)
-	rpc.Route(v1.Service_Status_FullMethodName, server.Status)
-	rpc.Route(v1.Service_ListDatabases_FullMethodName, server.ListDatabases)
+	server.Route(v1.Service_Migrate_FullMethodName, server.Migrate)
+	server.Route(v1.Service_ApplyMigrations_FullMethodName, server.ApplyMigrations)
+	server.Route(v1.Service_PlanMigrations_FullMethodName, server.PlanMigrations)
+	server.Route(v1.Service_Status_FullMethodName, server.Status)
+	server.Route(v1.Service_ListDatabases_FullMethodName, server.ListDatabases)
 }
 
 // NewServer constructs an HTTP RPC transport adapter around service.
-func NewServer(service *migrate.Migrator) *Server {
-	return &Server{migrator: service}
+func NewServer(server *rpc.Server, service *migrate.Migrator) *Server {
+	return &Server{migrator: service, Server: server}
 }
 
 // Server implements the migrieren.v1 HTTP RPC facade.
@@ -29,6 +29,7 @@ func NewServer(service *migrate.Migrator) *Server {
 // errors to HTTP response errors.
 type Server struct {
 	migrator *migrate.Migrator
+	*rpc.Server
 }
 
 func setFailureHeaders(ctx context.Context, values diagnostics.Values) {
