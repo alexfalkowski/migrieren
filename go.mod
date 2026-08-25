@@ -4,12 +4,12 @@ go 1.27.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.39.0
-	github.com/alexfalkowski/go-service/v2 v2.763.0
+	github.com/alexfalkowski/go-service/v2 v2.764.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.10.0
 	go.opentelemetry.io/otel/metric v1.45.0
-	google.golang.org/grpc v1.83.1
+	google.golang.org/grpc v1.83.2
 	google.golang.org/protobuf v1.36.12
 )
 
