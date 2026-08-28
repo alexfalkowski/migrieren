@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.39.0
-	github.com/alexfalkowski/go-service/v2 v2.766.0
+	github.com/alexfalkowski/go-service/v2 v2.767.0
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.10.0
@@ -50,7 +50,7 @@ require (
 	github.com/google/pprof v0.0.0-20260825171938-4d453200e7d9 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
-	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.3 // indirect
+	github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.4 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.30.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.8 // indirect
