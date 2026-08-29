@@ -17,3 +17,7 @@ Feature: gRPC API authentication
   Scenario: Reject a request from an unauthorized subject
     When I request configured databases with gRPC and an unauthorized token
     Then I should receive a forbidden response from gRPC
+
+  Scenario: Reject a privileged subject signed by an untrusted key
+    When I request configured databases with gRPC using an untrusted key and a privileged subject
+    Then I should receive an unauthenticated response from gRPC

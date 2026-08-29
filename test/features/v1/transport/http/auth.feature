@@ -17,3 +17,7 @@ Feature: HTTP API authentication
   Scenario: Reject a request from an unauthorized subject
     When I request configured databases with HTTP and an unauthorized token
     Then I should receive a forbidden response from HTTP
+
+  Scenario: Reject a privileged subject signed by an untrusted key
+    When I request configured databases with HTTP using an untrusted key and a privileged subject
+    Then I should receive an unauthenticated response from HTTP

@@ -15,7 +15,11 @@ When('I request configured databases with HTTP and an invalid token') do
 end
 
 When('I request configured databases with HTTP and an unauthorized token') do
-  @response = request_databases_with_http_authorization(Migrieren.http_authorization(AUTH_HTTP_PATH, 'guest'))
+  @response = request_databases_with_http_authorization(Migrieren.http_authorization(AUTH_HTTP_PATH, subject: 'guest'))
+end
+
+When('I request configured databases with HTTP using an untrusted key and a privileged subject') do
+  @response = request_databases_with_http_authorization(Migrieren.http_authorization(AUTH_HTTP_PATH, 'guest', subject: 'migrieren'))
 end
 
 Then('I should receive an authorized response from HTTP') do

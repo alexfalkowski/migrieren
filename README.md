@@ -274,9 +274,15 @@ against another endpoint:
 The transport-scoped access objects are prefixed by transport, for example
 `http:POST /migrieren.v1.Service/Status` and `grpc:/migrieren.v1.Service/Status`.
 
-The checked-in test config wires the `ssh` kind on both transports. SSH tokens
-fix `sub == kid == key`, so the signing key id is the verified subject that the
-policy is evaluated against:
+The checked-in test config wires the `jwt` kind on both transports. A JWT's
+`kid` selects its trusted public key and its `sub` is the verified subject that
+the policy is evaluated against. The test config trusts only the `migrieren`
+signing key; the feature harness issues tokens with either the `migrieren` or
+`guest` subject:
+
+Each configured public key represents a trusted issuer that can assert any
+subject, so only configure issuer-controlled keys there; authorization belongs
+in the access policy.
 
 ```yaml
 transport:
@@ -286,32 +292,32 @@ transport:
   http:
     address: tcp://:11000
     token:
-      kind: ssh
-      ssh:
+      kind: jwt
+      jwt:
+        iss: migrieren
         key: migrieren
         exp: 1h
         keys:
           migrieren:
-            public: file:secrets/ssh_migrieren.pub
-          guest:
-            public: file:secrets/ssh_guest.pub
+            public: file:secrets/jwt_migrieren.pub
   grpc:
     address: tcp://:12000
     token:
-      kind: ssh
-      ssh:
+      kind: jwt
+      jwt:
+        iss: migrieren
         key: migrieren
         exp: 1h
         keys:
           migrieren:
-            public: file:secrets/ssh_migrieren.pub
-          guest:
-            public: file:secrets/ssh_guest.pub
+            public: file:secrets/jwt_migrieren.pub
 ```
 
 The `secrets/access_policy` file grants the `migrieren` subject `invoke` on every
-method for both transports. The `guest` key is trusted for verification but is
-absent from the policy, so a `guest`-signed token authenticates yet is denied.
+method for both transports. A JWT issued by the trusted signer with a `guest`
+subject authenticates yet is denied because that subject is absent from the
+policy. The harness also verifies that a token from its untrusted `guest` key
+cannot impersonate the privileged subject.
 
 The Ruby feature harness mints matching tokens with `nonnative`
 (`Migrieren.auth_token`) and attaches them automatically: an HTTP `post`

@@ -60,15 +60,14 @@ transport:
   http:
     address: tcp://:11000
     token:
-      kind: ssh
-      ssh:
+      kind: jwt
+      jwt:
+        iss: migrieren
         key: migrieren
         exp: 1h
         keys:
           migrieren:
-            public: file:secrets/ssh_migrieren.pub
-          guest:
-            public: file:secrets/ssh_guest.pub
+            public: file:secrets/jwt_migrieren.pub
     limiter:
       kind: user-id
       tokens: 1000
@@ -77,15 +76,14 @@ transport:
   grpc:
     address: tcp://:12000
     token:
-      kind: ssh
-      ssh:
+      kind: jwt
+      jwt:
+        iss: migrieren
         key: migrieren
         exp: 1h
         keys:
           migrieren:
-            public: file:secrets/ssh_migrieren.pub
-          guest:
-            public: file:secrets/ssh_guest.pub
+            public: file:secrets/jwt_migrieren.pub
     limiter:
       kind: user-id
       tokens: 1000
