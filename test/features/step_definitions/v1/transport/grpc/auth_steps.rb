@@ -15,7 +15,11 @@ When('I request configured databases with gRPC and an invalid token') do
 end
 
 When('I request configured databases with gRPC and an unauthorized token') do
-  @response = request_databases_with_grpc_authorization(Migrieren.grpc_authorization(AUTH_GRPC_METHOD, 'guest'))
+  @response = request_databases_with_grpc_authorization(Migrieren.grpc_authorization(AUTH_GRPC_METHOD, subject: 'guest'))
+end
+
+When('I request configured databases with gRPC using an untrusted key and a privileged subject') do
+  @response = request_databases_with_grpc_authorization(Migrieren.grpc_authorization(AUTH_GRPC_METHOD, 'guest', subject: 'migrieren'))
 end
 
 Then('I should receive an authorized response from gRPC') do

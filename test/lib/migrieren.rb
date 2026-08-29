@@ -136,25 +136,26 @@ module Migrieren
     # Lifetime, in seconds, of tokens minted by the feature harness.
     #
     # It is comfortably below the server's configured token expiration
-    # (`transport.*.token.ssh.exp` in `.config/server.yaml`) so generated tokens
+    # (`transport.*.token.jwt.exp` in `.config/server.yaml`) so generated tokens
     # never exceed the verifier's signed-lifetime cap.
     TOKEN_EXPIRATION = 300
 
     ##
-    # Returns a memoized `nonnative` SSH token generator for a signing key.
+    # Returns a memoized `nonnative` JWT generator for a signing key.
     #
-    # The service verifies go-service SSH tokens (`transport.*.token.ssh`), and
-    # `nonnative` mints matching tokens. SSH tokens fix `sub == kid == key`, so
-    # the key id becomes the verified user id the access policy is evaluated
-    # against. Two keys exist under `secrets/`: `migrieren` (granted by the
-    # Casbin policy) and `guest` (verifiable but not granted).
+    # The service verifies go-service JWTs (`transport.*.token.jwt`), and
+    # `nonnative` mints matching tokens. A JWT `kid` selects the trusted public
+    # key and its `sub` becomes the verified user id the access policy is
+    # evaluated against. Only the `migrieren` key is trusted by the server.
+    # The `guest` key exists solely to assert that tokens from an untrusted
+    # signer are rejected.
     #
-    # @param key [String] the signing key id, matching a `secrets/ssh_<key>`
-    #   OpenSSH private key and a server-side public key
+    # @param key [String] the signing key id, matching a `secrets/jwt_<key>`
+    #   PKCS#8 Ed25519 private key
     # @return [Nonnative::Token] a memoized token generator for that key
     def auth_token(key = 'migrieren')
       (@auth_tokens ||= {})[key] ||=
-        Nonnative.token(kind: 'ssh', issuer: 'migrieren', key:, private_key: "secrets/ssh_#{key}", expiration: TOKEN_EXPIRATION)
+        Nonnative.token(kind: 'jwt', issuer: 'migrieren', key:, private_key: "secrets/jwt_#{key}", expiration: TOKEN_EXPIRATION)
     end
 
     ##
@@ -165,9 +166,10 @@ module Migrieren
     #
     # @param path [String] the HTTP RPC path, for example `/migrieren.v1.Service/Status`
     # @param key [String] the signing key id (see {auth_token})
+    # @param subject [String] the JWT subject to authorize
     # @return [String] an Authorization header value such as `"Bearer <token>"`
-    def http_authorization(path, key = 'migrieren')
-      Nonnative::Header.auth_bearer(auth_token(key).generate(aud: Nonnative::Token.http_audience('POST', path), sub: key))[:authorization]
+    def http_authorization(path, key = 'migrieren', subject: key)
+      Nonnative::Header.auth_bearer(auth_token(key).generate(aud: Nonnative::Token.http_audience('POST', path), sub: subject))[:authorization]
     end
 
     ##
@@ -178,9 +180,10 @@ module Migrieren
     #
     # @param full_method [String] the gRPC full method, for example `/migrieren.v1.Service/Status`
     # @param key [String] the signing key id (see {auth_token})
+    # @param subject [String] the JWT subject to authorize
     # @return [String] an Authorization metadata value such as `"Bearer <token>"`
-    def grpc_authorization(full_method, key = 'migrieren')
-      "Bearer #{auth_token(key).generate(aud: Nonnative::Token.grpc_audience(full_method.to_s), sub: key)}"
+    def grpc_authorization(full_method, key = 'migrieren', subject: key)
+      "Bearer #{auth_token(key).generate(aud: Nonnative::Token.grpc_audience(full_method.to_s), sub: subject)}"
     end
 
     ##
@@ -189,7 +192,7 @@ module Migrieren
     # This is the default authentication path used by {Migrieren::V1::HTTP}: it
     # mints a `migrieren` token bound to `"POST <path>"` unless the caller already
     # set an `:authorization` header. Scenarios exercising rejection pass an
-    # explicit header (empty, malformed, or `guest`-signed) to opt out.
+    # explicit header (empty, malformed, or guest-subject) to opt out.
     #
     # @param path [String] the HTTP RPC path being called
     # @param opts [Hash] request options passed to `Nonnative::HTTPClient#post`
@@ -208,7 +211,7 @@ module Migrieren
   # It authenticates every unary call made through {Migrieren::V1.server_grpc} by
   # setting an `authorization` metadata entry scoped to the call's full method,
   # unless the call already supplies one. Scenarios exercising rejection pass an
-  # explicit `authorization` metadata value (empty, malformed, or `guest`-signed)
+  # explicit `authorization` metadata value (empty, malformed, or guest-subject)
   # to opt out.
   class GRPCAuthorization < GRPC::ClientInterceptor
     ##
