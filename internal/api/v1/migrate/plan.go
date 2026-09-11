@@ -5,7 +5,6 @@ import (
 
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/meta"
-	"github.com/alexfalkowski/go-service/v2/strings"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
@@ -28,7 +27,7 @@ func (s *Migrator) PlanMigrations(ctx context.Context, req *v1.PlanMigrationsReq
 	}
 
 	resp := &v1.PlanMigrationsResponse{
-		Meta: meta.CamelStrings(ctx, strings.Empty),
+		Meta: meta.Strings(ctx),
 		Plan: &v1.MigrationPlan{
 			Status: &v1.MigrationStatus{
 				Database: db,

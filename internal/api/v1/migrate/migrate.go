@@ -5,7 +5,6 @@ import (
 
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/meta"
-	"github.com/alexfalkowski/go-service/v2/strings"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 )
 
@@ -29,7 +28,7 @@ func (s *Migrator) Migrate(ctx context.Context, req *v1.MigrateRequest) (*v1.Mig
 			Version:  ver,
 			Logs:     logs,
 		},
-		Meta: meta.CamelStrings(ctx, strings.Empty),
+		Meta: meta.Strings(ctx),
 	}
 
 	return resp, nil
