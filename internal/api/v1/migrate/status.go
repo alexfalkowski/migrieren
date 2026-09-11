@@ -3,7 +3,6 @@ package migrate
 import (
 	"github.com/alexfalkowski/go-service/v2/context"
 	"github.com/alexfalkowski/go-service/v2/meta"
-	"github.com/alexfalkowski/go-service/v2/strings"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
@@ -18,7 +17,7 @@ func (s *Migrator) Status(ctx context.Context, req *v1.StatusRequest) (*v1.Statu
 	}
 
 	resp := &v1.StatusResponse{
-		Meta: meta.CamelStrings(ctx, strings.Empty),
+		Meta: meta.Strings(ctx),
 		Status: &v1.MigrationStatus{
 			Database: db,
 			Version:  state.Version,
