@@ -1,4 +1,4 @@
-@startup
+@startup @grpc
 Feature: gRPC apply API
   These endpoints allow users to apply pending migrations.
 

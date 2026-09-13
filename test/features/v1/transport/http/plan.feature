@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP plan API
   These endpoints allow users to inspect pending migrations without applying them.
 

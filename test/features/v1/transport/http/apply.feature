@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP apply API
   These endpoints allow users to apply pending migrations.
 

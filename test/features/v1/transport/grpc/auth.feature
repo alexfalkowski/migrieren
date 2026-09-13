@@ -1,4 +1,4 @@
-@startup
+@startup @grpc
 Feature: gRPC API authentication
   The gRPC API requires a verified token and an authorized subject.
 

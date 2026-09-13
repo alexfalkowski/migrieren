@@ -1,4 +1,4 @@
-@startup
+@startup @grpc
 Feature: gRPC migrate API
   These endpoints allow users to migrate configured databases.
 

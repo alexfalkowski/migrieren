@@ -1,3 +1,4 @@
+@config
 Feature: Configuration
   Invalid configuration should stop the server from starting.
 

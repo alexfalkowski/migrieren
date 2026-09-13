@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP migrate API
   These endpoints allow users to migrate configured databases.
 
