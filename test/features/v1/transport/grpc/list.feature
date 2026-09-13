@@ -1,4 +1,4 @@
-@startup
+@startup @grpc
 Feature: gRPC list API
   These endpoints allow users to list configured databases.
 

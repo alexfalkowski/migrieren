@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP status API
   These endpoints allow users to inspect current migration status.
 

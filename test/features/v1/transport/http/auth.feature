@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP API authentication
   The HTTP RPC facade requires a verified token and an authorized subject.
 

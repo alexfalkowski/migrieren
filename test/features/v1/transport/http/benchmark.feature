@@ -1,4 +1,4 @@
-@startup @benchmark
+@startup @benchmark @http
 Feature: Benchmark HTTP API
   Make sure these endpoints perform at their best.
 

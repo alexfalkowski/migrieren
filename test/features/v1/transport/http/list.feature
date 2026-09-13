@@ -1,4 +1,4 @@
-@startup
+@startup @http
 Feature: HTTP list API
   These endpoints allow users to list configured databases.
 

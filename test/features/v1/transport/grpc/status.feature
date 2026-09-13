@@ -1,4 +1,4 @@
-@startup
+@startup @grpc
 Feature: gRPC status API
   These endpoints allow users to inspect current migration status.
 

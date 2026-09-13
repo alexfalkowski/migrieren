@@ -1,4 +1,4 @@
-@startup @benchmark
+@startup @benchmark @grpc
 Feature: Benchmark gRPC API
   Make sure these endpoints perform at their best.
 
