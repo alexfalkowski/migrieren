@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Stage isolated CircleCI coverage profiles and restore them for the final merge.
+
+set -eo pipefail
+
+readonly reports_directory="test/reports"
+readonly workspace_directory="/tmp/migrieren-reports"
+readonly action="$1"
+
+case "$action" in
+  stage)
+    if [[ "$#" -ne 2 ]]; then
+      printf '%s\n' 'coverage partition is required' >&2
+      exit 1
+    fi
+
+    readonly partition="$2"
+
+    case "$partition" in
+      http | grpc | benchmarks) ;;
+      *)
+        printf '%s\n' 'partition must be http, grpc, or benchmarks' >&2
+        exit 1
+        ;;
+    esac
+
+    readonly destination="${workspace_directory}/${partition}"
+    mkdir -p "$destination"
+    find "$reports_directory" -maxdepth 1 -type f -name '*.cov' -exec cp {} "$destination" \;
+    ;;
+  restore)
+    if [[ "$#" -ne 1 ]]; then
+      printf '%s\n' 'restore does not accept arguments' >&2
+      exit 1
+    fi
+
+    find "$workspace_directory" -type f -name '*.cov' -exec cp {} "$reports_directory" \;
+    ;;
+  *)
+    printf '%s\n' 'unknown coverage workspace action' >&2
+    exit 1
+    ;;
+esac
