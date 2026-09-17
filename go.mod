@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.40.0
-	github.com/alexfalkowski/go-service/v2 v2.782.0
+	github.com/alexfalkowski/go-service/v2 v2.783.0
 	github.com/golang-migrate/migrate/v4 v4.20.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.11.0
@@ -46,7 +46,7 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.30.4 // indirect
-	github.com/go-sprout/sprout v1.1.1 // indirect
+	github.com/go-sprout/sprout v1.1.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/pprof v0.0.0-20260906184651-6331bc6350fe // indirect

@@ -22,8 +22,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.40.0 h1:eQHFSUCBC+ZDX7DoGGcqyy3Alq8C8PztNFoNrGK02dg=
 github.com/alexfalkowski/go-health/v2 v2.40.0/go.mod h1:QNc7u8saYVDQZUz5ZbD8uAhgiDjJ3VzR7OPWWwVkoI4=
-github.com/alexfalkowski/go-service/v2 v2.782.0 h1:UtIaehNCgcGM4TYrNC8t8wZZFXjzkTY87rCBr4KpofA=
-github.com/alexfalkowski/go-service/v2 v2.782.0/go.mod h1:wjix7fcgB/yt4PG6LjPegYSHBlqkGpvX8fUsGEFotBU=
+github.com/alexfalkowski/go-service/v2 v2.783.0 h1:VtW+P+KDbH37yQwRZ409mPzZFTo96KzyIf5nnXtrqVA=
+github.com/alexfalkowski/go-service/v2 v2.783.0/go.mod h1:r2aiawwN+tZtLeUoy1ye0orfya3c44itlK/pOEpapt4=
 github.com/alexfalkowski/go-sync v1.35.0 h1:xbA5tj3u4kiAjcCIxMDmBhgzMuzxJpXTKBHN4K/fbWA=
 github.com/alexfalkowski/go-sync v1.35.0/go.mod h1:yO80ajGQcCzDR6qD8LDstvj2LI+VZQUla/5uyTEIFSM=
 github.com/arl/statsviz v0.8.2 h1:sceiee7nGyPCEFq3y25krycRqwefBJbC5xnNZjSfLiE=
@@ -106,8 +106,8 @@ github.com/go-playground/universal-translator v0.18.1 h1:Bcnm0ZwsGyWbCzImXv+pAJn
 github.com/go-playground/universal-translator v0.18.1/go.mod h1:xekY+UJKNuX9WP91TpwSH2VMlDf28Uj24BCp08ZFTUY=
 github.com/go-playground/validator/v10 v10.30.4 h1:9Rcod2ZPO6mOEG6b4GqyoHE/H6//Ze0RuhOo1hT1x0w=
 github.com/go-playground/validator/v10 v10.30.4/go.mod h1:numpT+RPLE91R9oYWMY/R9zRgJBewr3IXHko4OISPpk=
-github.com/go-sprout/sprout v1.1.1 h1:W1k8rnSGnKHDR5Z5M8pi22zjFvAx9mRsomsfFT9c85c=
-github.com/go-sprout/sprout v1.1.1/go.mod h1:/gb8yk3HCg6S5+X16PDh+mVjk+6KFtKb6j5xoix4sVk=
+github.com/go-sprout/sprout v1.1.2 h1:SXwcvySDM3mUaLyM9TKoT1/z6qunYC4nmMhvm0mQmbE=
+github.com/go-sprout/sprout v1.1.2/go.mod h1:U/0DFWSpcwLV5iNgK/4EZCllGvQFxhLSZTappEdLTqE=
 github.com/gobwas/httphead v0.1.0/go.mod h1:O/RXo79gxV8G+RqlR/otEwx4Q36zl9rqC5u12GKvMCM=
 github.com/gobwas/pool v0.2.1/go.mod h1:q8bcK0KcYlCgd9e7WYLm9LpyS+YeLd8JVDW6WezmKEw=
 github.com/gobwas/ws v1.2.1/go.mod h1:hRKAFb8wOxFROYNsT1bqfWnhX+b5MFeJM9r2ZSwg/KY=
