@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	github.com/alexfalkowski/go-health/v2 v2.40.0
-	github.com/alexfalkowski/go-service/v2 v2.784.0
+	github.com/alexfalkowski/go-service/v2 v2.785.0
 	github.com/golang-migrate/migrate/v4 v4.20.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.11.0
@@ -75,7 +75,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/open-feature/go-sdk v1.18.0 // indirect
-	github.com/open-feature/go-sdk-contrib/hooks/open-telemetry v0.3.7 // indirect
+	github.com/open-feature/go-sdk-contrib/hooks/open-telemetry v0.3.8 // indirect
 	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58 // indirect
 	github.com/power-devops/perfstat v0.0.0-20260805114148-88456608a4f6 // indirect
 	github.com/prometheus/client_golang v1.24.1 // indirect
@@ -136,5 +136,5 @@ require (
 	golang.org/x/sys v0.48.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20260831171406-18b4a7587f8a // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260918162117-cecb64721679 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260921155816-b14227669459 // indirect
 )
