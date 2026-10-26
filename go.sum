@@ -22,8 +22,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.41.0 h1:hr0e86G3S9y3v5AtXVr7JrWMud/DE1v2jMW0bw7ePMA=
 github.com/alexfalkowski/go-health/v2 v2.41.0/go.mod h1:RCpVZZ3FfdNUQs5tC5IC9HgTuKX0F5wTLRFhOFglL80=
-github.com/alexfalkowski/go-service/v2 v2.806.0 h1:a+wkBCpNHK7aZSAWiuqh5CHZXujGYL07w8Jv5Xx1ltM=
-github.com/alexfalkowski/go-service/v2 v2.806.0/go.mod h1:lVfn32Y1hERwjTaTNZJBrbjTn57pa1cIqyH1eshhRNg=
+github.com/alexfalkowski/go-service/v2 v2.807.0 h1:G1pYKCU/Fqc8sAP3MWTwsQiyW+F8ZLdxfQe4wbZilmA=
+github.com/alexfalkowski/go-service/v2 v2.807.0/go.mod h1:Wj9AZe9+JBe9+WXnZ88AskF84vBa9c7GsyUAibMbLM4=
 github.com/alexfalkowski/go-sync v1.36.0 h1:IhmDFJRSTPLHVbgW3HXLS1BbLX1jhvsAPyHAVZXGTVg=
 github.com/alexfalkowski/go-sync v1.36.0/go.mod h1:6PPeiCqf73zjO6mxseq7eT3OaPV4T2pEuQ0Qwrngv58=
 github.com/arl/statsviz v0.8.2 h1:sceiee7nGyPCEFq3y25krycRqwefBJbC5xnNZjSfLiE=
@@ -280,8 +280,8 @@ github.com/tklauser/go-sysconf v0.4.0 h1:7H0uAN+7RkwWRaxhYXDLqa5V3LPrJeV8wmD9dRU
 github.com/tklauser/go-sysconf v0.4.0/go.mod h1:8mTNWyog7H+MpKijp4VmKJAd2bbYQ2zuUwkYRbUArPI=
 github.com/tklauser/numcpus v0.12.0 h1:NR85qdvHA9pFse3x3weVZ0r0ST8R6l5RHbZrlRaqob4=
 github.com/tklauser/numcpus v0.12.0/go.mod h1:ABHeXzJnr/qqwguhClkZKT1/8VABcYrsyUiUGobwWJg=
-github.com/urfave/negroni/v3 v3.1.1 h1:6MS4nG9Jk/UuCACaUlNXCbiKa0ywF9LXz5dGu09v8hw=
-github.com/urfave/negroni/v3 v3.1.1/go.mod h1:jWvnX03kcSjDBl/ShB0iHvx5uOs7mAzZXW+JvJ5XYAs=
+github.com/urfave/negroni/v3 v3.1.2 h1:pi/E2QJqdb+cEHYFxIyiBRwnYwy+/TlvTcmy2tb9m6w=
+github.com/urfave/negroni/v3 v3.1.2/go.mod h1:jWvnX03kcSjDBl/ShB0iHvx5uOs7mAzZXW+JvJ5XYAs=
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/vmihailenco/tagparser/v2 v2.0.0 h1:y09buUbR+b5aycVFQs/g70pqKVZNBmxwAhO7/IwNM9g=
