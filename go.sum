@@ -22,8 +22,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.41.0 h1:hr0e86G3S9y3v5AtXVr7JrWMud/DE1v2jMW0bw7ePMA=
 github.com/alexfalkowski/go-health/v2 v2.41.0/go.mod h1:RCpVZZ3FfdNUQs5tC5IC9HgTuKX0F5wTLRFhOFglL80=
-github.com/alexfalkowski/go-service/v2 v2.812.0 h1:k49ygH86hvRwCfXTVyt660Bz/YljghS0K0BvfdMSvCU=
-github.com/alexfalkowski/go-service/v2 v2.812.0/go.mod h1:/lS0KeH8tIrk9PGM1N5Lfu+oHuOxV2TxBPAeAzm/kaM=
+github.com/alexfalkowski/go-service/v2 v2.813.0 h1:ChR6V9TnjFgt51GnuNR0SaZiCUgns5UI/pE2z8a9fvQ=
+github.com/alexfalkowski/go-service/v2 v2.813.0/go.mod h1:wMy6F8jI1tJ2gwyU2LApyTLsVgJfTqqa86t1mgu8LJM=
 github.com/alexfalkowski/go-sync v1.36.0 h1:IhmDFJRSTPLHVbgW3HXLS1BbLX1jhvsAPyHAVZXGTVg=
 github.com/alexfalkowski/go-sync v1.36.0/go.mod h1:6PPeiCqf73zjO6mxseq7eT3OaPV4T2pEuQ0Qwrngv58=
 github.com/arl/statsviz v0.8.2 h1:sceiee7nGyPCEFq3y25krycRqwefBJbC5xnNZjSfLiE=
@@ -104,8 +104,8 @@ github.com/go-playground/locales v0.14.2 h1:d8UmcrM6Nip0hfGZKLGpAvZH37XB4TS0xzK9
 github.com/go-playground/locales v0.14.2/go.mod h1:hxrqLVvrK65+Rwrd5Fc6F2O76J/NuW9t0sjnWqG1slY=
 github.com/go-playground/universal-translator v0.18.2 h1:LCsMLC9RzmbUMNUPVYD15dmcjwYAJhmX8mPZRW4rAVU=
 github.com/go-playground/universal-translator v0.18.2/go.mod h1:67VZIMp5lQpDWlnStOct22q1bkdJGJqHghbOtmkawxk=
-github.com/go-playground/validator/v10 v10.30.5 h1:YyCXvVShZbs2Sm3Mb53eNOlhRXctSOzW5QJAouCTZL4=
-github.com/go-playground/validator/v10 v10.30.5/go.mod h1:wEqiaov48pXX1kjhc3Da8y0M0Dtg/BK7gurFBLgwFrQ=
+github.com/go-playground/validator/v10 v10.30.6 h1:E+mymlPNRzAMNz1FShrRvLeGWcprF5w305eLLgWieuo=
+github.com/go-playground/validator/v10 v10.30.6/go.mod h1:jPLL8SKCXGe/g87QmEyNw3NO28nmGt5GCnZnufm7rj4=
 github.com/go-sprout/sprout v1.1.2 h1:SXwcvySDM3mUaLyM9TKoT1/z6qunYC4nmMhvm0mQmbE=
 github.com/go-sprout/sprout v1.1.2/go.mod h1:U/0DFWSpcwLV5iNgK/4EZCllGvQFxhLSZTappEdLTqE=
 github.com/gobwas/httphead v0.1.0/go.mod h1:O/RXo79gxV8G+RqlR/otEwx4Q36zl9rqC5u12GKvMCM=
