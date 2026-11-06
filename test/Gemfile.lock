@@ -83,7 +83,7 @@ GEM
     json (3.1.0)
     jwt (3.3.0)
       base64
-    jwt-eddsa (1.0.0)
+    jwt-eddsa (1.1.0)
       base64
       ed25519
       jwt (>= 2.9.0)
@@ -94,7 +94,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.1027)
+    mime-types-data (3.2026.1103)
     mini_mime (1.1.5)
     multi_test (2.0.0)
     mustermann (3.1.1)
@@ -159,15 +159,15 @@ GEM
       benchmark-perf (~> 0.6)
       benchmark-trend (~> 0.4)
       rspec (>= 3.0)
-    rspec-core (3.13.6)
+    rspec-core (3.13.7)
       rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.5)
+    rspec-expectations (3.13.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.8)
+    rspec-mocks (3.13.9)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-support (3.13.7)
+    rspec-support (3.13.8)
     rspec-wait (1.0.2)
       rspec (>= 3.4)
     rubocop (1.92.2)
@@ -223,4 +223,4 @@ DEPENDENCIES
   ruby-lsp
 
 BUNDLED WITH
-  4.0.23
+  4.0.24
