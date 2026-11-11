@@ -30,7 +30,7 @@ GEM
       cucumber-gherkin (> 36, < 43)
       cucumber-messages (> 31, < 35)
       cucumber-tag-expressions (> 6, < 12)
-    cucumber-cucumber-expressions (20.1.0)
+    cucumber-cucumber-expressions (20.2.0)
       bigdecimal
     cucumber-gherkin (42.0.1)
       cucumber-messages (>= 34, < 35)
