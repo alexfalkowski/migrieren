@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/alexfalkowski/go-service/v2/cli"
-	"github.com/alexfalkowski/go-service/v2/strings"
+	"github.com/alexfalkowski/go-service/v3/cli"
+	"github.com/alexfalkowski/go-service/v3/strings"
 )
 
 // RegisterServer adds the `server` command to command.

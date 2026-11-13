@@ -3,8 +3,8 @@ package source
 import (
 	"os"
 
-	"github.com/alexfalkowski/go-service/v2/context"
-	"github.com/alexfalkowski/go-service/v2/errors"
+	"github.com/alexfalkowski/go-service/v3/context"
+	"github.com/alexfalkowski/go-service/v3/errors"
 	_ "github.com/alexfalkowski/migrieren/internal/migrate/source/github"
 	"github.com/alexfalkowski/migrieren/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/source"

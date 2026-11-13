@@ -1,11 +1,11 @@
 package database
 
 import (
-	"github.com/alexfalkowski/go-service/v2/context"
-	"github.com/alexfalkowski/go-service/v2/database/sql/telemetry"
-	"github.com/alexfalkowski/go-service/v2/errors"
-	"github.com/alexfalkowski/go-service/v2/telemetry/attributes"
-	"github.com/alexfalkowski/go-service/v2/time"
+	"github.com/alexfalkowski/go-service/v3/context"
+	"github.com/alexfalkowski/go-service/v3/database/sql/telemetry"
+	"github.com/alexfalkowski/go-service/v3/errors"
+	"github.com/alexfalkowski/go-service/v3/telemetry/attributes"
+	"github.com/alexfalkowski/go-service/v3/time"
 	"github.com/alexfalkowski/migrieren/internal/migrate/pgx"
 	"github.com/alexfalkowski/migrieren/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/database"

@@ -1,8 +1,8 @@
 package http
 
 import (
-	"github.com/alexfalkowski/go-service/v2/net/http"
-	"github.com/alexfalkowski/go-service/v2/net/http/status"
+	"github.com/alexfalkowski/go-service/v3/net/http"
+	"github.com/alexfalkowski/go-service/v3/net/http/status"
 	"github.com/alexfalkowski/migrieren/internal/api/v1/migrate"
 )
 

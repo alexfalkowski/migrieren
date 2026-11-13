@@ -1,12 +1,12 @@
 package health
 
-import "github.com/alexfalkowski/go-service/v2/di"
+import "github.com/alexfalkowski/go-signal/v2"
 
 // Module wires health registrations and observers into the DI container.
-var Module = di.Module(
-	di.Register(Register),
-	di.Register(httpHealthObserver),
-	di.Register(httpLivenessObserver),
-	di.Register(httpReadinessObserver),
-	di.Register(grpcObserver),
+var Module = signal.Module(
+	signal.Register(Register),
+	signal.Register(httpHealthObserver),
+	signal.Register(httpLivenessObserver),
+	signal.Register(httpReadinessObserver),
+	signal.Register(grpcObserver),
 )

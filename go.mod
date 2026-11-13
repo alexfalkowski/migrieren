@@ -3,8 +3,9 @@ module github.com/alexfalkowski/migrieren
 go 1.27.0
 
 require (
-	github.com/alexfalkowski/go-health/v2 v2.42.0
-	github.com/alexfalkowski/go-service/v2 v2.819.0
+	github.com/alexfalkowski/go-health/v2 v2.43.0
+	github.com/alexfalkowski/go-service/v3 v3.0.0
+	github.com/alexfalkowski/go-signal/v2 v2.0.0
 	github.com/golang-migrate/migrate/v4 v4.20.1
 	github.com/google/go-github/v89 v89.0.0
 	github.com/jackc/pgx/v5 v5.12.0
@@ -22,7 +23,7 @@ require (
 	github.com/KimMachineGun/automemlimit v1.0.1 // indirect
 	github.com/XSAM/otelsql v0.44.0 // indirect
 	github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 // indirect
-	github.com/alexfalkowski/go-sync v1.37.0 // indirect
+	github.com/alexfalkowski/go-sync v1.39.0 // indirect
 	github.com/arl/statsviz v0.8.2 // indirect
 	github.com/avfs/avfs v0.35.0 // indirect
 	github.com/beevik/ntp v1.6.0 // indirect
@@ -127,7 +128,6 @@ require (
 	go.opentelemetry.io/proto/otlp v1.11.1 // indirect
 	go.uber.org/atomic v1.12.0 // indirect
 	go.uber.org/dig v1.19.0 // indirect
-	go.uber.org/fx v1.24.0 // indirect
 	go.uber.org/mock v0.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0 // indirect

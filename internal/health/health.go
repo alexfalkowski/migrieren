@@ -2,10 +2,10 @@ package health
 
 import (
 	"github.com/alexfalkowski/go-health/v2/server"
-	"github.com/alexfalkowski/go-service/v2/di"
-	"github.com/alexfalkowski/go-service/v2/env"
-	"github.com/alexfalkowski/go-service/v2/health"
-	"github.com/alexfalkowski/go-service/v2/os"
+	"github.com/alexfalkowski/go-service/v3/env"
+	"github.com/alexfalkowski/go-service/v3/health"
+	"github.com/alexfalkowski/go-service/v3/os"
+	"github.com/alexfalkowski/go-signal/v2"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/health/checker"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
@@ -14,7 +14,7 @@ import (
 // RegisterParams contains the dependencies required to register health checks
 // and observers.
 type RegisterParams struct {
-	di.In
+	signal.In
 	Migrator *migrate.Migrator
 	Server   *server.Server
 	FS       *os.FS
