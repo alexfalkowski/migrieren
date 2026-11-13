@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/alexfalkowski/go-service/v3/net/http"
 	"github.com/alexfalkowski/go-service/v3/net/http/status"
-	"github.com/alexfalkowski/migrieren/internal/api/v1/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/api/v1/migrate"
 )
 
 func (s *Server) error(err error) error {

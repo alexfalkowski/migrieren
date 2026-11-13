@@ -3,8 +3,8 @@ package migrate
 import (
 	"github.com/alexfalkowski/go-service/v3/bytes"
 	"github.com/alexfalkowski/go-service/v3/context"
-	"github.com/alexfalkowski/migrieren/internal/diagnostics"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/diagnostics"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // Plan reports current status and planned migration versions for the named

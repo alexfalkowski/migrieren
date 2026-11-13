@@ -2,7 +2,7 @@ package migrate
 
 import (
 	"github.com/alexfalkowski/go-service/v3/os"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // NewMigrator constructs an API-facing [Migrator].

@@ -5,8 +5,8 @@ import (
 
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/meta"
-	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	v1 "github.com/alexfalkowski/migrieren/v2/api/migrieren/v1"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // PlanMigrations reports current status and planned migration versions for a

@@ -2,7 +2,7 @@ package migrate
 
 import (
 	"github.com/alexfalkowski/go-service/v3/errors"
-	"github.com/alexfalkowski/migrieren/internal/api/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/api/migrate"
 )
 
 // ErrInvalidVersion is returned when a v1 migrate request uses a version outside

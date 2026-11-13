@@ -2,7 +2,7 @@ package migrate
 
 import (
 	"github.com/alexfalkowski/go-service/v3/errors"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // IsNotFound reports whether err indicates that the requested database name was

@@ -82,7 +82,8 @@ jobs:
           key: migrieren-go-lint-cache-{{ checksum "go.sum" }}-{{ checksum "~/.go-lint-version" }}-{{ checksum ".source-key" }}
           paths:
             - ~/.cache/golangci-lint
-      - run: make proto-breaking
+      # Re-enable after master includes the intentional Go module /v2 migration.
+      # - run: make proto-breaking
       - run: make proto-stale
       - run: make sec
       - run: make build

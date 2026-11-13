@@ -4,9 +4,9 @@ import (
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/errors"
 	"github.com/alexfalkowski/go-service/v3/meta"
-	"github.com/alexfalkowski/migrieren/internal/migrate/database"
-	"github.com/alexfalkowski/migrieren/internal/migrate/source"
-	"github.com/alexfalkowski/migrieren/internal/migrate/telemetry/logger"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/database"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/source"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/telemetry/logger"
 	"github.com/golang-migrate/migrate/v4"
 )
 

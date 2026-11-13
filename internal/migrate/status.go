@@ -4,7 +4,7 @@ import (
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/errors"
 	"github.com/alexfalkowski/go-service/v3/meta"
-	"github.com/alexfalkowski/migrieren/internal/migrate/database"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/database"
 )
 
 // ErrInvalidStatus is returned when migration status cannot be inspected.

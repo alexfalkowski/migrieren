@@ -6,8 +6,8 @@ import (
 	"github.com/alexfalkowski/go-service/v3/bytes"
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/strings"
-	"github.com/alexfalkowski/migrieren/internal/diagnostics"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/diagnostics"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // Status reports the current migration version state for the named database.

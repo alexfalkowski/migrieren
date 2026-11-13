@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package migrieren.v1;
 
-option go_package = "github.com/alexfalkowski/migrieren/api/migrieren/v1";
+option go_package = "github.com/alexfalkowski/migrieren/v2/api/migrieren/v1";
 option ruby_package = "Migrieren::V1";
 
 // Migration reports the database, migration version, and bounded migrate logs.

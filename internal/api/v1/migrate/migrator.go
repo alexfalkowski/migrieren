@@ -1,6 +1,6 @@
 package migrate
 
-import "github.com/alexfalkowski/migrieren/internal/api/migrate"
+import "github.com/alexfalkowski/migrieren/v2/internal/api/migrate"
 
 // NewMigrator constructs a v1 migration service.
 //

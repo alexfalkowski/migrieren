@@ -13,7 +13,7 @@ const truncated = "migration logs truncated"
 // limit entries.
 //
 // limit must be positive; defaulting is the caller's responsibility (see
-// [github.com/alexfalkowski/migrieren/internal/migrate.Logs.GetMax]). When the
+// [github.com/alexfalkowski/migrieren/v2/internal/migrate.Logs.GetMax]). When the
 // captured output exceeds limit, the oldest lines are dropped so the most recent
 // lines, which are closest to a failure, are retained.
 func New(limit int) *Logger {
