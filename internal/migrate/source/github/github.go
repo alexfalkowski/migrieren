@@ -6,10 +6,10 @@ import (
 	"os"
 	"path"
 
-	"github.com/alexfalkowski/go-service/v2/context"
-	"github.com/alexfalkowski/go-service/v2/errors"
-	"github.com/alexfalkowski/go-service/v2/io"
-	"github.com/alexfalkowski/go-service/v2/strings"
+	"github.com/alexfalkowski/go-service/v3/context"
+	"github.com/alexfalkowski/go-service/v3/errors"
+	"github.com/alexfalkowski/go-service/v3/io"
+	"github.com/alexfalkowski/go-service/v3/strings"
 	"github.com/golang-migrate/migrate/v4/source"
 	"github.com/google/go-github/v89/github"
 )

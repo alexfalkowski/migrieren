@@ -1,7 +1,7 @@
 package migrate
 
 import (
-	"github.com/alexfalkowski/go-service/v2/os"
+	"github.com/alexfalkowski/go-service/v3/os"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 

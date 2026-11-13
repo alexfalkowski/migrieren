@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/alexfalkowski/go-service/v2/errors"
+	"github.com/alexfalkowski/go-service/v3/errors"
 	migrate "github.com/golang-migrate/migrate/v4"
 )
 

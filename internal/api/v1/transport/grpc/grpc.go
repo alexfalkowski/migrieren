@@ -1,11 +1,11 @@
 package grpc
 
 import (
-	"github.com/alexfalkowski/go-service/v2/context"
-	"github.com/alexfalkowski/go-service/v2/net/grpc"
-	"github.com/alexfalkowski/go-service/v2/net/grpc/codes"
-	"github.com/alexfalkowski/go-service/v2/net/grpc/meta"
-	"github.com/alexfalkowski/go-service/v2/net/grpc/status"
+	"github.com/alexfalkowski/go-service/v3/context"
+	"github.com/alexfalkowski/go-service/v3/net/grpc"
+	"github.com/alexfalkowski/go-service/v3/net/grpc/codes"
+	"github.com/alexfalkowski/go-service/v3/net/grpc/meta"
+	"github.com/alexfalkowski/go-service/v3/net/grpc/status"
 	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
 	"github.com/alexfalkowski/migrieren/internal/api/v1/migrate"
 	"github.com/alexfalkowski/migrieren/internal/diagnostics"

@@ -1,12 +1,12 @@
 package migrate
 
 import (
-	"github.com/alexfalkowski/go-service/v2/di"
+	"github.com/alexfalkowski/go-signal/v2"
 	"github.com/alexfalkowski/migrieren/internal/migrate"
 )
 
 // Module wires the API-facing migrator into the DI container.
-var Module = di.Module(
+var Module = signal.Module(
 	migrate.Module,
-	di.Constructor(NewMigrator),
+	signal.Constructor(NewMigrator),
 )

@@ -50,7 +50,7 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
 ### Top-level runtime config sections are required
 
 - In `internal/config/config.go`, `Health`, `Migrate`, and the embedded
-  `*go-service/v2/config.Config` are pointer fields but are intentionally
+  `*go-service/v3/config.Config` are pointer fields but are intentionally
   marked `validate:"required"`.
 - Reviewers should not suggest silently materializing empty configs in the raw
   projection helpers (`healthConfig`, `migrateConfig`, `decorateConfig`).
@@ -364,7 +364,7 @@ Feature tests themselves talk to Postgres through the nonnative proxy on `localh
 
 ### Configuration
 
-- `internal/config/config.go`: service config struct, embeds `*go-service/v2/config.Config` and includes:
+- `internal/config/config.go`: service config struct, embeds `*go-service/v3/config.Config` and includes:
   - `health` (`internal/health/config.go`)
   - `migrate` (`internal/migrate/config.go`)
 
@@ -384,7 +384,7 @@ A sample config used for dev/tests exists at `test/.config/server.yaml`.
 - `internal/api/migrate/`: API-facing migrator that resolves database names through config.
 - `internal/api/v1/migrate/`: versioned API contract shared by HTTP and gRPC transports.
 - `internal/api/v1/transport/grpc/`: gRPC server + handler implementation.
-- `internal/api/v1/transport/http/`: HTTP routing via `go-service/v2/net/http/rpc`.
+- `internal/api/v1/transport/http/`: HTTP routing via `go-service/v3/net/http/rpc`.
 
 ### Health
 
@@ -403,10 +403,10 @@ A sample config used for dev/tests exists at `test/.config/server.yaml`.
 
 ### Dependency injection
 
-Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
-- Each subsystem exports `var Module = di.Module(...)` (e.g. `internal/api/v1/module.go`, `internal/migrate/module.go`).
-- Constructors registered via `di.Constructor(...)`.
-- Side-effect registrations (routes, gRPC server registration) via `di.Register(...)`.
+Uses `github.com/alexfalkowski/go-signal/v2` for dependency injection:
+- Each subsystem exports `var Module = signal.Module(...)` (e.g. `internal/api/v1/module.go`, `internal/migrate/module.go`).
+- Constructors registered via `signal.Constructor(...)`.
+- Side-effect registrations (routes, gRPC server registration) via `signal.Register(...)`.
 
 ### Error handling
 
@@ -429,7 +429,7 @@ Uses `github.com/alexfalkowski/go-service/v2/di` with Fx-style modules:
 
 - **Submodule required**: Make targets call scripts under `bin/`; init/update submodule before running most automation.
 - **Vendoring is relied on**: multiple Go targets run with `-mod vendor`; run `make dep` after changing Go deps.
-- **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v2/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yaml`).
+- **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v3/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yaml`).
 - **DB URL scheme**: database driver expects `pgx5://...` and rewrites to `postgres://...` internally (`internal/migrate/database/database.go`).
 - **Checked-in test config is intentionally mixed**: `test/.config/server.yaml` contains both valid and invalid database entries to exercise failure paths in feature tests.
 - **Health behavior in tests is asymmetric by design**: gRPC health for `migrieren.v1.Service` is expected to be healthy, while HTTP `/migrieren/healthz` is expected to be unhealthy because per-database checks include intentionally invalid entries.
