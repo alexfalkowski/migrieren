@@ -3,7 +3,7 @@ package migrate
 import (
 	"github.com/alexfalkowski/go-service/v3/bytes"
 	"github.com/alexfalkowski/go-service/v3/context"
-	"github.com/alexfalkowski/migrieren/internal/diagnostics"
+	"github.com/alexfalkowski/migrieren/v2/internal/diagnostics"
 )
 
 // Migrate migrates the named database to the given target version.

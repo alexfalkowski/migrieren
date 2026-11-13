@@ -6,8 +6,8 @@ import (
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/os"
 	"github.com/alexfalkowski/go-service/v3/time"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
-	"github.com/alexfalkowski/migrieren/internal/migrate/source"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/source"
 )
 
 // NewNoopChecker returns a checker that always reports healthy.

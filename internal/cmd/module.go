@@ -3,9 +3,9 @@ package cmd
 import (
 	"github.com/alexfalkowski/go-service/v3/module"
 	"github.com/alexfalkowski/go-signal/v2"
-	v1 "github.com/alexfalkowski/migrieren/internal/api/v1"
-	"github.com/alexfalkowski/migrieren/internal/config"
-	"github.com/alexfalkowski/migrieren/internal/health"
+	v1 "github.com/alexfalkowski/migrieren/v2/internal/api/v1"
+	"github.com/alexfalkowski/migrieren/v2/internal/config"
+	"github.com/alexfalkowski/migrieren/v2/internal/health"
 )
 
 // Module wires the full server command dependency graph into the DI container.

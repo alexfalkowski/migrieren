@@ -5,8 +5,8 @@ import (
 
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/errors"
-	_ "github.com/alexfalkowski/migrieren/internal/migrate/source/github"
-	"github.com/alexfalkowski/migrieren/internal/migrate/url"
+	_ "github.com/alexfalkowski/migrieren/v2/internal/migrate/source/github"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate/url"
 	"github.com/golang-migrate/migrate/v4/source"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )

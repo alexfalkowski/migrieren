@@ -2,8 +2,8 @@ package config
 
 import (
 	"github.com/alexfalkowski/go-service/v3/config"
-	"github.com/alexfalkowski/migrieren/internal/health"
-	"github.com/alexfalkowski/migrieren/internal/migrate"
+	"github.com/alexfalkowski/migrieren/v2/internal/health"
+	"github.com/alexfalkowski/migrieren/v2/internal/migrate"
 )
 
 // Config defines the top-level Migrieren service configuration.

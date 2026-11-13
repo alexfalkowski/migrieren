@@ -1,13 +1,14 @@
 ![Gopher](assets/gopher.png)
 [![CircleCI](https://circleci.com/gh/alexfalkowski/migrieren.svg?style=shield)](https://circleci.com/gh/alexfalkowski/migrieren)
 [![codecov](https://codecov.io/gh/alexfalkowski/migrieren/graph/badge.svg?token=R2OD8WIKD0)](https://codecov.io/gh/alexfalkowski/migrieren)
-[![Go Report Card](https://goreportcard.com/badge/github.com/alexfalkowski/migrieren)](https://goreportcard.com/report/github.com/alexfalkowski/migrieren)
-[![Go Reference](https://pkg.go.dev/badge/github.com/alexfalkowski/migrieren.svg)](https://pkg.go.dev/github.com/alexfalkowski/migrieren)
+[![Go Reference](https://pkg.go.dev/badge/github.com/alexfalkowski/migrieren/v2.svg)](https://pkg.go.dev/github.com/alexfalkowski/migrieren/v2)
 [![Stability: Active](https://masterminds.github.io/stability/active.svg)](https://masterminds.github.io/stability/active.html)
 
 # 🧭 Migrieren
 
 Migrieren is a Go service that runs database schema migrations through a gRPC API with an HTTP RPC façade.
+
+The Go module is `github.com/alexfalkowski/migrieren/v2`. Go clients upgrading from v1 must add `/v2` to their Migrieren imports, including `github.com/alexfalkowski/migrieren/v2/api/migrieren/v1`.
 
 The service wraps [`golang-migrate/migrate`](https://github.com/golang-migrate/migrate) so callers can ask it to migrate a named database to a target version without embedding migration logic into every application.
 

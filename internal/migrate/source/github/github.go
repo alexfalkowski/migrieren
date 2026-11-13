@@ -68,7 +68,7 @@ type Driver struct {
 //
 // Open does not accept a context and is not request-scoped; callers that need
 // bounded validation should avoid opening GitHub sources (see
-// [github.com/alexfalkowski/migrieren/internal/migrate/source.Check]).
+// [github.com/alexfalkowski/migrieren/v2/internal/migrate/source.Check]).
 func (d *Driver) Open(rawURL string) (source.Driver, error) {
 	parsed, err := url.Parse(rawURL)
 	if err != nil {

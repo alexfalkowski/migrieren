@@ -3,7 +3,7 @@ package migrate
 import (
 	"github.com/alexfalkowski/go-service/v3/context"
 	"github.com/alexfalkowski/go-service/v3/meta"
-	v1 "github.com/alexfalkowski/migrieren/api/migrieren/v1"
+	v1 "github.com/alexfalkowski/migrieren/v2/api/migrieren/v1"
 )
 
 // ApplyMigrations applies all pending up migrations for a configured database.

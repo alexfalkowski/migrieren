@@ -3,7 +3,7 @@ package migrate
 import (
 	"fmt"
 
-	"github.com/alexfalkowski/migrieren/internal/diagnostics"
+	"github.com/alexfalkowski/migrieren/v2/internal/diagnostics"
 )
 
 func (s *Migrator) sourceAndURL(db string) ([]byte, []byte, error) {

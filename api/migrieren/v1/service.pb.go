@@ -1017,7 +1017,7 @@ const file_migrieren_v1_service_proto_rawDesc = "" +
 	"\x0fApplyMigrations\x12$.migrieren.v1.ApplyMigrationsRequest\x1a%.migrieren.v1.ApplyMigrationsResponse\"\x00\x12]\n" +
 	"\x0ePlanMigrations\x12#.migrieren.v1.PlanMigrationsRequest\x1a$.migrieren.v1.PlanMigrationsResponse\"\x00\x12E\n" +
 	"\x06Status\x12\x1b.migrieren.v1.StatusRequest\x1a\x1c.migrieren.v1.StatusResponse\"\x00\x12Z\n" +
-	"\rListDatabases\x12\".migrieren.v1.ListDatabasesRequest\x1a#.migrieren.v1.ListDatabasesResponse\"\x00BEZ3github.com/alexfalkowski/migrieren/api/migrieren/v1\xea\x02\rMigrieren::V1b\x06proto3"
+	"\rListDatabases\x12\".migrieren.v1.ListDatabasesRequest\x1a#.migrieren.v1.ListDatabasesResponse\"\x00BHZ6github.com/alexfalkowski/migrieren/v2/api/migrieren/v1\xea\x02\rMigrieren::V1b\x06proto3"
 
 var (
 	file_migrieren_v1_service_proto_rawDescOnce sync.Once
