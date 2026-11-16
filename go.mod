@@ -8,7 +8,7 @@ require (
 	github.com/alexfalkowski/go-signal/v2 v2.0.0
 	github.com/golang-migrate/migrate/v4 v4.20.1
 	github.com/google/go-github/v89 v89.0.0
-	github.com/jackc/pgx/v5 v5.12.0
+	github.com/jackc/pgx/v5 v5.13.0
 	go.opentelemetry.io/otel/metric v1.47.0
 	google.golang.org/grpc v1.85.0
 	google.golang.org/protobuf v1.36.12
