@@ -108,10 +108,10 @@ The API accepts a logical database name such as `postgres`. The service then:
 
 1. Looks that name up in `migrate.databases`.
 2. Reads the configured `source` value through its filesystem abstraction.
-3. Reads the configured `url` value through the same abstraction.
+3. Reads the configured `dsn.source` value through the same abstraction.
 4. Passes the resolved source URL and database URL to the core migrator.
 
-That means `source` and `url` in the YAML config are usually references to files or other resolvable inputs, not the final literal migration/source strings themselves.
+Both `source` and `dsn.source` can reference files or other resolvable inputs.
 
 The resolver accepts the shared go-service source-string forms:
 
@@ -147,7 +147,8 @@ migrate:
   databases:
     - name: postgres
       source: file:secrets/source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
 transport:
   http:
     address: tcp://:11000
@@ -169,7 +170,7 @@ unique `name` and all of these fields:
 
 - `name`: the logical database name used by the API request.
 - `source`: how to resolve the migration source URL.
-- `url`: how to resolve the database connection URL.
+- `dsn.source`: how to resolve the database connection URL.
 
 `migrate.logs` is optional. `migrate.logs.max` bounds how many migration log
 lines each `Migrate`/`ApplyMigrations` response returns. Omitting it or setting
@@ -199,7 +200,8 @@ migrate:
   databases:
     - name: postgres
       source: file:secrets/source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
 ```
 
 ultimately migrates Postgres using the `file://migrations` source and the `pgx5://...` database URL resolved from those files.

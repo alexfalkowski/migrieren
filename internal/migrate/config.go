@@ -1,6 +1,7 @@
 package migrate
 
 import (
+	"github.com/alexfalkowski/go-service/v3/database/sql/config"
 	"github.com/alexfalkowski/go-service/v3/errors"
 	"github.com/alexfalkowski/go-service/v3/os"
 	"github.com/alexfalkowski/go-service/v3/slices"
@@ -62,14 +63,14 @@ func (c *Config) Database(name string) (*Database, error) {
 
 // Database describes one named migration target.
 //
-// Source and URL are resolved through the service filesystem abstraction so they
-// can point at literal values or external sources such as `file:...`.
-//
-// Name, Source, and URL are all required configuration fields.
+// A target requires a name, a migration source, and a database connection source.
 type Database struct {
-	Name   string `yaml:"name,omitempty" json:"name,omitempty" toml:"name,omitempty" validate:"required"`
+	// Name is the logical database name used by callers.
+	Name string `yaml:"name,omitempty" json:"name,omitempty" toml:"name,omitempty" validate:"required"`
+	// Source resolves to the migration files' URL.
 	Source string `yaml:"source,omitempty" json:"source,omitempty" toml:"source,omitempty" validate:"required"`
-	URL    string `yaml:"url,omitempty" json:"url,omitempty" toml:"url,omitempty" validate:"required"`
+	// DSN resolves to the database connection URL.
+	DSN config.DSN `yaml:"dsn,omitempty" json:"dsn,omitzero" toml:"dsn,omitempty" validate:"required"`
 }
 
 // GetSource resolves the configured migration source for d via fs.
@@ -77,7 +78,8 @@ func (d *Database) GetSource(fs *os.FS) ([]byte, error) {
 	return fs.ReadSource(d.Source)
 }
 
-// GetURL resolves the configured database URL for d via fs.
+// GetURL resolves the database connection URL from the DSN source and returns
+// any error from fs.
 func (d *Database) GetURL(fs *os.FS) ([]byte, error) {
-	return fs.ReadSource(d.URL)
+	return d.DSN.Resolve(fs)
 }

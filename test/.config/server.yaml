@@ -10,40 +10,52 @@ migrate:
   databases:
     - name: postgres
       source: file:secrets/source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
     - name: invalid_source
       source: file:secrets/invalid_source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
     - name: missing_source
       source: file:secrets/none
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
     - name: missing_url
       source: file:secrets/source
-      url: file:secrets/none
+      dsn:
+        source: file:secrets/none
     - name: invalid_url
       source: file:secrets/source
-      url: file:secrets/invalid_pg
+      dsn:
+        source: file:secrets/invalid_pg
     - name: invalid_db
       source: file:secrets/source
-      url: file:secrets/invalid_db
+      dsn:
+        source: file:secrets/invalid_db
     - name: invalid_quoted_table
       source: file:secrets/source
-      url: file:secrets/invalid_quoted_table
+      dsn:
+        source: file:secrets/invalid_quoted_table
     - name: invalid_incomplete_quoted_table
       source: file:secrets/source
-      url: file:secrets/invalid_incomplete_quoted_table
+      dsn:
+        source: file:secrets/invalid_incomplete_quoted_table
     - name: invalid_port
       source: file:secrets/source
-      url: file:secrets/invalid_port
+      dsn:
+        source: file:secrets/invalid_port
     - name: github
       source: file:secrets/github
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
     - name: timeout
       source: file:secrets/timeout_source
-      url: file:secrets/timeout_pg
+      dsn:
+        source: file:secrets/timeout_pg
     - name: logs
       source: file:secrets/log_source
-      url: file:secrets/log_pg
+      dsn:
+        source: file:secrets/log_pg
 telemetry:
   logger:
     kind: text
@@ -52,7 +64,7 @@ telemetry:
     kind: prometheus
   tracer:
     kind: otlp
-    url: http://localhost:4318/v1/traces
+    endpoint: http://localhost:4318/v1/traces
 transport:
   access:
     model: file:secrets/access_model
