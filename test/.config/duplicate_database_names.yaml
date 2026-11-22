@@ -8,10 +8,12 @@ migrate:
   databases:
     - name: postgres
       source: file:secrets/source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
     - name: postgres
       source: file:secrets/source
-      url: file:secrets/pg
+      dsn:
+        source: file:secrets/pg
 telemetry:
   logger:
     kind: text
@@ -20,7 +22,7 @@ telemetry:
     kind: prometheus
   tracer:
     kind: otlp
-    url: http://localhost:4318/v1/traces
+    endpoint: http://localhost:4318/v1/traces
 transport:
   http:
     address: tcp://:11000
