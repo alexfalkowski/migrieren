@@ -22,8 +22,8 @@ github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1 h1:+JkXLHME8vLJafGhOH4ao
 github.com/aead/cmac v0.0.0-20160719120800-7af84192f0b1/go.mod h1:nuudZmJhzWtx2212z+pkuy7B6nkBqa+xwNXZHL1j8cg=
 github.com/alexfalkowski/go-health/v2 v2.44.0 h1:AFTACBGy3Pm9KUZFMwgvP1649NjBOMMZc+UUk7axCgQ=
 github.com/alexfalkowski/go-health/v2 v2.44.0/go.mod h1:kRgp01Wkn58nAAiOeb8GZwDBenhr+0/GVzeigexJOUk=
-github.com/alexfalkowski/go-service/v3 v3.14.0 h1:t5xe1ReKG1u6zhDD7BMxrCSgCXbvy2MOq/aEVaXGF8E=
-github.com/alexfalkowski/go-service/v3 v3.14.0/go.mod h1:g/sek2fUISD+SqCWJTUYnnTWD25ynmo27Q9mYssYoCQ=
+github.com/alexfalkowski/go-service/v3 v3.17.0 h1:tK59szsZAlLLJWI0Q9yh8l1Svq0kbHjTNclnef9Q9H4=
+github.com/alexfalkowski/go-service/v3 v3.17.0/go.mod h1:m6wVZ4qiGnBC4kVyfDVkZIrN4VueXMauFxAFggpFeA8=
 github.com/alexfalkowski/go-signal/v2 v2.1.0 h1:DTTkzprR3t69hhnDifRee20BXqFOCE5Qfq6AyU+Tf3Y=
 github.com/alexfalkowski/go-signal/v2 v2.1.0/go.mod h1:RzBK9R1MKW2V8rZbvhLc4Gc3Xu98TqQAK3iyBdPMM3k=
 github.com/alexfalkowski/go-sync v1.40.0 h1:zK3szdVQrw+eXMRREzPRKvUtNnZFEroSaZLvpRje5So=
@@ -135,8 +135,8 @@ github.com/google/pprof v0.0.0-20261111065629-49901cbc7227 h1:ak+mYoKgJdGxBupdfb
 github.com/google/pprof v0.0.0-20261111065629-49901cbc7227/go.mod h1:yUo1AMMpsPIDFGuwDK8nLcf8+vvAd5l2O6JDZ6hpwrM=
 github.com/google/uuid v1.6.0 h1:NIvaJDMOsjHA8n1jAhLSgzrAzy1Hgr+hNrb57e+94F0=
 github.com/google/uuid v1.6.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
-github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
+github.com/gorilla/websocket v1.5.4-0.20240701034025-d67f41855da4 h1:PYKzliEgITjLJoJqbV90S0YRaG8LNAsICH6fp6MApC0=
+github.com/gorilla/websocket v1.5.4-0.20240701034025-d67f41855da4/go.mod h1:r4w70xmWCQKmi1ONH4KIaBptdivuRPyosB9RmPlGEwA=
 github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.4 h1:9ZJYjPEJpcleIKcqysXOo14NLQYwu23fzmKRFpIjPjc=
 github.com/grpc-ecosystem/go-grpc-middleware/v2 v2.3.4/go.mod h1:0xydIeg2omQ9DH6zYMP24Kk57793rnLUvP8fwdbFvz8=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.33.0 h1:5T5Ns3kMpWr+z3s5ZA0e7ljVyWNVNxK76sHPAxi5D1k=
