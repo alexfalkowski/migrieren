@@ -3,8 +3,8 @@ module github.com/alexfalkowski/migrieren/v2
 go 1.27.0
 
 require (
-	github.com/alexfalkowski/go-health/v2 v2.44.0
-	github.com/alexfalkowski/go-service/v3 v3.19.0
+	github.com/alexfalkowski/go-health/v2 v2.45.0
+	github.com/alexfalkowski/go-service/v3 v3.20.0
 	github.com/alexfalkowski/go-signal/v2 v2.1.0
 	github.com/golang-migrate/migrate/v4 v4.20.1
 	github.com/google/go-github/v89 v89.0.0
