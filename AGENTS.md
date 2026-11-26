@@ -6,6 +6,13 @@ This repository is a Go service (plus a Ruby feature-test harness) that runs dat
 
 Use `bin/AGENTS.md` for shared skills and cross-repository defaults.
 
+## Accepted design
+
+Read the [accepted-design index](docs/agents/accepted-design.md) and the relevant
+area files before proposing a change or recording a finding or audit entry.
+Apply the recorded scope of each decision and add owner-accepted decisions to
+the relevant area file as they are agreed.
+
 ## Recent session notes (keep for future sessions)
 
 ### Vendoring can break Go tooling
@@ -37,135 +44,6 @@ This refreshes Go modules and updates `vendor/` (and also ensures Ruby gems for 
     - endpoint/route mapping for HTTP helpers,
     - any environment assumptions (localhost ports, DB URI).
   - Do not edit generated protobuf/grpc Ruby stubs; update `.proto` comments instead, then re-generate.
-
-### Database telemetry setup errors are returned by design
-
-- In `internal/migrate/database/database.go`, failures from `telemetry.Open(...)`
-  and `telemetry.RegisterDBStatsMetrics(...)` are intentionally returned through
-  the migration or ping path.
-- Reviewers should not suggest converting those setup failures to
-  `runtime.Must(...)` fail-fast paths without a concrete service startup
-  invariant that requires changing the current runtime behavior.
-
-### Top-level runtime config sections are required
-
-- In `internal/config/config.go`, `Health`, `Migrate`, and the embedded
-  `*go-service/v3/config.Config` are pointer fields but are intentionally
-  marked `validate:"required"`.
-- Reviewers should not suggest silently materializing empty configs in the raw
-  projection helpers (`healthConfig`, `migrateConfig`, `decorateConfig`).
-  Missing top-level runtime sections should fail during config validation.
-
-### GitHub migration source in feature tests is intentional
-
-- The `github` migration target in `test/.config/server.yaml` and
-  `test/secrets/github` is intentionally part of the regular HTTP/gRPC feature
-  scenarios.
-- This coverage verifies the wired `github://` source driver against the shared
-  remote fixture and should not be flagged as a reliability gap merely because
-  it is external to this repository.
-- Reviewers may still flag concrete breakage, missing credentials, or changed
-  upstream behavior if there is current evidence, but should not recommend
-  moving this coverage out of the default `make features` gate by default.
-
-### Dirty migration repair is not a normal feature gap
-
-- Migrieren intentionally reports dirty migration state through `Status`, but
-  does not expose a public force/repair endpoint for clearing dirty migration
-  metadata.
-- A remote force/repair API would be destructive metadata surgery: the service
-  can verify migration table state, but cannot prove the operator correctly
-  repaired the real schema or data before clearing the dirty flag.
-- Reviewers should not keep recording the absence of a force-version,
-  repair-dirty, or clear-dirty RPC as a regular feature gap. Raise it only if
-  the project explicitly asks for a dedicated product/security design covering
-  guardrails, auditability, documentation, and test strategy.
-
-### Step-based migration execution is not desired
-
-- Migrieren intentionally keeps public execution choices to:
-  - `Migrate` for an explicit target version chosen by the caller.
-  - `ApplyMigrations` for converging to the latest available up migration.
-- Do not keep recording step-based up/down execution, rollback-by-step,
-  all-down, or version-zero migration requests as feature gaps by default.
-  Operators that need to move backward should choose an explicit target version
-  and call `Migrate`; hidden source-topology step execution is not part of the
-  current product direction.
-
-### Surfacing pending migration names in PlanMigrations is not desired
-
-- `PlanMigrations` intentionally reports pending migrations as source version
-  numbers only. It does not return migration names/identifiers alongside those
-  versions.
-- We considered adding a `{version, name}` pending list (readable via the
-  upstream source driver's `ReadUp` identifier without reading bodies) and
-  decided against it: operators can easily look up which migrations the pending
-  version numbers correspond to from the migration source, so the added Plan
-  behavior (opening each pending migration to read its identifier) is not worth
-  the marginal convenience.
-- Reviewers should not keep recording "expose pending migration names/identifiers
-  in the plan" as a feature gap by default. Raise it only if the project
-  explicitly decides it wants human-meaningful names in the plan response, or
-  there is concrete operator evidence that version-number lookup is insufficient.
-
-### A one-shot migration CLI is not desired
-
-- Migrieren is deliberately a service. Migration execution and inspection are
-  exposed through the authenticated gRPC API and HTTP façade, not through a
-  local run-and-exit command. The only CLI subcommand is `server` (plus the
-  framework-provided `help`/`version`).
-- We considered adding a short-lived client subcommand (for example
-  `migrieren apply|migrate|status|plan -config ... -database ...`) built on the
-  go-service `AddClient`/`module.Client` batch-job wrappers, so a CI/CD deploy
-  job could run a migration without hosting the server. We decided against it:
-  if local one-shot execution is wanted, use the upstream `golang-migrate` CLI
-  directly. Migrieren does not aim to reimplement that CLI, and it intentionally
-  keeps migration execution behind the authenticated service so remote callers
-  go through token verification and the Casbin access policy.
-- Reviewers should not keep recording a one-shot/batch CLI migrate, apply,
-  status, or plan subcommand as a feature gap by default. Raise it only if the
-  project explicitly decides it wants a second, non-server execution entrypoint.
-
-### Health probe names are reserved by convention
-
-- Health wiring uses internal probe names such as `noop` and `online`.
-- Migration database names are not currently validation-blocked from using
-  those values, but those names are reserved by convention and are documented as
-  such.
-- Reviewers should not keep resurfacing the hypothetical `noop`/`online`
-  database-name collision as a reliability gap by default. Only raise it with
-  concrete evidence of production/config misuse, or if the project explicitly
-  decides to enforce reserved health probe names in config validation.
-
-### CI auxiliary service selection is intentional
-
-- CircleCI owns the auxiliary Mimir service used by the `build-service` job.
-- Reviewers should not flag the service selection as a reliability gap without a
-  concrete observed failure or incompatibility.
-
-### Docker publish shape is not a reliability gap by itself
-
-- The CircleCI Docker publish flow currently builds and pushes architecture
-  images in the publish jobs, then creates the multi-arch manifest.
-- Reviewers should not flag this release shape as a reliability gap solely
-  because build and push happen in the same job, because manifests are created
-  after push jobs, or because the workflow has `max_auto_reruns`.
-- Only raise a Docker publish reliability finding when there is concrete
-  evidence of a current failure mode, such as tag drift, a published digest that
-  bypassed scanning, a confirmed side-effecting rerun problem, or an operator
-  rollback/reproducibility incident.
-
-### Dependency setup drift is covered by repo workflow
-
-- Dependency changes are expected to go through the repository Make targets from
-  `go.mak`, `grpc.mak`, and `ruby.mak`, and review PRs are expected to use the
-  shared `review-pr` workflow.
-- The `review-pr` path stages all local changes before committing, so dependency
-  files produced by those Make targets are committed with the PR.
-- Reviewers should not flag dependency targets as a reliability gap merely
-  because they can mutate dependency files. Only raise a finding when there is
-  concrete evidence of dependency drift that the normal repo workflow failed to
-  capture.
 
 ### Linting Ruby code
 
@@ -264,10 +142,6 @@ make dev
 Notes (observed in Makefiles / `main_test.go`):
 - Many Go test invocations use `-race -vet=off -mod vendor`.
 - `main_test.go` is guarded by `//go:build features`.
-- This repository intentionally relies on the Ruby/Cucumber feature harness in
-  `test/` as its primary automated test coverage. Reviewers should not assume
-  the absence of package-local Go `_test.go` files is a standards violation in
-  this repo by itself.
 
 ### Lint / format / security
 
@@ -432,7 +306,6 @@ Uses `github.com/alexfalkowski/go-signal/v2` for dependency injection:
 - **Config-driven source/URL**: migration `source` and DB `url` are loaded via `go-service/v3/os.FS` from config values like `file:secrets/pg` (see `test/.config/server.yaml`).
 - **DB URL scheme**: database driver expects `pgx5://...` and rewrites to `postgres://...` internally (`internal/migrate/database/database.go`).
 - **Checked-in test config is intentionally mixed**: `test/.config/server.yaml` contains both valid and invalid database entries to exercise failure paths in feature tests.
-- **Health behavior in tests is asymmetric by design**: gRPC health for `migrieren.v1.Service` is expected to be healthy, while HTTP `/migrieren/healthz` is expected to be unhealthy because per-database checks include intentionally invalid entries.
 
 ## 7) Tooling used by Make targets
 
